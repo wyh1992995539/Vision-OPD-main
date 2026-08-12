@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Local environments and editor state
+.venv/
+venv/
+envs/
+.conda/
+.vscode/
+.idea/
+
+# Secrets and local authentication
+.env
+.env.*
+!.env.example
+auth.json
+
+# Models, datasets, caches, and training artifacts
+data/
+models/
+checkpoints/
+rollouts/
+outputs/
+logs/
+wandb/
+tensorboard/
+hf_cache/
+torch_cache/
+pip_cache/
+tmp/
+
+# Large model/checkpoint formats
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+
+# OS files
+.DS_Store
+Thumbs.db
