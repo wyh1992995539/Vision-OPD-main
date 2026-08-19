@@ -10,6 +10,8 @@ This script:
 3. Converts train.jsonl to the parquet format expected by the training pipeline
 """
 
+# 负责训练数据的下载和格式转换：
+
 import argparse
 import json
 import os
@@ -72,8 +74,16 @@ def build_record(item: dict[str, Any], data_dir: str) -> dict[str, Any]:
     teacher_path = os.path.join(data_dir, teacher_rel)
     question = clean_question(item.get("problem", ""))
 
+# data_source：标识数据来源，当前设置为 "zwz_rl_vqa_bbox_teacher"。
+# prompt：包含用户问题的列表，格式为 [{"role": "user", "content": 问题文本}]。
+# images：包含图像路径的列表，格式为 [{"path": 图像路径}]。
+# bbox_images：包含教师图像路径的列表，格式为 [{"path": 教师图像路径}]。
+# ability：标识任务类型，这里设置为 "visual_question_answering"。
+# reward_model：包含奖励模型相关信息的字典，包括样式和真值答案。
+# extra_info：包含额外信息的字典，包括答案、问题、以及源数据的额外信息。
+
     return {
-        "data_source": "zwz_rl_vqa_bbox_teacher",
+        "data_source": "zwz_rl_vqa_bbox_teacher", 
         "prompt": [{"role": "user", "content": item["problem"]}],
         "images": [{"path": image_path}],
         "bbox_images": [{"path": teacher_path}],
