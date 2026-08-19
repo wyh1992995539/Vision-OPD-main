@@ -29,27 +29,46 @@
 
 ## 3. 相对原计划的调整
 
-考虑每天只有 5 小时主动时间，作如下调整：
+考虑这是第一次复现论文和第一次训练模型，将前 5 天完整用于“边学边验证”，并从 Day 6 开始只保留复现所需任务：
 
-- Day 1～3 同时完成小白前置知识、环境准备和第一轮代码映射，不再额外增加预备天数。
-- Day 8 先跑单卡基线，Day 9 再切换双卡，避免把单卡问题误判为分布式问题。
-- Day 13 只比较中间 model-only 快照与最终结果，不保存多个完整 optimizer checkpoint。
-- Day 14 设置为机动纠错日，避免训练一旦异常就挤占全部消融时间。
-- 只要求完成一个可信消融；主消融为 on-policy vs off-policy prefix。若该对照未完成，成果降级为核心机制验证。
-- EMA Teacher vs 固定 Teacher、JSD vs forward KL 均为选做。
-- 9B 全量训练移出 21 天主线；有余力时只做官方 9B 评测或小规模冒烟。
+- Day 1～2 保留最小梯度链路、环境安装和普通 VLM 推理，作为后续学习的实物基础。
+- Day 3～5 依次学习 VLM 最小知识、OPD/自蒸馏机制、Vision-OPD 论文与核心代码链路。每一天都必须留下可运行或可检查的证据，不做纯理论阅读。
+- 删除大范围代码通读。只追踪数据准备、训练入口、Student rollout、Teacher forward、Top-K JSD、Student backward、EMA 和 checkpoint 合并这条主链路。
+- 原 Day 4～7 的评测、两模型基线和数据 QA 压缩到 Day 6～8；基础模型与官方模型在同一天、同一协议下完成小型对照。
+- 原训练任务整体顺延 1 天：Day 9 先跑单卡，Day 10 再跑双卡，Day 11 完成 64 条稳定性与恢复验证。
+- Day 12～14 完成 128～256 条主实验、审计、合并、快评和必要纠错，不保存多个完整 optimizer checkpoint。
+- 只要求完成一个可信消融；主消融为 on-policy vs fixed/cached off-policy prefix。若该对照未完成，成果降级为核心机制验证。
+- LoRA-SFT、DPO、GRPO、EMA Teacher vs 固定 Teacher、JSD vs forward KL 和 9B 训练均移出 21 天主线。
 - Day 18 后不再启动高风险长训练，保证报告、Bad Case 和归档真正完成。
 
 ## 4. 105 小时时间分配
 
 | 阶段 | 天数 | 主动时间 | 主要目标 |
 |---|---:|---:|---|
-| 基础与环境 | Day 1～3 | 15h | PyTorch、VLM、自蒸馏、环境和代码映射 |
-| 评测与数据 | Day 4～7 | 20h | 可信评测尺子、基线、官方模型、数据 QA |
-| 训练链路 | Day 8～10 | 15h | 单卡基线、双卡 FSDP 冒烟、小数据稳定性 |
-| 小规模训练 | Day 11～13 | 15h | 64～256 条训练、恢复、合并和固定样本快评 |
-| 诊断与消融 | Day 14～18 | 25h | 小型评测、差距诊断、一个受控消融和单/双卡对比 |
+| 入门、环境与代码最短路径 | Day 1～5 | 25h | 梯度、VLM、OPD、玩具蒸馏和核心源码映射 |
+| 评测与数据 | Day 6～8 | 15h | 可信评测尺子、两模型小型基线和数据 QA |
+| 训练链路 | Day 9～11 | 15h | 单卡基线、双卡 FSDP 冒烟、64 条稳定性 |
+| 小规模主实验 | Day 12～14 | 15h | 128～256 条训练、审计、恢复、合并和快评 |
+| 评测与受控消融 | Day 15～18 | 20h | 固定小型评测、一个受控消融和能力保持检查 |
 | 分析与交付 | Day 19～21 | 15h | Bad Case、报告、归档和面试准备 |
+
+### 前 5 天只学什么
+
+必须学：
+
+1. 图像如何经 Processor 和视觉编码器变成语言模型可用的视觉 Token。
+2. 自回归生成、logits、response Token、label/response mask 和交叉熵的基本含义。
+3. Student、Teacher、stop-gradient、KL/JSD、EMA 和 on-policy prefix。
+4. Vision-OPD 的全图 Student、裁剪图 Teacher、同一回答前缀和训练后仅保留 Student。
+5. 一条样本如何从 JSON/Parquet 进入 rollout、Teacher/Student forward、loss、backward、EMA、checkpoint。
+
+暂时不学：
+
+- CLIP、BLIP-2、Flamingo、LLaVA 等模型的完整训练历史；
+- Qwen3.5、ViT 或语言模型的预训练细节；
+- PPO、GRPO、DPO、RLHF/RLVR 的完整理论和实现；
+- `verl`、Ray、vLLM、FSDP 的全部内部源码；
+- 与本次主链路无关的 SFT、奖励模型、多节点调度和全 benchmark 代码。
 
 ## 5. 每天固定工作方式
 
@@ -82,7 +101,7 @@ GPU：
 
 ---
 
-# 第一阶段：基础、环境、评测和数据
+# 第一阶段：五天聚焦学习、评测与数据
 
 ## Day 1：最小梯度链路、项目冻结与双卡服务器检查（5h）
 
@@ -169,119 +188,152 @@ Teacher logits（无梯度）
 - 普通 VLM 能生成非空回答。
 - 能描述图像如何进入语言模型生成链路。
 
-## Day 3：Vision-OPD 原理、玩具蒸馏与代码映射（5h）
+## Day 3：VLM 最小知识与 Qwen3.5 多模态数据流（5h）
 
 ### 时间安排
 
-- 1.5h：理解 Student、Crop Teacher、on-policy prefix、JSD 和 EMA。
-- 1.5h：用小 Tensor 实现 JSD、backward 和 EMA 更新。
-- 1.0h：阅读训练脚本和数据流入口。
-- 1.0h：建立论文概念与代码位置对照表。
+- 1.0h：理解 VLM 的最小结构：视觉编码器、投影/适配、语言模型与自回归生成。
+- 1.0h：理解 logits、Token、attention mask、response mask、label 和交叉熵。
+- 1.5h：复用 Day 2 的真实图片问答，打印 Processor 字段、shape、生成 Token 和解码结果。
+- 1.0h：沿一次 `generate` 调用画出数据流，并标明哪些张量来自图像、问题和回答。
+- 0.5h：整理 `docs/day3_vlm_minimum.md`，用自己的话回答验收问题。
+
+### 只需掌握的数据流
+
+```text
+完整图片 + 问题
+→ Processor / chat template
+→ 文本 Token + 视觉输入
+→ 视觉特征与文本上下文
+→ 自回归生成 response Token
+→ 解码为答案
+```
+
+### 验收
+
+- 能解释“视觉编码器产生视觉特征”和“语言模型逐 Token 生成回答”的分工。
+- 能区分 input Token、response Token、logits、最终文本和 loss。
+- 能指出 Day 2 真实推理中图像字段、文本字段和输出字段的 shape。
+- 不要求理解 Qwen3.5 或 ViT 的完整预训练过程。
+
+## Day 4：OPD、自蒸馏与玩具 JSD/EMA 验证（5h）
+
+### 时间安排
+
+- 1.0h：理解知识蒸馏、Student、Teacher、soft target 和 stop-gradient。
+- 1.0h：理解 on-policy prefix、同前缀比较、Token 级 KL/JSD 和 EMA。
+- 2.0h：用小 Tensor 实现 masked JSD、Student backward/step 和 EMA Teacher 更新。
+- 0.5h：检查 Student 有梯度、Teacher 无反向梯度，且 loss 有限非负。
+- 0.5h：保存脚本、日志与一页机制说明。
 
 ### 核心链路
 
 ```text
-Student 在完整图上生成回答
-→ Teacher 在裁剪图上评价同一回答前缀
-→ 计算 Token 级 JSD
-→ 更新 Student
-→ EMA 更新 Teacher
+当前 Student 生成回答前缀
+→ Student 与 Teacher 评价同一前缀的下一个 Token 分布
+→ 在有效 response Token 上计算 JSD
+→ 只对 Student backward 和 optimizer.step
+→ 用 Student 参数 EMA 更新 Teacher
 ```
-
-### 优先阅读
-
-1. [`scripts/run_vision_opd.sh`](../scripts/run_vision_opd.sh)
-2. `verl/trainer/main_ppo.py`
-3. `verl/trainer/ppo/ray_trainer.py`
-4. `verl/workers/fsdp_workers.py`
-5. `verl/workers/actor/dp_actor.py`
-6. `verl/trainer/ppo/core_algos.py`
 
 ### 验收
 
-- 能解释为什么 Teacher 使用 `no_grad`。
-- 能解释为什么二者必须评价相同回答前缀。
-- 能解释 on-policy 不等于强化学习。
-- 能指出 Student 图、Teacher 图、JSD 和 EMA 的主要代码位置。
+- 玩具脚本输出有限且非负的 masked JSD。
+- Student 参数在一步更新后发生变化，Teacher 不接收反向梯度。
+- EMA 后 Teacher 参数向 Student 移动，但不等同于 optimizer 更新。
+- 能解释 on-policy 只表示前缀来自当前 Student，不代表一定使用 PPO、GRPO 或奖励。
 
-## Day 4：评测代码审计与答案解析测试（5h）
+## Day 5：Vision-OPD 论文机制与核心代码最短路径（5h）
 
 ### 时间安排
 
-- 2.0h：梳理 `prepare → infer → judge → accuracy`。
-- 1.5h：检查并测试多选题答案解析。
-- 0.5h：确认 temperature、thinking、Judge 和输出保存规则。
-- 1.0h：编写统一评测协议。
+- 1.0h：重读论文的方法图、训练目标和实验设置，只记录与复现直接相关的变量。
+- 1.0h：阅读数据准备与训练入口，确认 `images`、`bbox_images` 和关键启动参数。
+- 1.5h：追踪一条样本的 rollout、Teacher/Student forward、Top-K JSD、backward 与 EMA 调用链。
+- 0.5h：阅读 checkpoint 合并和评测入口。
+- 1.0h：完成“论文概念—配置—代码位置—日志证据”四列表。
+
+### 必读文件，按顺序停止扩散
+
+1. [`scripts/prepare_data.py`](../scripts/prepare_data.py)
+2. [`scripts/run_vision_opd.sh`](../scripts/run_vision_opd.sh)
+3. `verl/trainer/ppo/ray_trainer.py` 中构造蒸馏 batch、Teacher 图像替换和训练循环的相关方法。
+4. `verl/workers/actor/dp_actor.py` 中 Student/Teacher forward、loss、backward 和 EMA 的相关方法。
+5. `verl/trainer/ppo/core_algos.py` 中 `compute_self_distillation_loss`。
+6. [`scripts/merge_checkpoint.sh`](../scripts/merge_checkpoint.sh) 与实际使用的评测入口。
+
+### 明确跳过
+
+- 不按目录通读整个 `verl`。
+- 不深入未触发的 PPO/GRPO、reward model、多节点调度和通用 SFT/DPO 分支。
+- Ray、vLLM 和 FSDP 只记录与启动参数、显存和报错直接相关的部分。
+
+### 第一个 Gate：学习与代码链路
+
+- 能完整解释：全图 Student 生成 → 裁剪图 Teacher 对同一前缀打分 → Top-K JSD → Student 更新 → EMA Teacher。
+- 能解释 `images` 与 `bbox_images` 的作用以及推理时为什么只保留 Student。
+- 能在代码中指出上述每一步的位置，并列出之后必须观察的日志指标。
+- 已留下 Day 3 的真实 VLM 数据流证据和 Day 4 的 JSD/梯度/EMA 运行证据。
+
+## Day 6：冻结统一评测协议与解析器测试（5h）
+
+### 时间安排
+
+- 1.0h：只阅读实际使用的评测入口，梳理 `prepare → infer → judge → accuracy`。
+- 1.5h：用至少 20 条人工构造答案测试多选、短答案、空回答和异常格式解析。
+- 1.0h：固定 chat template、thinking、temperature、随机种子、Judge 和图片预处理。
+- 1.0h：冻结 20～50 条主验证样本，并保存样本 ID 与答案。
+- 0.5h：编写统一评测协议和逐样本输出 Schema。
 
 ### 必查问题
 
 - `Answer: D` 是否可能被错误解析成 `A`。
 - 无明确答案时是否误提取正文孤立字母。
-- `SEED` 是否真正传入模型 API。
-- 哪些 benchmark 使用规则判定，哪些需要 Judge。
-- 是否保留原始回答和 Judge 原因。
+- 随机种子是否真正进入推理过程。
+- 哪些样本规则判定，哪些样本需要 Judge。
+- 是否保留原始回答、解析结果、Judge 原因和人工复核状态。
 
 ### 验收
 
-- 至少 20 条人工构造的答案格式测试通过。
-- 每个 accuracy 都可追溯到逐样本输出。
-- 基线与训练模型的统一评测协议已冻结。
+- 至少 20 条答案格式单元测试通过。
+- 每个 accuracy 都能追溯到逐样本输出。
+- 基础模型、官方模型和自训练模型的统一评测协议已冻结。
 
-## Day 5：Qwen3.5-4B 基线评测（5h）
+## Day 7：基础模型与官方 Vision-OPD-4B 小型对照（5h）
 
 ### 时间安排
 
-- 1.0h：部署基础模型并验证接口。
-- 1.5h：每个 benchmark 运行 20～50 条 pilot。
-- 1.5h：检查空回答、格式错误、Judge 和图片输入。
-- 1.0h：完成固定 20～50 条小型基线并整理初步错误样本。
+- 0.5h：验证 Qwen3.5-4B 基础模型和官方 Vision-OPD-4B 均可加载。
+- 0.5h：各跑少量 pilot，排除空回答、图片未加载和格式错误。
+- 2.0h：用完全相同的配置评测冻结的 20～50 条样本。
+- 1.0h：抽查原始回答、解析器和 Judge。
+- 1.0h：建立基础模型、官方模型和论文报告值的分栏对照表。
 
 ### 固定条件
 
 - `ENABLE_THINKING=False`。
-- 固定 chat template、图像处理、temperature、Judge 和答案解析器。
+- 固定 chat template、图像处理、temperature、seed、Judge 和答案解析器。
 - 保存原始回答，不只保存最终分数。
-
-### 验收
-
-- Pilot 无系统性空回答和格式错误。
-- 在一个主 benchmark 或自建固定小型验证集上得到可追溯基线；其他 benchmark 为选做。
-- 整理至少 10 个基线错误样本。
-
-## Day 6：官方 Vision-OPD-4B 小型对照评测（5h）
-
-### 时间安排
-
-- 1.0h：部署官方 Vision-OPD-4B。
-- 1.0h：Pilot 检查。
-- 2.0h：与 Day 5 完全相同配置运行固定 20～50 条评测。
-- 1.0h：建立基础模型、官方模型、论文值对照表。
 
 ### Go/No-Go
 
-如果官方模型没有合理优于基础模型，暂时停止训练，优先排查：
-
-1. thinking 设置；
-2. chat template；
-3. 模型与 tokenizer；
-4. 图像预处理；
-5. Judge；
-6. 答案解析器。
+如果官方模型结果明显不合理，不据此判断方法无效；优先排查 thinking、chat template、模型/tokenizer、图像预处理、Judge 和解析器。官方模型因磁盘或下载时间无法完成时，记录原因，但不阻塞微型训练链路。
 
 ### 验收
 
-- 基础模型和官方模型使用同一评测协议。
-- 能解释本地结果与论文值的差异是否来自已知配置。
+- 两个模型使用同一组样本和同一评测协议。
+- 得到可追溯的训练前基线，并整理至少 10 个候选错误样本。
+- 论文值、官方 checkpoint 本地值和基础模型本地值明确分开。
 
-## Day 7：微型 Vision-OPD 数据集构建与 QA（5h）
+## Day 8：微型 Vision-OPD 数据集构建与 QA（5h）
 
 ### 时间安排
 
-- 1.0h：构建 64 条起步、最多 256 条的微型数据集，禁止默认下载完整 37.5GB 仓库。
-- 1.0h：检查 Parquet 行数、字段和文件路径。
-- 1.5h：人工可视化至少 30 条。
-- 0.5h：统计图像损坏、空裁剪、Token 长度和异常比例。
-- 1.0h：编写数据质量报告。
+- 1.0h：构建 64 条起步、目标 128～256 条的微型数据集，不默认下载完整 37.5GB 数据。
+- 1.0h：检查 Parquet 行数、字段、Token 长度和文件路径。
+- 1.5h：人工可视化至少 30 条全图/裁剪图配对。
+- 0.5h：统计损坏图、空裁剪、路径失效、问答缺失和异常比例。
+- 1.0h：编写数据质量报告并冻结数据 revision。
 
 ### 必查字段
 
@@ -290,21 +342,20 @@ Student 在完整图上生成回答
 - `prompt`：问题。
 - `extra_info` 与保留答案字段。
 
-### 第一阶段 Gate
+### 第二个 Gate：进入训练
 
 只有同时满足以下条件才能进入训练：
 
-- 环境通过；
-- 统一评测通过；
-- 官方模型小型对照可正常评测，或已明确记录因磁盘/时间跳过；
+- Day 1～5 的环境、VLM、玩具蒸馏和代码映射验收通过；
+- 统一评测协议通过，至少有基础模型基线；
 - 微型训练集至少 64 条，目标 128～256 条；
-- 图片路径有效，随机抽查未发现系统性错配。
+- 图片路径有效，至少 30 条人工抽查未发现系统性错配。
 
 ---
 
-# 第二阶段：单卡基线、双卡 FSDP 与小规模训练
+# 第二阶段：单卡、双卡与小规模主实验
 
-## Day 8：单卡端到端冒烟基线（5h）
+## Day 9：单卡端到端冒烟基线（5h）
 
 ### 时间安排
 
@@ -333,14 +384,14 @@ PARAM/OPTIMIZER/REF_OFFLOAD=True
 - Student 使用完整图，Teacher 使用裁剪图，且两者评价相同 response Token。
 - `teacher_image_swap_fraction=1`，`num_distill_tokens>0`。
 - JSD、loss、grad norm 均有限，Student 与 EMA Teacher 参数按预期更新。
-- 形成单卡基线，供 Day 9 双卡公平比较。
+- 形成单卡基线，供 Day 10 双卡公平比较。
 
-## Day 9：双卡 FSDP 冒烟与扩展效率对比（5h）
+## Day 10：双卡 FSDP 冒烟与扩展效率对比（5h）
 
 ### 时间安排
 
 - 0.5h：确认两张 GPU 可见，记录 `nvidia-smi topo -m` 和卡间拓扑。
-- 1.0h：冻结与 Day 8 相同的数据、随机种子、global batch 和序列长度。
+- 1.0h：冻结与 Day 9 相同的数据、随机种子、global batch 和序列长度。
 - 2.0h：运行单节点双卡 FSDP 2～3 step。
 - 1.0h：比较单卡/双卡的单步时间、吞吐、单卡峰值显存和 CPU 内存。
 - 0.5h：记录 NCCL、Ray、FSDP 分片问题及最终修复。
@@ -362,7 +413,7 @@ ROLLOUT_TENSOR_MODEL_PARALLEL_SIZE=1
 - 两张卡均有合理显存和计算利用率。
 - 得到可追溯的单卡/双卡效率表，并解释通信、offload 和小 batch 对扩展效率的影响。
 
-## Day 10：64 条稳定性、恢复与合并测试（5h）
+## Day 11：64 条稳定性、恢复与合并测试（5h）
 
 ### 时间安排
 
@@ -372,7 +423,7 @@ ROLLOUT_TENSOR_MODEL_PARALLEL_SIZE=1
 - 1.0h：仅保存一个包含 optimizer 的恢复 checkpoint，并验证恢复 1 step。
 - 1.0h：合并 model 权重并完成一次推理。
 
-### 第二阶段前置 Gate
+### 第三个 Gate：主实验前置条件
 
 必须全部通过：
 
@@ -382,7 +433,7 @@ ROLLOUT_TENSOR_MODEL_PARALLEL_SIZE=1
 - 能确认 Student rollout、Teacher dense token supervision 与梯度流符合方法定义。
 - 保存 checkpoint 前数据盘至少留出 70GB；恢复验证和备份完成后不再保留多个 optimizer checkpoint。
 
-## Day 11：启动 128～256 条双卡主实验（5h 主动工作）
+## Day 12：启动 128～256 条双卡主实验（5h 主动工作）
 
 ### 时间安排
 
@@ -419,7 +470,7 @@ ROLLOUT_TENSOR_MODEL_PARALLEL_SIZE=1
 - 最终保留一个 model-only 结果。中间 model-only 快照最多一个，用于方向性比较。
 - 任何清理都在确认合并模型可推理且重要文件已备份后执行。
 
-## Day 12：监控、完成与训练审计（5h 主动工作）
+## Day 13：监控、完成与训练审计（5h 主动工作）
 
 ### 时间安排
 
@@ -431,58 +482,33 @@ ROLLOUT_TENSOR_MODEL_PARALLEL_SIZE=1
 
 任何参数修改必须记录“修改前、修改原因、修改后影响”，不能无记录地同时改变多项关键参数。
 
-## Day 13：合并结果并进行固定样本快评（5h）
+## Day 14：合并结果、固定样本快评与机动纠错（5h）
 
 ### 时间安排
 
-- 1.0h：检查并合并最终 model-only 结果；若存在一个中间快照则一并合并。
-- 2.0h：用固定 20～50 条验证样本运行训练前后快评。
+- 0.5h：检查并合并最终 model-only 结果；若存在一个中间快照则一并合并。
+- 1.5h：用固定 20～50 条验证样本运行训练前后快评。
 - 1.0h：比较准确率、regional-to-global gap、格式错误、输出长度和分布距离。
-- 1.0h：确认后续消融沿用相同数据、步数和评测协议。
+- 1.5h：按最小范围处理训练、合并或评测异常，并用少量样本验证修复。
+- 0.5h：冻结自训练结果和后续消融所用的数据、步数与评测协议。
 
 ### 验收
 
 - 至少一个自训练结果可部署、可评测。
 - 所有结果明确标注数据量、step、随机种子和配置，不凭训练 loss 宣称模型能力提升。
 - 如果准确率未提升，仍保留机制、稳定性和失败分析证据，不包装为论文效果复现。
+- 如果训练失败，只修复阻断主链路的问题；Day 14 不引入新算法。
+- 主实验、合并或快评仍未通过时，Day 15 优先完成闭环，消融相应降级为选做。
 
 ---
 
 # 第三阶段：小型评测、诊断与受控消融
 
-## Day 14：机动纠错日（5h）
-
-### 时间安排
-
-- 0.5h：根据训练、合并和快速评测结果选择 A/B/C 路径。
-- 2.0h：执行固定小型评测、根因诊断或恢复处理。
-- 1.5h：用最小样本验证结果或修复是否有效。
-- 1.0h：记录证据、更新问题清单并冻结下一步决策。
-
-根据实际状态三选一：
-
-### A. 训练正常
-
-- 启动自训练最终结果的固定小型评测。
-- 审计评测样本和 Judge。
-
-### B. 结果明显异常
-
-依次排查：数据对应、Teacher 图像替换、chat template、checkpoint 合并、EMA、response mask、Top-K JSD、Judge 和答案解析。
-
-### C. 训练失败
-
-- 定位最小失败原因。
-- 修复后跑小规模验证。
-- 通过后从 checkpoint 恢复或重新启动。
-
-Day 14 不安排新算法，避免问题尚未闭环就进入消融。
-
 ## Day 15：自训练模型固定小型评测（5h）
 
 ### 时间安排
 
-- 0.5h：确认评测配置与 Day 5～6 一致。
+- 0.5h：确认评测配置与 Day 6～7 一致。
 - 2.0h：评测训练前基础模型和自训练最终结果。
 - 1.0h：抽查 Judge 与答案解析。
 - 1.0h：建立基础全图、基础裁剪图、官方模型（可选）和自训练模型结果表。
@@ -529,9 +555,9 @@ Day 14 不安排新算法，避免问题尚未闭环就进入消融。
 
 ### 时间安排
 
-- 0.5h：根据主结果和第一消融完成度决定当天路径。
+- 0.5h：根据主结果和 Day 16 消融完成度决定当天路径。
 - 1.0h：设计控制变量并审查配置差异。
-- 0.5h：启动补实验或第二消融。
+- 0.5h：启动主消融补实验或工程证据补跑。
 - 2.0h：分析输出、曲线和固定验证集结果。
 - 1.0h：整理结论，决定纳入正式结果还是标记为未来工作。
 
@@ -539,12 +565,12 @@ Day 14 不安排新算法，避免问题尚未闭环就进入消融。
 
 1. 补齐 Day 16 的公平对照。
 2. 补齐固定小型评测缺失项。
-3. 整理 Day 8～9 单卡/双卡显存、吞吐和稳定性对比。
-4. 有余力再选做 EMA Teacher vs 固定 Teacher；JSD vs forward KL 移入未来工作。
+3. 整理 Day 9～10 单卡/双卡显存、吞吐和稳定性对比。
+4. 补齐训练配置、原始输出和逐样本结果索引；不再开启第二消融。
 
 ### 停止规则
 
-- 如果第一消融还不可信，不启动第二消融。
+- 如果主消融还不可信，只修复该消融，不启动第二消融。
 - on/off-policy 主对照最多额外投入一天。
 - 当天无法通过单步 backward 和控制变量检查，就记录为未来工作，不进入正式结果表。
 
