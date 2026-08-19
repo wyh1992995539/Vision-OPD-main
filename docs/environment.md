@@ -1,5 +1,47 @@
 # Vision-OPD 环境记录
 
+> 文档状态：本文件保留 Day 1 初始环境快照，并在“Day 2 当前可用环境”中记录后续安装和验证结果。Day 1 中 GPU 不可见、依赖未安装等描述仅代表当时采集状态，不代表当前状态。
+> 当前环境安装过程、问题处理和可复现命令见 [day2_environment_setup.md](day2_environment_setup.md)。
+
+## Day 2 当前可用环境
+
+> 验证日期：2026-08-12
+> 环境名称：`vision-opd`
+> 验证范围：核心 Python 包导入、PyTorch CUDA 可用性和单张 RTX PRO 6000 Blackwell GPU 识别；不包含模型推理、vLLM 服务、数据准备、训练或多卡 NCCL/FSDP 验证。
+
+| 项目 | 当前实际值 | 验证结果 |
+| --- | --- | --- |
+| Conda 环境 | `vision-opd`，路径 `/root/miniconda3/envs/vision-opd` | 已创建并激活 |
+| Python | 3.12.13（Anaconda；GCC 14.3.0） | 可用 |
+| PyTorch | `2.10.0+cu128` | 可导入 |
+| `torch.version.cuda` | 12.8 | 可用 |
+| GPU | NVIDIA RTX PRO 6000 Blackwell Server Edition | `torch.cuda.get_device_name(0)` 已识别 |
+| vLLM | 0.18.0 | 可导入 |
+| FlashAttention | 2.8.3.post1 | 可导入；仅为 `sm_120` 编译 |
+| causal-conv1d | 1.6.1 | 可导入 |
+| 本地项目包 | `verl-0.7.0.dev0` | editable 安装完成 |
+
+已完成的安装步骤：
+
+```bash
+conda create -n vision-opd python=3.12 -y
+conda activate vision-opd
+pip install --upgrade pip
+pip install --no-deps -r requirements.txt
+pip install -e . --no-deps
+FLASH_ATTN_CUDA_ARCHS=120 MAX_JOBS=8 NVCC_THREADS=1 \
+pip install --no-cache-dir --no-build-isolation flash-attn==2.8.3.post1
+pip install --no-cache-dir causal-conv1d==1.6.1 --no-build-isolation
+```
+
+已知非阻塞提示：导入 `torch` 时曾出现 `libgomp: Invalid value for environment variable OMP_NUM_THREADS`。该提示未影响 CUDA 或依赖导入；后续 shell 可执行 `unset OMP_NUM_THREADS`，或将其设置为合法整数。
+
+存储约束仍然有效：系统盘总计 30 GB，模型、数据、Hugging Face 缓存、rollout 和 checkpoint 必须存放在 `/root/autodl-tmp` 数据盘。安装完成且无需重装时，可执行 `pip cache purge` 释放 pip 缓存空间。
+
+---
+
+## Day 1 初始环境快照（历史记录）
+
 > 采集时间：2026-08-12 10:54:15 +08:00（2026-08-12 02:54:15 UTC）
 > 采集原则：仅运行只读查询；未安装依赖、未下载模型或数据、未启动训练。
 

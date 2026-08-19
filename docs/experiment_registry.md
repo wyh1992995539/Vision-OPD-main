@@ -13,7 +13,7 @@
 
 | 实验 ID | 日期 | 目标 | 状态 | 关键结果 | 下一步 |
 | --- | --- | --- | --- | --- | --- |
-| E-D1-001 | 实际运行日期未记录；2026-08-12 登记 | 验证 Student–Teacher 最小单步梯度与冻结链路 | PASS | loss 0.415912；student grad norm 0.561588；Student 更新；Teacher 无梯度且未更新 | 在可用 GPU 和完整依赖环境中验证完整 OPD 训练链路与效果指标 |
+| E-D1-001 | 原始运行日期未记录；2026-08-13 可复现复跑 | 验证 Student–Teacher 最小单步梯度与冻结链路 | PASS | 复跑结果：loss 0.415912；student grad norm 0.561588；Student 更新；Teacher 无梯度且未更新 | Day 3 实现玩具 JSD 与 EMA；后续再验证完整 OPD 训练链路 |
 
 ## 实验详情
 
@@ -22,20 +22,20 @@
 | 字段 | 记录 |
 | --- | --- |
 | 实验 ID | `E-D1-001` |
-| 日期 | 实际运行日期未记录；登记日期为 2026-08-12 |
-| Git commit | 实验运行 commit 未记录；登记时基线 HEAD 为 `c8a8fdd1f88eef1b5ef4fe6a8d64eb0272917471` |
+| 日期 | 原始运行日期未记录；2026-08-12 登记；2026-08-13 完成可复现复跑 |
+| Git commit | 原始运行 commit 未记录；复跑时 HEAD 为 `79aa58e49f3c1adbcc9192f1563e0e970c2d415e`；脚本最近一次提交为 `e75be845c24bf2a0a23e9eb2b4290c31ff01aab5`，复跑时脚本未修改 |
 | 目标 | 用最小 Student–Teacher 单步示例验证 Student 反向传播与参数更新，以及 Teacher 冻结链路 |
-| 模型 | 最小 Student–Teacher 示例；具体模型结构与初始化未记录 |
-| 数据版本与样本数 | 最小示例输入；数据版本与样本数未记录 |
-| GPU | 运行设备未记录；不能用登记时环境（CUDA 不可用、可见 GPU 0 张）反推实验设备 |
-| 配置或启动命令 | 原始配置与启动命令未记录 |
+| 模型 | Student 与 Teacher 均为独立的 `torch.nn.Linear(4, 6)`；随机种子 `torch.manual_seed(42)`；Teacher 参数冻结 |
+| 数据版本与样本数 | 固定随机生成的 Tensor；batch size 8，input dim 4，vocab size 6；不使用外部数据集 |
+| GPU | 2026-08-13 复跑使用 CPU；该最小梯度验收不依赖 GPU |
+| 配置或启动命令 | `export OMP_NUM_THREADS=8 && /root/miniconda3/envs/vision-opd/bin/python scripts/day1_student_teacher_minimal.py` |
 | 唯一改动 | 基线链路验证，无对照实验变量；仅执行一次 Student–Teacher 单步更新 |
 | 预期 | loss 可反向传播；Student 获得非零梯度并更新；Teacher 无梯度且参数保持不变 |
-| 实际结果 | loss 0.415912；student grad norm 0.561588；Student 参数已更新；Teacher 无梯度且参数未更新 |
+| 实际结果 | 2026-08-13 复跑：loss 0.415912；student grad norm 0.561588；`teacher has grad: False`；Student 参数已更新；Teacher 参数未更新；脚本全部断言通过并输出 `PASS` |
 | 关键指标 | `loss=0.415912`；`student_grad_norm=0.561588`；`student_params_updated=true`；`teacher_has_grad=false`；`teacher_params_updated=false` |
-| 产物路径 | 独立脚本、配置和日志路径未记录；本登记记录位于 `docs/experiment_registry.md` |
+| 产物路径 | 可复现脚本：`scripts/day1_student_teacher_minimal.py`；脚本 SHA-256：`dc088b557d6ab7cc64a1a409ddee7721f732662b74db5b8df74dd76fa1d6fd84`；结果摘要记录于本条目 |
 | 状态 | `PASS` |
-| 下一步 | 固化可复现脚本、随机种子、输入和日志；随后在完整依赖与可用 GPU 环境中验证多步/完整 OPD 流程及效果指标 |
+| 下一步 | Day 3 在小 Tensor 上实现 JSD、backward 和 EMA 更新；完整 OPD 与 GPU 训练链路在后续 smoke 阶段单独验证 |
 | 结论边界 | 只证明单步梯度与冻结链路，不证明完整 OPD 或效果提升 |
 
 ## 新实验模板
