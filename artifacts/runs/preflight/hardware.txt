@@ -1,6 +1,7 @@
-status: PENDING
+status: DEFERRED
 target: 2 x NVIDIA RTX PRO 6000 Blackwell Server Edition, 96 GB each
 reason: current execution session has no usable GPU access; verify on the actual dual-GPU AutoDL instance
+gate: must be verified before any GPU smoke or formal training
 
 current nvidia-smi result:
 /bin/bash: line 12: /usr/bin/nvidia-smi: Permission denied

@@ -101,6 +101,8 @@ hardware:
   memory_gb_per_gpu: 96
   gpu_per_node: 2
   current_dual_gpu_verified: false
+  verification_status: deferred
+  must_verify_before_gpu_smoke: true
   verification_artifact: artifacts/runs/preflight/hardware.txt
 
 budget:
@@ -128,12 +130,17 @@ storage:
     tmpdir: /root/autodl-tmp/tmp
 
   data_acquisition:
-    strategy: temporary_expand_then_local_extract
-    decision_status: proposed
-    current_total_gb: 50
-    target_total_gb: 100
+    strategy: off_machine_extract_then_upload
+    decision_status: confirmed
+    server_current_total_gb: 50
     minimum_free_gb_before_raw_download: 45
-    raw_download_allowed_now: false
+    raw_download_on_server_allowed: false
+    upload_frozen_subset_only: true
+    required_upload_contents:
+      - frozen_1024_128_64_subset
+      - manifests_stats_manual_qa
+      - sha256
+    verify_server_disk_after_upload: true
     remove_raw_package_after_subset_freeze: true
 
   checkpoint_policy:
