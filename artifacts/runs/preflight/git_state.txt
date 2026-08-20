@@ -1,0 +1,13 @@
+2026-08-20T08:55:11+00:00
+/root/autodl-tmp/Vision-OPD-main
+04a87fe903cbab118fbe516836d18dfac261cd34
+main
+origin	https://github.com/wyh1992995539/Vision-OPD-main.git (fetch)
+origin	https://github.com/wyh1992995539/Vision-OPD-main.git (push)
+D  docs/day1_project_freeze.md
+AM docs/project_freeze.md
+?? artifacts/runs/
+?? configs/
+04a87fe903cbab118fbe516836d18dfac261cd34
+2026-08-19T17:28:56+08:00
+新计划

@@ -1,0 +1,18 @@
+status: PENDING
+target: 2 x NVIDIA RTX PRO 6000 Blackwell Server Edition, 96 GB each
+reason: current execution session has no usable GPU access; verify on the actual dual-GPU AutoDL instance
+
+current nvidia-smi result:
+/bin/bash: line 12: /usr/bin/nvidia-smi: Permission denied
+
+PASS requirements:
+- nvidia-smi lists exactly two target GPUs
+- torch.cuda.device_count() == 2
+- model name and memory match the frozen hardware contract
+
+current PyTorch result:
+torch: 2.10.0+cu128
+torch_cuda: 12.8
+cuda_available: False
+gpu_count: 0
+gpus: []

@@ -1,0 +1,7 @@
+2026-08-20T09:01:51+00:00
+Filesystem     Type     Size  Used Avail Use% Mounted on
+overlay        overlay   30G   18G   13G  58% /
+/dev/md0       xfs       50G  8.9G   42G  18% /root/autodl-tmp
+12G	/root/miniconda3/envs/vision-opd
+8.8G	/root/autodl-tmp/models/Qwen3.5-4B
+44M	/root/autodl-tmp/Vision-OPD-main

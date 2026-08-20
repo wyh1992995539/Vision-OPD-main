@@ -1,0 +1,213 @@
+schema_version: 1
+
+project:
+  name: vision-opd-qwen35-4b-1024
+  freeze_date: "2026-08-20"
+  plan: docs/vision_opd_21_day_plan.md
+  freeze_document: docs/project_freeze.md
+  seed: 42
+  scope: small-scale-4b-1024-controlled-comparison
+
+reproducibility:
+  master_seed: 42
+  data_split_seed: 42
+  dataloader_seed: 42
+  training_seed: 42
+  rollout_seed: 42
+  require_explicit_seed_in_experiment_configs: true
+  deterministic_split_required: true
+  note: "project_1024.yaml 不会被训练器自动继承；各实验配置和启动脚本必须显式传入 42。"
+
+model:
+  name: Qwen3.5-4B
+  path: /root/autodl-tmp/models/Qwen3.5-4B
+  role: shared-base-checkpoint
+  weight_format: safetensors
+  expected_weight_shards: 2
+  require_preflight_sha256: true
+  branch_policy:
+    sft_starts_from_base: true
+    vision_opd_starts_from_base: true
+    cached_prefix_starts_from_base: true
+    grpo_starts_from_base: true
+    forbid_serial_inheritance: true
+
+data:
+  source: yuanqianhao/Vision-OPD-6K
+  split_once: true
+  grouping_rule: original_image_or_question_group
+  forbid_cross_split_source_leakage: true
+  require_stable_sample_id: true
+  preserve_original_source_id: true
+
+  splits:
+    train:
+      size: 1024
+      usage:
+        - sft
+        - vision_opd
+        - cached_prefix
+        - grpo_verifiable_subset
+    eval:
+      size: 128
+      usage:
+        - unified_main_evaluation
+      forbidden_during_training: true
+    retention:
+      size: 64
+      usage:
+        - capability_retention
+        - format_retention
+
+  required_fields:
+    - sample_id
+    - source_id
+    - split
+    - question
+    - answer
+    - question_type
+    - full_image_path
+    - crop_image_path
+    - bbox
+
+  manifests:
+    candidate: artifacts/data/candidate_manifest.jsonl
+    split: artifacts/data/split_manifest.json
+    cached_prefix: artifacts/data/cached_prefix_base_1024.parquet
+
+  frozen_outputs:
+    train: artifacts/data/train_1024.parquet
+    eval: artifacts/data/eval_128.parquet
+    retention: artifacts/data/retention_64.parquet
+    statistics: artifacts/data/data_stats.json
+    manual_qa: artifacts/data/manual_qa_30.jsonl
+    sha256: artifacts/data/data_sha256.txt
+
+evaluation:
+  shared_eval_manifest: artifacts/data/eval_128.parquet
+  shared_retention_manifest: artifacts/data/retention_64.parquet
+  evaluator_version_file: artifacts/eval/evaluator_version.json
+  save_per_sample_predictions: true
+  unsupported_policy: mark_unsupported
+  forbid_forced_scoring: true
+  generation:
+    temperature: 0
+    parameters_frozen_on_day: 4
+
+hardware:
+  node_count: 1
+  gpu_count: 2
+  gpu_model: NVIDIA RTX PRO 6000 Blackwell Server Edition
+  memory_gb_per_gpu: 96
+  gpu_per_node: 2
+  current_dual_gpu_verified: false
+  verification_artifact: artifacts/runs/preflight/hardware.txt
+
+budget:
+  currency: CNY
+  cost_per_gpu_hour: 5.98
+  cost_per_dual_gpu_hour: 11.96
+  recommended_total_min: 1500
+  recommended_total_max: 1850
+  hard_limit: 2000
+  recommended_dual_gpu_hours_min: 110
+  recommended_dual_gpu_hours_max: 154
+  hard_limit_dual_gpu_hours: 167
+  require_pre_run_cost_estimate: true
+
+storage:
+  system_disk_for_large_artifacts: false
+  data_root: /root/autodl-tmp
+  model_path: /root/autodl-tmp/models/Qwen3.5-4B
+  artifact_root: artifacts
+  checkpoint_root: /root/autodl-tmp/checkpoints
+  cache_paths:
+    hf_home: /root/autodl-tmp/hf_cache
+    torch_home: /root/autodl-tmp/torch_cache
+    pip_cache_dir: /root/autodl-tmp/pip_cache
+    tmpdir: /root/autodl-tmp/tmp
+
+  data_acquisition:
+    strategy: temporary_expand_then_local_extract
+    decision_status: proposed
+    current_total_gb: 50
+    target_total_gb: 100
+    minimum_free_gb_before_raw_download: 45
+    raw_download_allowed_now: false
+    remove_raw_package_after_subset_freeze: true
+
+  checkpoint_policy:
+    keep_current_experiment_only: true
+    keep_many_step_checkpoints: false
+    delete_shards_only_after_merge_load_test_and_sha256: true
+    forbid_deleting_unique_unverified_model: true
+
+experiments:
+  vanilla:
+    id: E-D4-001
+    starts_from: base
+  sft_smoke:
+    id: E-D5-001
+    starts_from: base
+  sft_train:
+    id: E-D6-001
+    starts_from: base
+  vision_opd_smoke:
+    id: E-D7-001
+    starts_from: base
+    prefix_source: online
+  vision_opd_stability:
+    id: E-D8-001
+    starts_from: base
+    prefix_source: online
+  vision_opd_train:
+    id: E-D10-001
+    starts_from: base
+    prefix_source: online
+  cached_prefix_contract:
+    id: E-D14-001
+    starts_from: base
+    prefix_source: cached
+  cached_prefix_stability:
+    id: E-D15-001
+    starts_from: base
+    prefix_source: cached
+  cached_prefix_train:
+    id: E-D16-001
+    starts_from: base
+    prefix_source: cached
+  grpo_pilot_32:
+    id: E-D23-001
+    starts_from: base
+  grpo_pilot_64:
+    id: E-D24-001
+    starts_from: base
+  grpo_train:
+    id: E-D25-001
+    starts_from: base
+
+evidence:
+  preflight_dir: artifacts/runs/preflight
+  required_preflight_files:
+    - README.md
+    - git_state.txt
+    - working_tree.patch
+    - env.txt
+    - pip_check.txt
+    - hardware.txt
+    - disk.txt
+    - model_manifest.txt
+    - model_sha256.txt
+    - storage_decision.md
+
+  required_experiment_files:
+    - config.yaml
+    - command.txt
+    - git_commit.txt
+    - env.txt
+    - train.log
+    - metrics.jsonl
+    - cost.json
+    - checkpoint_sha256.txt
+    - eval/predictions.jsonl
+    - eval/summary.json

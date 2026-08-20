@@ -1,0 +1,6 @@
+xformers 0.0.32.post1 has requirement torch==2.8.0, but you have torch 2.10.0.
+vllm 0.18.0 has requirement transformers<5,>=4.56.0, but you have transformers 5.5.0.
+outlines 0.1.11 has requirement outlines_core==0.1.26, but you have outlines-core 0.2.11.
+opentelemetry-exporter-prometheus 0.60b1 has requirement opentelemetry-sdk~=1.39.1, but you have opentelemetry-sdk 1.40.0.
+opencv-python-headless 4.13.0.92 has requirement numpy>=2; python_version >= "3.9", but you have numpy 1.26.4.
+cupy-cuda12x 14.0.1 has requirement numpy<2.6,>=2.0, but you have numpy 1.26.4.
