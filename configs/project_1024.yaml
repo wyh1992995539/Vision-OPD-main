@@ -100,8 +100,8 @@ hardware:
   gpu_model: NVIDIA RTX PRO 6000 Blackwell Server Edition
   memory_gb_per_gpu: 96
   gpu_per_node: 2
-  current_dual_gpu_verified: false
-  verification_status: deferred
+  current_dual_gpu_verified: true
+  verification_status: pass
   must_verify_before_gpu_smoke: true
   verification_artifact: artifacts/runs/preflight/hardware.txt
 

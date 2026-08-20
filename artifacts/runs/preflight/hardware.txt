@@ -1,19 +1,39 @@
-status: DEFERRED
-target: 2 x NVIDIA RTX PRO 6000 Blackwell Server Edition, 96 GB each
-reason: current execution session has no usable GPU access; verify on the actual dual-GPU AutoDL instance
-gate: must be verified before any GPU smoke or formal training
+status: PASS
+verified_at: 2026-08-20T19:47:51+08:00
+scope: dual-GPU visibility, CUDA allocation, and NCCL all-reduce
+instance: AutoDL single node
 
-current nvidia-smi result:
-/bin/bash: line 12: /usr/bin/nvidia-smi: Permission denied
+target:
+- gpu_count: 2
+- gpu_model: NVIDIA RTX PRO 6000 Blackwell Server Edition
+- memory_per_gpu: 96 GB
 
-PASS requirements:
-- nvidia-smi lists exactly two target GPUs
-- torch.cuda.device_count() == 2
-- model name and memory match the frozen hardware contract
+nvidia-smi query:
+index, name, memory.total MiB, memory.used MiB, utilization.gpu %, driver_version
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887, 0, 100, 580.95.05
+1, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887, 0, 100, 580.95.05
 
-current PyTorch result:
+PyTorch result:
+python: 3.12.13
 torch: 2.10.0+cu128
 torch_cuda: 12.8
-cuda_available: False
-gpu_count: 0
-gpus: []
+cuda_available: True
+gpu_count: 2
+gpu_0: NVIDIA RTX PRO 6000 Blackwell Server Edition, 94.97 GiB
+gpu_1: NVIDIA RTX PRO 6000 Blackwell Server Edition, 94.97 GiB
+
+NCCL all-reduce result:
+rank=1 device=NVIDIA RTX PRO 6000 Blackwell Server Edition all_reduce_sum=3.0
+rank=0 device=NVIDIA RTX PRO 6000 Blackwell Server Edition all_reduce_sum=3.0
+
+Host resources:
+cpu_count: 44
+memory_total: 1.0 TiB
+data_disk_total: 50 GB
+data_disk_available: 42 GB
+
+conclusion:
+- Both target GPUs are visible to PyTorch.
+- CUDA tensor allocation and NCCL communication succeeded on both ranks.
+- The Day 1 dual-GPU hardware gate is PASS.
+- Full FSDP training stability remains a requirement of the later real-model Smoke test.

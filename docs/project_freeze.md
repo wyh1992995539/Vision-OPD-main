@@ -2,7 +2,7 @@
 
 > 冻结日期：2026-08-20  
 > 对应计划：正式 Day 1——冻结项目状态与资源边界  
-> 当前状态：CONDITIONAL PASS；数据方案已冻结为本地抽取后上传，双卡硬件验证延期至首次 GPU Smoke 前。
+> 当前状态：PASS；项目、数据、环境、存储方案和双卡硬件边界均已冻结并留存证据。
 
 ## 1. 项目定位
 
@@ -114,7 +114,7 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 - 运行 Python、vLLM 或训练前设置 OMP_NUM_THREADS=8。
 - HF_HOME、TORCH_HOME、PIP_CACHE_DIR 和 TMPDIR 应统一指向 /root/autodl-tmp 下的对应目录。
 
-## 7. 硬件冻结与待验证项
+## 7. 硬件冻结与验收
 
 | 项目 | 冻结值 |
 |---|---|
@@ -123,16 +123,14 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 | 单卡显存 | 96 GB |
 | GPU / node | 2 / 1 |
 
-历史上只完成过单卡 RTX PRO 6000 的 PyTorch 和 vLLM 验证。2026-08-20 当前执行会话中 torch.cuda.is_available() 为 False、GPU 数为 0，且 nvidia-smi 无执行权限，因此不得将双卡环境标记为 PASS。
+2026-08-20 已在实际双卡 AutoDL 实例完成硬件验收：
 
-在实际双卡 AutoDL 实例上必须补充：
+- nvidia-smi 显示 2 张 NVIDIA RTX PRO 6000 Blackwell Server Edition，每张 97887 MiB，驱动为 580.95.05。
+- PyTorch 2.10.0+cu128、CUDA 12.8 可用，torch.cuda.device_count() 等于 2。
+- 两个 NCCL rank 的 all-reduce 均得到 3.0，双卡通信通过。
+- 原始结果保存于 artifacts/runs/preflight/hardware.txt。
 
-- nvidia-smi 显示两张目标 GPU 及各自显存。
-- torch.cuda.device_count() 等于 2。
-- 记录驱动、CUDA、Python、PyTorch、CPU、内存和磁盘。
-- 将原始输出保存到 artifacts/runs/preflight/hardware.txt 和 env.txt。
-
-当前暂不具备双卡实例条件，本项状态记为 DEFERRED。双卡可见性、型号和显存验证必须在任何 SFT Smoke、Vision-OPD Smoke、Cached Prefix 训练或正式 GPU 训练前完成；双卡 NCCL/FSDP 稳定性由后续真实 Smoke 验证。
+双卡硬件 Gate 状态为 PASS。完整 FSDP、Ray/vLLM 和真实模型训练稳定性仍由后续对应 Smoke 验证。
 
 ## 8. 预算冻结
 
@@ -193,7 +191,7 @@ Day 1 preflight 目录至少包含：
 | 软件环境审计 | PASS WITH WARNINGS | 核心导入通过；保留 pip check 风险 |
 | configs/project_1024.yaml | PASS | 已创建并固定主种子 42 |
 | preflight 原始证据 | PASS | 初始证据文件已创建并完成模型 SHA256 |
-| 双卡硬件快照 | DEFERRED | 当前无双卡条件；首次 GPU Smoke 前必须完成 |
+| 双卡硬件快照 | PASS | 两卡可见、型号与显存匹配，NCCL all-reduce 通过 |
 | 数据获取方案 | PASS | 已确定为本地抽取冻结子集后上传 |
 
-可以在本地继续 Day 2～3 的数据准备，但服务器不得下载完整原始数据。双卡硬件项完成前，不得启动 SFT、Vision-OPD、Cached Prefix 或 GRPO 的 GPU Smoke 与正式训练。
+Day 1 验收已完成。下一步在本地继续 Day 2～3 数据准备；服务器仍不得下载完整原始数据。任何正式训练前仍须先完成对应的真实模型 Smoke。
