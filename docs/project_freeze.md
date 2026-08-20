@@ -75,6 +75,7 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 
 数据契约：
 
+- Day 2 元数据已冻结：`yuanqianhao/Vision-OPD-6K` revision 为 `eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4`；`train.jsonl` 共 6,241 行、4,566,587 bytes，SHA256 为 `8ad2fb81da0f6fba1766545dc5f84cc2250e48704738757461b2d75aa31821df`。本地准备副本位于 `D:\\VisionOPD-data\\raw_meta\\train.jsonl`，不作为服务器训练路径。
 - 项目主随机种子固定为 42；数据划分、DataLoader、训练和 rollout 均使用该值，各实验配置和启动脚本必须显式传入。
 - 按原始图像 ID 或问题组划分，禁止同图或同源问题跨 split 泄漏。
 - 每条样本生成稳定且可重复的 sample_id，同时保留原始来源 ID。
