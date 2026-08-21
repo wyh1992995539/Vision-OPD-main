@@ -1,0 +1,27 @@
+{
+  "chat_template_sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
+  "evaluator_code_sha256": {
+    "eval/internal_eval.py": "7929c6b7e855aa9e60a198104fd46a930d05dfe3ac0508cd925fe849137d3484",
+    "eval/run_internal_eval.py": "1bc3a851d33822583e433536be8a3b978340608fde3e50862fe6107574b292f9"
+  },
+  "evaluator_id": "36ccc7d31cc2c51aad8f2dc0fadc17dcd06f7ca0a46b39e9cc68641ababbb3cf",
+  "generated_at": "2026-08-21T18:46:34.384767+08:00",
+  "generation_protocol_sha256": "4e0ccf498c084af5e1690382b346ef3f6927476a285113c8c8853deb21a26fcd",
+  "git_branch": "main",
+  "git_commit": "01370dc1f816b811aecec40502f739cb11f09580",
+  "invalid_prediction_policy": "count_as_incorrect_in_full_denominator",
+  "schema_version": 1,
+  "scoring_method": "deterministic_multiple_choice",
+  "supported_question_types": [
+    "multiple_choice"
+  ],
+  "unsupported_policy": "mark_unsupported",
+  "uses_external_llm_judge": false,
+  "valid_ground_truth": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "working_tree_clean_before_generation": true
+}
