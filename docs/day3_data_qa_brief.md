@@ -1,18 +1,19 @@
 # Vision-OPD Day 3 工作简报：图片子集、自动校验与人工 QA
 
 > 日期：2026-08-21  
-> 状态：**PASS（本地图片数据与 QA Gate）**  
-> 边界：服务器上传、Linux 路径 Parquet 与任何模型训练均未完成
+> 状态：**PASS（图片、QA、服务器 Parquet 与加载 Gate）**
+> 边界：Vanilla 基线、Cached Prefix、SFT、Vision-OPD、GRPO 均未开始
 
 ## 1. 当日目标
 
-在 Day 2 已冻结的 1024 条训练、128 条主评测和 64 条能力保持清单上，完成以下本地数据闭环：
+在 Day 2 已冻结的 1024 条训练、128 条主评测和 64 条能力保持清单上，完成以下数据闭环：
 
 1. 下载固定 revision 的官方 Student 全图与 Teacher crop 压缩包；
 2. 不解压全部 6,241 条图片，只提取三个 manifest 指定的 1,216 对图片；
 3. 对 2,432 张图片执行路径、配对、完整解码、尺寸、格式、bbox 和 SHA256 校验；
 4. 按 split 与 bbox 面积分层固定抽取 30 条，人工检查全图、crop、问题和答案的语义一致性；
-5. 保存脚本、测试、报告、统计与哈希证据。
+5. 将图片子集与 manifest 上传到服务器，复核 2,432 张图片 SHA256；
+6. 从冻结 JSONL 生成 Linux 路径的 train/eval/retention Parquet，并用 `datasets` 实际加载验收。
 
 本日不下载 `original_images`，不生成带 Windows 路径的最终训练 Parquet，也不启动 Vanilla、SFT、Vision-OPD、Cached Prefix 或 GRPO。
 
@@ -29,6 +30,7 @@
 | 原始压缩包目录 | `D:\VisionOPD-data\raw` |
 | 冻结子集目录 | `E:\VisionOPD-subset` |
 | 仓库 | `C:\Users\19929\Desktop\大模型\Vision-OPD\Vision-OPD-main` |
+| 服务器数据根目录 | `/root/autodl-tmp/data/vision_opd_1024` |
 
 数据分层保持为：
 
@@ -40,6 +42,14 @@ Vision-OPD-main\
 ├── tests\                             # 针对性测试
 ├── artifacts\data\                   # manifest、报告、统计和哈希
 └── docs\                              # 工作简报
+
+/root/autodl-tmp/data/vision_opd_1024/   # 服务器训练数据，不进入 Git
+├── images/                         # 1,216 张 Student 全图
+├── teacher_images/                 # 1,216 张 Teacher crop
+├── manifests/                      # JSONL、哈希和构建报告
+├── train_1024.parquet
+├── eval_128.parquet
+└── retention_64.parquet
 ```
 
 ## 3. 官方压缩包下载与哈希
@@ -227,38 +237,49 @@ tests/test_manual_qa_tools.py
 
 验证结果：
 
-- 6 个针对性测试全部通过；
-- 覆盖分卷 gzip/tar 连续读取、manifest 契约、合法/越界 bbox、确定性分层抽样和 HTML 数据转义；
+- 9 个针对性测试全部通过，新增 [Parquet 构建测试](../tests/test_build_project_parquet.py)；
+- 覆盖分卷 gzip/tar 连续读取、manifest 契约、合法/越界 bbox、确定性分层抽样、HTML 数据转义、Parquet schema 与读回行数；
 - `git diff --check` 通过；
-- 当前新增脚本和测试尚未提交 Git，提交前仍需审查 `git diff` 与待跟踪文件。
+- 服务器生成器和数据均位于外部数据目录，不将大文件纳入 Git。
 
-## 9. 完成与未完成边界
+## 9. 服务器 Parquet 与加载验收
 
-本地图片数据与 QA Gate 已完成：
+使用 [Parquet 构建脚本](../scripts/build_project_parquet.py) 在服务器数据根目录执行构建。脚本不下载、不解压、不重新抽样，只接受已冻结的三份 JSONL manifest。
+
+| 产物 | 行数 | 验收结果 |
+|---|---:|---|
+| `train_1024.parquet` | 1,024 | PASS |
+| `eval_128.parquet` | 128 | PASS |
+| `retention_64.parquet` | 64 | PASS |
+
+服务器执行 `datasets.load_dataset("parquet", ...)` 后实际验证了每份 Parquet 的行数、必需字段，并逐条确认 `images` 与 `bbox_images` 中的 Linux 绝对路径存在。终端证据为 `SERVER_PARQUET_LOAD_GATE=PASS`。
+
+此前，服务器已对 `manifests/data_sha256.txt` 完成图片校验：2,432 条图片记录全部通过，没有 `FAILED` 或缺失文件。
+
+## 10. 完成与未完成边界
+
+数据 Gate 已完成：
 
 - 固定 1024/128/64 manifest 未重新抽样；
 - 按 manifest 从官方压缩包选择性提取 1,216 对图片；
 - 2,432 张图片自动校验与 SHA256 完成，问题数为 0；
 - 30 条确定性分层人工 QA 完成，30 条均为 `pass`；
 - 原始压缩包、manifest、提取报告、自动报告、统计、图片哈希和人工 QA 均可追溯。
+- 图片子集已上传到服务器，服务器侧 2,432 张图片 SHA256 复核通过；
+- Linux 路径 Parquet 已生成，并通过服务器实际加载验收。
 
 以下事项尚未完成，不能因本日 PASS 而宣称完成：
 
-- 尚未将 `E:\VisionOPD-subset` 上传到训练服务器；
-- 尚未在服务器重新校验 2,432 张图片的 SHA256；
-- 尚未生成使用 `/root/autodl-tmp/...` Linux 路径的 `train_1024.parquet`、`eval_128.parquet` 和 `retention_64.parquet`；
-- 尚未验证训练器实际加载 Parquet、Student 全图和 Teacher crop；
 - 尚未运行 Vanilla 基线、Cached Prefix 生成或任何训练；
 - 尚未获得 checkpoint、训练 loss、模型能力提升或论文结果复现证据。
 
 因此本日成果应表述为：
 
-> 完成 Vision-OPD 固定 1,216 条项目子集的全图/crop 选择性提取、2,432 张图片自动解码与哈希校验，并完成 30 条按 split 和 bbox 面积分层的人工语义 QA；本地图片数据 Gate 为 PASS，服务器 Parquet 与训练尚未开始。
+> 完成 Vision-OPD 固定 1,216 条项目子集的全图/crop 选择性提取、2,432 张图片自动解码与双端 SHA256 校验，并完成 30 条按 split 和 bbox 面积分层的人工语义 QA；已在服务器生成并实际加载 1024/128/64 三份 Parquet，数据 Gate 为 PASS，训练尚未开始。
 
-## 10. 下一步
+## 11. 下一步
 
-1. 审查并提交本日新增脚本、测试和文档；
-2. 将 `E:\VisionOPD-subset` 上传到 `/root/autodl-tmp/data/vision_opd_1024/`；
-3. 在服务器复核 manifest 和 2,432 张图片 SHA256；
-4. 在服务器生成 Linux 路径 Parquet，并检查 1024/128/64 行数、字段和图片可读性；
-5. 数据 Gate 完整关闭后进入 Day 4：冻结评测器、运行 Vanilla 128 条基线评测，并使用同一 Base checkpoint 生成 Cached Prefix。
+1. 冻结评测器、题型规则与 generation 参数；
+2. 使用同一个训练前 Base checkpoint，在 `eval_128.parquet` 上运行 Vanilla 基线并保存逐样本预测；
+3. 使用同一个 Base 为 `train_1024.parquet` 生成 Cached Prefix；
+4. 在启动任何训练前，将 `run_vision_opd.sh` 改为外部数据路径、本地模型路径和两卡设置。
