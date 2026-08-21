@@ -1,0 +1,13 @@
+captured_at=2026-08-21T16:03:40+08:00
+5de2f812630d38a2e06994b2f711754391283668
+main
+?? artifacts/runs/E-D4-001/
+untracked_files:
+artifacts/runs/E-D4-001/base_model_manifest.txt
+artifacts/runs/E-D4-001/base_model_sha256.txt
+artifacts/runs/E-D4-001/base_model_sha256_check.txt
+artifacts/runs/E-D4-001/env.txt
+artifacts/runs/E-D4-001/git_state.txt
+artifacts/runs/E-D4-001/hardware.txt
+artifacts/runs/E-D4-001/started_at.txt
+artifacts/runs/E-D4-001/working_tree.patch

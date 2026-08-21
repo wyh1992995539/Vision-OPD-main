@@ -1,0 +1,1 @@
+]633;E;echo "captured_at=$(date -Is)";46e9c0ad-f495-4614-9d86-1be0d423398f]633;Ccaptured_at=2026-08-21T16:07:25+08:00
