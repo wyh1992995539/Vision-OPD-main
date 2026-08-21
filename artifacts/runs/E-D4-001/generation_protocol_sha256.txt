@@ -1,0 +1,2 @@
+4e0ccf498c084af5e1690382b346ef3f6927476a285113c8c8853deb21a26fcd  configs/day4_generation.yaml
+d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db  chat_templates/perception_chat_template_qwen35.jinja
