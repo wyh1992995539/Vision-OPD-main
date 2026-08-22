@@ -1,3 +1,5 @@
-2026-08-21T17:31:01+08:00
-bash: line 1: /usr/bin/nvidia-smi: Permission denied
-bash: line 1: /usr/bin/nvidia-smi: Permission denied
+2026-08-22T09:29:10+08:00
+GPU 0: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-983559ff-0791-803b-003a-71c752a6fd10)
+GPU 1: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-b3055fc1-77f6-ef1c-7305-abde139645c2)
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 0 MiB, 97251 MiB, 580.95.05
+1, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 0 MiB, 97251 MiB, 580.95.05

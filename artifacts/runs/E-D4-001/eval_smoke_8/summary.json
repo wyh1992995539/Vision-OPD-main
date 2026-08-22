@@ -1,0 +1,43 @@
+{
+  "accuracy": 0.25,
+  "by_ground_truth": {
+    "A": {
+      "accuracy": 1.0,
+      "correct": 1,
+      "total": 1
+    },
+    "B": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 2
+    },
+    "C": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 2
+    },
+    "D": {
+      "accuracy": 0.3333333333333333,
+      "correct": 1,
+      "total": 3
+    }
+  },
+  "correct": 2,
+  "experiment_id": "E-D4-001",
+  "incorrect": 4,
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "invalid_prediction": 2,
+  "is_smoke": true,
+  "model_id": "vision-opd-base",
+  "response_token_count": {
+    "count": 8,
+    "max": 198,
+    "mean": 71.25,
+    "min": 3
+  },
+  "schema_version": 1,
+  "supported_accuracy": 0.25,
+  "total": 8,
+  "unique_sample_ids": 8,
+  "unsupported": 0
+}
