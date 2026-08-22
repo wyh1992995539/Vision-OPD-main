@@ -16,6 +16,16 @@ CHOICES = frozenset("ABCD")
 SUPPORTED_QUESTION_TYPE = "multiple_choice"
 _THINK_BLOCK_RE = re.compile(r"<think>.*?</think>", re.IGNORECASE | re.DOTALL)
 _ANSWER_BLOCK_RE = re.compile(r"<answer>(.*?)</answer>", re.IGNORECASE | re.DOTALL)
+_EXPLICIT_ANSWER_RE = re.compile(
+    r"(?:final\s+)?answer\s*(?:is|:|=)\s*"
+    r"(?:\*\*|__)?\(?([A-D])\)?(?:\*\*|__)?"
+    r"(?=\s|[.,;:!?]|$)",
+    re.IGNORECASE,
+)
+_FINAL_CHOICE_LINE_RE = re.compile(
+    r"^\s*(?:\*\*|__)?\(?([A-D])\)?(?:\*\*|__)?[.)]?\s*$",
+    re.IGNORECASE | re.MULTILINE,
+)
 _STANDALONE_CHOICE_RE = re.compile(r"(?<![A-Za-z0-9])([A-D])(?![A-Za-z0-9])")
 
 
@@ -51,8 +61,28 @@ def parse_multiple_choice(raw_prediction: Any) -> dict[str, Any]:
         }
 
     answer_blocks = _ANSWER_BLOCK_RE.findall(visible_text)
-    candidate_text = "\n".join(answer_blocks) if answer_blocks else visible_text
-    candidates = [match.upper() for match in _STANDALONE_CHOICE_RE.findall(candidate_text)]
+    if answer_blocks:
+        candidate_text = "\n".join(answer_blocks)
+        candidates = [
+            match.upper() for match in _STANDALONE_CHOICE_RE.findall(candidate_text)
+        ]
+    else:
+        # Prefer an explicit final-answer declaration over option letters quoted
+        # while explaining the alternatives (for example, "Answer: **B**").
+        candidates = [match.upper() for match in _EXPLICIT_ANSWER_RE.findall(visible_text)]
+        if not candidates:
+            # Models commonly finish a chain of explanation with a bare choice on
+            # its own line.  Use the last such line and ignore option labels above.
+            final_lines = [
+                match.upper() for match in _FINAL_CHOICE_LINE_RE.findall(visible_text)
+            ]
+            if final_lines:
+                candidates = [final_lines[-1]]
+            else:
+                candidates = [
+                    match.upper()
+                    for match in _STANDALONE_CHOICE_RE.findall(visible_text)
+                ]
     unique_candidates = sorted(set(candidates))
 
     if not unique_candidates:

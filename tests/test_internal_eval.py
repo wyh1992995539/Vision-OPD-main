@@ -37,6 +37,20 @@ class MultipleChoiceParsingTest(unittest.TestCase):
         self.assertEqual(parsed["parsed_choice"], "D")
         self.assertEqual(parsed["choice_candidates"], ["D"])
 
+    def test_prefers_bare_final_line_over_option_letters_in_explanation(self):
+        parsed = parse_multiple_choice(
+            "Options:\n- A. pole\n- B. flagpole\n- C. cell tower\n- D. antenna\n\nC"
+        )
+        self.assertEqual(parsed["parse_status"], "parsed")
+        self.assertEqual(parsed["parsed_choice"], "C")
+
+    def test_accepts_markdown_explicit_answer_after_option_discussion(self):
+        parsed = parse_multiple_choice(
+            "A. Tella's\nB. Tella\nC. Tello\nD. Tella\n\nAnswer: **B**"
+        )
+        self.assertEqual(parsed["parse_status"], "parsed")
+        self.assertEqual(parsed["parsed_choice"], "B")
+
     def test_rejects_empty_missing_and_ambiguous_outputs(self):
         cases = {
             "": "invalid_empty",
