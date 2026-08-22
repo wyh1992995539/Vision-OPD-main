@@ -1,0 +1,151 @@
+records = 128
+inference_errors = 6
+empty_responses = 6
+invalid_predictions = 16
+finish_reasons = {'stop': 114, 'length': 8, 'error': 6}
+invalid_parse_status = {'invalid_ambiguous': 8, 'invalid_empty': 6, 'invalid_no_choice': 2}
+
+================================================================================
+invalid_index = 1
+sample_id = vopd_6e1ec1ceba718adc71f5963e
+ground_truth = C
+parse_status = invalid_ambiguous
+finish_reason = length
+response_token_count = 108
+inference_error = None
+response_tail = 'The tanker in the red bounding box has “GROENDYKE” written prominently on the top of the tank, and below it, “TRANSPORT, INC.” is visible. However, the most prominent and primary name displayed is “GROENDYKE”.\n\nLooking at the options:\n\nA. Grodendyke — misspelled  \nB. Groendyke Transport — includes “Transport”, but the main name is just “Groendyke”  \nC. Groendyke — matches the largest'
+================================================================================
+invalid_index = 2
+sample_id = vopd_21ab45a85fe19c11b637c06e
+ground_truth = C
+parse_status = invalid_empty
+finish_reason = error
+response_token_count = 0
+inference_error = BadRequestError: Error code: 400 - {'error': {'message': "Input length (4544) exceeds model's maximum context length (4096).", 'type': 'BadRequestError', 'param': None, 'code': 400}}
+response_tail = ''
+================================================================================
+invalid_index = 3
+sample_id = vopd_5f3c89b3faf0f2e099f8194e
+ground_truth = B
+parse_status = invalid_ambiguous
+finish_reason = stop
+response_token_count = 150
+inference_error = None
+response_tail = 'pes like parks or near urban areas.\n\nWhile it could resemble a church steeple or lighthouse, those typically have more ornate or functional features (like a bell chamber or lantern room) that are not visible here. A skyscraper would be much wider and have windows or floors, which this does not appear to have.\n\nTherefore, the most accurate classification based on visual evidence is:\n\nC. radio tower'
+================================================================================
+invalid_index = 4
+sample_id = vopd_f1899ac52e0912e730994e2d
+ground_truth = C
+parse_status = invalid_ambiguous
+finish_reason = stop
+response_token_count = 183
+inference_error = None
+response_tail = 'heir metallic sheen, even if they are technically stainless steel or aluminum.\n\nLooking at the options:\n- A. gray — too dull; doesn’t capture the reflective quality.\n- B. black — incorrect; clearly not dark.\n- C. white — too bright; not matching the metallic tone.\n- D. silver — best fit for the reflective, metallic appearance.\n\nThus, the most accurate answer based on visual evidence is:\n\nD. silver'
+================================================================================
+invalid_index = 5
+sample_id = vopd_fde9e939e482c8d277f93738
+ground_truth = B
+parse_status = invalid_ambiguous
+finish_reason = length
+response_token_count = 256
+inference_error = None
+response_tail = ' and the only colored object in the red box is green grass, perhaps the question is misphrased.\n\nWait — let’s re-read: “What is the dominant color of the vertical poles in the image?” — but then says “Only focus on the objects inside the red bounding box”.\n\nInside the red box: there is **no vertical pole**. There is grass (green) and maybe a small part of the table leg (yellow). But no pole.\n\nThis'
+================================================================================
+invalid_index = 6
+sample_id = vopd_13116ce7a9c76e82d4e051ae
+ground_truth = B
+parse_status = invalid_empty
+finish_reason = error
+response_token_count = 0
+inference_error = BadRequestError: Error code: 400 - {'error': {'message': "Input length (4212) exceeds model's maximum context length (4096).", 'type': 'BadRequestError', 'param': None, 'code': 400}}
+response_tail = ''
+================================================================================
+invalid_index = 7
+sample_id = vopd_588cf623e2005698a00dddb7
+ground_truth = B
+parse_status = invalid_empty
+finish_reason = error
+response_token_count = 0
+inference_error = BadRequestError: Error code: 400 - {'error': {'message': "Input length (6511) exceeds model's maximum context length (4096).", 'type': 'BadRequestError', 'param': None, 'code': 400}}
+response_tail = ''
+================================================================================
+invalid_index = 8
+sample_id = vopd_8b0cdec4b9659cbc68e7e5fc
+ground_truth = D
+parse_status = invalid_no_choice
+finish_reason = length
+response_token_count = 64
+inference_error = None
+response_tail = 'Looking at the image, inside the red bounding box, we can see a bridge with support pillars over water. On one of the visible bridge support pillars (specifically, the rightmost pillar within the red box), there is a small black sign attached.\n\nUpon close inspection, the number displayed on that sign is **'
+================================================================================
+invalid_index = 9
+sample_id = vopd_a3344f71c9536dadcedf748f
+ground_truth = D
+parse_status = invalid_no_choice
+finish_reason = length
+response_token_count = 256
+inference_error = None
+response_tail = 'aring a backpack and carrying a bag.\n\nSo the “object” in the red box is a **person**.\n\nNow, what is the shape of the **opening at the top** of a person? That doesn’t make sense — people don’t have openings at the top.\n\nWait — perhaps the question is misphrased, or we’re misinterpreting.\n\nLet me look again at the image.\n\nActually, the red box is around a **pedestrian crossing sign** — no, wait, the'
+================================================================================
+invalid_index = 10
+sample_id = vopd_15253288beffab5e83c8f366
+ground_truth = D
+parse_status = invalid_ambiguous
+finish_reason = stop
+response_token_count = 93
+inference_error = None
+response_tail = 'Looking at the red bounding box in the image, it encloses a white car parked near a building. Inside the car, we can see:\n\n- A driver seated in the front left (from our view).\n- A passenger seated in the front right.\n\nThere may be someone in the back seat, but they are not clearly visible — only two people are distinctly visible inside the car.\n\nThus, the correct answer is:\n\nD. 2'
+================================================================================
+invalid_index = 11
+sample_id = vopd_0edd23b052d0a876521f1ffa
+ground_truth = C
+parse_status = invalid_ambiguous
+finish_reason = length
+response_token_count = 256
+inference_error = None
+response_tail = 're often hung from brackets that may have a slightly curved or arched bottom edge — but not typically “scalloped” or “jagged”. However, if we consider the *bell itself*, its bottom edge is usually smooth and circular or oval.\n\nBut wait — the red box appears to be highlighting the **bell’s mounting bracket or the part where the bell hangs**, not the bell itself. In many such structures, the bracket'
+================================================================================
+invalid_index = 12
+sample_id = vopd_563e5aa0c43dc3bb6444121f
+ground_truth = D
+parse_status = invalid_empty
+finish_reason = error
+response_token_count = 0
+inference_error = BadRequestError: Error code: 400 - {'error': {'message': "Input length (5342) exceeds model's maximum context length (4096).", 'type': 'BadRequestError', 'param': None, 'code': 400}}
+response_tail = ''
+================================================================================
+invalid_index = 13
+sample_id = vopd_75844700e9d040db83864d46
+ground_truth = B
+parse_status = invalid_empty
+finish_reason = error
+response_token_count = 0
+inference_error = BadRequestError: Error code: 400 - {'error': {'message': "Input length (4314) exceeds model's maximum context length (4096).", 'type': 'BadRequestError', 'param': None, 'code': 400}}
+response_tail = ''
+================================================================================
+invalid_index = 14
+sample_id = vopd_a588ecf98c715586266a361a
+ground_truth = C
+parse_status = invalid_ambiguous
+finish_reason = stop
+response_token_count = 186
+inference_error = None
+response_tail = 'ere are more cylindrical or flared but not distinctly cone-shaped in the way the question implies.\n- They are not domed (C).\n- The main body of each protrusion is elongated and tubular — consistent with a **cylinder**.\n\nEven if the front face is flared (like a horn), the overall structure protruding from the pipe is cylindrical in form.\n\nThus, the best answer among the choices is:\n\n**D. cylinder**'
+================================================================================
+invalid_index = 15
+sample_id = vopd_6c5826829d850e95c617aa4f
+ground_truth = A
+parse_status = invalid_ambiguous
+finish_reason = stop
+response_token_count = 173
+inference_error = None
+response_tail = 'cle at the bottom, the image does not clearly show that circle — and the overall structure matches the general Latin cross form.\n\nEastern Orthodox crosses (A) typically have three bars (top, middle, and bottom), and Celtic crosses (C) feature a circular ring around the intersection — neither of which are present here.\n\nThus, the most accurate answer based on visual evidence is:\n\n**B. Latin cross**'
+================================================================================
+invalid_index = 16
+sample_id = vopd_5d478ced38fd7fbe706b8885
+ground_truth = A
+parse_status = invalid_empty
+finish_reason = error
+response_token_count = 0
+inference_error = BadRequestError: Error code: 400 - {'error': {'message': "Input length (4537) exceeds model's maximum context length (4096).", 'type': 'BadRequestError', 'param': None, 'code': 400}}
+response_tail = ''
