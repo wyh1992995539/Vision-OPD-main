@@ -1,22 +1,17 @@
 {
-  "status": "PASS",
-  "expected_records": 1024,
   "actual_records": 1024,
-  "unique_sample_ids": 1024,
   "duplicate_sample_ids": 0,
-  "missing_sample_ids": [],
-  "extra_sample_ids": [],
   "empty_responses": 0,
-  "inference_errors": 0,
   "empty_token_ids": 0,
-  "truncated_responses": 54,
-  "truncation_policy": "preserve_at_frozen_max_new_tokens",
+  "expected_records": 1024,
   "experiment_id": "E-D4-001",
-  "model_id": "vision-opd-base",
-  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+  "extra_sample_ids": [],
   "generation_config_sha256": "602bceaf69504237d476a983606a5c2124981407ae272192e9821aeeb1a965e5",
-  "token_ids_source": "base_tokenizer_reencoded_openai_response_text",
+  "inference_errors": 0,
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
   "is_smoke": false,
+  "missing_sample_ids": [],
+  "model_id": "vision-opd-base",
   "output_parquet": "/root/autodl-tmp/data/vision_opd_1024/cached_prefix_base_1024.parquet",
   "output_sha256": "e5992f9a8e074b207a829ba0f6ddda7d3426d2a2d877eb6c6d9b4845e60f9d46",
   "schema": [
@@ -37,5 +32,10 @@
     "source_id",
     "split",
     "token_ids_source"
-  ]
+  ],
+  "status": "PASS",
+  "token_ids_source": "base_tokenizer_reencoded_openai_response_text",
+  "truncated_responses": 54,
+  "truncation_policy": "preserve_at_frozen_max_new_tokens",
+  "unique_sample_ids": 1024
 }
