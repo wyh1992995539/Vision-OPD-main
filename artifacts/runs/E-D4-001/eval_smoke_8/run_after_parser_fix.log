@@ -1,0 +1,53 @@
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+[1/8] vopd_e2e6366c31e89ff3d5a73be7 status=incorrect prediction=C
+[2/8] vopd_71386eb7a5aae600f7faef10 status=incorrect prediction=B
+[3/8] vopd_8573068d44050b6d46f35d53 status=incorrect prediction=D
+[4/8] vopd_79c41b9214e10e2b929aea6e status=correct prediction=B
+[5/8] vopd_e0c7ad129897e5f9abef7905 status=incorrect prediction=B
+[6/8] vopd_1667b99d961d49cdd9bbf1c5 status=correct prediction=D
+[7/8] vopd_009ae788d284af0859be52ac status=correct prediction=A
+[8/8] vopd_eaae79d872e4102864a06da5 status=incorrect prediction=C
+{
+  "schema_version": 1,
+  "total": 8,
+  "unique_sample_ids": 8,
+  "correct": 3,
+  "incorrect": 5,
+  "invalid_prediction": 0,
+  "unsupported": 0,
+  "accuracy": 0.375,
+  "supported_accuracy": 0.375,
+  "by_ground_truth": {
+    "A": {
+      "total": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    "B": {
+      "total": 2,
+      "correct": 1,
+      "accuracy": 0.5
+    },
+    "C": {
+      "total": 2,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "D": {
+      "total": 3,
+      "correct": 1,
+      "accuracy": 0.3333333333333333
+    }
+  },
+  "response_token_count": {
+    "count": 8,
+    "min": 3,
+    "max": 239,
+    "mean": 75.0
+  },
+  "experiment_id": "E-D4-001",
+  "model_id": "vision-opd-base",
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "is_smoke": true
+}
