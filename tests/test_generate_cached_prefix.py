@@ -86,13 +86,27 @@ class CachedPrefixContractTest(unittest.TestCase):
             "finish_reason": "stop",
         }
 
-    def test_validation_requires_exact_complete_nontruncated_cache(self):
+    def test_validation_requires_exact_complete_cache(self):
         report = validate_cached_records(
             [self.make_record("one"), self.make_record("two")], ["one", "two"]
         )
         self.assertEqual(report["status"], "PASS")
+
+    def test_validation_preserves_truncated_prefix_at_frozen_limit(self):
+        truncated = self.make_record("one")
+        truncated["finish_reason"] = "length"
+        truncated["response_token_ids"] = [1] * 256
+        report = validate_cached_records([truncated], ["one"])
+        self.assertEqual(report["status"], "PASS")
+        self.assertEqual(report["truncated_responses"], 1)
+        self.assertEqual(
+            report["truncation_policy"], "preserve_at_frozen_max_new_tokens"
+        )
+
+    def test_validation_still_rejects_empty_prefix(self):
         bad = self.make_record("one")
-        bad["finish_reason"] = "length"
+        bad["raw_response_text"] = ""
+        bad["response_token_ids"] = []
         with self.assertRaisesRegex(ValueError, "validation failed"):
             validate_cached_records([bad], ["one"])
 

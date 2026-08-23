@@ -206,7 +206,6 @@ def validate_cached_records(
         and not empty_responses
         and not inference_errors
         and not empty_token_ids
-        and not truncated
         else "FAIL"
     )
     report = {
@@ -221,6 +220,7 @@ def validate_cached_records(
         "inference_errors": inference_errors,
         "empty_token_ids": empty_token_ids,
         "truncated_responses": truncated,
+        "truncation_policy": "preserve_at_frozen_max_new_tokens",
     }
     if status != "PASS":
         raise ValueError(f"cached prefix validation failed: {json.dumps(report)}")
