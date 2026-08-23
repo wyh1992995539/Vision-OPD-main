@@ -1,12 +1,14 @@
-schema_version: 1
+schema_version: 2
 
 project:
   name: vision-opd-qwen35-4b-1024
   freeze_date: "2026-08-20"
+  scope_amendment_date: "2026-08-24"
+  scope_amendment: remove-sft-add-external-benchmarks
   plan: docs/vision_opd_21_day_plan.md
   freeze_document: docs/project_freeze.md
   seed: 42
-  scope: small-scale-4b-1024-controlled-comparison
+  scope: small-scale-4b-1024-vopd-cached-grpo-controlled-comparison
 
 reproducibility:
   master_seed: 42
@@ -26,7 +28,6 @@ model:
   expected_weight_shards: 2
   require_preflight_sha256: true
   branch_policy:
-    sft_starts_from_base: true
     vision_opd_starts_from_base: true
     cached_prefix_starts_from_base: true
     grpo_starts_from_base: true
@@ -51,20 +52,20 @@ data:
     train:
       size: 1024
       usage:
-        - sft
         - vision_opd
         - cached_prefix
         - grpo_verifiable_subset
     eval:
       size: 128
       usage:
-        - unified_main_evaluation
+        - internal_main_evaluation
       forbidden_during_training: true
     retention:
       size: 64
       usage:
-        - capability_retention
+        - internal_same_distribution_retention
         - format_retention
+      interpretation: internal_only_not_external_general_capability
 
   required_fields:
     - sample_id
@@ -95,6 +96,22 @@ data:
     sha256: artifacts/data/data_sha256.txt
 
 evaluation:
+  protocol_layers:
+    development:
+      datasets:
+        - eval_128
+        - retention_64
+      purpose: fast_regression_paired_analysis_and_internal_retention
+    final:
+      datasets:
+        - zoombench
+        - mmstar
+        - vstar
+      purpose: fine_grained_external_and_general_capability_evaluation
+      final_checkpoints_only: true
+      base_evaluated_once: true
+      forbid_hyperparameter_tuning_on_results: true
+
   shared_eval_manifest: artifacts/data/eval_128.parquet
   shared_retention_manifest: artifacts/data/retention_64.parquet
   evaluator_version_file: artifacts/eval/evaluator_version.json
@@ -104,6 +121,23 @@ evaluation:
   generation:
     temperature: 0
     parameters_frozen_on_day: 4
+  external:
+    protocol_document: docs/benchmark_protocol.md
+    config: configs/benchmark_eval.yaml
+    protocol_freeze_day: 5
+    base_evaluation_day: 6
+    benchmarks:
+      - zoombench
+      - mmstar
+      - vstar
+    preserve_official_split: true
+    save_dataset_revision_and_sha256: true
+    require_exact_hash_overlap_audit: true
+    require_question_overlap_audit: true
+    require_perceptual_hash_overlap_audit: true
+    forbid_silent_sample_removal: true
+    freeze_judge_model_prompt_and_parameters: true
+    save_judge_source_per_sample: true
 
 hardware:
   node_count: 1
@@ -120,12 +154,11 @@ budget:
   currency: CNY
   cost_per_gpu_hour: 5.98
   cost_per_dual_gpu_hour: 11.96
-  recommended_total_min: 1500
-  recommended_total_max: 1850
   hard_limit: 2000
-  recommended_dual_gpu_hours_min: 110
-  recommended_dual_gpu_hours_max: 154
   hard_limit_dual_gpu_hours: 167
+  estimate_status: pending_day5_benchmark_smoke_and_branch_throughput
+  removed_training_branch: sft
+  freeze_external_evaluation_budget_after_day5_smoke: true
   require_pre_run_cost_estimate: true
 
 storage:
@@ -154,6 +187,13 @@ storage:
     verify_server_disk_after_upload: true
     remove_raw_package_after_subset_freeze: true
 
+  benchmark_data:
+    size_preflight_required: true
+    download_only_after_protocol_selection: true
+    store_under_data_root: true
+    preserve_revision_and_hash_manifests: true
+    cleanup_only_after_prepared_data_verification: true
+
   checkpoint_policy:
     keep_current_experiment_only: true
     keep_many_step_checkpoints: false
@@ -161,15 +201,25 @@ storage:
     forbid_deleting_unique_unverified_model: true
 
 experiments:
-  vanilla:
+  vanilla_internal:
     id: E-D4-001
     starts_from: base
-  sft_smoke:
+    evaluation_suite: internal_eval_128
+    status: pass
+  benchmark_smoke:
     id: E-D5-001
     starts_from: base
-  sft_train:
+    evaluation_suite:
+      - zoombench_smoke_16
+      - mmstar_smoke_16
+      - vstar_smoke_16
+  vanilla_external:
     id: E-D6-001
     starts_from: base
+    evaluation_suite:
+      - zoombench
+      - mmstar
+      - vstar
   vision_opd_smoke:
     id: E-D7-001
     starts_from: base
@@ -182,6 +232,15 @@ experiments:
     id: E-D10-001
     starts_from: base
     prefix_source: online
+  vision_opd_final_evaluation:
+    id: E-D12-001
+    checkpoint_from: E-D10-001
+    evaluation_suite:
+      - internal_eval_128
+      - internal_retention_64
+      - zoombench
+      - mmstar
+      - vstar
   cached_prefix_contract:
     id: E-D14-001
     starts_from: base
@@ -194,6 +253,15 @@ experiments:
     id: E-D16-001
     starts_from: base
     prefix_source: cached
+  cached_prefix_final_evaluation:
+    id: E-D18-001
+    checkpoint_from: E-D16-001
+    evaluation_suite:
+      - internal_eval_128
+      - internal_retention_64
+      - zoombench
+      - mmstar
+      - vstar
   grpo_pilot_32:
     id: E-D23-001
     starts_from: base
@@ -203,6 +271,15 @@ experiments:
   grpo_train:
     id: E-D25-001
     starts_from: base
+  grpo_final_evaluation:
+    id: E-D28-001
+    checkpoint_from: E-D25-001
+    evaluation_suite:
+      - internal_eval_128
+      - internal_retention_64
+      - zoombench
+      - mmstar
+      - vstar
 
 evidence:
   preflight_dir: artifacts/runs/preflight
@@ -218,7 +295,7 @@ evidence:
     - model_sha256.txt
     - storage_decision.md
 
-  required_experiment_files:
+  required_training_experiment_files:
     - config.yaml
     - command.txt
     - git_commit.txt
@@ -229,3 +306,15 @@ evidence:
     - checkpoint_sha256.txt
     - eval/predictions.jsonl
     - eval/summary.json
+
+  required_evaluation_experiment_files:
+    - protocol.yaml
+    - command.txt
+    - git_commit.txt
+    - env.txt
+    - model_sha256.txt
+    - dataset_revision_sha256.json
+    - predictions.jsonl
+    - judge_details.jsonl
+    - summary.json
+    - cost.json

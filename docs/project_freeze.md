@@ -2,11 +2,25 @@
 
 > 冻结日期：2026-08-20  
 > 对应计划：正式 Day 1——冻结项目状态与资源边界  
-> 当前状态：PASS；项目、数据、环境、存储方案和双卡硬件边界均已冻结并留存证据。
+> 范围修订日期：2026-08-24
+> 当前状态：PASS WITH AMENDMENT；Day 1～4 已完成证据继续有效，活跃实验范围删除 SFT，并加入最终外部 Benchmark。
+
+## 0. 范围修订记录
+
+2026-08-24 在不修改 Day 1～4 原始执行证据的前提下，对后续实验范围作如下修订：
+
+- 删除尚未开始、未生成专属数据、checkpoint 或运行目录的 SFT 分支；
+- 保留原始 Qwen3.5-4B、1024/128/64 固定划分、Day 4 Vanilla-128 结果与 Cached Prefix-1024；
+- 训练开发阶段继续使用 internal `eval-128` 与 `retention-64`；
+- 最终定版的 Base、Vision-OPD、Cached Prefix 和后续 GRPO 统一运行 ZoomBench、MMStar、V* Bench；
+- 外部 Benchmark 只用于冻结后的最终 checkpoint 和一次 Base 基线，不用于反复调参或挑选 checkpoint；
+- Day 1～4 历史简报与 preflight 快照保持原样，作为当时状态的不可回写证据。
+
+修订原因：优先回答 Vision-OPD 相对 Base 是否有效、on-policy 是否优于 Cached Prefix，以及专项提升是否伴随外部通用能力退化；不再为非核心 SFT 分支消耗训练预算。
 
 ## 1. 项目定位
 
-本项目基于 Qwen3.5-4B，在固定的 1024 条训练数据和统一评测集上完成 Vision-OPD 小规模复现与受控比较。
+本项目基于 Qwen3.5-4B，在固定的 1024 条训练数据和两层冻结评测协议上完成 Vision-OPD 小规模复现与受控比较。
 
 项目结果限定为“4B、1024 条数据的小规模复现”，不宣称复现论文完整 6.2K 训练结果。
 
@@ -14,23 +28,28 @@
 
 - Vision-OPD 是 on-policy 自蒸馏，不是 GRPO 或 RLVR。
 - Cached Prefix 是 Student 前缀来源的单变量消融，不是另一套完整算法。
-- SFT、Vision-OPD 和 GRPO 均从同一个 Base checkpoint 独立启动，不串行继承。
+- Base / Vanilla 是未经本项目 Vision-OPD 训练的原始 Qwen3.5-4B；Vanilla 只是直接评测，不产生新 checkpoint。
+- Vision-OPD、Cached Prefix 和 GRPO 均从同一个 Base checkpoint 独立启动，不串行继承。
+- 论文作者发布的官方 Vision-OPD-4B 只可作为可选参考，不得替代本项目 Base 或冒充本人训练结果。
 - Teacher 使用裁剪图，Student 使用完整红框图；最终部署只需要 Student 和完整图。
 
 ## 2. 冻结实验矩阵
 
 | 实验 | 实验 ID | 训练信号 | 计划完成时间 | 状态 |
 |---|---|---|---:|---|
-| Vanilla | E-D4-001 | 不训练 | Day 4 | 未开始 |
-| SFT Smoke | E-D5-001 | 参考答案 Token CE | Day 5 | 未开始 |
-| SFT 1024 | E-D6-001 | 参考答案 Token CE | Day 6 | 未开始 |
+| Base / Vanilla 内部评测 | E-D4-001 | 不训练；internal eval-128 | Day 4 | PASS |
+| 三项 Benchmark 协议与 Smoke | E-D5-001 | Base；每项固定 16 条端到端 Smoke | Day 5 | 未开始 |
+| Base / Vanilla 外部基线 | E-D6-001 | ZoomBench、MMStar、V* Bench | Day 6 | 未开始 |
 | Vision-OPD Smoke | E-D7-001 | 在线 Student Prefix + Crop Teacher Top-K JSD | Day 7 | 未开始 |
 | Vision-OPD 64 | E-D8-001 | 同上 | Day 8 | 未开始 |
 | Vision-OPD 1024 | E-D10-001 | 同上 | Day 10～12 | 未开始 |
+| Vision-OPD 最终评测 | E-D12-001 | internal 128/64 + 三项外部 Benchmark | Day 12 | 未开始 |
 | Cached Prefix 契约测试 | E-D14-001 | Base Cached Prefix + 同一 JSD | Day 14 | 未开始 |
 | Cached Prefix 64 | E-D15-001 | 同上 | Day 15 | 未开始 |
 | Cached Prefix 1024 | E-D16-001 | 同上 | Day 16～18 | 未开始 |
+| Cached Prefix 最终评测 | E-D18-001 | internal 128/64 + 三项外部 Benchmark | Day 18 | 未开始 |
 | GRPO Pilot/正式训练 | E-D23-001 等 | 规则 Reward + 组内相对优势 | Day 23～30 | 未开始 |
+| GRPO 最终评测 | E-D28-001 | internal 128/64 + 三项外部 Benchmark | Day 28 | 未开始 |
 
 Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，后者为 cached。模型、数据、数据顺序、batch、步数、学习率、Teacher 图像、Top-K JSD、EMA、seed 和评测协议必须保持一致。
 
@@ -59,7 +78,7 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 | 权重分片 | 2 个 Safetensors 分片，均已存在 |
 | 历史验证 | 单卡 vLLM 服务、普通图片问答和 Processor 检查已通过 |
 
-所有训练分支必须从该 Base checkpoint 启动。Cached Prefix 必须由训练前 Base 模型生成，不得由 Vision-OPD、SFT 或其他训练后模型生成。
+所有训练分支必须从该 Base checkpoint 启动。Cached Prefix 必须由训练前 Base 模型生成，不得由 Vision-OPD、GRPO 或其他训练后模型生成。
 
 正式训练前应在 artifacts/runs/preflight/model_sha256.txt 中保存模型配置、索引、Tokenizer 和两个权重分片的 SHA256。
 
@@ -69,9 +88,9 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 
 | Split | 数量 | 用途 |
 |---|---:|---|
-| train | 1024 | SFT、Vision-OPD、Cached Prefix、GRPO |
-| eval | 128 | 统一主评测；训练期间禁止使用 |
-| retention | 64 | 通用能力和格式保持检查 |
+| train | 1024 | Vision-OPD、Cached Prefix、GRPO |
+| eval | 128 | 内部主评测；训练期间禁止用于优化 |
+| retention | 64 | 内部格式与同分布能力保持检查，不冒充外部通用能力评测 |
 
 数据契约：
 
@@ -80,16 +99,22 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 - 按原始图像 ID 或问题组划分，禁止同图或同源问题跨 split 泄漏。
 - 每条样本生成稳定且可重复的 sample_id，同时保留原始来源 ID。
 - Vision-OPD 使用完整红框图、裁剪图和问题。
-- SFT 使用完整红框图与问题作为输入，只对 Assistant 参考答案 Token 计算 CE。
 - Cached Prefix 与 train 1024 的 sample_id 必须一一对应。
 - GRPO 只使用规则可以可靠判分的封闭式样本，数量不足时报告实际数量。
 
-评测协议：
+评测协议分为两层：
 
-- Vanilla、SFT、Vision-OPD 和 Cached Prefix 使用同一个 eval manifest、generation config 和 evaluator version。
-- 保存逐样本预测，不只保存汇总准确率。
-- 无法可靠判定的样本标记为 unsupported，不强制判错。
-- 结果比较至少包含总体与题型准确率、corrected、regressed、输出长度、格式、训练时间、显存和费用。
+1. 训练开发层：Base、Vision-OPD、Cached Prefix、GRPO 使用同一 internal eval-128、retention-64、generation config 和 evaluator version，用于快速回归、配对分析与内部能力保持检查。
+2. 最终定版层：Base 运行一次 ZoomBench、MMStar、V* Bench；每个最终 Vision-OPD、Cached Prefix、GRPO checkpoint 在内部结果冻结后运行同一三项外部 Benchmark。
+
+共同约束：
+
+- Day 5 冻结 Benchmark 数据 revision/hash、官方划分、Prompt、图像预处理、生成参数、答案解析、Judge 模型/版本/Prompt/参数和成本预算。
+- 下载后对 train/eval/retention 与 Benchmark 执行文件 SHA256、问题文本和感知哈希重叠审计；不得静默删除官方测试样本或隐瞒重叠。
+- 外部 Benchmark 不用于调学习率、epoch、Prompt 或 checkpoint 选择。
+- 保存逐样本预测、解析结果、Judge 来源和错误，不只保存汇总准确率。
+- 无法可靠判定的样本标记为 unsupported，不强制判错，也不得只按成功样本计算准确率。
+- 结果比较至少包含总体与题型指标、corrected、regressed、输出长度、格式、训练/推理时间、显存和费用。
 
 ## 6. 软件环境
 
@@ -139,10 +164,9 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 |---|---:|
 | 单卡费用 | 5.98 元/小时 |
 | 双卡费用 | 11.96 元/小时 |
-| 建议总预算 | 1500～1850 元 |
 | 硬上限 | 2000 元 |
-| 建议双卡总时长 | 110～154 小时 |
 | 双卡时长硬上限 | 约 167 小时 |
+| 当前估算状态 | 删除 SFT 后，等待 Day 5 Benchmark Smoke 和各训练分支实测吞吐后重新冻结 |
 
 每次启动训练前计算本次预计费用和累计预计费用。预计累计费用超过 2000 元时停止扩大训练规模，优先完成评测、报告和证据归档。
 
@@ -165,7 +189,9 @@ Vision-OPD 与 Cached Prefix 只允许改变 prefix_source：前者为 online，
 
 ## 10. 证据与归档规范
 
-每个正式实验目录至少包含 config.yaml、command.txt、git_commit.txt、env.txt、train.log、metrics.jsonl、cost.json、checkpoint_sha256.txt，以及 eval/predictions.jsonl 和 eval/summary.json。
+每个正式训练实验目录至少包含 config.yaml、command.txt、git_commit.txt、env.txt、train.log、metrics.jsonl、cost.json、checkpoint_sha256.txt，以及 eval/predictions.jsonl 和 eval/summary.json。
+
+每个正式评测实验目录至少包含 protocol.yaml、command.txt、git_commit.txt、env.txt、model_sha256.txt、dataset_revision_sha256.json、predictions.jsonl、judge_details.jsonl、summary.json 和 cost.json。
 
 只有同时满足训练完成、模型可重新加载、固定评测完成、日志与配置齐全，实验才能标记为完成。
 
@@ -186,7 +212,7 @@ Day 1 preflight 目录至少包含：
 
 | 验收项 | 当前状态 | 说明 |
 |---|---|---|
-| 项目目标与实验矩阵冻结 | PASS | 已写入本文档 |
+| 项目目标与实验矩阵冻结 | PASS WITH AMENDMENT | 2026-08-24 删除 SFT 并加入三项外部 Benchmark；Day 1～4 证据不重跑 |
 | 模型与数据规模冻结 | PASS | Qwen3.5-4B；1024/128/64 |
 | Git 状态审计 | PASS | 冻结前工作树 clean |
 | 软件环境审计 | PASS WITH WARNINGS | 核心导入通过；保留 pip check 风险 |
@@ -195,4 +221,4 @@ Day 1 preflight 目录至少包含：
 | 双卡硬件快照 | PASS | 两卡可见、型号与显存匹配，NCCL all-reduce 通过 |
 | 数据获取方案 | PASS | 已确定为本地抽取冻结子集后上传 |
 
-Day 1 验收已完成。下一步在本地继续 Day 2～3 数据准备；服务器仍不得下载完整原始数据。任何正式训练前仍须先完成对应的真实模型 Smoke。
+Day 1 验收已完成，Day 2～4 后续 Gate 也已完成并保留原始证据。当前下一步是 Day 5：冻结 ZoomBench、MMStar、V* Bench 协议，完成数据准备、重叠审计和每项 16 条端到端 Smoke。服务器仍不得在未完成磁盘大小预检时下载大型 Benchmark 数据；任何正式训练前仍须先完成对应的真实模型 Smoke。

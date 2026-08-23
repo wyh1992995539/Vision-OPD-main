@@ -2,24 +2,35 @@
 
 > Day 1～20 完成可投递版本；Day 21～30 补齐 GRPO。
 > 本文档替代原“21 天学习计划”。已完成的论文阅读、代码理解、环境配置、Qwen3.5-4B 下载与普通多模态推理不再重复，也不安排与项目无关的 Tensor/玩具实验。
+>
+> 计划修订：Day 4 完成后删除 SFT 分支，改为在训练开发阶段使用内部 `eval-128` 与 `retention-64`，在模型最终定版后统一运行 ZoomBench、MMStar、V* Bench。Day 1～4 已完成的数据、评测与 Cached Prefix 证据继续有效，不重复执行；仅更新冻结文档中的实验范围和术语。
 
 ## 1. 最终目标
 
-围绕同一个 Qwen3.5-4B、同一批 1024 条训练数据和统一评测集，完成以下实验：
+围绕同一个 Qwen3.5-4B、同一批 1024 条训练数据和两层冻结评测协议，完成以下实验：
 
 | 实验 | 训练信号 | 必须完成时间 | 定位 |
 |---|---|---:|---|
-| Vanilla | 不训练 | Day 4 | 统一训练前基线 |
-| SFT | 参考答案 Token CE | Day 6 | 后训练基线 |
+| Vanilla / Base | 不训练 | Day 6 | 内部与外部统一训练前基线 |
 | Vision-OPD | Student 在线轨迹上的 Crop Teacher Top-K JSD | Day 12 | 项目主实验 |
 | Cached Prefix | 预先缓存的 Base Student 轨迹上的同一 JSD | Day 18 | 唯一主消融 |
 | GRPO | 可验证答案 Reward + 组内相对优势 | Day 30 | 求职向扩展 |
+
+两层评测协议：
+
+| 阶段 | 数据 | 用途 |
+|---|---|---|
+| 训练开发 | internal `eval-128`、`retention-64` | 快速回归、配对分析、格式与同分布能力保持检查 |
+| 最终定版 | ZoomBench、MMStar、V* Bench | 细粒度能力、通用多模态保持和论文方向交叉验证 |
 
 术语边界必须始终保持准确：
 
 - Vision-OPD 是 on-policy 自蒸馏，不是 GRPO/RLVR。
 - Cached Prefix 是“前缀来源”消融，不是另一种完整算法。
-- SFT、Vision-OPD、GRPO 是三条独立训练分支，均从同一个 Base checkpoint 启动，不串行继承。
+- Base checkpoint 是未经本项目 Vision-OPD 训练的原始 Qwen3.5-4B；Vanilla 是直接评测该 Base，不产生新 checkpoint。
+- Vision-OPD、Cached Prefix、GRPO 是三条独立训练分支，均从同一个 Base checkpoint 启动，不串行继承。
+- 论文作者发布的官方 Vision-OPD-4B 只可作为可选参考行，不能替代本项目 Base，也不能冒充本人训练结果。
+- 外部 Benchmark 只用于冻结后的最终模型和一次 Base 基线，不用于反复挑 checkpoint 或调超参数。
 - 所有结果都限定为“4B、1024 条数据的小规模复现与受控比较”，不宣称复现论文完整 6.2K 结果。
 
 ## 2. 已完成进度与正式起点
@@ -45,8 +56,8 @@ Day 1 从“冻结项目、数据和评测协议”开始。工作区现有个�
 | 模型 | Qwen3.5-4B |
 | 模型路径 | `/root/autodl-tmp/models/Qwen3.5-4B` |
 | 数据盘 | 50GB；不得同时保留多个完整 checkpoint |
-| 完整项目预算 | 建议 1500～1850 元，硬上限 2000 元 |
-| 双卡时长 | 建议 110～154 小时，硬上限约 167 小时 |
+| 完整项目预算 | 训练与评测合计硬上限 2000 元；Day 5 Benchmark Smoke 后冻结外部评测预算 |
+| 双卡时长 | 删除 SFT 后重新按 Vision-OPD、Cached、GRPO 实测吞吐和 Benchmark Smoke 估算 |
 | Day 1～20 主动工时 | 约 90～100 小时，平均 4.5～5.5 小时/天 |
 | 高强度日 | Smoke、改代码和评测日 6～8 小时 |
 
@@ -65,18 +76,18 @@ Day 1 从“冻结项目、数据和评测协议”开始。工作区现有个�
 
 | Split | 数量 | 用途 |
 |---|---:|---|
-| train | 1024 | SFT、Vision-OPD、Cached Prefix、GRPO |
-| eval | 128 | 统一主评测，训练期间不可使用 |
-| retention | 64 | 通用能力/格式保持检查 |
+| train | 1024 | Vision-OPD、Cached Prefix、GRPO |
+| eval | 128 | 内部主评测，训练期间不可用于优化 |
+| retention | 64 | 内部格式与同分布能力保持检查，不冒充外部通用能力评测 |
 
 要求：
 
 - 以原始问题或图像 ID 分组切分，禁止同图泄漏到 train/eval。
 - 每条数据有稳定 `sample_id`。
 - Vision-OPD 使用 `完整红框图 + 裁剪图 + 问题`。
-- SFT 使用 `完整红框图 + 问题 → 参考答案`，只对 Assistant 答案 Token 计算 CE。
 - Cached Prefix 使用 Day 4 基于 Base 模型预生成的回答，不能使用 Vision-OPD 训练后的模型生成。
 - GRPO 只保留可以被规则可靠判分的封闭式样本；若不足 1024 条，以实际可验证数量为准并如实记录。
+- ZoomBench、MMStar、V* Bench 使用各自官方划分；下载后检查与 train/eval/retention 的精确哈希和感知哈希重叠，不能静默删除官方测试样本或隐瞒重叠。
 
 ### 3.3 建议训练配置
 
@@ -106,20 +117,6 @@ Cached:     prefix_source=cached
 ```
 
 模型、数据、batch、步数、学习率、Teacher 图像、JSD、EMA、评测协议全部相同。
-
-#### SFT
-
-| 参数 | 值 |
-|---|---|
-| epoch | 1 |
-| global batch | 8 |
-| micro batch | 1～2，按显存实测 |
-| 预计 optimizer steps | 128 |
-| learning rate | 2e-6～5e-6，由 Smoke 冻结 |
-| precision | BF16 |
-| gradient checkpointing | 开启 |
-| 更新方式 | 全参数，若无法稳定运行再降级为 LoRA-SFT |
-| 保存 | 只保留最终可加载模型 |
 
 #### GRPO
 
@@ -155,15 +152,14 @@ Cached:     prefix_source=cached
 ```text
 configs/
   project_1024.yaml
-  sft_1024.yaml
+  benchmark_eval.yaml
   vopd_1024.yaml
   cached_prefix_1024.yaml
   grpo_1024.yaml
 scripts/
   prepare_project_subset.py
   validate_project_data.py
-  prepare_sft_data.py
-  run_sft_2gpu.sh
+  check_benchmark_overlap.py
   run_vopd_2gpu.sh
   generate_cached_prefix.py
   run_cached_prefix_2gpu.sh
@@ -172,11 +168,13 @@ scripts/
   archive_experiment.py
 eval/
   run_internal_eval.py
+  run_eval.sh
   compare_experiments.py
   build_badcases.py
 tests/
   test_project_dataset.py
-  test_sft_loss_mask.py
+  test_benchmark_protocol.py
+  test_benchmark_overlap.py
   test_cached_prefix_contract.py
   test_reward_rules.py
   test_grpo_parquet.py
@@ -187,6 +185,7 @@ artifacts/
   reports/
 docs/
   project_freeze.md
+  benchmark_protocol.md
   final_report.md
   interview_qa.md
 ```
@@ -195,20 +194,23 @@ docs/
 
 | ID | 实验 |
 |---|---|
-| E-D4-001 | Vanilla 统一评测 |
-| E-D5-001 | SFT Smoke |
-| E-D6-001 | SFT 1024 正式训练 |
+| E-D4-001 | Base / Vanilla 内部 eval-128 与 Cached Prefix 生成 |
+| E-D5-001 | ZoomBench、MMStar、V* Bench 协议与 Smoke |
+| E-D6-001 | Base / Vanilla 三项外部 Benchmark 基线 |
 | E-D7-001 | Vision-OPD Smoke |
 | E-D8-001 | Vision-OPD 64 条稳定性训练 |
 | E-D10-001 | Vision-OPD 1024 正式训练 |
+| E-D12-001 | Vision-OPD 最终内部与外部评测 |
 | E-D14-001 | Cached Prefix 契约测试 |
 | E-D15-001 | Cached Prefix 64 条稳定性训练 |
 | E-D16-001 | Cached Prefix 1024 正式训练 |
+| E-D18-001 | Cached Prefix 最终内部与外部评测 |
 | E-D23-001 | GRPO 32 prompt Pilot |
 | E-D24-001 | GRPO 64 prompt Pilot |
 | E-D25-001 | GRPO 正式训练 |
+| E-D28-001 | GRPO 最终内部与外部评测 |
 
-每个实验目录至少包含：
+每个训练实验目录至少包含：
 
 ```text
 config.yaml
@@ -224,7 +226,7 @@ eval/
   summary.json
 ```
 
-只有同时满足“训练完成、模型可加载、固定评测完成、日志与配置齐全”才能标记为实验完成。
+评测实验至少保存协议、数据 revision/hash、模型 hash、命令、环境、逐样本预测、评分详情、汇总和成本。只有同时满足“模型身份可核验、固定评测完成、逐样本结果与配置齐全”才能标记为评测完成。
 
 ## 5. Day 1～20：可投递版本
 
@@ -237,6 +239,7 @@ eval/
 3. 创建 `docs/project_freeze.md` 和 `configs/project_1024.yaml`。
 4. 在服务器记录双卡型号、显存、CUDA、PyTorch、Python、磁盘和模型路径。
 5. 确定数据获取方案：临时扩容，或异机抽取后上传。
+6. 若后续调整实验范围，在冻结文档追加带日期、原因和影响范围的 amendment，不伪造原始记录，也不因文字修订重跑已通过的环境 Gate。
 
 建议命令：
 
@@ -256,7 +259,7 @@ df -h
 
 验收：
 
-- 模型、硬件、数据量、评测集、预算和实验矩阵均已写死。
+- 模型、硬件、数据量、两层评测协议、预算和实验矩阵均已冻结；删除 SFT、加入外部 Benchmark 的后续变更有 amendment 记录。
 - 所有现有修改有可恢复副本。
 - 数据盘方案不会让磁盘在下载中耗尽。
 
@@ -312,7 +315,7 @@ pytest -q tests/test_project_dataset.py
 - 自动校验全通过，人工抽查没有系统性错配。
 - 数据总大小与剩余磁盘满足后续训练。
 
-### Day 4：冻结评测器、跑 Vanilla、生成 Cached Prefix（5 小时主动 + 4～8 双卡小时）
+### Day 4：冻结内部评测器、跑 Vanilla、生成 Cached Prefix（5 小时主动 + 4～8 双卡小时）
 
 任务：
 
@@ -340,51 +343,56 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 同一预测重复评分结果一致。
 - 128 条预测齐全，无法可靠评分的题目单独标记，不硬判。
 - Cached Prefix 恰好对应 1024 个 train sample_id，来自训练前 Base。
+- 本日结果只定义内部 Base / Vanilla 基线；三项外部 Benchmark 的 Base 基线在 Day 6 新增，不覆盖或重算本日结果。
 
-### Day 5：SFT 数据适配与真实 Smoke（5 小时主动 + 1～2 双卡小时）
+### Day 5：外部 Benchmark 协议、数据与 Smoke（5～6 小时主动 + 以 Smoke 实测为准）
 
 任务：
 
-1. 实现 `scripts/prepare_sft_data.py`：完整图+问题为输入，参考答案为 Assistant。
-2. 验证 chat template 和 loss mask，User/Image/Pad Token 必须为 `-100`。
-3. 统计序列长度并设置 max length。
-4. 编写 `configs/sft_1024.yaml` 和 `scripts/run_sft_2gpu.sh`。
-5. 用真实模型、真实 8～16 条项目数据完成 forward/loss/backward/optimizer step。
+1. 冻结 ZoomBench、MMStar、V* Bench 的官方数据来源、revision、许可、样本数、Prompt、图像预处理、生成参数、评分规则和 Judge 配置。
+2. 审计仓库现有 `eval/prepare_data.py`、`eval/infer.py`、`eval/judge_qwenlm.py`、`eval/cal_acc.py` 与 `eval/run_eval.sh`，记录哪些题目规则判分、哪些需要固定 Judge。
+3. 下载并准备三个 Benchmark；保存原始与转换后数据 hash，不静默改动官方测试集。
+4. 实现训练集与 Benchmark 的文件 SHA256、问题文本和感知哈希重叠检查；若发现重叠，同时报告官方全量分数和去重诊断，不把有重叠的结果称为完全独立测试。
+5. 使用同一个 Base checkpoint，每个 Benchmark 固定抽取 16 条做端到端 Smoke，验证图片、Prompt、推理、断点恢复、答案解析、Judge 和汇总。
+6. 根据 Smoke 的吞吐、输出长度和 Judge 调用量，冻结完整外部评测的时间与费用预算；不得根据 Smoke 准确率选择或更换 Benchmark。
 
 产物：
 
-- SFT Parquet
-- `tests/test_sft_loss_mask.py`
+- `docs/benchmark_protocol.md`
+- `configs/benchmark_eval.yaml`
+- Benchmark 数据 revision/hash 与 overlap 报告
+- `tests/test_benchmark_protocol.py`
+- `tests/test_benchmark_overlap.py`
 - `artifacts/runs/E-D5-001/`
 
 验收：
 
-- 图像张量确实进入模型。
-- 只有 Assistant 答案 Token 贡献 CE。
-- loss 有限且至少完成 2 个 optimizer steps。
-- 双卡显存、吞吐和预计正式训练时长已记录。
+- 三个 Benchmark 各 16 条预测齐全，无图片错位、空响应或未记录错误。
+- 规则评分可复现；需要 Judge 的任务已冻结同一 Judge 模型、版本、Prompt 和参数。
+- overlap 报告能区分精确重复、疑似感知重复和未确认项。
+- 完整评测的 GPU/Judge 预算不突破 2000 元项目硬上限。
 
-### Day 6：SFT 1024 正式训练与评测（4 小时主动 + 6～12 双卡小时）
+### Day 6：Base / Vanilla 三项外部 Benchmark 基线（4～6 小时主动 + 机器时间按 Day 5 实测）
 
 任务：
 
-1. 根据 Day 5 冻结 batch、学习率和 max length。
-2. 从 Base 启动 1024 条、1 epoch SFT。
-3. 监控 loss、grad norm、显存、吞吐和异常样本。
-4. 合并/保存模型并执行重新加载测试。
-5. 在 eval 128 上按统一协议评测，生成初步对照。
+1. 再次校验 Day 4 使用的原始 Qwen3.5-4B Base checkpoint hash，不加载官方 Vision-OPD-4B 或任何训练后权重。
+2. 按 Day 5 冻结协议完整运行 ZoomBench、MMStar、V* Bench。
+3. 保存每个 Benchmark 的逐样本输入标识、原始输出、解析结果、Judge 来源、正确性、错误和延迟。
+4. 汇总总体及官方子类指标、无效输出率、平均输出长度、GPU 小时和 Judge 成本。
+5. 可选评测官方 Vision-OPD-4B 作为参考行，但必须使用独立实验 ID，并明确它不是本项目 Base 或本人训练结果。
 
 产物：
 
 - `artifacts/runs/E-D6-001/`
-- SFT 最终 checkpoint 与 SHA256
-- SFT `predictions.jsonl`、`summary.json`
+- Base 的 ZoomBench、MMStar、V* Bench `predictions.jsonl`、评分详情和 `summary.json`
+- `artifacts/reports/base_external_benchmarks.md`
 
 验收：
 
-- 训练按计划结束，模型可在新进程加载。
-- 评测覆盖完整 128 条。
-- 若当日仍不能得到可加载模型，SFT 降为次要支线，Day 7 起优先保证 Vision-OPD。
+- 三个 Benchmark 均覆盖官方协议要求的全部样本，或对缺失/失败样本逐条解释，禁止只按成功样本计算准确率。
+- 模型 hash、Chat Template、thinking 开关、图像预处理、生成参数和评分协议全部可回溯。
+- 本日是新增外部 Base 基线，不重跑或覆盖 Day 4 的 `67/128` 内部结果。
 
 ### Day 7：Vision-OPD 双卡入口与真实 Smoke（6 小时主动 + 2～4 双卡小时）
 
@@ -463,7 +471,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 任务：
 
-1. 从原始 Base checkpoint 启动，不继承 SFT。
+1. 从原始 Base checkpoint 启动，不继承任何训练后分支。
 2. 观察最初 3 个 optimizer steps。
 3. 核对样本 ID、在线 response、Teacher crop、loss、grad、EMA、显存和保存目录。
 4. 记录实际开始时间、计费和预计结束时间。
@@ -498,26 +506,26 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 训练完成，或有可恢复 checkpoint 和明确恢复命令。
 - 没有超出预算仍持续空跑。
 
-### Day 12：Vision-OPD 模型合并与统一评测（5 小时主动 + 2～4 双卡小时）
+### Day 12：Vision-OPD 模型合并与最终评测（5～6 小时主动 + 机器时间按 Day 5 实测）
 
 任务：
 
 1. 合并/导出最终 Student。
 2. 在新进程完成模型加载与 5 条推理测试。
-3. 在 eval 128 上评测并保存逐样本预测。
-4. 若 retention 64 已就绪，同步做能力保持评测。
-5. 计算相对 Vanilla 的 corrected、regressed、unchanged 样本。
+3. 在 internal eval-128 与 retention-64 上评测并保存逐样本预测。
+4. checkpoint、内部评测和配置冻结后，按 Day 5 协议完整运行 ZoomBench、MMStar、V* Bench；不得根据外部分数回头挑 checkpoint。
+5. 计算内部样本相对 Vanilla 的 corrected、regressed、unchanged，并比较三项外部指标与 Base 的变化。
 
 产物：
 
 - Vision-OPD 最终 checkpoint 与 SHA256
-- `artifacts/runs/E-D10-001/eval/`
+- `artifacts/runs/E-D12-001/`
 - `artifacts/reports/vopd_vs_vanilla.md`
 
 验收：
 
 - checkpoint 可复现加载。
-- 128 条预测齐全，评测器版本与 Vanilla 相同。
+- internal 128/64 及三个外部 Benchmark 结果完整，评测协议与 Base 对应项相同。
 - 即使整体指标没有提升，也保留真实结果和失败分析。
 
 ### Day 13：Vision-OPD 审计与 Cached 设计冻结（5 小时）
@@ -622,14 +630,14 @@ data:
 - 正式训练完成，或有明确可恢复状态。
 - 费用记录完整。
 
-### Day 18：Cached 评测与四组统一对比（6 小时主动 + 2～4 双卡小时）
+### Day 18：Cached 最终评测与三组统一对比（6 小时主动 + 机器时间按 Day 5 实测）
 
 任务：
 
 1. 合并/导出 Cached 最终模型并重新加载。
-2. 在 eval 128 和 retention 64 上评测。
+2. 在 internal eval-128、retention-64、ZoomBench、MMStar、V* Bench 上按冻结协议评测。
 3. 实现 `eval/compare_experiments.py`。
-4. 统一对比 Vanilla、SFT、Vision-OPD、Cached：
+4. 统一对比 Vanilla / Base、Vision-OPD、Cached：
    - 总体与题型准确率；
    - corrected/regressed；
    - 输出长度与格式；
@@ -639,12 +647,12 @@ data:
 产物：
 
 - Cached checkpoint 与 SHA256
-- 四组结果表
+- 三组内部与外部结果表
 - `artifacts/reports/prefix_ablation.md`
 
 验收：
 
-- 所有实验使用同一个 eval manifest、evaluator version 和 generation config。
+- 所有实验分别使用同一个内部 manifest，以及同一版本的三项外部 Benchmark、模型输入协议和评分配置。
 - 对照结论只归因于可验证证据，不用单次小样本波动夸大效果。
 
 ### Day 19：Bad Case、报告与面试证据（6 小时）
@@ -654,7 +662,7 @@ data:
 1. 人工分析 12～20 条代表性样本，覆盖：
    - Vision-OPD 修正、退化；
    - Cached 优于/劣于 online；
-   - SFT 修正、退化；
+   - ZoomBench、MMStar、V* Bench 的一致和冲突趋势；
    - 评测规则无法判断。
 2. 实现 `eval/build_badcases.py`。
 3. 完成 `docs/final_report.md`：
@@ -691,7 +699,7 @@ data:
 
 简历表述模板：
 
-> 基于 Qwen3.5-4B 与双卡 RTX PRO 6000，构建 1024 条细粒度视觉问答训练集及固定评测集，完成 Vision-OPD 小规模复现；实现在线 Student Prefix 与 Base Cached Prefix 的单变量消融，并与 SFT、Vanilla 统一比较，沉淀训练/评测流水线、逐样本预测、Bad Case 与成本分析。
+> 基于 Qwen3.5-4B 与双卡 RTX PRO 6000，构建 1024 条细粒度视觉问答训练集，完成 Vision-OPD 小规模复现；实现在线 Student Prefix 与 Base Cached Prefix 的单变量消融，在固定 internal eval/retention 及 ZoomBench、MMStar、V* Bench 上统一比较 Base 与训练后模型，沉淀逐样本预测、Bad Case 和成本分析。
 
 Day 20 不得写：
 
@@ -701,7 +709,7 @@ Day 20 不得写：
 
 验收：
 
-- Vanilla、SFT、Vision-OPD、Cached 均有训练或基线证据与统一评测。
+- Vanilla / Base、Vision-OPD、Cached 均有可核验模型身份与统一内部/外部评测证据。
 - 项目可以写入简历并经得住 checkpoint、日志和代码追问。
 
 ## 6. Day 21～30：GRPO 扩展
@@ -792,7 +800,7 @@ Day 20 不得写：
 
 任务：
 
-1. 从原始 Base checkpoint 启动，不继承 SFT 或 Vision-OPD。
+1. 从原始 Base checkpoint 启动，不继承 Vision-OPD 或 Cached Prefix。
 2. 检查最初 3 个 optimizer steps。
 3. 核对 prompt grouping、rollout n、Reward 和 actor update。
 4. 记录预计结束时间与费用。
@@ -833,30 +841,31 @@ Day 20 不得写：
 - GRPO 模型可复现加载。
 - 实验记录完整。
 
-### Day 28：GRPO 统一评测（5 小时主动 + 2～4 双卡小时）
+### Day 28：GRPO 最终评测（5～6 小时主动 + 机器时间按 Day 5 实测）
 
 任务：
 
 1. 在 eval 128 上执行与其他实验相同的 generation 与评分。
 2. 在 retention 64 上做能力保持评测。
-3. 保存逐样本预测并计算 corrected/regressed。
-4. 审查高 Reward 但主评测错误的样本。
+3. checkpoint 与内部结果冻结后，按同一协议运行 ZoomBench、MMStar、V* Bench。
+4. 保存逐样本预测并计算 corrected/regressed。
+5. 审查高 Reward 但内部或外部固定评测错误的样本。
 
 产物：
 
-- GRPO `predictions.jsonl`、`summary.json`
+- GRPO 内部与三项外部 Benchmark 的 `predictions.jsonl`、评分详情和 `summary.json`
 - `artifacts/reports/grpo_eval.md`
 
 验收：
 
 - 评测器版本未变。
-- Reward 指标和外部固定评测指标分开报告。
+- Reward、内部固定评测和外部 Benchmark 指标分开报告。
 
-### Day 29：五组方法统一比较（6 小时）
+### Day 29：四组方法统一比较（6 小时）
 
 任务：
 
-1. 比较 Vanilla、SFT、Vision-OPD、Cached、GRPO。
+1. 比较 Vanilla / Base、Vision-OPD、Cached、GRPO。
 2. 分别说明每种方法：
    - 谁生成轨迹；
    - 监督来自哪里；
@@ -867,7 +876,7 @@ Day 20 不得写：
 
 产物：
 
-- 五组统一结果表
+- 四组统一结果表
 - 方法关系图
 - 完整成本表
 
@@ -887,7 +896,7 @@ Day 20 不得写：
 
 简历升级模板：
 
-> 围绕 Qwen3.5-4B 搭建多模态后训练实验矩阵，在同一 1024 条数据与固定评测协议下完成 SFT、Vision-OPD 在线自蒸馏、Cached Prefix 消融及可验证 Reward GRPO；实现双卡训练、规则评测、逐样本配对分析和训练成本审计，分析密集 Token 分布监督与稀疏结果奖励的效果及工程权衡。
+> 围绕 Qwen3.5-4B 搭建多模态后训练实验矩阵，在同一 1024 条数据与固定内部/外部评测协议下完成 Vision-OPD 在线自蒸馏、Cached Prefix 消融及可验证 Reward GRPO；实现双卡训练、规则与固定 Judge 评测、逐样本配对分析和成本审计，分析密集 Token 分布监督与稀疏结果奖励的效果及工程权衡。
 
 验收：
 
@@ -899,8 +908,8 @@ Day 20 不得写：
 不得为了“训练方法数量”牺牲主线闭环。发生阻塞时按以下顺序降级：
 
 1. 保住 Vanilla、Vision-OPD、Cached Prefix 与统一评测。
-2. SFT 全参数 OOM 时降为 LoRA-SFT，但必须改名并记录可训练参数量。
-3. eval 题目无法规则判分时标记 unsupported，不引入临时变化的 LLM Judge。
+2. 外部 Benchmark 费用超出 Day 5 预算时，先保留 ZoomBench、MMStar，再延后 V* Bench；不得只保留分数更好看的集合。
+3. eval 题目无法规则判分时标记 unsupported；需要 Judge 时必须使用 Day 5 冻结的同一模型、Prompt 和参数。
 4. GRPO 可验证样本不足时缩小数据量，不混入高噪声开放题。
 5. GRPO 正式训练超预算时，保留 32/64 prompt 的真实 Pilot，明确写成“机制与工程验证”，不冒充完整训练。
 6. 任何方法若只有脚本启动、没有 checkpoint 与评测，只能写“跑通 Smoke”，不能写“完成训练”。
@@ -911,11 +920,12 @@ Day 20 不得写：
 
 - [ ] 固定 1024 train、128 eval、64 retention，且无组级泄漏。
 - [ ] Vanilla 128 条预测和评测结果完整。
-- [ ] SFT 有真实 Smoke；正式模型若完成，则有统一评测。
+- [ ] ZoomBench、MMStar、V* Bench 的数据版本、Prompt、预处理、评分和 Judge 协议已冻结并完成 overlap 审计。
+- [ ] Base 在三个外部 Benchmark 上的逐样本预测与汇总完整。
 - [ ] Vision-OPD 真实链路包含在线生成、Crop Teacher、Top-K JSD、Student backward、EMA。
-- [ ] Vision-OPD 1024 checkpoint 可加载并完成 eval 128。
+- [ ] Vision-OPD 1024 checkpoint 可加载并完成 internal 128/64 与三项外部评测。
 - [ ] Cached Prefix 只改变 prefix 来源。
-- [ ] Cached 1024 checkpoint 可加载并完成 eval 128。
+- [ ] Cached 1024 checkpoint 可加载并完成 internal 128/64 与三项外部评测。
 - [ ] 有逐样本 paired comparison 和 12～20 条 Bad Case。
 - [ ] 每个实验有 config、命令、commit、日志、费用和哈希。
 - [ ] README、最终报告、面试问答和简历 bullet 已完成。
@@ -925,7 +935,7 @@ Day 20 不得写：
 - [ ] GRPO 数据只含规则可验证题目。
 - [ ] Reward 单元测试覆盖正例、负例、格式变体和歧义例。
 - [ ] GRPO Pilot 证明 group rollout、relative advantage 和 actor update。
-- [ ] GRPO checkpoint 可加载并完成固定评测。
-- [ ] 五组方法使用统一评测协议。
+- [ ] GRPO checkpoint 可加载并完成 internal 128/64 与三项外部评测。
+- [ ] 四组方法使用统一评测协议。
 - [ ] 总费用不超过 2000 元，或对超支原因有事前批准和完整记录。
 - [ ] 项目边界、失败结果和未复现内容均如实写明。

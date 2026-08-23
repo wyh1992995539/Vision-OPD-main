@@ -4,6 +4,8 @@
 > 实验 ID：`E-D4-001`  
 > 状态：**PASS（评测器 Gate、Vanilla-128 Gate、Cached Prefix-1024 Gate）**  
 > 边界：本日完成的是训练前基线和离线前缀准备；SFT、Vision-OPD、Cached/off-policy 对照训练及 GRPO 尚未开始，不能据此声称模型能力得到提升或论文方法已复现。
+>
+> **后续范围修订（2026-08-24）**：SFT 分支已从活跃计划中删除；当前 Day 5 改为 ZoomBench、MMStar、V* Bench 的协议冻结、数据准备、重叠审计与每项 16 条端到端 Smoke，Day 6 为原始 Qwen3.5-4B Base / Vanilla 的三项完整外部基线。本简报正文保留 Day 4 执行当时的事实与边界，不因后续计划变化重写原始证据；当前执行入口以 [`vision_opd_21_day_plan.md`](vision_opd_21_day_plan.md) 和 [`project_freeze.md`](project_freeze.md) 的 amendment 为准。
 
 ## 1. 当日目标与完成结论
 
@@ -419,12 +421,20 @@ artifacts/runs/E-D4-001/cached_prefix_1024/finalize_from_checkpoint.log
 
 ### 尚未证实
 
-- SFT 是否能稳定完成真实 backward/optimizer step；
+- SFT 未执行，且已在 2026-08-24 范围修订中取消，不再属于当前项目验收项；
 - Vision-OPD 的在线 Student Prefix、Crop Teacher、Top-K JSD 和 EMA 是否已在真实训练链路闭环；
 - Cached/off-policy Prefix 是否优于或劣于在线前缀；
 - 任一训练方法是否提升准确率、能力保持或 regional-to-global gap；
 - 论文级结果或完整 Vision-OPD 方法复现。
 
-## 7. 下一步
+## 7. 后续范围修订与当前下一步
 
-进入 Day 5：SFT 数据适配与真实 Smoke。先在无 GPU 环境完成 SFT 数据构建、Chat Template/loss mask 测试、长度统计和双卡配置；只有执行真实 8～16 条数据的 forward、有限 loss、backward 和至少 2 个 optimizer steps 时才重新开启 GPU。Day 5 的训练必须从与本日相同的 Base checkpoint 独立启动，不能从 Vanilla 推理输出或 Cached Prefix 文件继续训练。
+本简报完成时原定“Day 5 进入 SFT 数据适配与真实 Smoke”；该安排已被 2026-08-24 范围修订取代，不再作为执行指令。Day 4 已完成的 `67/128` 内部 Base 结果和 Cached Prefix-1024 保持有效，不重新评测、不重新生成。
+
+当前进入 Day 5：
+
+1. 冻结 ZoomBench、MMStar、V* Bench 的官方数据版本、Prompt、图像预处理、生成参数、评分规则和 Judge 配置；
+2. 对三个 Benchmark 与现有 train/eval/retention 执行文件 SHA256、问题文本和感知哈希重叠审计；
+3. 使用与本日相同、哈希可核验的原始 Qwen3.5-4B Base checkpoint，为每个 Benchmark 固定运行 16 条端到端 Smoke；
+4. Smoke 只验证数据、推理、答案解析、Judge、断点恢复、逐样本保存和成本链路，不将 16 条准确率写入正式结果；
+5. Smoke Gate 通过并冻结完整评测预算后，Day 6 才运行 Base / Vanilla 的三项完整外部 Benchmark。
