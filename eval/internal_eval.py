@@ -26,6 +26,15 @@ _FINAL_CHOICE_LINE_RE = re.compile(
     r"^\s*(?:\*\*|__)?\(?([A-D])\)?(?:\*\*|__)?[.)]?\s*$",
     re.IGNORECASE | re.MULTILINE,
 )
+_FINAL_LABELED_CHOICE_RE = re.compile(
+    r"^\s*(?:\*\*|__)?\(?([A-D])\)?[.)]\s+.+?(?:\*\*|__)?\s*$",
+    re.IGNORECASE,
+)
+_CONCLUSION_CUE_RE = re.compile(
+    r"\b(?:therefore|thus|correct answer|best answer|most accurate answer|"
+    r"most accurate classification)\b",
+    re.IGNORECASE,
+)
 _STANDALONE_CHOICE_RE = re.compile(r"(?<![A-Za-z0-9])([A-D])(?![A-Za-z0-9])")
 
 
@@ -70,6 +79,21 @@ def parse_multiple_choice(raw_prediction: Any) -> dict[str, Any]:
         # Prefer an explicit final-answer declaration over option letters quoted
         # while explaining the alternatives (for example, "Answer: **B**").
         candidates = [match.upper() for match in _EXPLICIT_ANSWER_RE.findall(visible_text)]
+        if not candidates:
+            # Accept a labeled final line such as "D. silver" only when the
+            # immediately preceding conclusion contains an explicit cue.  This
+            # avoids treating the last row of an ordinary A-D option list as the
+            # answer.
+            nonempty_lines = [line for line in visible_text.splitlines() if line.strip()]
+            labeled_final = (
+                _FINAL_LABELED_CHOICE_RE.fullmatch(nonempty_lines[-1])
+                if nonempty_lines
+                else None
+            )
+            preceding_tail = "\n".join(nonempty_lines[:-1])[-800:]
+            if labeled_final and _CONCLUSION_CUE_RE.search(preceding_tail):
+                candidates = [labeled_final.group(1).upper()]
+
         if not candidates:
             # Models commonly finish a chain of explanation with a bare choice on
             # its own line.  Use the last such line and ignore option labels above.

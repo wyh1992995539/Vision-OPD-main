@@ -42,7 +42,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--api-base", default="http://127.0.0.1:8000/v1")
     parser.add_argument("--api-key", default="EMPTY")
     parser.add_argument("--model-id", required=True)
-    parser.add_argument("--limit", type=int, default=None)
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--limit", type=int, default=None)
+    selection.add_argument(
+        "--sample-id",
+        action="append",
+        default=None,
+        help="Evaluate one known eval sample_id; repeat for a targeted smoke test.",
+    )
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument(
@@ -137,6 +144,32 @@ def load_eval_rows(path: Path, expected_count: int) -> list[dict[str, Any]]:
     return samples
 
 
+def select_eval_samples(
+    samples: list[dict[str, Any]],
+    limit: int | None = None,
+    sample_ids: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    """Select either the leading smoke rows or explicitly named eval rows."""
+
+    if sample_ids:
+        requested = [sample_id.strip() for sample_id in sample_ids]
+        if not all(requested):
+            raise ValueError("--sample-id must be non-empty")
+        if len(set(requested)) != len(requested):
+            raise ValueError("--sample-id values must be unique")
+        by_id = {sample["sample_id"]: sample for sample in samples}
+        missing = [sample_id for sample_id in requested if sample_id not in by_id]
+        if missing:
+            raise ValueError(f"unknown eval sample_id values: {missing}")
+        return [by_id[sample_id] for sample_id in requested]
+
+    if limit is not None:
+        if limit <= 0 or limit > len(samples):
+            raise ValueError(f"--limit must be between 1 and {len(samples)}")
+        return samples[:limit]
+    return samples
+
+
 def _resolve_repo_path(repository_root: Path, value: str | Path) -> Path:
     path = Path(value)
     return path if path.is_absolute() else repository_root / path
@@ -175,11 +208,11 @@ def run_inference(args: argparse.Namespace, config: dict[str, Any]) -> None:
     predictions_path = output_dir / "predictions.jsonl"
     summary_path = output_dir / "summary.json"
 
-    samples = load_eval_rows(eval_path, expected_count)
-    if args.limit is not None:
-        if args.limit <= 0 or args.limit > expected_count:
-            raise ValueError(f"--limit must be between 1 and {expected_count}")
-        samples = samples[: args.limit]
+    samples = select_eval_samples(
+        load_eval_rows(eval_path, expected_count),
+        limit=args.limit,
+        sample_ids=args.sample_id,
+    )
 
     existing_records: list[dict[str, Any]] = []
     if predictions_path.exists() and not args.overwrite:
@@ -280,7 +313,13 @@ def run_inference(args: argparse.Namespace, config: dict[str, Any]) -> None:
 def score_only(args: argparse.Namespace, config: dict[str, Any]) -> None:
     evaluation, _generation = _validate_eval_protocol(config)
     records = load_jsonl(args.score_only)
-    expected_count = args.limit if args.limit is not None else int(evaluation["expected_samples"])
+    expected_count = (
+        len(args.sample_id)
+        if args.sample_id is not None
+        else args.limit
+        if args.limit is not None
+        else int(evaluation["expected_samples"])
+    )
     summary = summarize_predictions(records, expected_count=expected_count)
     output_dir = args.output_dir or args.score_only.parent
     write_json_atomic(output_dir / "summary.json", summary)

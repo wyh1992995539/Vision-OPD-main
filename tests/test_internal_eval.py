@@ -10,7 +10,7 @@ from eval.internal_eval import (
     summarize_predictions,
     write_jsonl_atomic,
 )
-from eval.run_internal_eval import extract_eval_sample
+from eval.run_internal_eval import extract_eval_sample, select_eval_samples
 
 
 class MultipleChoiceParsingTest(unittest.TestCase):
@@ -50,6 +50,27 @@ class MultipleChoiceParsingTest(unittest.TestCase):
         )
         self.assertEqual(parsed["parse_status"], "parsed")
         self.assertEqual(parsed["parsed_choice"], "B")
+
+    def test_accepts_conclusion_followed_by_labeled_final_choice(self):
+        cases = {
+            "Therefore, the most accurate classification is:\n\nC. radio tower": "C",
+            "Thus, the most accurate answer is:\n\nD. silver": "D",
+            "Thus, the correct answer is:\n\nD. 2": "D",
+            "Thus, the best answer among the choices is:\n\n**D. cylinder**": "D",
+            "Thus, the most accurate answer is:\n\n**B. Latin cross**": "B",
+        }
+        for raw, expected in cases.items():
+            with self.subTest(raw=raw):
+                parsed = parse_multiple_choice(raw)
+                self.assertEqual(parsed["parse_status"], "parsed")
+                self.assertEqual(parsed["parsed_choice"], expected)
+
+    def test_does_not_treat_last_option_row_as_final_answer(self):
+        parsed = parse_multiple_choice(
+            "Looking at the options:\nA. alpha\nB. beta\nC. gamma\nD. delta"
+        )
+        self.assertEqual(parsed["parse_status"], "invalid_ambiguous")
+        self.assertIsNone(parsed["parsed_choice"])
 
     def test_rejects_empty_missing_and_ambiguous_outputs(self):
         cases = {
@@ -145,6 +166,27 @@ class EvalRowContractTest(unittest.TestCase):
         row["extra_info"]["provenance"]["split"] = "train"
         with self.assertRaisesRegex(ValueError, "only accepts eval"):
             extract_eval_sample(row)
+
+
+class EvalSelectionTest(unittest.TestCase):
+    def setUp(self):
+        self.samples = [
+            {"sample_id": "eval-1"},
+            {"sample_id": "eval-2"},
+            {"sample_id": "eval-3"},
+        ]
+
+    def test_selects_explicit_ids_in_requested_order(self):
+        selected = select_eval_samples(
+            self.samples, sample_ids=["eval-3", "eval-1"]
+        )
+        self.assertEqual([sample["sample_id"] for sample in selected], ["eval-3", "eval-1"])
+
+    def test_rejects_unknown_or_duplicate_explicit_ids(self):
+        with self.assertRaisesRegex(ValueError, "unknown eval sample_id"):
+            select_eval_samples(self.samples, sample_ids=["missing"])
+        with self.assertRaisesRegex(ValueError, "must be unique"):
+            select_eval_samples(self.samples, sample_ids=["eval-1", "eval-1"])
 
 
 if __name__ == "__main__":
