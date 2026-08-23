@@ -1,0 +1,171 @@
+[1/128] vopd_e2e6366c31e89ff3d5a73be7 status=incorrect prediction=C
+[2/128] vopd_71386eb7a5aae600f7faef10 status=incorrect prediction=B
+[3/128] vopd_8573068d44050b6d46f35d53 status=correct prediction=C
+[4/128] vopd_79c41b9214e10e2b929aea6e status=correct prediction=B
+[5/128] vopd_e0c7ad129897e5f9abef7905 status=incorrect prediction=B
+[6/128] vopd_1667b99d961d49cdd9bbf1c5 status=correct prediction=D
+[7/128] vopd_009ae788d284af0859be52ac status=correct prediction=A
+[8/128] vopd_eaae79d872e4102864a06da5 status=incorrect prediction=C
+[9/128] vopd_7a1b4f3068a270d53f29ab1b status=incorrect prediction=D
+[10/128] vopd_f8248b9ed196bfe10d0e9b4b status=correct prediction=C
+[11/128] vopd_a9502aba67797c2ba8cfadf0 status=correct prediction=B
+[12/128] vopd_cfe9260acab5a57bf7b5d686 status=incorrect prediction=B
+[13/128] vopd_68a04056249f909f9fcbc93b status=correct prediction=C
+[14/128] vopd_20f8ca3a2602dcfb5c75c022 status=correct prediction=B
+[15/128] vopd_7dbe15f7b77248e739179179 status=correct prediction=D
+[16/128] vopd_6dc6b7c20ded09f87338dc3f status=incorrect prediction=B
+[17/128] vopd_8bfdf2f841bc67a52c1eb9cd status=correct prediction=A
+[18/128] vopd_1063a115c58c8941d9c0167a status=incorrect prediction=C
+[19/128] vopd_6738500d2cdc39bfc83c1bda status=incorrect prediction=D
+[20/128] vopd_097f48e0782e490630580888 status=correct prediction=C
+[21/128] vopd_2ae81170519d6e50406915e9 status=incorrect prediction=D
+[22/128] vopd_0978c0dd4d80880f6da2702c status=correct prediction=B
+[23/128] vopd_6a0a9f79cab25d3b3030ea1e status=correct prediction=D
+[24/128] vopd_d3d9c59f4d7ac2af41ac3cc0 status=incorrect prediction=D
+[25/128] vopd_f476eefb191759df24de0f0d status=incorrect prediction=B
+[26/128] vopd_6c12c8efd19a79af60ce9a86 status=incorrect prediction=B
+[27/128] vopd_a40dab958f0465d48531f703 status=correct prediction=D
+[28/128] vopd_66588ddccc5fad0ea6239eff status=incorrect prediction=D
+[29/128] vopd_005492ffdcb3a1ba2d309412 status=correct prediction=A
+[30/128] vopd_1f063cb8c7435aa64687dda2 status=incorrect prediction=B
+[31/128] vopd_5f05ff1b248d64620304bb0c status=correct prediction=C
+[32/128] vopd_9b4ba150be93d948237fe31b status=incorrect prediction=B
+[33/128] vopd_862c86a7c1e488f7e6d70ab9 status=incorrect prediction=B
+[34/128] vopd_6e1ec1ceba718adc71f5963e status=correct prediction=C
+[35/128] vopd_1aa0a04cf4f1c4ef500c2eca status=correct prediction=A
+[36/128] vopd_21ab45a85fe19c11b637c06e status=correct prediction=C
+[37/128] vopd_5f3c89b3faf0f2e099f8194e status=incorrect prediction=C
+[38/128] vopd_94492a8c73a7ff1cf605162c status=correct prediction=A
+[39/128] vopd_3e68d32e0090fab6074ea539 status=incorrect prediction=A
+[40/128] vopd_f1899ac52e0912e730994e2d status=incorrect prediction=D
+[41/128] vopd_f50f0a3824b78bb9db0a7e92 status=incorrect prediction=D
+[42/128] vopd_661b9178742dd8d38316bd04 status=incorrect prediction=C
+[43/128] vopd_67339fe282400eb67914ba05 status=correct prediction=B
+[44/128] vopd_c5e67bac03633130d416fa06 status=correct prediction=D
+[45/128] vopd_f6f25ce487ab638d8b11a384 status=correct prediction=D
+[46/128] vopd_a013ac9a9a9b626160a71855 status=incorrect prediction=C
+[47/128] vopd_05129ce4507c6c52e6fcb61b status=incorrect prediction=D
+[48/128] vopd_fde9e939e482c8d277f93738 status=invalid_prediction prediction=None
+[49/128] vopd_2ff1ed2e787a22086158b5c4 status=correct prediction=D
+[50/128] vopd_13116ce7a9c76e82d4e051ae status=correct prediction=B
+[51/128] vopd_a825ff65e6f5a177422bf3b1 status=correct prediction=D
+[52/128] vopd_8b5e01f4cc2428e2ec76eb05 status=correct prediction=B
+[53/128] vopd_4c99b0822b8fdcbefde35df0 status=invalid_prediction prediction=None
+[54/128] vopd_2fe2fe0b01e693407ac5d1de status=correct prediction=D
+[55/128] vopd_588cf623e2005698a00dddb7 status=correct prediction=B
+[56/128] vopd_5f3346c8c27409b4c6a307c3 status=correct prediction=A
+[57/128] vopd_648ffd77b05350ceb581a81d status=correct prediction=A
+[58/128] vopd_71d9b61b175a0c11ea8c500c status=correct prediction=A
+[59/128] vopd_9f506d6e2dadd0a7bcfadf66 status=incorrect prediction=B
+[60/128] vopd_10a85802805cb52d87545391 status=correct prediction=B
+[61/128] vopd_de1e49849aed383016a765f9 status=incorrect prediction=D
+[62/128] vopd_55b13c1361f4a0de33157ff8 status=incorrect prediction=B
+[63/128] vopd_21fd020d0c344978dbb5e1f3 status=correct prediction=A
+[64/128] vopd_c7fdd79a45daf6194f3ba184 status=incorrect prediction=B
+[65/128] vopd_b7ad74260f67e102bcab505d status=correct prediction=C
+[66/128] vopd_3101548188f675459e353504 status=correct prediction=C
+[67/128] vopd_736c3ff5dea2454cf3fd314e status=correct prediction=B
+[68/128] vopd_0cc93709945df8488f19c3ad status=correct prediction=D
+[69/128] vopd_f01111c180474d55a1dbaba8 status=incorrect prediction=A
+[70/128] vopd_846f5ed600dcf0344b08b898 status=incorrect prediction=D
+[71/128] vopd_0c5cb30c15ddd2b760194641 status=correct prediction=D
+[72/128] vopd_4c6c5a184f6349ce72a7c38b status=correct prediction=D
+[73/128] vopd_ec9ecdf14974d07be2b21441 status=incorrect prediction=A
+[74/128] vopd_c6420962676072477e1226a1 status=incorrect prediction=A
+[75/128] vopd_f9160f1869c04b83cd840b1c status=incorrect prediction=D
+[76/128] vopd_1c18524af1483a641b0e13a2 status=correct prediction=D
+[77/128] vopd_1fa54cb094c5268d602f24cc status=incorrect prediction=B
+[78/128] vopd_7ba602d810072b8902a3d5fa status=incorrect prediction=A
+[79/128] vopd_9a8e8a344eb4ea8e12f816d7 status=incorrect prediction=C
+[80/128] vopd_fc042afc20d83bf0a2c3bb2b status=incorrect prediction=C
+[81/128] vopd_da6e64e0058a79347dc7fd2a status=correct prediction=D
+[82/128] vopd_f4d0ca60e4f27694cfff3eb6 status=correct prediction=B
+[83/128] vopd_c923b669a144fb9e8c7ac96c status=correct prediction=D
+[84/128] vopd_658d8b97ea63450f62997197 status=incorrect prediction=B
+[85/128] vopd_1613d81195645f79b38e2a8e status=correct prediction=B
+[86/128] vopd_d865f5b0bee902d4aa79c52f status=incorrect prediction=D
+[87/128] vopd_5b393dac5ff8c1c987528bf6 status=correct prediction=B
+[88/128] vopd_aef8d25a4aa8f3694a8b61d5 status=incorrect prediction=C
+[89/128] vopd_7c815183b34ed8ed598f3247 status=correct prediction=D
+[90/128] vopd_a30be3eb99cec19128516dba status=correct prediction=B
+[91/128] vopd_36bceacbe309967a099b775e status=incorrect prediction=D
+[92/128] vopd_8b0cdec4b9659cbc68e7e5fc status=correct prediction=D
+[93/128] vopd_4b5c9c151be4a2f6630ae7df status=incorrect prediction=A
+[94/128] vopd_a3344f71c9536dadcedf748f status=invalid_prediction prediction=None
+[95/128] vopd_4c258aac101af24cf784a7f7 status=correct prediction=D
+[96/128] vopd_f2f22a32db230e077d6abcb4 status=correct prediction=D
+[97/128] vopd_5da329d583365f3c2f4a9fb5 status=incorrect prediction=D
+[98/128] vopd_ea583b37378c9dae8a381a41 status=correct prediction=D
+[99/128] vopd_93c826efb6a8afc5e57487ce status=correct prediction=C
+[100/128] vopd_486e00e26edb2f036d068248 status=incorrect prediction=C
+[101/128] vopd_fb98fd57eb2f2a4a24f7821d status=correct prediction=D
+[102/128] vopd_15253288beffab5e83c8f366 status=correct prediction=D
+[103/128] vopd_aef741dc64707d17bddb5159 status=incorrect prediction=C
+[104/128] vopd_0edd23b052d0a876521f1ffa status=invalid_prediction prediction=None
+[105/128] vopd_3e70242ea4b5cd2763be1d7d status=incorrect prediction=D
+[106/128] vopd_563e5aa0c43dc3bb6444121f status=correct prediction=D
+[107/128] vopd_0c100b048b0e500f8da7f2c9 status=correct prediction=B
+[108/128] vopd_aec6fe9c8cfb1d267aa01196 status=incorrect prediction=B
+[109/128] vopd_9b941499e778e51ea5e546f9 status=correct prediction=C
+[110/128] vopd_4e0943dcfa7914b35b02947d status=correct prediction=B
+[111/128] vopd_39ad2a5b0d3a0fac2d8a3082 status=incorrect prediction=B
+[112/128] vopd_e99603b19a8d47d75b7ce880 status=correct prediction=C
+[113/128] vopd_16c30bd8fdeda0aeefa8f83a status=incorrect prediction=C
+[114/128] vopd_3aea383043c32b22fba118f0 status=incorrect prediction=A
+[115/128] vopd_75844700e9d040db83864d46 status=correct prediction=B
+[116/128] vopd_d8a9f22d27a6f890433310db status=incorrect prediction=D
+[117/128] vopd_026d869e7f73ccd32651d192 status=correct prediction=D
+[118/128] vopd_a09e316b8099256c94995ee5 status=correct prediction=D
+[119/128] vopd_568e3efae16fe5068aacf3f8 status=correct prediction=D
+[120/128] vopd_a588ecf98c715586266a361a status=incorrect prediction=B
+[121/128] vopd_23e9a6984927e80695516ab8 status=correct prediction=B
+[122/128] vopd_6c5826829d850e95c617aa4f status=incorrect prediction=B
+[123/128] vopd_5d478ced38fd7fbe706b8885 status=incorrect prediction=D
+[124/128] vopd_797fc82640694883399aeafb status=incorrect prediction=C
+[125/128] vopd_906bedf6ddecde4c880a5c31 status=incorrect prediction=C
+[126/128] vopd_c66cb91d97866e077bcc6952 status=correct prediction=C
+[127/128] vopd_1632db57591b598626be3e9a status=incorrect prediction=D
+[128/128] vopd_7eeb7ceb2f40a7d2f5adc50d status=correct prediction=D
+{
+  "schema_version": 1,
+  "total": 128,
+  "unique_sample_ids": 128,
+  "correct": 67,
+  "incorrect": 57,
+  "invalid_prediction": 4,
+  "unsupported": 0,
+  "accuracy": 0.5234375,
+  "supported_accuracy": 0.5234375,
+  "by_ground_truth": {
+    "A": {
+      "total": 27,
+      "correct": 9,
+      "accuracy": 0.3333333333333333
+    },
+    "B": {
+      "total": 26,
+      "correct": 18,
+      "accuracy": 0.6923076923076923
+    },
+    "C": {
+      "total": 31,
+      "correct": 13,
+      "accuracy": 0.41935483870967744
+    },
+    "D": {
+      "total": 44,
+      "correct": 27,
+      "accuracy": 0.6136363636363636
+    }
+  },
+  "response_token_count": {
+    "count": 128,
+    "min": 3,
+    "max": 256,
+    "mean": 67.9375
+  },
+  "experiment_id": "E-D4-001",
+  "model_id": "vision-opd-base",
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "is_smoke": false
+}

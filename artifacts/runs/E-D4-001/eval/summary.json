@@ -1,42 +1,42 @@
 {
-  "accuracy": 0.484375,
+  "accuracy": 0.5234375,
   "by_ground_truth": {
     "A": {
-      "accuracy": 0.37037037037037035,
-      "correct": 10,
+      "accuracy": 0.3333333333333333,
+      "correct": 9,
       "total": 27
     },
     "B": {
-      "accuracy": 0.6153846153846154,
-      "correct": 16,
+      "accuracy": 0.6923076923076923,
+      "correct": 18,
       "total": 26
     },
     "C": {
-      "accuracy": 0.3548387096774194,
-      "correct": 11,
+      "accuracy": 0.41935483870967744,
+      "correct": 13,
       "total": 31
     },
     "D": {
-      "accuracy": 0.5681818181818182,
-      "correct": 25,
+      "accuracy": 0.6136363636363636,
+      "correct": 27,
       "total": 44
     }
   },
-  "correct": 62,
+  "correct": 67,
   "experiment_id": "E-D4-001",
-  "incorrect": 50,
+  "incorrect": 57,
   "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
-  "invalid_prediction": 16,
+  "invalid_prediction": 4,
   "is_smoke": false,
   "model_id": "vision-opd-base",
   "response_token_count": {
     "count": 128,
     "max": 256,
-    "mean": 64.0625,
-    "min": 0
+    "mean": 67.9375,
+    "min": 3
   },
   "schema_version": 1,
-  "supported_accuracy": 0.484375,
+  "supported_accuracy": 0.5234375,
   "total": 128,
   "unique_sample_ids": 128,
   "unsupported": 0

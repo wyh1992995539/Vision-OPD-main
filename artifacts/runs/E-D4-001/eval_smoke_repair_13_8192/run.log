@@ -1,0 +1,56 @@
+[1/13] vopd_6e1ec1ceba718adc71f5963e status=correct prediction=C
+[2/13] vopd_21ab45a85fe19c11b637c06e status=correct prediction=C
+[3/13] vopd_13116ce7a9c76e82d4e051ae status=correct prediction=B
+[4/13] vopd_588cf623e2005698a00dddb7 status=correct prediction=B
+[5/13] vopd_8b0cdec4b9659cbc68e7e5fc status=correct prediction=D
+[6/13] vopd_563e5aa0c43dc3bb6444121f status=correct prediction=D
+[7/13] vopd_75844700e9d040db83864d46 status=correct prediction=B
+[8/13] vopd_5d478ced38fd7fbe706b8885 status=incorrect prediction=D
+[9/13] vopd_5f3c89b3faf0f2e099f8194e status=incorrect prediction=C
+[10/13] vopd_f1899ac52e0912e730994e2d status=incorrect prediction=D
+[11/13] vopd_15253288beffab5e83c8f366 status=correct prediction=D
+[12/13] vopd_a588ecf98c715586266a361a status=incorrect prediction=B
+[13/13] vopd_6c5826829d850e95c617aa4f status=incorrect prediction=B
+{
+  "schema_version": 1,
+  "total": 13,
+  "unique_sample_ids": 13,
+  "correct": 8,
+  "incorrect": 5,
+  "invalid_prediction": 0,
+  "unsupported": 0,
+  "accuracy": 0.6153846153846154,
+  "supported_accuracy": 0.6153846153846154,
+  "by_ground_truth": {
+    "A": {
+      "total": 2,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "B": {
+      "total": 4,
+      "correct": 3,
+      "accuracy": 0.75
+    },
+    "C": {
+      "total": 4,
+      "correct": 2,
+      "accuracy": 0.5
+    },
+    "D": {
+      "total": 3,
+      "correct": 3,
+      "accuracy": 1.0
+    }
+  },
+  "response_token_count": {
+    "count": 13,
+    "min": 3,
+    "max": 203,
+    "mean": 98.46153846153847
+  },
+  "experiment_id": "E-D4-001",
+  "model_id": "vision-opd-base",
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "is_smoke": true
+}
