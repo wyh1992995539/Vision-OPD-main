@@ -1,0 +1,14 @@
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+ERROR: cached prefix validation failed: {"status": "FAIL", "expected_records": 1024, "actual_records": 1024, "unique_sample_ids": 1024, "duplicate_sample_ids": 0, "missing_sample_ids": [], "extra_sample_ids": [], "empty_responses": 0, "inference_errors": 0, "empty_token_ids": 0, "truncated_responses": 54}
+Traceback (most recent call last):
+  File "/root/autodl-tmp/Vision-OPD-main/scripts/generate_cached_prefix.py", line 449, in <module>
+    main()
+  File "/root/autodl-tmp/Vision-OPD-main/scripts/generate_cached_prefix.py", line 444, in main
+    run(args)
+  File "/root/autodl-tmp/Vision-OPD-main/scripts/generate_cached_prefix.py", line 424, in run
+    report = validate_cached_records(selected, requested_ids)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/Vision-OPD-main/scripts/generate_cached_prefix.py", line 226, in validate_cached_records
+    raise ValueError(f"cached prefix validation failed: {json.dumps(report)}")
+ValueError: cached prefix validation failed: {"status": "FAIL", "expected_records": 1024, "actual_records": 1024, "unique_sample_ids": 1024, "duplicate_sample_ids": 0, "missing_sample_ids": [], "extra_sample_ids": [], "empty_responses": 0, "inference_errors": 0, "empty_token_ids": 0, "truncated_responses": 54}
