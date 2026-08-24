@@ -1,0 +1,473 @@
+# Vision-OPD 外部 Benchmark 冻结协议
+
+> 实验 ID：`E-D5-001`  
+> 协议状态：**FROZEN**  
+> 冻结日期：2026-08-24（UTC）  
+> 机器配置：[`configs/benchmark_eval.yaml`](../configs/benchmark_eval.yaml)  
+> 配置 SHA256：`0cf1d8f09c2b1d2dc4e523a6885a9f46f56cc4aa518b3da605dbec5302e83754`
+
+## 1. 目的与适用范围
+
+本协议冻结 ZoomBench、MMStar 和 V* Bench 的数据来源、版本、输入、生成、评分、Smoke、重叠审计和报告规则。它适用于以下四个模型分支：
+
+1. Base / Vanilla；
+2. Vision-OPD；
+3. Cached Prefix；
+4. GRPO。
+
+四个分支必须使用相同的官方样本、Prompt、图像处理、生成参数、答案解析、Judge 和指标。除模型 checkpoint 外，不得为某一分支单独修改评测条件。
+
+外部 Benchmark 只用于一次 Base 基线和各训练分支最终定版后的评测，不用于选择 checkpoint、调整训练超参数或根据准确率改变数据集。本文冻结的是本项目“4B、1024 条训练数据的小规模比较”所使用的外部评测协议，不代表对各 Benchmark 所有扩展指标的完整复现。
+
+## 2. 冻结与变更规则
+
+以下任一内容发生变化，均视为协议变化：
+
+- 数据仓库、revision、split、样本集合或样本顺序；
+- Prompt、system prompt、Chat Template 或答案格式要求；
+- 图像来源、full/crop 视图、解码、缩放或像素上下限；
+- generation seed、采样参数、上下文长度或最大输出长度；
+- 答案提取、规则评分、Judge 模型、Judge Prompt 或 Judge 参数；
+- 失败样本处理、分母、指标或分类汇总方式。
+
+如确需变更，必须在本文追加带日期的 amendment，说明原因、影响范围、旧值、新值以及哪些历史结果失去可比性。不得覆盖或伪造原始协议记录。发生影响结果的变更后，三个 Benchmark 的 16 条 Smoke 必须全部重跑。
+
+## 3. 官方来源与版本
+
+远端 revision 于 2026-08-24 通过各仓库 `HEAD` 查询获得，并以完整 40 位 commit SHA 冻结。步骤 4 下载时必须显式传入这些 revision，禁止使用漂移的 `main`。
+
+| Benchmark | 官方项目与协议代码 | 协议代码 revision | 官方数据 | 数据 revision | 官方预期规模 |
+|---|---|---|---|---|---:|
+| ZoomBench | [inclusionAI/Zooming-without-Zooming](https://github.com/inclusionAI/Zooming-without-Zooming) | `fdc0ba1a3dee916d8c38304d543ad414879e0c99` | [inclusionAI/ZoomBench](https://huggingface.co/datasets/inclusionAI/ZoomBench) | `b788097e57d30510c6877824833234a73bf80d25` | 845 |
+| MMStar | [MMStar-Benchmark/MMStar](https://github.com/MMStar-Benchmark/MMStar) | `88f243ab4a39cb339530085c33aecb22819881a1` | [Lin-Chen/MMStar](https://huggingface.co/datasets/Lin-Chen/MMStar) | `bc98d668301da7b14f648724866e57302778ab27` | 1,500 |
+| V* Bench | [penghao-wu/vstar](https://github.com/penghao-wu/vstar) | `4ede6647959cfb59eeabd09286adf6a5f9478da0` | [craigwu/vstar_bench](https://huggingface.co/datasets/craigwu/vstar_bench) | `d9ae62c903da0c98336e85c5ee89cd863b04b4da` | 191 |
+
+### 3.1 许可证边界
+
+| 项目 | 数据许可证 | 代码许可证 | 本项目处理 |
+|---|---|---|---|
+| ZoomBench | Apache-2.0 | Apache-2.0 | 可按许可证用于研究评测并保留来源与许可信息 |
+| MMStar | 官方数据页未明确声明 | 官方代码仓库未明确声明 | 允许本地研究评测；重新分发前必须另行复核，不自行推断许可证 |
+| V* Bench | 官方链接的数据页未明确声明 | MIT | 允许本地研究评测；数据重新分发前必须另行复核 |
+
+许可证未声明不等于没有限制。本项目产物默认只保存数据 revision、哈希、样本 ID、模型输出和汇总，不把完整官方图片或标注复制进代码仓库。
+
+### 3.2 下载后必须完成的来源验证
+
+上表规模来自官方页面，当前并未下载数据。步骤 4 下载后必须核对：
+
+- revision 是否与本表完全一致；
+- 实际 split、样本数、字段和原始文件名；
+- 是否存在缺图、坏图、空问题、空答案或重复 ID；
+- 原始文件和转换后数据的 SHA256。
+
+任何实测差异都必须停止准备流程并记录，不能为了满足预期规模静默删除或补造样本。
+
+## 4. 统一模型与推理协议
+
+### 4.1 模型身份
+
+Base / Vanilla 必须使用：
+
+```text
+/root/autodl-tmp/models/Qwen3.5-4B
+```
+
+冻结的 Base 权重哈希：
+
+```text
+model.safetensors-00001-of-00002.safetensors
+26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61
+
+model.safetensors-00002-of-00002.safetensors
+cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188
+```
+
+每次正式评测必须重新计算实际 checkpoint SHA256。Vision-OPD、Cached Prefix 和 GRPO 使用各自独立训练分支的最终 checkpoint，不得串行继承。论文作者发布的官方 Vision-OPD 权重不能替代本项目 Base。
+
+### 4.2 服务参数
+
+| 参数 | 冻结值 |
+|---|---|
+| API | OpenAI-compatible Chat Completions |
+| tensor parallel | 2 |
+| dtype | bfloat16 |
+| GPU memory utilization | 0.80 |
+| max model length | 32,768 |
+| max concurrent sequences | 8 |
+| trust remote code | true |
+
+`max_model_len=32768` 是本项目服务上限，用于容纳图像、Prompt 和官方评测配置允许的最长 8,192 Token 输出。模型本地配置支持更长上下文，但本项目不据此无限扩大评测资源。
+
+### 4.3 System Prompt
+
+统一使用：
+
+```text
+You are a helpful assistant. The assistant first thinks about the reasoning
+process in the mind and then provides the user with the answer. The answer
+is enclosed within <answer> </answer> tags, i.e., reasoning process here
+<answer> answer here </answer>.
+```
+
+输入问题中的字面量 `<image>` 在构造多模态消息前移除。每条请求只传入一个当前协议指定的图像视图，标准答案、crop 图路径和另一视图不得泄露给被评模型。
+
+### 4.4 图像处理
+
+| 参数 | 冻结值 |
+|---|---:|
+| 每条请求图像数 | 1 |
+| `min_pixels` | 65,536 |
+| `max_pixels` | 16,777,216 |
+| 保持宽高比 | 是 |
+| Processor | 当前被评 checkpoint 自带 Processor |
+
+图像必须先验证存在且可解码。不得为了让某个模型通过而单独压缩、裁剪或更换格式。ZoomBench full 与 crop 是两个独立评测视图，不能在一次请求中同时输入。
+
+### 4.5 生成参数
+
+| 参数 | 冻结值 |
+|---|---:|
+| seed | 42 |
+| do sample | true |
+| temperature | 0.7 |
+| top-p | 0.8 |
+| top-k | 20 |
+| presence penalty | 1.5 |
+| repetition penalty | 1.0 |
+| max new tokens | 8,192 |
+| return sequences | 1 |
+
+这些值来自冻结 revision 下 ZoomBench 官方 `infer_without_tool.py` 的无工具评测配置。本项目把同一组参数用于三项 Benchmark，以保证四个项目模型之间使用同一生成协议。MMStar 和 V* 官方页面没有把这组参数声明为唯一强制值，因此最终报告应称其为“本项目冻结外评协议”，不能表述为所有 Benchmark 的唯一官方生成配置。
+
+实际请求必须显式传入 seed。达到最大输出长度仍无法解析的样本记为无效预测并计错，不能增加单个样本的 Token 上限后补跑。
+
+## 5. ZoomBench 协议
+
+### 5.1 数据范围
+
+- 官方数据：`inclusionAI/ZoomBench`；
+- split：`test`；
+- 预期样本数：845；
+- 问题格式：选择题与开放题混合；
+- 官方感知维度：6；
+- 每条样本包含完整图和关键区域 crop，支持双视图协议。
+
+六个官方维度为：
+
+1. Fine-Grained Counting；
+2. OCR；
+3. Color Attributes；
+4. Structural Attributes；
+5. Material Attributes；
+6. Object Identification。
+
+步骤 4 转换时必须保存官方样本 ID、类别和题型。若原始数据未提供显式题型字段，则只有同时出现至少两个带标签选项且标准答案可映射到唯一选项时，才归类为 `multiple_choice`；其余归类为 `open_question`。转换规则必须由测试覆盖，不能人工逐题选择评分器。
+
+### 5.2 双视图和主指标
+
+| 视图 | 输入 | 定位 | 指标名称 |
+|---|---|---|---|
+| Full image | 官方完整图 | 项目主结果 | `full_image_accuracy` |
+| Cropped region | 官方关键区域 crop | oracle/诊断 | `cropped_region_accuracy` |
+
+同时计算：
+
+```text
+zooming_gap = cropped_region_accuracy - full_image_accuracy
+```
+
+项目模型的主比较只使用 `full_image_accuracy`。crop 结果和 zooming gap 必须单独标为诊断，不得与 full 结果平均，也不得把 crop 结果称为单次完整图推理能力。
+
+### 5.3 评分
+
+选择题：
+
+- 从 `</think>` 之后或最后一个完整 `<answer>...</answer>` 中提取最终答案；
+- 只接受可唯一映射到合法选项的最终结论；
+- 与标准选项精确比较；
+- 无答案、歧义或越界选项计错；
+- 不使用 LLM Judge 改判明确的错误选项。
+
+开放题：
+
+1. 先使用冻结版本的 MathRuler；
+2. MathRuler 未判为正确的样本交给冻结的 Qwen Judge；
+3. 保存 `judge_source=mathruler|llm`；
+4. Judge 调用失败、输出不是唯一 `Yes`/`No` 或无法解析时计错并记录错误。
+
+### 5.4 Judge
+
+| 参数 | 冻结值 |
+|---|---|
+| 模型 | `Qwen/Qwen3-30B-A3B-Instruct-2507` |
+| revision | `0d7cf23991f47feeb3a57ecb4c9cee8ea4a17bfe` |
+| dtype | bfloat16 |
+| tensor parallel | 1 |
+| temperature | 0 |
+| max new tokens | 2,048 |
+
+Judge Prompt：
+
+```text
+Your task is to judge whether the response expresses the same meaning as the answer of a question.
+The question is: {question}
+The answer is: {reference_answer}
+The response is: {model_answer}
+Please check and compare them and then judge. If the response is correct, your output should be Yes. Otherwise, your output should be No. Directly give me your output.
+```
+
+Judge 只允许用于 ZoomBench 开放题。Judge 本身的模型、revision、Prompt 或生成参数变化均属于协议变化。
+
+### 5.5 报告指标
+
+- full-image 总体准确率；
+- crop 总体准确率；
+- zooming gap；
+- 六个官方维度分别在 full/crop 下的准确率；
+- 无效输出率、Judge 调用率、推理错误数；
+- 平均输出长度、平均与 P95 延迟。
+
+## 6. MMStar 协议
+
+### 6.1 数据范围
+
+- 官方数据：`Lin-Chen/MMStar`；
+- config/split：`val`；
+- 原始文件：`mmstar.parquet`；
+- 预期样本数：1,500；
+- 题型：选择题；
+- 6 个核心类别、18 个二级类别，每个核心类别官方预期 250 条。
+
+转换时保存 `index`、`question`、`answer`、`category`、`l2_category` 和图像。问题和选项保持官方文本，不自行重排选项。
+
+### 6.2 评分
+
+- 使用确定性 A/B/C/D 最终选项解析；
+- 只接受唯一、可靠的最终选项；
+- 与官方答案字母精确比较；
+- 解析失败或歧义计错；
+- 禁止调用 LLM Judge；
+- 所有失败样本保留在 1,500 条总分母中。
+
+解析器不能简单取回答中的第一个大写字母，因为解释文本和选项复述可能包含多个字母。应优先解析 `<answer>`、显式 `Answer:` 或回复末尾的唯一结论，并保存原始输出和解析依据。
+
+### 6.3 项目指标边界
+
+本项目报告：
+
+- image-input overall accuracy；
+- 6 个核心类别准确率；
+- 18 个二级类别准确率；
+- 无效输出率与推理失败数。
+
+MMStar 的完整 Multi-modal Gain（MG）和 Multi-modal Leakage（ML）协议还需要额外的无图 LVLM 和原始 LLM 无图运行。本项目当前没有冻结这些额外运行，因此不得声称完整复现 MG/ML，也不得在结果表中填造 MG/ML 数值。
+
+## 7. V* Bench 协议
+
+### 7.1 官方数据身份
+
+V* 官方项目 `penghao-wu/vstar` 直接链接的数据仓库是 `craigwu/vstar_bench`。本项目冻结该仓库，而不是当前本地准备脚本使用的 `lmms-lab/vstar-bench` 镜像。
+
+- split：`test`；
+- 预期样本数：191；
+- 题型：选择题；
+- 类别：`direct_attributes`、`relative_position`。
+
+步骤 4 必须从冻结 revision 读取数据并验证 191 条 ID、选项、label 和类别。不得用镜像数据即使其内容看似相同；如需证明镜像等价，应另做全字段和图像哈希对比，但正式来源仍保持官方链接仓库。
+
+### 7.2 Prompt 与评分
+
+若官方问题中尚无答案格式后缀，追加：
+
+```text
+Answer with the option's letter from the given choices directly.
+```
+
+若已存在完全相同的后缀，不重复追加。评分规则与 MMStar 相同：确定性解析 A/B/C/D、精确匹配、无效计错、禁止 LLM Judge。
+
+### 7.3 报告指标
+
+- 191 条总体准确率；
+- `direct_attributes` 准确率；
+- `relative_position` 准确率；
+- 无效输出率和推理失败数；
+- 平均输出长度、平均与 P95 延迟。
+
+## 8. 16 条 Smoke 协议
+
+### 8.1 用途
+
+Smoke 只验证数据、图像、Prompt、推理、断点恢复、解析、Judge、汇总和成本记录是否贯通。Smoke 准确率不作为模型能力结论，也不得用于更换 Benchmark、修改 Prompt 或重新抽样。
+
+### 8.2 抽样
+
+每个 Benchmark 固定 16 条：
+
+- seed：42；
+- 按官方类别确定性分层；
+- 类别内按稳定 sample UID 排序后确定性抽取；
+- 最终 UID 写入 `artifacts/runs/E-D5-001/smoke_selection.json`；
+- UID 清单在首次推理前冻结；
+- 后续 Base、Vision-OPD、Cached Prefix 和 GRPO 复用同一清单。
+
+如果某个类别数量不足，按固定类别顺序将剩余额度分配给仍有样本的类别，并在 selection manifest 中记录。不得通过查看答案或模型输出影响抽样。
+
+### 8.3 Smoke Gate
+
+每个 Benchmark 必须同时满足：
+
+- 16 条记录、16 个唯一 sample UID；
+- 图片存在且可解码；
+- Prompt 和标准答案非空；
+- 请求中没有标准答案或未使用视图泄漏；
+- 16 条都有原始响应或明确错误记录；
+- 无未记录的空响应、图片错位或请求错误；
+- 每条都有解析结果和 `judge_source`/`score_source`；
+- 中断后恢复不重复、不漏样本；
+- `summary.json` 可由逐样本结果重新计算；
+- 错误和无效样本保留在 16 条分母中。
+
+## 9. 数据重叠审计协议
+
+### 9.1 比较范围
+
+项目侧检查：
+
+```text
+/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet
+/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet
+/root/autodl-tmp/data/vision_opd_1024/retention_64.parquet
+```
+
+对三个 split 的完整图和 crop 图分别与三个 Benchmark 的所有评测图比较。文本比较覆盖问题文本；如官方数据保留来源 ID，也应一并比较来源 ID。
+
+### 9.2 三层检查
+
+1. **文件 SHA256**：完全相同则标记 `exact_image_match`。
+2. **规范化问题文本**：使用 Unicode NFKC、casefold、首尾去空白和连续空白折叠；完全相同则标记 `normalized_question_match`。
+3. **感知哈希**：图像解码并处理 EXIF 方向后计算 64-bit pHash；Hamming distance ≤ 5 标记 `suspected_perceptual_match`，必须人工确认。
+
+感知哈希命中不能自动认定泄漏，也不能自动删除官方样本。报告必须区分：
+
+- 已确认精确重复；
+- 疑似感知重复；
+- 文本重复但图像不同；
+- 未确认候选。
+
+### 9.3 发现重叠后的报告规则
+
+- 保留并报告官方全量结果；
+- 另行报告去重诊断，不替代官方结果；
+- 不静默修改官方测试集；
+- 有确认或未解决的疑似重叠时，不把结果称为“完全独立测试”；
+- 保存每个候选的双方 sample ID、split、哈希、距离和人工结论。
+
+## 10. 逐样本与汇总产物
+
+每条预测至少保存：
+
+```text
+benchmark
+sample_uid
+official_category
+question_format
+view
+dataset_revision
+image_sha256
+model_checkpoint_sha256
+prompt
+raw_model_answer
+parsed_answer
+reference_answer
+is_correct
+score_source / judge_source
+finish_reason
+prompt_tokens
+completion_tokens
+latency_seconds
+retry_count
+error
+```
+
+每项 Benchmark 保存：
+
+```text
+predictions.jsonl
+scores.jsonl
+summary.json
+```
+
+`summary.json` 至少包含总体与官方分类指标、总分母、correct/incorrect/invalid/error、Judge 调用量、输出长度、延迟、GPU 时间和成本。只有成功样本作为分母的结果无效。
+
+统一产物根目录：
+
+```text
+artifacts/runs/E-D5-001/
+```
+
+## 11. 预算规则
+
+双卡费用：
+
+```text
+双卡 GPU 成本 = 双卡 wall time（小时）× 11.96 元
+```
+
+Judge 成本按实际部署方式记录 GPU 时间，或按 API 输入/输出 Token 单价分别计算。Day 5 根据 48 条 Smoke 外推四次完整外评：Base、Vision-OPD、Cached Prefix、GRPO，并增加 15% 重试余量。
+
+若预计训练与评测总成本超过项目 2,000 元硬上限，停止扩规模并重新审计非必要诊断；不得根据 Smoke 准确率删除主 Benchmark。ZoomBench crop 诊断可在预算不足时通过 amendment 延后，但 full-image 主结果、MMStar 和 V* 主结果不能被无记录地删除。
+
+## 12. 当前本地实现审计与步骤 4 修复清单
+
+本节记录协议冻结时的代码现状。以下差距意味着当前 `eval/run_eval.sh` **尚不能直接用于 Day 5 Smoke**。
+
+| 文件 | 当前问题 | 步骤 4 要求 |
+|---|---|---|
+| `eval/prepare_data.py` | 三个 `snapshot_download()` 未传冻结 revision | 从 YAML 读取并显式传入 revision，保存远端 commit 与原始哈希 |
+| `eval/prepare_data.py` | V* 使用 `lmms-lab/vstar-bench` 镜像 | 改为官方项目直接链接的 `craigwu/vstar_bench` |
+| `eval/prepare_data.py` | 转换记录未统一保存 source ID、题型、revision 和图像哈希 | 补齐稳定 UID、题型、来源与哈希字段 |
+| `eval/infer.py` | 接受 `--seed` 但请求未显式传 seed | 从 YAML 读取并把所有生成参数实际传给服务 |
+| `eval/infer.py` | 当前请求固定 `temperature=0`，未实现冻结 system prompt 和图像像素范围 | 统一从 YAML 构造消息、Processor 和生成参数 |
+| `eval/infer.py` | `normalize_model_answer()` 未用于最终记录，且缺少 token、finish reason、延迟等字段 | 同时保存原始回答、规范化回答和完整运行元数据 |
+| `eval/judge_qwenlm.py` | MMStar/V* 规则失败后可能进入 LLM Judge | 两项选择题禁止 Judge；无效或错误答案直接计错 |
+| `eval/judge_qwenlm.py` | Judge 输入输出路径硬编码 | 使用标准运行目录并保存 Judge revision、Prompt hash 和逐条来源 |
+| `eval/cal_acc.py` | 主要输出到终端，ZoomBench/MMStar 分类汇总不足 | 生成可复算的 `summary.json` 和官方分类指标 |
+| `eval/run_eval.sh` | 不读取 YAML、没有固定 16 条 manifest，默认可能运行全量 | 增加 config、sample manifest、run root 和 smoke/full 模式 |
+
+修复顺序建议：
+
+1. 先改数据准备与 revision；
+2. 再实现固定 Smoke manifest；
+3. 再让推理读取 YAML；
+4. 分离选择题规则评分与 ZoomBench 开放题 Judge；
+5. 最后统一结果目录和汇总。
+
+在这些差距修复并通过测试前，不下载后立即运行全量评测，也不启动正式 Smoke。
+
+## 13. 步骤 3 验收
+
+步骤 3 在满足以下条件后标记完成：
+
+- [x] 三个 Benchmark 的官方项目、官方数据和完整 revision 已记录；
+- [x] split、官方预期样本数和许可证边界已记录；
+- [x] Prompt、图像处理、生成参数和输出格式已冻结；
+- [x] ZoomBench full/crop、混合题型和 Judge 已明确；
+- [x] MMStar 的项目指标与完整 MG/ML 边界已明确；
+- [x] V* 官方数据身份与镜像差异已明确；
+- [x] Smoke、重叠审计、失败分母和预算规则已冻结；
+- [x] 当前本地实现差距已形成步骤 4 修复清单；
+- [ ] 下载后数据规模、字段、图片和原始文件 SHA256 已验证——此项属于步骤 4，不阻塞步骤 3。
+
+结论：协议设计与审计已冻结；当前无需下载 Benchmark。下一阶段是步骤 4的数据下载、revision 强制、转换与哈希验证。
+
+## 14. 参考来源
+
+- ZoomBench 官方项目：<https://github.com/inclusionAI/Zooming-without-Zooming>
+- ZoomBench 官方数据：<https://huggingface.co/datasets/inclusionAI/ZoomBench>
+- MMStar 官方项目：<https://github.com/MMStar-Benchmark/MMStar>
+- MMStar 官方数据：<https://huggingface.co/datasets/Lin-Chen/MMStar>
+- V* 官方项目：<https://github.com/penghao-wu/vstar>
+- V* 官方项目链接的数据：<https://huggingface.co/datasets/craigwu/vstar_bench>
+- ZoomBench 官方 Judge 模型：<https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507>
+
