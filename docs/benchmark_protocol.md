@@ -4,7 +4,7 @@
 > 协议状态：**FROZEN**  
 > 冻结日期：2026-08-24（UTC）  
 > 机器配置：[`configs/benchmark_eval.yaml`](../configs/benchmark_eval.yaml)  
-> 配置 SHA256：`a013690b0ba5304c2ee9e5f0396a3d3ce15e9649dec84bcb04d933911189c702`
+> 配置 SHA256：`e99aa0c9b1e2bb9703d7d50bbe0c34be9f587be00c518baaeebc229e0f5da461`
 
 ## 1. 目的与适用范围
 
@@ -542,4 +542,22 @@ python scripts/check_benchmark_overlap.py \
 - [x] `tests/test_benchmark_overlap.py` 已覆盖规范化、哈希、候选分类、人工裁决与端到端产物。
 
 结论：Day 5 任务 4 已完成。下一项是任务 5：生成固定的三项 Benchmark Smoke 样本清单。
+
+## 17. Amendment B-2026-08-24-SMOKE-SELECTION
+
+- 日期：2026-08-24（UTC）；
+- 原因：步骤 5 需要让后续 Base、Vision-OPD、Cached Prefix 与 GRPO 使用完全一致、与文件顺序无关的 Smoke 样本；
+- 旧值：仅规定按题型/类别分层和 seed 42，类别内“按 sample UID 排序”的 seed 使用方式不够精确，MMStar 与 V* 未写明固定配额；
+- 新值：类别内使用 `SHA256("42:{benchmark}:{sample_uid}")` 的十六进制摘要升序排名，按 `configs/benchmark_eval.yaml` 的显式配额截取：
+  - ZoomBench：12 条 `multiple_choice`、4 条 `open_question`；
+  - MMStar：coarse perception、fine-grained perception、instance reasoning、logical reasoning 各 3 条，math、science & technology 各 2 条；
+  - V* Bench：direct_attributes、relative_position 各 8 条；
+- 已冻结产物：`artifacts/runs/E-D5-001/smoke_selection.json`，SHA256 为 `dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b`；
+- 配置 revision：3；配置 SHA256 为 `e99aa0c9b1e2bb9703d7d50bbe0c34be9f587be00c518baaeebc229e0f5da461`；
+- 选择前检查：所有 48 条均验证了 source revision、非空 UID/问题/答案、图像存在及可解码、分层配额和 UID 唯一性；
+- overlap：本次确定性选择没有命中已确认的 V* 重叠样本；该事实只是 manifest 元数据，不能成为替换或重抽样理由；
+- 不变项：官方数据 revision、完整评测集合、Prompt、图像处理、生成、评分和 Judge 协议均不变；
+- 后续要求：Base、Vision-OPD、Cached Prefix 和 GRPO 都必须复用此 manifest；如重新抽样、改 seed、改配额或改变选择排序，必须创建新的 amendment 且历史 Smoke 不再可比。
+
+选择器实现为 `scripts/select_benchmark_smoke.py`，默认拒绝覆盖已冻结 manifest；仅在显式 `--force` 后才能重建。
 

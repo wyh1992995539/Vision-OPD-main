@@ -4,8 +4,8 @@ protocol:
   name: vision-opd-external-benchmark-evaluation
   experiment_id: E-D5-001
   status: frozen
-  protocol_revision: 2
-  latest_amendment: A-2026-08-24-ZOOM-CATEGORY
+  protocol_revision: 3
+  latest_amendment: A-2026-08-24-SMOKE-SELECTION
   frozen_at_utc: "2026-08-24"
   owner_document: docs/vision_opd_21_day_plan.md
   amendment_policy: >-
@@ -228,7 +228,10 @@ smoke:
   enabled: true
   samples_per_benchmark: 16
   selection_seed: 42
-  selection_method: deterministic_stratified_by_benchmark
+  selection_method: sha256_ranked_stratified
+  selection_rank_input: "{selection_seed}:{benchmark}:{sample_uid}"
+  selection_rank_order: ascending_hex_digest
+  category_allocation: explicit_frozen_quotas
   selection:
     zoombench:
       stratify_by: question_format
@@ -237,12 +240,24 @@ smoke:
         open_question: 4
     mmstar:
       stratify_by: category
+      quotas:
+        coarse perception: 3
+        fine-grained perception: 3
+        instance reasoning: 3
+        logical reasoning: 3
+        math: 2
+        science & technology: 2
     vstar:
       stratify_by: category
+      quotas:
+        direct_attributes: 8
+        relative_position: 8
   manifest: artifacts/runs/E-D5-001/smoke_selection.json
+  manifest_sha256_file: artifacts/runs/E-D5-001/smoke_selection.sha256
   freeze_selected_sample_ids_before_inference: true
   reuse_same_ids_for_all_models: true
   forbid_selection_by_accuracy: true
+  preserve_deterministically_selected_confirmed_overlaps: true
   required_checks:
     - exact_sample_count
     - unique_sample_uid

@@ -23,7 +23,7 @@ class FrozenBenchmarkProtocolTest(unittest.TestCase):
     def test_repository_config_is_frozen(self):
         _path, config = load_frozen_config("configs/benchmark_eval.yaml")
         self.assertEqual(config["protocol"]["status"], "frozen")
-        self.assertEqual(config["protocol"]["protocol_revision"], 2)
+        self.assertEqual(config["protocol"]["protocol_revision"], 3)
         zoom = config["benchmarks"]["zoombench"]
         self.assertEqual(
             zoom["per_sample_dimension_labels"]["status"],
@@ -34,6 +34,21 @@ class FrozenBenchmarkProtocolTest(unittest.TestCase):
         self.assertEqual(
             config["smoke"]["selection"]["zoombench"]["quotas"],
             {"multiple_choice": 12, "open_question": 4},
+        )
+        self.assertEqual(
+            config["smoke"]["selection"]["mmstar"]["quotas"],
+            {
+                "coarse perception": 3,
+                "fine-grained perception": 3,
+                "instance reasoning": 3,
+                "logical reasoning": 3,
+                "math": 2,
+                "science & technology": 2,
+            },
+        )
+        self.assertEqual(
+            config["smoke"]["selection"]["vstar"]["quotas"],
+            {"direct_attributes": 8, "relative_position": 8},
         )
         self.assertEqual(
             config["benchmarks"]["vstar"]["dataset_repo_id"],
