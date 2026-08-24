@@ -1,0 +1,299 @@
+schema_version: 1
+
+protocol:
+  name: vision-opd-external-benchmark-evaluation
+  experiment_id: E-D5-001
+  status: frozen
+  frozen_at_utc: "2026-08-24"
+  owner_document: docs/vision_opd_21_day_plan.md
+  amendment_policy: >-
+    Any change to a source revision, sample set, prompt, image preprocessing,
+    generation setting, answer parser, judge, or metric requires a dated
+    amendment and invalidates cross-run comparisons made under the old value.
+  config_sha256_file: artifacts/runs/E-D5-001/benchmark_eval_yaml.sha256
+
+model_under_test:
+  name: Qwen3.5-4B
+  path: /root/autodl-tmp/models/Qwen3.5-4B
+  role: shared_base_or_independent_branch_checkpoint
+  base_weight_sha256:
+    model.safetensors-00001-of-00002.safetensors: 26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61
+    model.safetensors-00002-of-00002.safetensors: cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188
+  require_runtime_checkpoint_sha256: true
+  forbid_official_vision_opd_weights_as_base: true
+
+serving:
+  api: openai_compatible_chat_completions
+  served_model_name: vision-opd-base
+  tensor_parallel_size: 2
+  dtype: bfloat16
+  gpu_memory_utilization: 0.80
+  max_model_len: 32768
+  max_num_seqs: 8
+  trust_remote_code: true
+
+prompt_and_image:
+  system_prompt: >-
+    You are a helpful assistant. The assistant first thinks about the reasoning
+    process in the mind and then provides the user with the answer. The answer
+    is enclosed within <answer> </answer> tags, i.e., reasoning process here
+    <answer> answer here </answer>.
+  strip_literal_image_token: true
+  input_image_count: 1
+  min_pixels: 65536
+  max_pixels: 16777216
+  preserve_aspect_ratio: true
+  processor_source: model_checkpoint
+  answer_tags:
+    open: "<answer>"
+    close: "</answer>"
+
+generation:
+  profile: zoombench_official_without_tool_qwen3_vl
+  seed: 42
+  do_sample: true
+  temperature: 0.7
+  top_p: 0.8
+  top_k: 20
+  presence_penalty: 1.5
+  repetition_penalty: 1.0
+  max_new_tokens: 8192
+  num_return_sequences: 1
+  note: >-
+    These values follow the frozen ZoomBench official infer_without_tool.py
+    revision and are shared by all three benchmarks so every project model is
+    evaluated under one unchanged decoding protocol.
+
+judge:
+  enabled_for:
+    - zoombench_open_question
+  forbidden_for:
+    - mmstar
+    - vstar
+  pipeline:
+    - mathruler
+    - llm_judge_on_unresolved
+  model:
+    repo_id: Qwen/Qwen3-30B-A3B-Instruct-2507
+    revision: 0d7cf23991f47feeb3a57ecb4c9cee8ea4a17bfe
+    license: apache-2.0
+    tensor_parallel_size: 1
+    dtype: bfloat16
+    gpu_memory_utilization: 0.90
+  generation:
+    temperature: 0
+    max_new_tokens: 2048
+  prompt: |-
+    Your task is to judge whether the response expresses the same meaning as the answer of a question.
+    The question is: {question}
+    The answer is: {reference_answer}
+    The response is: {model_answer}
+    Please check and compare them and then judge. If the response is correct, your output should be Yes. Otherwise, your output should be No. Directly give me your output.
+  accepted_outputs:
+    correct: "Yes"
+    incorrect: "No"
+  normalization: strip_then_casefold_exact
+  failure_policy: count_incorrect_and_record_error
+
+benchmarks:
+  zoombench:
+    display_name: ZoomBench
+    official_project_url: https://github.com/inclusionAI/Zooming-without-Zooming
+    official_protocol_revision: fdc0ba1a3dee916d8c38304d543ad414879e0c99
+    official_dataset_url: https://huggingface.co/datasets/inclusionAI/ZoomBench
+    dataset_repo_id: inclusionAI/ZoomBench
+    dataset_revision: b788097e57d30510c6877824833234a73bf80d25
+    dataset_license: apache-2.0
+    code_license: apache-2.0
+    split: test
+    expected_sample_count: 845
+    source_file: data/test.parquet
+    question_formats:
+      - multiple_choice
+      - open_question
+    categories: 6
+    views:
+      primary:
+        name: full_image
+        field: image
+        report_as: official_full_image_accuracy
+      diagnostic:
+        name: cropped_region
+        field: crop_image
+        report_as: crop_oracle_accuracy
+    metrics:
+      - full_image_accuracy
+      - cropped_region_accuracy
+      - zooming_gap_crop_minus_full
+      - category_accuracy
+    scoring:
+      multiple_choice: deterministic_option_parser
+      open_question: mathruler_then_frozen_qwen_judge
+      invalid_prediction: incorrect
+    preserve_official_full_set: true
+
+  mmstar:
+    display_name: MMStar
+    official_project_url: https://github.com/MMStar-Benchmark/MMStar
+    official_protocol_revision: 88f243ab4a39cb339530085c33aecb22819881a1
+    official_dataset_url: https://huggingface.co/datasets/Lin-Chen/MMStar
+    dataset_repo_id: Lin-Chen/MMStar
+    dataset_revision: bc98d668301da7b14f648724866e57302778ab27
+    dataset_license: not_declared_in_official_dataset_card
+    code_license: not_declared_in_official_repository
+    license_review_required_before_redistribution: true
+    split: val
+    expected_sample_count: 1500
+    source_file: mmstar.parquet
+    question_formats:
+      - multiple_choice
+    categories: 6
+    l2_categories: 18
+    metrics:
+      - image_input_accuracy
+      - category_accuracy
+      - l2_category_accuracy
+    excluded_from_project_primary_protocol:
+      - multimodal_gain
+      - multimodal_leakage
+    exclusion_reason: >-
+      MG and ML require the additional no-image LVLM and base-LLM runs described
+      by MMStar; Day 5 freezes image-input accuracy as this project's primary
+      cross-checkpoint metric.
+    scoring:
+      method: deterministic_option_parser
+      valid_options:
+        - A
+        - B
+        - C
+        - D
+      llm_judge_fallback: false
+      invalid_prediction: incorrect
+    preserve_official_full_set: true
+
+  vstar:
+    display_name: V* Bench
+    official_project_url: https://github.com/penghao-wu/vstar
+    official_protocol_revision: 4ede6647959cfb59eeabd09286adf6a5f9478da0
+    official_dataset_url: https://huggingface.co/datasets/craigwu/vstar_bench
+    dataset_repo_id: craigwu/vstar_bench
+    dataset_revision: d9ae62c903da0c98336e85c5ee89cd863b04b4da
+    dataset_license: not_declared_in_official_dataset_card
+    code_license: mit
+    license_review_required_before_redistribution: true
+    split: test
+    expected_sample_count: 191
+    question_formats:
+      - multiple_choice
+    categories:
+      - direct_attributes
+      - relative_position
+    prompt_suffix: "Answer with the option's letter from the given choices directly."
+    metrics:
+      - overall_accuracy
+      - category_accuracy
+    scoring:
+      method: deterministic_option_parser
+      valid_options:
+        - A
+        - B
+        - C
+        - D
+      llm_judge_fallback: false
+      invalid_prediction: incorrect
+    provenance_note: >-
+      The frozen dataset is the repository linked by the official V* project.
+      Do not silently substitute the lmms-lab/vstar-bench mirror.
+    preserve_official_full_set: true
+
+smoke:
+  enabled: true
+  samples_per_benchmark: 16
+  selection_seed: 42
+  selection_method: deterministic_stratified_by_category
+  manifest: artifacts/runs/E-D5-001/smoke_selection.json
+  freeze_selected_sample_ids_before_inference: true
+  reuse_same_ids_for_all_models: true
+  forbid_selection_by_accuracy: true
+  required_checks:
+    - exact_sample_count
+    - unique_sample_uid
+    - image_exists_and_decodes
+    - nonempty_prompt_and_reference
+    - no_answer_leakage_in_request
+    - inference_resume_without_duplicates
+    - nonempty_response
+    - parser_or_judge_source_recorded
+    - summary_recomputes_from_predictions
+
+overlap_audit:
+  project_splits:
+    - /root/autodl-tmp/data/vision_opd_1024/train_1024.parquet
+    - /root/autodl-tmp/data/vision_opd_1024/eval_128.parquet
+    - /root/autodl-tmp/data/vision_opd_1024/retention_64.parquet
+  include_project_full_images: true
+  include_project_crop_images: true
+  checks:
+    file_sha256:
+      enabled: true
+      classification: exact_image_match
+    normalized_question:
+      enabled: true
+      unicode_normalization: NFKC
+      casefold: true
+      collapse_whitespace: true
+    perceptual_hash:
+      enabled: true
+      algorithm: phash
+      hash_size: 8
+      suspected_max_hamming_distance: 5
+      classification: suspected_perceptual_match
+      require_manual_confirmation: true
+  on_overlap:
+    preserve_official_test_samples: true
+    report_official_full_score: true
+    report_deduplicated_diagnostic_separately: true
+    forbid_claiming_fully_independent_test: true
+
+paths:
+  data_root: /root/autodl-tmp/benchmark_data
+  hf_cache: /root/autodl-tmp/hf_cache
+  run_root: artifacts/runs/E-D5-001
+  dataset_manifest: artifacts/runs/E-D5-001/dataset_manifest.json
+  raw_hash_manifest: artifacts/runs/E-D5-001/raw_data_sha256.txt
+  converted_hash_manifest: artifacts/runs/E-D5-001/converted_data_sha256.txt
+  overlap_dir: artifacts/runs/E-D5-001/overlap
+  predictions_name: predictions.jsonl
+  scores_name: scores.jsonl
+  summary_name: summary.json
+  cost_file: artifacts/runs/E-D5-001/cost.json
+
+reporting:
+  include_failed_samples_in_denominator: true
+  save_raw_model_answer: true
+  save_parsed_answer: true
+  save_judge_source_per_sample: true
+  save_finish_reason: true
+  save_prompt_and_completion_tokens: true
+  save_latency_seconds: true
+  save_retry_count_and_error: true
+  save_dataset_and_model_hashes: true
+  required_breakdowns:
+    - benchmark
+    - official_category
+
+budget:
+  currency: CNY
+  cost_per_gpu_hour: 5.98
+  dual_gpu_cost_per_wall_hour: 11.96
+  project_hard_limit: 2000
+  estimate_from_smoke: true
+  full_external_evaluation_model_count: 4
+  model_runs:
+    - base
+    - vision_opd
+    - cached_prefix
+    - grpo
+  retry_margin_fraction: 0.15
+  freeze_full_evaluation_budget_after_smoke: true
+  forbid_run_if_projected_total_exceeds_hard_limit: true
