@@ -1,0 +1,245 @@
+{
+  "experiment_id": "E-D5-001",
+  "frozen_at_utc": "2026-08-24T12:31:03.192893+00:00",
+  "inputs": {
+    "config": {
+      "judge": {
+        "accepted_outputs": {
+          "correct": "Yes",
+          "incorrect": "No"
+        },
+        "comparability_label": "project_frozen_base_4b_judge",
+        "deterministic_numeric": {
+          "accepted_values": "signed_integer_or_decimal_with_optional_thousands_separators",
+          "equal_result": "correct",
+          "require_entire_reference_and_prediction_to_be_numeric": true,
+          "unequal_result": "incorrect"
+        },
+        "enabled_for": [
+          "zoombench_open_question"
+        ],
+        "failure_policy": "count_incorrect_and_record_error",
+        "forbidden_for": [
+          "mmstar",
+          "vstar"
+        ],
+        "generation": {
+          "enable_thinking": false,
+          "max_new_tokens": 64,
+          "temperature": 0
+        },
+        "model": {
+          "base_weight_sha256": {
+            "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+            "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+          },
+          "dtype": "bfloat16",
+          "gpu_memory_utilization": 0.8,
+          "name": "Qwen3.5-4B",
+          "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+          "role": "fixed_base_judge_for_all_model_branches",
+          "served_model_name": "vision-opd-base",
+          "tensor_parallel_size": 2
+        },
+        "normalization": "strip_then_casefold_exact",
+        "pipeline": [
+          "deterministic_single_numeric_comparison",
+          "mathruler_on_non_numeric_or_unresolved",
+          "fixed_base_4b_judge_on_semantic_unresolved"
+        ],
+        "prompt": "Your task is to judge whether the response expresses the same meaning as the answer of a question.\nThe question is: {question}\nThe answer is: {reference_answer}\nThe response is: {model_answer}\nPlease check and compare them and then judge. If the response is correct, your output should be Yes. Otherwise, your output should be No. Directly give me your output.",
+        "supersedes": {
+          "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "reason": "disproportionate_local_storage_and_memory_for_project_scale"
+        },
+        "system_prompt": "Output exactly one word: Yes or No. Do not explain."
+      },
+      "model_under_test": {
+        "base_weight_sha256": {
+          "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+          "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+        },
+        "forbid_official_vision_opd_weights_as_base": true,
+        "name": "Qwen3.5-4B",
+        "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+        "require_runtime_checkpoint_sha256": true,
+        "role": "shared_base_or_independent_branch_checkpoint"
+      },
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval.yaml",
+      "serving": {
+        "api": "openai_compatible_chat_completions",
+        "dtype": "bfloat16",
+        "gpu_memory_utilization": 0.8,
+        "max_model_len": 32768,
+        "max_num_seqs": 8,
+        "served_model_name": "vision-opd-base",
+        "tensor_parallel_size": 2,
+        "trust_remote_code": true
+      },
+      "sha256": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6"
+    },
+    "dataset_manifest": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/dataset_manifest.json",
+      "sha256": "464d2ffd4fcd0168f88053992d69c0d22e3571f00ada8286877e5146cd1ac357",
+      "workload": {
+        "by_benchmark": {
+          "mmstar": {
+            "converted_json": "/root/autodl-tmp/benchmark_data/converted/mmstar/mmstar.json",
+            "converted_json_sha256": "4cef7496590fce9e3c95bf133c36db2712e75a083a355c56d4976bd27603f813",
+            "full_request_count": 1500,
+            "maximum_semantic_judge_instances": 0,
+            "question_format_counts": {
+              "multiple_choice": 1500
+            },
+            "request_multiplier": 1,
+            "sample_count": 1500
+          },
+          "vstar": {
+            "converted_json": "/root/autodl-tmp/benchmark_data/converted/vstar/vstar.json",
+            "converted_json_sha256": "0e7da878d87363c2c5d5b44319594ebc30e3ee71ea53cde098ef77677257b255",
+            "full_request_count": 191,
+            "maximum_semantic_judge_instances": 0,
+            "question_format_counts": {
+              "multiple_choice": 191
+            },
+            "request_multiplier": 1,
+            "sample_count": 191
+          },
+          "zoombench": {
+            "converted_json": "/root/autodl-tmp/benchmark_data/converted/zoombench/zoombench.json",
+            "converted_json_sha256": "15d334cedbaadbfcb802680509c4bb473e0358d9abef98d62a78716a9427fcfd",
+            "full_request_count": 1690,
+            "maximum_semantic_judge_instances": 448,
+            "question_format_counts": {
+              "multiple_choice": 621,
+              "open_question": 224
+            },
+            "request_multiplier": 2,
+            "sample_count": 845
+          }
+        },
+        "full_request_count": 3381,
+        "maximum_semantic_judge_instances": 448
+      }
+    },
+    "hardware": {
+      "error": "PermissionError: [Errno 13] Permission denied: 'nvidia-smi'",
+      "status": "unavailable_at_freeze_time"
+    },
+    "pricing": {
+      "dual_gpu_hourly_cny": null,
+      "note": "Set from the AutoDL console before budget approval; do not infer a price from Smoke.",
+      "source": null,
+      "status": "required_before_budget_approval"
+    },
+    "selection_manifest": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/smoke_selection.json",
+      "sample_uid_count": 48,
+      "sha256": "dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b"
+    },
+    "smoke_artifacts": {
+      "observations": {
+        "by_benchmark": {
+          "mmstar": {
+            "completion_tokens": 20364,
+            "mean_completion_tokens": 1272.75,
+            "mean_latency_seconds": 9.1343430625,
+            "mean_prompt_tokens": 298.125,
+            "prompt_tokens": 4770,
+            "request_count": 16
+          },
+          "vstar": {
+            "completion_tokens": 21365,
+            "mean_completion_tokens": 1335.3125,
+            "mean_latency_seconds": 10.217612749999999,
+            "mean_prompt_tokens": 3401.5,
+            "prompt_tokens": 54424,
+            "request_count": 16
+          },
+          "zoombench": {
+            "completion_tokens": 69131,
+            "mean_completion_tokens": 2160.34375,
+            "mean_latency_seconds": 19.48825234375,
+            "mean_prompt_tokens": 2199.40625,
+            "prompt_tokens": 70381,
+            "request_count": 32
+          }
+        },
+        "completion_span_seconds": 125.881623,
+        "completion_timestamp_first_utc": "2026-08-24T11:53:10.663441+00:00",
+        "completion_timestamp_last_utc": "2026-08-24T11:55:16.545064+00:00",
+        "inference_error_count": 0,
+        "mean_request_latency_seconds": 14.582115125,
+        "request_count": 64,
+        "sum_request_latency_seconds": 933.255368,
+        "unique_request_key_count": 64
+      },
+      "predictions_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/smoke/base/predictions.jsonl",
+      "predictions_sha256": "02d90a298dea80036014b139569585fe3404c913e5019e0eb454aaa6f2e8e395",
+      "summary": {
+        "config_sha256": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6",
+        "decision_status": "complete",
+        "generated_at_utc": "2026-08-24T12:15:14.818222+00:00",
+        "groups": {
+          "mmstar/full": {
+            "accuracy": 0.875,
+            "correct": 14,
+            "incorrect": 2,
+            "pending_judge": 0,
+            "total": 16
+          },
+          "vstar/full": {
+            "accuracy": 0.9375,
+            "correct": 15,
+            "incorrect": 1,
+            "pending_judge": 0,
+            "total": 16
+          },
+          "zoombench/crop": {
+            "accuracy": 0.625,
+            "correct": 10,
+            "incorrect": 6,
+            "pending_judge": 0,
+            "total": 16
+          },
+          "zoombench/full": {
+            "accuracy": 0.3125,
+            "correct": 5,
+            "incorrect": 11,
+            "pending_judge": 0,
+            "total": 16
+          }
+        },
+        "inference_error_count": 0,
+        "judge": {
+          "deterministic_numeric_count": 7,
+          "judge_failure_count": 0,
+          "llm_judge_count": 1,
+          "mathruler_count": 0,
+          "model": "vision-opd-base",
+          "pending_judge_count": 0
+        },
+        "performance": {
+          "completion_tokens": 110860,
+          "latency_mean_seconds": 14.582115125,
+          "latency_p95_seconds": 55.959928,
+          "prompt_tokens": 129575
+        },
+        "request_count": 64,
+        "resume_gate": {
+          "duplicate_request_keys": 0,
+          "unique_request_keys": 64
+        },
+        "schema_version": 1,
+        "selection_manifest_sha256": "dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b",
+        "unique_sample_uid_count": 48,
+        "zoombench_zooming_gap": 0.3125
+      },
+      "summary_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/smoke/base/summary.json",
+      "summary_sha256": "b0f42696d2b4a19bce40c4b2d080146fc82e2c7cf5ea8b26b5ae077361a1cd53"
+    }
+  },
+  "protocol_revision": 4,
+  "purpose": "day5_task6_full_external_evaluation_budget_inputs",
+  "schema_version": 1
+}

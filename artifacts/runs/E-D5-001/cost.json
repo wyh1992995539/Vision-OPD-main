@@ -1,0 +1,101 @@
+{
+  "budget_inputs": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/budget_inputs.json",
+    "sha256": "9f03f8c83108319e248753442ac080f2385dd2e70015fee7acea9ab39bbefe61"
+  },
+  "experiment_id": "E-D5-001",
+  "frozen_measurement": {
+    "judge_seconds_per_instance_assumption": 5.0,
+    "observed_effective_inference_concurrency": 7.413753856668975,
+    "observed_semantic_judge_rate": 0.125,
+    "smoke_open_question_instances": 8,
+    "smoke_scores_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/smoke/base/scores.jsonl",
+    "smoke_scores_sha256": "056e4f4b2222c84d2cb20f619e32b22b4a3247b5c2b987cd886b4ed2a953864c",
+    "smoke_semantic_judge_instances": 1
+  },
+  "full_workload_projection": {
+    "by_benchmark": {
+      "mmstar": {
+        "full_request_count": 1500,
+        "maximum_semantic_judge_instances": 0,
+        "projected_completion_tokens": 1909125.0,
+        "projected_individual_latency_seconds": 13701.514593749998,
+        "projected_prompt_tokens": 447187.5
+      },
+      "vstar": {
+        "full_request_count": 191,
+        "maximum_semantic_judge_instances": 0,
+        "projected_completion_tokens": 255044.6875,
+        "projected_individual_latency_seconds": 1951.5640352499997,
+        "projected_prompt_tokens": 649686.5
+      },
+      "zoombench": {
+        "full_request_count": 1690,
+        "maximum_semantic_judge_instances": 448,
+        "projected_completion_tokens": 3650980.9375,
+        "projected_individual_latency_seconds": 32935.146460937496,
+        "projected_prompt_tokens": 3716996.5625
+      }
+    },
+    "expected_semantic_judge_instances": 56.0,
+    "full_request_count": 3381,
+    "individual_request_latency_seconds": 48588.22508993749,
+    "maximum_semantic_judge_instances": 448,
+    "projected_completion_tokens": 5815150.625,
+    "projected_prompt_tokens": 4813870.5625
+  },
+  "generated_at_utc": "2026-08-24T12:37:46.204457+00:00",
+  "guardrails": {
+    "project_cost_cap_cny": 2000.0,
+    "recommended_execution_cap_cny": 100.0,
+    "run_policy": "Start Day 6 only under the conservative budget; stop and investigate before exceeding the recommended cap.",
+    "worst_case_within_project_cap": true,
+    "worst_case_within_recommended_cap": true
+  },
+  "pricing": {
+    "billing_unit": "dual_gpu_instance_hour",
+    "dual_gpu_hourly_cny": 11.96,
+    "source": "user_reported_autodl_dual_gpu_hourly_price_2026-08-24"
+  },
+  "protocol_revision": 4,
+  "purpose": "day5_task6_full_external_evaluation_time_and_cost_budget",
+  "scenarios": [
+    {
+      "effective_inference_concurrency": 7.413753856668975,
+      "estimated_cost_cny": 26.10889455191691,
+      "estimated_wall_hours": 2.1830179391234874,
+      "estimated_wall_seconds": 7858.864580844554,
+      "inference_wall_seconds_before_buffer": 6553.795287690918,
+      "judge_instances": 56.0,
+      "judge_seconds_per_instance": 5.0,
+      "judge_wall_seconds_before_buffer": 280.0,
+      "name": "measured_throughput",
+      "overhead_fraction": 0.15
+    },
+    {
+      "effective_inference_concurrency": 5.0,
+      "estimated_cost_cny": 43.17871798324157,
+      "estimated_wall_hours": 3.6102607009399303,
+      "estimated_wall_seconds": 12996.93852338375,
+      "inference_wall_seconds_before_buffer": 9717.6450179875,
+      "judge_instances": 56.0,
+      "judge_seconds_per_instance": 5.0,
+      "judge_wall_seconds_before_buffer": 280.0,
+      "name": "conservative_execution_budget",
+      "overhead_fraction": 0.3
+    },
+    {
+      "effective_inference_concurrency": 4.0,
+      "estimated_cost_cny": 71.6954970912138,
+      "estimated_wall_hours": 5.9946067802018215,
+      "estimated_wall_seconds": 21580.584408726558,
+      "inference_wall_seconds_before_buffer": 12147.056272484373,
+      "judge_instances": 448,
+      "judge_seconds_per_instance": 5.0,
+      "judge_wall_seconds_before_buffer": 2240.0,
+      "name": "worst_case_guardrail",
+      "overhead_fraction": 0.5
+    }
+  ],
+  "schema_version": 1
+}

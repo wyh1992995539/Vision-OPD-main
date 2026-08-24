@@ -561,3 +561,53 @@ python scripts/check_benchmark_overlap.py \
 
 选择器实现为 `scripts/select_benchmark_smoke.py`，默认拒绝覆盖已冻结 manifest；仅在显式 `--force` 后才能重建。
 
+
+## 18. Amendment C-2026-08-24-ZOOMBENCH-SCORING
+
+- 日期：2026-08-24（UTC）；
+- 原因：ZoomBench Smoke 暴露出 5 条未决开放题，其中 4 条的参考答案与抽取出的最终答案都是完整单数字且数值明显不等。让 LLM Judge 判断这类确定性错误既增加资源消耗，也引入不必要的随机性；原冻结 30B Judge 对本项目规模还需要不成比例的约 32 GiB 本地存储。
+- 旧值：`MathRuler -> Qwen3-30B-A3B-Instruct-2507 Judge`；
+- 新值：`确定性单数字比较 -> MathRuler -> 固定 Base Qwen3.5-4B 语义 Judge`。
+
+确定性规则冻结如下：只有参考答案和从 `<answer>` 中抽取的最终回答在去除首尾空白后，都完整匹配带可选正负号、可选千位分隔符的整数或十进制数时才启用；使用十进制精确值比较，相等计对、不等计错。数字嵌在句子中、范围、分数、单位、多个候选数字或缺失最终答案均不由此规则裁决。单数字不等时不得再交给 MathRuler 或 LLM Judge 覆盖。非适用项先由 MathRuler 判定；仅 MathRuler 未确认的语义未决项进入固定 Base 4B。
+
+固定 Judge 身份与生成约束：
+
+- 模型：`/root/autodl-tmp/models/Qwen3.5-4B`，服务名 `vision-opd-base`；
+- 权重 SHA256：分片 1 为 `26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61`，分片 2 为 `cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188`；
+- 所有 Base、Vision-OPD、Cached Prefix 与 GRPO 分支复用同一固定 Base Judge，禁止随被测分支更换 Judge；
+- `temperature=0`、`enable_thinking=false`、`max_new_tokens=64`，system prompt 要求只输出 `Yes` 或 `No`；其他输出按失败计错并记录原文；
+- 该结果必须标记为 `project_frozen_base_4b_judge`，不得声称采用 ZoomBench 官方 30B Judge，也不与旧 Judge 协议结果直接横向比较。
+
+本 amendment 只改变评分协议，不改变数据 revision、48 个冻结 UID、full/crop 图像、被测模型 Prompt、图像预处理或推理生成参数。因此不重抽样，原 selection manifest SHA256 `dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b` 继续有效；运行器改为验证抽样 seed、排序规则、分层配额、样本数和数据 revision，而不是把整份配置 SHA256 当作样本身份。
+
+配置升至 revision 4，`configs/benchmark_eval.yaml` SHA256 为 `d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6`。重评分后，7 条开放题由确定性数字规则裁决，当前 Smoke 没有 MathRuler 命中，1 条真正语义未决项由 Base 4B 输出严格的 `No`，Judge 失败和待定均为 0。最终结果：MMStar full `14/16 = 87.50%`，V* full `15/16 = 93.75%`，ZoomBench full `5/16 = 31.25%`，ZoomBench crop `10/16 = 62.50%`，zooming gap 为 `+31.25` 个百分点。
+
+被中断的 `/root/autodl-tmp/models/Qwen3-30B-A3B-Instruct-2507` 下载目录仅含约 1.8 MiB 配置/分词器文件且无权重分片，已在确认与现有 Base 目录分离后删除；`/root/autodl-tmp/models/Qwen3.5-4B`（8.8 GiB）未受影响。
+
+## 19. Day 5 Task 6: 完整评测预算决策与 Day 6 启动 Gate
+
+- 日期：2026-08-24（UTC）；
+- 冻结输入：`budget_inputs.json` SHA256 为 `9f03f8c83108319e248753442ac080f2385dd2e70015fee7acea9ab39bbefe61`；`cost.json` 与 `full_eval_budget.md` 的 SHA256 已写入 `artifacts/runs/E-D5-001/budget_artifacts.sha256`；
+- 定价来源：用户确认的 AutoDL 双卡实例价格为 `11.96 CNY / hour`。该价格单位已经是双卡实例小时，费用计算不得再次乘以 GPU 数；
+- 工作量：完整 Day 6 运行固定为 3,381 个请求，其中 ZoomBench full/crop 为 1,690、MMStar 为 1,500、V* Bench 为 191；预计语义 Judge 为 56 条，理论上限为 448 条；
+- 三档预算：实测吞吐为 2.18 小时 / 26.11 元；**保守执行预算为 3.61 小时 / 43.18 元**；最坏护栏为 5.99 小时 / 71.70 元；
+- 决策：Day 6 获准按保守预算启动，并冻结单次完整外部 Base 评测的运行费用上限为 **100.00 元**。该上限包含推理、重试和 Judge；它低于最坏护栏外加余量，也远低于项目 2,000 元硬上限。
+
+### 19.1 Day 6 启动条件
+
+启动 `E-D6-001` 前必须全部满足：
+
+1. 对 `configs/benchmark_eval.yaml`、`smoke_selection.json`、`budget_inputs.json`、`cost.json` 和 `budget_artifacts.sha256` 完成 SHA256 校验；配置 revision 必须仍为 4，且不得变更数据 revision、48 条 Smoke UID、Prompt、图像处理、生成参数、评分/Judge 协议；
+2. 核验实际加载的是两分片 SHA256 与冻结值一致的原始 `Qwen3.5-4B` Base；不得加载官方 Vision-OPD 权重、训练后权重或替代 Judge；
+3. vLLM 必须以冻结的双卡参数启动：`vision-opd-base`、tensor parallel size 2、bfloat16、GPU memory utilization 0.80、max model length 32768、max num seqs 8、seed 42；服务健康检查通过后才可提交第一个请求；
+4. 三个转换后 Benchmark 文件存在且其冻结 SHA256 与数据 manifest 一致；运行目录可写，且可续跑预测文件、评分文件与错误记录均启用；
+5. AutoDL 双卡小时价格仍为 11.96 元；若价格、硬件数量、模型服务参数或预算输入任一变化，必须先创建新的 amendment 并重新生成 `cost.json`，不得沿用本决策。
+
+### 19.2 运行中止与交付条件
+
+- 从第一个 Day 6 请求开始记录墙钟时间与累计实例费用；当预计或实际费用达到 80 元时暂停检查，当达到 **100 元** 时立即停止新的请求、保留 checkpoint/逐条记录并调查，不能按成功子集报告分数；
+- 任何未记录的 API 错误、图片错位、空响应、重复 request key、配置/模型哈希不一致，或 Judge 输出未按冻结规则记录时，暂停运行并修复后以断点恢复；所有失败样本仍在官方分母中；
+- 完成标准：ZoomBench 845 条的 full/crop、MMStar 1,500 条、V* Bench 191 条全部有逐条输入标识、原始输出、解析/评分来源、延迟和错误字段；V* 同时报官方全量 191 条与排除 4 个已确认重叠样本后的 187 条诊断，不将后者替代官方结果；
+- Day 6 结束后，写入 `artifacts/runs/E-D6-001/` 的预测、评分、汇总、成本、模型/数据哈希和人类可读报告；不得覆盖 Day 4 的内部 128 条基线或 Day 5 Smoke 结果。
+

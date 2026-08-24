@@ -23,7 +23,7 @@ class FrozenBenchmarkProtocolTest(unittest.TestCase):
     def test_repository_config_is_frozen(self):
         _path, config = load_frozen_config("configs/benchmark_eval.yaml")
         self.assertEqual(config["protocol"]["status"], "frozen")
-        self.assertEqual(config["protocol"]["protocol_revision"], 3)
+        self.assertEqual(config["protocol"]["protocol_revision"], 4)
         zoom = config["benchmarks"]["zoombench"]
         self.assertEqual(
             zoom["per_sample_dimension_labels"]["status"],

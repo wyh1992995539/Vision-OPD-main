@@ -4,8 +4,8 @@ protocol:
   name: vision-opd-external-benchmark-evaluation
   experiment_id: E-D5-001
   status: frozen
-  protocol_revision: 3
-  latest_amendment: A-2026-08-24-SMOKE-SELECTION
+  protocol_revision: 4
+  latest_amendment: A-2026-08-24-ZOOMBENCH-SCORING
   frozen_at_utc: "2026-08-24"
   owner_document: docs/vision_opd_21_day_plan.md
   amendment_policy: >-
@@ -73,18 +73,30 @@ judge:
     - mmstar
     - vstar
   pipeline:
-    - mathruler
-    - llm_judge_on_unresolved
+    - deterministic_single_numeric_comparison
+    - mathruler_on_non_numeric_or_unresolved
+    - fixed_base_4b_judge_on_semantic_unresolved
+  deterministic_numeric:
+    accepted_values: signed_integer_or_decimal_with_optional_thousands_separators
+    require_entire_reference_and_prediction_to_be_numeric: true
+    equal_result: correct
+    unequal_result: incorrect
   model:
-    repo_id: Qwen/Qwen3-30B-A3B-Instruct-2507
-    revision: 0d7cf23991f47feeb3a57ecb4c9cee8ea4a17bfe
-    license: apache-2.0
-    tensor_parallel_size: 1
+    name: Qwen3.5-4B
+    path: /root/autodl-tmp/models/Qwen3.5-4B
+    served_model_name: vision-opd-base
+    role: fixed_base_judge_for_all_model_branches
+    base_weight_sha256:
+      model.safetensors-00001-of-00002.safetensors: 26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61
+      model.safetensors-00002-of-00002.safetensors: cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188
+    tensor_parallel_size: 2
     dtype: bfloat16
-    gpu_memory_utilization: 0.90
+    gpu_memory_utilization: 0.80
   generation:
     temperature: 0
-    max_new_tokens: 2048
+    max_new_tokens: 64
+    enable_thinking: false
+  system_prompt: "Output exactly one word: Yes or No. Do not explain."
   prompt: |-
     Your task is to judge whether the response expresses the same meaning as the answer of a question.
     The question is: {question}
@@ -96,6 +108,10 @@ judge:
     incorrect: "No"
   normalization: strip_then_casefold_exact
   failure_policy: count_incorrect_and_record_error
+  comparability_label: project_frozen_base_4b_judge
+  supersedes:
+    model: Qwen/Qwen3-30B-A3B-Instruct-2507
+    reason: disproportionate_local_storage_and_memory_for_project_scale
 
 benchmarks:
   zoombench:
@@ -146,7 +162,7 @@ benchmarks:
         reporting: do_not_compute_or_label_as_official
     scoring:
       multiple_choice: deterministic_option_parser
-      open_question: mathruler_then_frozen_qwen_judge
+      open_question: deterministic_numeric_then_mathruler_then_fixed_base_4b_judge
       invalid_prediction: incorrect
     preserve_official_full_set: true
 

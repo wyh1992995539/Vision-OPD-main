@@ -1,0 +1,59 @@
+{
+  "config_sha256": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6",
+  "decision_status": "complete",
+  "generated_at_utc": "2026-08-24T12:15:14.818222+00:00",
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.875,
+      "correct": 14,
+      "incorrect": 2,
+      "pending_judge": 0,
+      "total": 16
+    },
+    "vstar/full": {
+      "accuracy": 0.9375,
+      "correct": 15,
+      "incorrect": 1,
+      "pending_judge": 0,
+      "total": 16
+    },
+    "zoombench/crop": {
+      "accuracy": 0.625,
+      "correct": 10,
+      "incorrect": 6,
+      "pending_judge": 0,
+      "total": 16
+    },
+    "zoombench/full": {
+      "accuracy": 0.3125,
+      "correct": 5,
+      "incorrect": 11,
+      "pending_judge": 0,
+      "total": 16
+    }
+  },
+  "inference_error_count": 0,
+  "judge": {
+    "deterministic_numeric_count": 7,
+    "judge_failure_count": 0,
+    "llm_judge_count": 1,
+    "mathruler_count": 0,
+    "model": "vision-opd-base",
+    "pending_judge_count": 0
+  },
+  "performance": {
+    "completion_tokens": 110860,
+    "latency_mean_seconds": 14.582115125,
+    "latency_p95_seconds": 55.959928,
+    "prompt_tokens": 129575
+  },
+  "request_count": 64,
+  "resume_gate": {
+    "duplicate_request_keys": 0,
+    "unique_request_keys": 64
+  },
+  "schema_version": 1,
+  "selection_manifest_sha256": "dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b",
+  "unique_sample_uid_count": 48,
+  "zoombench_zooming_gap": 0.3125
+}
