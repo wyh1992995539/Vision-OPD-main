@@ -4,7 +4,7 @@
 > 协议状态：**FROZEN**  
 > 冻结日期：2026-08-24（UTC）  
 > 机器配置：[`configs/benchmark_eval.yaml`](../configs/benchmark_eval.yaml)  
-> 配置 SHA256：`0cf1d8f09c2b1d2dc4e523a6885a9f46f56cc4aa518b3da605dbec5302e83754`
+> 配置 SHA256：`a013690b0ba5304c2ee9e5f0396a3d3ce15e9649dec84bcb04d933911189c702`
 
 ## 1. 目的与适用范围
 
@@ -162,7 +162,11 @@ is enclosed within <answer> </answer> tags, i.e., reasoning process here
 5. Material Attributes；
 6. Object Identification。
 
-步骤 4 转换时必须保存官方样本 ID、类别和题型。若原始数据未提供显式题型字段，则只有同时出现至少两个带标签选项且标准答案可映射到唯一选项时，才归类为 `multiple_choice`；其余归类为 `open_question`。转换规则必须由测试覆盖，不能人工逐题选择评分器。
+步骤 4 转换时必须保存官方样本 ID 和题型；只有官方快照提供逐样本类别映射时才保存官方类别。冻结的 ZoomBench Parquet 只有 `id`、`query`、`response`、`bbox`、`question_type`、`image` 和 `crop_image`，未提供逐样本维度字段，官方转换脚本也未发布映射。因此本项目使用 `unavailable_official` 占位，禁止通过关键词、LLM 或人工猜测六维类别，也不计算 ZoomBench 官方分类准确率。
+
+六个维度仅作为官方数据集级覆盖范围记录。ZoomBench 可复算的分解指标为 `question_format_accuracy`，分别报告 MCQ 与开放题。
+
+若原始数据未提供显式题型字段，则只有同时出现至少两个带标签选项且标准答案可映射到唯一选项时，才归类为 `multiple_choice`；其余归类为 `open_question`。转换规则必须由测试覆盖，不能人工逐题选择评分器。
 
 ### 5.2 双视图和主指标
 
@@ -305,7 +309,8 @@ Smoke 只验证数据、图像、Prompt、推理、断点恢复、解析、Judge
 每个 Benchmark 固定 16 条：
 
 - seed：42；
-- 按官方类别确定性分层；
+- ZoomBench 按题型确定性分层，固定 12 条 MCQ 和 4 条开放题；
+- MMStar 与 V* 按官方类别确定性分层；
 - 类别内按稳定 sample UID 排序后确定性抽取；
 - 最终 UID 写入 `artifacts/runs/E-D5-001/smoke_selection.json`；
 - UID 清单在首次推理前冻结；
@@ -370,7 +375,7 @@ Smoke 只验证数据、图像、Prompt、推理、断点恢复、解析、Judge
 ```text
 benchmark
 sample_uid
-official_category
+official_category (when available; ZoomBench uses unavailable_official)
 question_format
 view
 dataset_revision
@@ -398,7 +403,7 @@ scores.jsonl
 summary.json
 ```
 
-`summary.json` 至少包含总体与官方分类指标、总分母、correct/incorrect/invalid/error、Judge 调用量、输出长度、延迟、GPU 时间和成本。只有成功样本作为分母的结果无效。
+`summary.json` 至少包含总体、题型分解和可用的官方分类指标、总分母、correct/incorrect/invalid/error、Judge 调用量、输出长度、延迟、GPU 时间和成本。ZoomBench 不得输出伪造的六维分类准确率。只有成功样本作为分母的结果无效。
 
 统一产物根目录：
 
@@ -470,4 +475,71 @@ Judge 成本按实际部署方式记录 GPU 时间，或按 API 输入/输出 To
 - V* 官方项目：<https://github.com/penghao-wu/vstar>
 - V* 官方项目链接的数据：<https://huggingface.co/datasets/craigwu/vstar_bench>
 - ZoomBench 官方 Judge 模型：<https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507>
+
+
+## 15. Amendment A-2026-08-24-ZOOM-CATEGORY
+
+- 日期：2026-08-24（UTC）；
+- 原因：下载后字段审计确认，冻结 ZoomBench Parquet 与官方转换脚本均未提供逐样本六维类别映射；
+- 旧值：`categories: 6`、必需 `category_accuracy`、Smoke 按类别分层；
+- 新值：六维类别仅作为数据集级描述；逐样本类别标记为 `unavailable_official`；必需指标改为 `question_format_accuracy`；ZoomBench Smoke 固定为 12 条 MCQ 与 4 条开放题；
+- 不变项：数据仓库、revision、845 条样本、样本顺序、full/crop 图像、Prompt、答案、生成参数和评分规则均不变；
+- 可比性：此前若存在 ZoomBench 六维分类汇总或按推测类别抽取的 Smoke，均作废；总体、题型、full/crop 与 zooming gap 指标不因本 amendment 改变定义；
+- 后续要求：重新生成 ZoomBench 转换 JSON、验证与 SHA256，并在首次推理前重新冻结三个 Benchmark 的 Smoke UID。禁止把派生或推测标签称为官方类别。
+
+## 16. 任务 4：训练数据与 Benchmark 重叠审计结果
+
+审计于 2026-08-24（UTC）完成，命令为：
+
+```bash
+python scripts/check_benchmark_overlap.py \
+  --config configs/benchmark_eval.yaml \
+  --benchmarks zoombench,mmstar,vstar
+```
+
+覆盖范围与数据质量：
+
+- 项目 train/eval/retention 共 1,216 条样本、2,432 个 full/crop 图像引用；
+- 三个 Benchmark 共 2,536 条样本、3,381 个图像引用；
+- 共计算并缓存 5,813 个图像引用的 SHA256 与 64-bit DCT pHash；
+- 缺图、空问题、重复 sample UID、图像指纹错误均为 0。
+
+| Benchmark | 官方样本 | 候选 | 确认重叠 | 已排除 | 未确认 | 确认影响率 |
+|---|---:|---:|---:|---:|---:|---:|
+| ZoomBench | 845 | 1 | 0 | 1 | 0 | 0.000% |
+| MMStar | 1,500 | 0 | 0 | 0 | 0 | 0.000% |
+| V* Bench | 191 | 4 | 4 | 0 | 0 | 2.094% |
+
+人工复核结论：
+
+- V* 的 4 个候选均位于项目 `train` split。每对图像尺寸一致、pHash Hamming distance 为 0，RGB 像素差异仅稀疏集中在项目标注框附近，确认为相同底图；
+- ZoomBench 的 1 个候选仅问题模板完全相同；项目答案为 B、Benchmark 答案为 A，四种 full/crop 交叉 pHash 距离为 32、34、36、32，确认为不同图像并排除；
+- 最终未确认候选为 0。
+
+报告规则：
+
+- ZoomBench 与 MMStar 当前未检测到确认重叠；
+- V* 必须保留并报告官方 191 条全量结果，同时另报排除 4 条受影响样本后的 187 条诊断结果；
+- V* 结果不得称为“完全独立测试”；诊断结果不得替代官方全量结果；
+- 训练数据或 Benchmark revision 变化时必须重跑审计。
+
+主要产物位于 `artifacts/runs/E-D5-001/overlap/`：
+
+- `overlap_report.json`：机器可读汇总；
+- `overlap_candidates.jsonl`：逐候选证据；
+- `manual_review_decisions.json`：可复现人工裁决；
+- `manual_review.csv`：审阅表；
+- `overlap_report.md` 与 `overlap_report.html`：人类可读报告；
+- `image_fingerprint_cache.json`：可续跑指纹缓存。
+
+任务 4 验收：
+
+- [x] 文件 SHA256、规范化问题文本和 64-bit pHash 三层检查已实现；
+- [x] 项目 full/crop 与三个 Benchmark 的全部评测图已覆盖；
+- [x] 候选证据、人工结论和未确认状态可区分；
+- [x] 已执行完整审计，数据/指纹错误为 0；
+- [x] 已冻结发现重叠后的官方全量与去重诊断报告规则；
+- [x] `tests/test_benchmark_overlap.py` 已覆盖规范化、哈希、候选分类、人工裁决与端到端产物。
+
+结论：Day 5 任务 4 已完成。下一项是任务 5：生成固定的三项 Benchmark Smoke 样本清单。
 

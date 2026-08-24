@@ -1,0 +1,80 @@
+{
+  "benchmark_profile": {
+    "duplicate_sample_uid_count": 0,
+    "empty_question_count": 0,
+    "image_reference_count": 3381,
+    "missing_image_reference_count": 0,
+    "sample_count": 2536,
+    "samples_without_images": 0,
+    "unique_sample_uids": 2536
+  },
+  "candidate_pair_count": 5,
+  "confirmed_overlap_pair_count": 4,
+  "decision_status": "confirmed_overlap",
+  "dismissed_pair_count": 1,
+  "fingerprint_error_count": 0,
+  "fingerprint_errors": [],
+  "generated_at_utc": "2026-08-24T11:00:20.405937+00:00",
+  "per_benchmark": {
+    "mmstar": {
+      "benchmark_sample_count": 1500,
+      "candidate_pair_count": 0,
+      "confirmed_impacted_benchmark_samples": 0,
+      "confirmed_impacted_rate": 0.0,
+      "confirmed_overlap_pair_count": 0,
+      "dismissed_pair_count": 0,
+      "exact_image_pair_count": 0,
+      "exact_question_pair_count": 0,
+      "suspected_perceptual_pair_count": 0,
+      "unresolved_pair_count": 0
+    },
+    "vstar": {
+      "benchmark_sample_count": 191,
+      "candidate_pair_count": 4,
+      "confirmed_impacted_benchmark_samples": 4,
+      "confirmed_impacted_rate": 0.020942408376963352,
+      "confirmed_overlap_pair_count": 4,
+      "dismissed_pair_count": 0,
+      "exact_image_pair_count": 0,
+      "exact_question_pair_count": 0,
+      "suspected_perceptual_pair_count": 4,
+      "unresolved_pair_count": 0
+    },
+    "zoombench": {
+      "benchmark_sample_count": 845,
+      "candidate_pair_count": 1,
+      "confirmed_impacted_benchmark_samples": 0,
+      "confirmed_impacted_rate": 0.0,
+      "confirmed_overlap_pair_count": 0,
+      "dismissed_pair_count": 1,
+      "exact_image_pair_count": 0,
+      "exact_question_pair_count": 1,
+      "suspected_perceptual_pair_count": 0,
+      "unresolved_pair_count": 0
+    }
+  },
+  "phash": {
+    "algorithm": "dct_phash",
+    "bits": 64,
+    "exif_transpose": true,
+    "hash_size": 8,
+    "suspected_max_hamming_distance": 5
+  },
+  "project_profile": {
+    "duplicate_sample_uid_count": 0,
+    "empty_question_count": 0,
+    "image_reference_count": 2432,
+    "missing_image_reference_count": 0,
+    "sample_count": 1216,
+    "samples_without_images": 0,
+    "unique_sample_uids": 1216
+  },
+  "reporting_policy": {
+    "forbid_claiming_fully_independent_test_when_confirmed_or_unresolved": true,
+    "preserve_official_test_samples": true,
+    "report_deduplicated_diagnostic_separately": true,
+    "report_official_full_score": true
+  },
+  "schema_version": 1,
+  "unresolved_pair_count": 0
+}

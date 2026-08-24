@@ -29,6 +29,7 @@ SEED="${SEED:-42}"
 MAX_TOKENS="${MAX_TOKENS:-32768}"
 OUT_DIR="${OUT_DIR:-model_answer}"
 MAX_RETRIES="${MAX_RETRIES:-3}"
+BENCHMARK_DATA_ROOT="${BENCHMARK_DATA_ROOT:-/root/autodl-tmp/benchmark_data}"
 PARALLEL_WORKERS="${PARALLEL_WORKERS:-256}"
 ENABLE_THINKING="${ENABLE_THINKING:-}"
 
@@ -60,15 +61,28 @@ declare -A BENCHMARK_JSON_MAP=(
   [visualprobe]="visualprobe.json"
 )
 
+# Frozen Day 5 benchmarks use the validated converted dataset, not eval/*.json.
+declare -A FROZEN_BENCHMARKS=(
+  [zoombench]=1
+  [mmstar]=1
+  [vstar]=1
+)
+
 # Parse comma-separated benchmarks
 IFS=',' read -r -a BENCHMARKS_TO_RUN <<< "${BENCHMARK}"
 
 run_single_benchmark() {
   local bench="$1"
-  local bench_json="${BENCHMARK_JSON_MAP[$bench]:-}"
-  if [[ -z "${bench_json}" ]]; then
+  local bench_json_name="${BENCHMARK_JSON_MAP[$bench]:-}"
+  if [[ -z "${bench_json_name}" ]]; then
     echo "ERROR: Unsupported benchmark: ${bench}"
     exit 1
+  fi
+  local benchmark_json
+  if [[ -n "${FROZEN_BENCHMARKS[$bench]:-}" ]]; then
+    benchmark_json="${BENCHMARK_DATA_ROOT}/converted/${bench}/${bench_json_name}"
+  else
+    benchmark_json="${SCRIPT_DIR}/${bench_json_name}"
   fi
 
   echo "=========================================="
@@ -81,13 +95,22 @@ run_single_benchmark() {
 
   # [1/4] Prepare data
   echo "[1/4] Preparing data..."
-  python3 prepare_data.py --benchmark "${bench}" --data_dir "${SCRIPT_DIR}"
+  if [[ -n "${FROZEN_BENCHMARKS[$bench]:-}" ]]; then
+    if [[ ! -f "${benchmark_json}" ]]; then
+      echo "ERROR: Frozen converted benchmark is missing: ${benchmark_json}" >&2
+      echo "Run: python eval/prepare_data.py --config configs/benchmark_eval.yaml --benchmarks ${bench}" >&2
+      exit 1
+    fi
+    echo "Using frozen converted data: ${benchmark_json}"
+  else
+    python3 prepare_data.py --benchmark "${bench}" --data_dir "${SCRIPT_DIR}"
+  fi
 
   # [2/4] Inference
   echo "[2/4] Running inference..."
   local -a INFER_ARGS=(
     --benchmark "${bench}"
-    --benchmark_json "${SCRIPT_DIR}/${bench_json}"
+    --benchmark_json "${benchmark_json}"
     --out_dir "${OUT_DIR}"
     --model_name "${model_tag}"
     --seed "${SEED}"
@@ -125,7 +148,7 @@ run_single_benchmark() {
   python3 cal_acc.py \
     --benchmark "${bench}" \
     --judge_json "${judge_json}" \
-    --benchmark_json "${SCRIPT_DIR}/${bench_json}"
+    --benchmark_json "${benchmark_json}"
 
   echo "Done: ${bench}"
 }

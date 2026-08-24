@@ -6,7 +6,10 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from huggingface_hub import snapshot_download
+def snapshot_download(*args, **kwargs):
+    from huggingface_hub import snapshot_download as huggingface_snapshot_download
+
+    return huggingface_snapshot_download(*args, **kwargs)
 
 BENCHMARK_JSON_MAP = {
     "zoombench": "zoombench.json",
@@ -449,9 +452,34 @@ def prepare_mme_realworld_lite(out_dir):
 
 def main():
     parser = argparse.ArgumentParser(description="Prepare benchmark data from HuggingFace")
-    parser.add_argument("--benchmark", required=True, type=str)
+    parser.add_argument("--benchmark", type=str, help="Legacy single-benchmark interface")
     parser.add_argument("--data_dir", default=None, type=str, help="Output directory (default: script dir)")
+    parser.add_argument("--config", type=str, help="Frozen benchmark YAML")
+    parser.add_argument("--benchmarks", type=str, help="Comma-separated frozen benchmark names")
+    parser.add_argument("--data-root", type=str, default=None, help="Override the frozen data root")
+    parser.add_argument("--force", action="store_true", help="Allow replacement of converted outputs")
     args = parser.parse_args()
+
+    if args.config or args.benchmarks:
+        if not args.config or not args.benchmarks:
+            parser.error("--config and --benchmarks must be provided together")
+        if args.benchmark or args.data_dir:
+            parser.error("do not mix frozen --config/--benchmarks with legacy --benchmark/--data_dir")
+        from frozen_benchmark_data import run_frozen_preparation
+
+        try:
+            run_frozen_preparation(
+                config_path=args.config,
+                benchmarks=args.benchmarks,
+                data_root_override=args.data_root,
+                force=args.force,
+            )
+        except (FileNotFoundError, FileExistsError, KeyError, RuntimeError, ValueError) as exc:
+            parser.exit(1, f"ERROR: {exc}\n")
+        return
+
+    if not args.benchmark:
+        parser.error("--benchmark is required for the legacy interface")
 
     benchmark = args.benchmark
     benchmark_json = resolve_benchmark_json(benchmark)

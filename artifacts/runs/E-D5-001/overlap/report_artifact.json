@@ -1,0 +1,261 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Vision-OPD Benchmark Overlap Audit",
+    "description": "Training-data overlap review for ZoomBench, MMStar, and VStar.",
+    "generatedAt": "2026-08-24T11:00:20.405937+00:00",
+    "charts": [
+      {
+        "id": "confirmed_overlap_chart",
+        "title": "Confirmed benchmark overlap",
+        "subtitle": "Confirmed affected test samples; official converted set sizes are 845, 1,500, and 191.",
+        "type": "bar",
+        "dataset": "benchmark_summary",
+        "sourceId": "overlap_audit_outputs",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "benchmark",
+            "type": "nominal",
+            "label": "Benchmark"
+          },
+          "y": {
+            "field": "confirmed",
+            "type": "quantitative",
+            "label": "Confirmed samples"
+          }
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "benchmark_summary",
+        "title": "Result by benchmark",
+        "subtitle": "Confirmed impact is measured against each official converted benchmark set.",
+        "dataset": "benchmark_summary",
+        "sourceId": "overlap_audit_outputs",
+        "columns": [
+          {
+            "field": "benchmark",
+            "label": "Benchmark",
+            "type": "text"
+          },
+          {
+            "field": "samples",
+            "label": "Samples",
+            "format": "number"
+          },
+          {
+            "field": "candidates",
+            "label": "Candidates",
+            "format": "number"
+          },
+          {
+            "field": "confirmed",
+            "label": "Confirmed",
+            "format": "number"
+          },
+          {
+            "field": "dismissed",
+            "label": "Dismissed",
+            "format": "number"
+          },
+          {
+            "field": "unresolved",
+            "label": "Unresolved",
+            "format": "number"
+          },
+          {
+            "field": "impacted_rate",
+            "label": "Confirmed impact",
+            "format": "percent"
+          }
+        ]
+      },
+      {
+        "id": "candidate_detail",
+        "title": "Candidate review evidence",
+        "subtitle": "Every candidate has a final decision; unresolved count is zero.",
+        "dataset": "candidate_detail",
+        "sourceId": "overlap_audit_outputs",
+        "columns": [
+          {
+            "field": "benchmark",
+            "label": "Benchmark",
+            "type": "text"
+          },
+          {
+            "field": "project_split",
+            "label": "Project split",
+            "type": "text"
+          },
+          {
+            "field": "benchmark_sample",
+            "label": "Benchmark sample",
+            "type": "text"
+          },
+          {
+            "field": "match",
+            "label": "Trigger",
+            "type": "text"
+          },
+          {
+            "field": "phash_distance",
+            "label": "pHash distance",
+            "format": "number"
+          },
+          {
+            "field": "status",
+            "label": "Decision",
+            "type": "text"
+          },
+          {
+            "field": "evidence",
+            "label": "Review evidence",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "overlap_audit_outputs",
+        "label": "Frozen local overlap audit outputs"
+      }
+    ],
+    "blocks": [
+      {
+        "id": "decision",
+        "type": "markdown",
+        "body": "## Decision\n\nThe audit status is **confirmed_overlap**. Four VStar test images occur in the training split (4 of 191; 2.094%). MMStar has no detected candidates. The single ZoomBench exact-question candidate was dismissed because the answers differ and all image pHash distances are 32–36.\n\n**Implication:** retain official full-set scores, but do not describe VStar as fully independent. Report a VStar score excluding the four affected samples as a separate diagnostic.",
+        "sourceId": "overlap_audit_outputs"
+      },
+      {
+        "id": "confirmed_chart",
+        "type": "chart",
+        "chartId": "confirmed_overlap_chart"
+      },
+      {
+        "id": "benchmark_table",
+        "type": "table",
+        "tableId": "benchmark_summary"
+      },
+      {
+        "id": "candidate_table",
+        "type": "table",
+        "tableId": "candidate_detail"
+      },
+      {
+        "id": "method",
+        "type": "markdown",
+        "body": "## Definitions and method\n\n- **Exact image:** byte-identical SHA-256 across a project and benchmark image reference.\n- **Exact question:** NFKC normalization, Unicode casefold, and collapsed whitespace produce identical text.\n- **Perceptual candidate:** 64-bit DCT pHash Hamming distance at most 5 after EXIF transpose.\n- Both project full images and project crops were checked against benchmark full images and crops.\n- pHash-only and question-only candidates require a recorded manual decision.\n\nThe audit covered 1,216 project samples, 2,536 benchmark samples, and 5,813 image references. There were no missing images, empty questions, duplicate sample IDs, or fingerprint errors.",
+        "sourceId": "overlap_audit_outputs"
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "body": "## Limitations and next steps\n\nThis is a strong practical overlap audit, not a proof that no semantic near-duplicate exists: pHash can miss heavy crops, viewpoint changes, composites, or materially edited copies. Candidate review used pixel statistics and source metadata; four VStar pairs share dimensions and pHash and differ only in sparse localized annotation regions.\n\nNext: add a four-sample VStar exclusion list to the diagnostic evaluator, keep the official 191-sample result, and rerun this audit whenever training data or frozen benchmark revisions change.\n\nThe chart supports quick cross-benchmark comparison; the tables remain the source for exact counts and evidence.",
+        "sourceId": "overlap_audit_outputs"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-24T11:00:20.405937+00:00",
+    "status": "ready",
+    "datasets": {
+      "benchmark_summary": [
+        {
+          "benchmark": "mmstar",
+          "samples": 1500,
+          "candidates": 0,
+          "confirmed": 0,
+          "dismissed": 0,
+          "unresolved": 0,
+          "impacted_rate": 0.0
+        },
+        {
+          "benchmark": "vstar",
+          "samples": 191,
+          "candidates": 4,
+          "confirmed": 4,
+          "dismissed": 0,
+          "unresolved": 0,
+          "impacted_rate": 0.020942408376963352
+        },
+        {
+          "benchmark": "zoombench",
+          "samples": 845,
+          "candidates": 1,
+          "confirmed": 0,
+          "dismissed": 1,
+          "unresolved": 0,
+          "impacted_rate": 0.0
+        }
+      ],
+      "candidate_detail": [
+        {
+          "benchmark": "vstar",
+          "project_split": "train",
+          "benchmark_sample": "vstar:source_id:161",
+          "match": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "status": "confirmed_overlap",
+          "evidence": "Same 2250x1500 base image; pHash distance 0; mean absolute RGB difference 0.1185, localized to bbox (1436,1006)-(1657,1126)."
+        },
+        {
+          "benchmark": "vstar",
+          "project_split": "train",
+          "benchmark_sample": "vstar:source_id:24",
+          "match": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "status": "confirmed_overlap",
+          "evidence": "Same 2248x1500 base image; pHash distance 0; mean absolute RGB difference 0.4376, localized to bbox (886,652)-(1716,866)."
+        },
+        {
+          "benchmark": "vstar",
+          "project_split": "train",
+          "benchmark_sample": "vstar:source_id:59",
+          "match": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "status": "confirmed_overlap",
+          "evidence": "Same 2249x1500 base image; pHash distance 0; mean absolute RGB difference 0.0407, localized to bbox (768,1333)-(849,1359)."
+        },
+        {
+          "benchmark": "vstar",
+          "project_split": "train",
+          "benchmark_sample": "vstar:source_id:131",
+          "match": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "status": "confirmed_overlap",
+          "evidence": "Same 2250x1500 base image; pHash distance 0; mean absolute RGB difference 0.0171, localized to bbox (1862,798)-(1885,828)."
+        },
+        {
+          "benchmark": "zoombench",
+          "project_split": "train",
+          "benchmark_sample": "zoombench:source_id:fcef1ce2a4d57e7b159b21fde85e679e",
+          "match": "exact_question_match",
+          "phash_distance": null,
+          "status": "dismissed",
+          "evidence": "Generic question template only: project answer B vs benchmark answer A; four project/benchmark full/crop pHash distances are 32,34,36,32, so images are unrelated."
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "overlap_audit_outputs",
+      "query": {
+        "engine": "local_audit",
+        "sql": "SELECT benchmark, samples, candidates, confirmed, dismissed, unresolved, confirmed / samples AS impacted_rate FROM overlap_audit_summary",
+        "description": "SHA-256, normalized-question, and 64-bit DCT pHash audit with recorded manual decisions.",
+        "executed_at": "2026-08-24T11:00:20.405937+00:00",
+        "metric_definitions": {
+          "confirmed impact": "Confirmed benchmark samples divided by the official converted benchmark sample count."
+        }
+      }
+    }
+  ]
+}

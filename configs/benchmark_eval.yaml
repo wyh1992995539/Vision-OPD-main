@@ -4,6 +4,8 @@ protocol:
   name: vision-opd-external-benchmark-evaluation
   experiment_id: E-D5-001
   status: frozen
+  protocol_revision: 2
+  latest_amendment: A-2026-08-24-ZOOM-CATEGORY
   frozen_at_utc: "2026-08-24"
   owner_document: docs/vision_opd_21_day_plan.md
   amendment_policy: >-
@@ -111,7 +113,19 @@ benchmarks:
     question_formats:
       - multiple_choice
       - open_question
-    categories: 6
+    dataset_level_dimensions:
+      count: 6
+      provenance: official_dataset_card
+      names:
+        - fine_grained_counting
+        - ocr
+        - color_attributes
+        - structural_attributes
+        - material_attributes
+        - object_identification
+    per_sample_dimension_labels:
+      status: unavailable_in_frozen_official_snapshot
+      placeholder: unavailable_official
     views:
       primary:
         name: full_image
@@ -125,7 +139,11 @@ benchmarks:
       - full_image_accuracy
       - cropped_region_accuracy
       - zooming_gap_crop_minus_full
-      - category_accuracy
+      - question_format_accuracy
+    unsupported_metrics:
+      category_accuracy:
+        reason: no_official_per_sample_dimension_mapping
+        reporting: do_not_compute_or_label_as_official
     scoring:
       multiple_choice: deterministic_option_parser
       open_question: mathruler_then_frozen_qwen_judge
@@ -210,7 +228,17 @@ smoke:
   enabled: true
   samples_per_benchmark: 16
   selection_seed: 42
-  selection_method: deterministic_stratified_by_category
+  selection_method: deterministic_stratified_by_benchmark
+  selection:
+    zoombench:
+      stratify_by: question_format
+      quotas:
+        multiple_choice: 12
+        open_question: 4
+    mmstar:
+      stratify_by: category
+    vstar:
+      stratify_by: category
   manifest: artifacts/runs/E-D5-001/smoke_selection.json
   freeze_selected_sample_ids_before_inference: true
   reuse_same_ids_for_all_models: true
@@ -280,7 +308,8 @@ reporting:
   save_dataset_and_model_hashes: true
   required_breakdowns:
     - benchmark
-    - official_category
+    - question_format
+    - official_category_when_available
 
 budget:
   currency: CNY

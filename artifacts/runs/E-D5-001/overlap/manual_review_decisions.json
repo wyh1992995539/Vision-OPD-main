@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-08-24T11:05:00Z",
+  "methodology": {
+    "perceptual_candidates": "Confirmed when dimensions and pHash were identical and RGB pixel differences were sparse/localized to the project annotation box.",
+    "question_candidates": "Dismissed when answers differed and all full/crop pHash cross-distances were 32-36, consistent with unrelated images."
+  },
+  "decisions": [
+    {
+      "candidate_id": "overlap_90ae5896b99c14a5221c",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_pixel_review",
+      "reviewed_at_utc": "2026-08-24T11:05:00Z",
+      "review_note": "Same 2250x1500 base image; pHash distance 0; mean absolute RGB difference 0.1185, localized to bbox (1436,1006)-(1657,1126)."
+    },
+    {
+      "candidate_id": "overlap_e53987a1f0524c46886a",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_pixel_review",
+      "reviewed_at_utc": "2026-08-24T11:05:00Z",
+      "review_note": "Same 2248x1500 base image; pHash distance 0; mean absolute RGB difference 0.4376, localized to bbox (886,652)-(1716,866)."
+    },
+    {
+      "candidate_id": "overlap_99e6b6e050ca2bf94216",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_pixel_review",
+      "reviewed_at_utc": "2026-08-24T11:05:00Z",
+      "review_note": "Same 2249x1500 base image; pHash distance 0; mean absolute RGB difference 0.0407, localized to bbox (768,1333)-(849,1359)."
+    },
+    {
+      "candidate_id": "overlap_bf4b9e6c0ae6aa956a96",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_pixel_review",
+      "reviewed_at_utc": "2026-08-24T11:05:00Z",
+      "review_note": "Same 2250x1500 base image; pHash distance 0; mean absolute RGB difference 0.0171, localized to bbox (1862,798)-(1885,828)."
+    },
+    {
+      "candidate_id": "overlap_42a4624dabc87a7368a5",
+      "review_status": "dismissed",
+      "reviewer": "codex_pixel_review",
+      "reviewed_at_utc": "2026-08-24T11:05:00Z",
+      "review_note": "Generic question template only: project answer B vs benchmark answer A; four project/benchmark full/crop pHash distances are 32,34,36,32, so images are unrelated."
+    }
+  ]
+}

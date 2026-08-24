@@ -1,0 +1,49 @@
+{
+  "benchmarks": {
+    "mmstar": {
+      "categories": {
+        "coarse perception": 250,
+        "fine-grained perception": 250,
+        "instance reasoning": 250,
+        "logical reasoning": 250,
+        "math": 250,
+        "science & technology": 250
+      },
+      "count": 1500,
+      "crop_image_count": 0,
+      "question_formats": {
+        "multiple_choice": 1500
+      },
+      "status": "pass",
+      "unique_sample_uids": 1500
+    },
+    "vstar": {
+      "categories": {
+        "direct_attributes": 115,
+        "relative_position": 76
+      },
+      "count": 191,
+      "crop_image_count": 0,
+      "question_formats": {
+        "multiple_choice": 191
+      },
+      "status": "pass",
+      "unique_sample_uids": 191
+    },
+    "zoombench": {
+      "categories": {
+        "unavailable_official": 845
+      },
+      "count": 845,
+      "crop_image_count": 845,
+      "question_formats": {
+        "multiple_choice": 621,
+        "open_question": 224
+      },
+      "status": "pass",
+      "unique_sample_uids": 845
+    }
+  },
+  "schema_version": 1,
+  "updated_at_utc": "2026-08-24T09:14:14.219571+00:00"
+}

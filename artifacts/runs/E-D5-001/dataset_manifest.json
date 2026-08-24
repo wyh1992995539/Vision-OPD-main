@@ -1,0 +1,30 @@
+{
+  "benchmarks": {
+    "mmstar": {
+      "actual_count": 1500,
+      "converted_json": "/root/autodl-tmp/benchmark_data/converted/mmstar/mmstar.json",
+      "expected_count": 1500,
+      "repo_id": "Lin-Chen/MMStar",
+      "requested_revision": "bc98d668301da7b14f648724866e57302778ab27",
+      "split": "val"
+    },
+    "vstar": {
+      "actual_count": 191,
+      "converted_json": "/root/autodl-tmp/benchmark_data/converted/vstar/vstar.json",
+      "expected_count": 191,
+      "repo_id": "craigwu/vstar_bench",
+      "requested_revision": "d9ae62c903da0c98336e85c5ee89cd863b04b4da",
+      "split": "test"
+    },
+    "zoombench": {
+      "actual_count": 845,
+      "converted_json": "/root/autodl-tmp/benchmark_data/converted/zoombench/zoombench.json",
+      "expected_count": 845,
+      "repo_id": "inclusionAI/ZoomBench",
+      "requested_revision": "b788097e57d30510c6877824833234a73bf80d25",
+      "split": "test"
+    }
+  },
+  "schema_version": 1,
+  "updated_at_utc": "2026-08-24T09:14:14.219571+00:00"
+}
