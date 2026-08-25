@@ -5,6 +5,8 @@ project:
   freeze_date: "2026-08-20"
   scope_amendment_date: "2026-08-24"
   scope_amendment: remove-sft-add-external-benchmarks
+  execution_sync_date: "2026-08-25"
+  followup_gate_amendment: add-post-day5-comparability-gates
   plan: docs/vision_opd_21_day_plan.md
   freeze_document: docs/project_freeze.md
   seed: 42
@@ -138,6 +140,19 @@ evaluation:
     forbid_silent_sample_removal: true
     freeze_judge_model_prompt_and_parameters: true
     save_judge_source_per_sample: true
+    require_training_design_lock_before_base_full_results: true
+    training_design_lock_artifact: artifacts/runs/E-D6-001/preflight/training_design_lock.yaml
+    forbid_external_scores_before_training_design_lock: true
+    vision_opd_external_evaluation_day: 18
+    cached_prefix_external_evaluation_day: 18
+    judge_calibration:
+      required_before_day6: true
+      minimum_human_labeled_pairs: 32
+      minimum_agreement: 0.90
+      reject_on_systematic_base_expression_bias: true
+      failure_policy: human_review_or_report_separately
+      records: artifacts/runs/E-D6-001/preflight/judge_calibration.jsonl
+      summary: artifacts/runs/E-D6-001/preflight/judge_calibration_summary.json
 
 hardware:
   node_count: 1
@@ -156,7 +171,11 @@ budget:
   cost_per_dual_gpu_hour: 11.96
   hard_limit: 2000
   hard_limit_dual_gpu_hours: 167
-  estimate_status: pending_day5_benchmark_smoke_and_branch_throughput
+  estimate_status: day5_external_eval_frozen_branch_throughput_pending
+  full_external_eval_conservative_cny_per_model: 43.18
+  full_external_eval_worst_case_cny_per_model: 71.70
+  day6_pause_checkpoint_cny: 80
+  day6_single_run_stop_cny: 100
   removed_training_branch: sft
   freeze_external_evaluation_budget_after_day5_smoke: true
   require_pre_run_cost_estimate: true
@@ -213,6 +232,7 @@ experiments:
       - zoombench_smoke_16
       - mmstar_smoke_16
       - vstar_smoke_16
+    status: pass
   vanilla_external:
     id: E-D6-001
     starts_from: base
@@ -238,13 +258,25 @@ experiments:
     evaluation_suite:
       - internal_eval_128
       - internal_retention_64
-      - zoombench
-      - mmstar
-      - vstar
+    freeze_checkpoint_before_external_results: true
   cached_prefix_contract:
     id: E-D14-001
     starts_from: base
     prefix_source: cached
+    cached_token_provenance: base_tokenizer_reencoded_openai_response_text
+    strict_single_variable_label_requires_contract_pass: true
+    failure_label: implementation_ablation
+    required_equal_contract_fields:
+      - base_checkpoint_sha256
+      - chat_template_sha256
+      - processor_identity
+      - student_image_input
+      - sampling_parameters
+      - eos_and_stop_policy
+      - prompt_token_ids
+      - response_decode_encode_roundtrip
+      - response_mask
+      - padding_policy
   cached_prefix_stability:
     id: E-D15-001
     starts_from: base
@@ -259,9 +291,18 @@ experiments:
     evaluation_suite:
       - internal_eval_128
       - internal_retention_64
+    freeze_checkpoint_before_external_results: true
+  final_branch_external_evaluation:
+    id: E-D18-002
+    checkpoint_from:
+      - E-D10-001
+      - E-D16-001
+    require_both_internal_results_frozen: true
+    evaluation_suite:
       - zoombench
       - mmstar
       - vstar
+
   grpo_pilot_32:
     id: E-D23-001
     starts_from: base
@@ -280,6 +321,37 @@ experiments:
       - zoombench
       - mmstar
       - vstar
+
+future_gates:
+  server_test_entry:
+    command: conda run -n vision-opd python -m pytest -q
+    required_imports:
+      - openai
+      - yaml
+      - torch
+  multimodal_prompt_length:
+    gate_day: 7
+    measure_with_training_processor: true
+    measure_on_train_1024: true
+    required_percentiles:
+      - p50
+      - p95
+      - p99
+      - max
+    starting_candidate: 8192
+    forbid_default_4096: true
+    forbid_silent_truncation: true
+    smoke_overlength_count_required: 0
+  tracked_text_hashing:
+    canonical_newline: lf
+    algorithm: sha256
+    tracked_extensions:
+      - md
+      - yaml
+      - json
+      - jsonl
+      - txt
+    binary_files_use_raw_bytes: true
 
 evidence:
   preflight_dir: artifacts/runs/preflight

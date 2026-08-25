@@ -4,6 +4,8 @@
 > 本文档替代原“21 天学习计划”。已完成的论文阅读、代码理解、环境配置、Qwen3.5-4B 下载与普通多模态推理不再重复，也不安排与项目无关的 Tensor/玩具实验。
 >
 > 计划修订：Day 4 完成后删除 SFT 分支，改为在训练开发阶段使用内部 `eval-128` 与 `retention-64`，在模型最终定版后统一运行 ZoomBench、MMStar、V* Bench。Day 1～4 已完成的数据、评测与 Cached Prefix 证据继续有效，不重复执行；仅更新冻结文档中的实验范围和术语。
+>
+> 后续 Gate 修订（2026-08-25）：Day 1～5 的任务正文、结果、失败轮次和哈希证据不回写；从 Day 6 起新增外部结果防泄漏、Judge 校准、多模态长度、Cached Prefix 契约和跨平台哈希 Gate。当前真实进度为 Day 1～5 PASS，Day 6 尚未开始。
 
 ## 1. 最终目标
 
@@ -26,12 +28,21 @@
 术语边界必须始终保持准确：
 
 - Vision-OPD 是 on-policy 自蒸馏，不是 GRPO/RLVR。
-- Cached Prefix 是“前缀来源”消融，不是另一种完整算法。
+- Cached Prefix 的目标是“前缀来源”消融；只有 Day 14 严格契约 Gate 通过后才能称为单变量。若无法证明文本重编码与训练 rollout 契约等价，必须降级表述为“Base 离线文本重编码 Prefix 实现消融”。
 - Base checkpoint 是未经本项目 Vision-OPD 训练的原始 Qwen3.5-4B；Vanilla 是直接评测该 Base，不产生新 checkpoint。
 - Vision-OPD、Cached Prefix、GRPO 是三条独立训练分支，均从同一个 Base checkpoint 启动，不串行继承。
 - 论文作者发布的官方 Vision-OPD-4B 只可作为可选参考行，不能替代本项目 Base，也不能冒充本人训练结果。
 - 外部 Benchmark 只用于冻结后的最终模型和一次 Base 基线，不用于反复挑 checkpoint 或调超参数。
 - 所有结果都限定为“4B、1024 条数据的小规模复现与受控比较”，不宣称复现论文完整 6.2K 结果。
+
+当前执行状态（2026-08-25 同步）：
+
+| 范围 | 状态 | 边界 |
+|---|---|---|
+| Day 1～3 | PASS | 项目冻结、确定性 1024/128/64 划分、图片/QA/服务器 Parquet Gate 已完成 |
+| Day 4 | PASS | Base internal `67/128`；Cached Prefix `1024/1024`，保留 54 条固定上限截断 |
+| Day 5 | PASS | 三项 Benchmark 协议、数据、overlap、64 次 Smoke 请求与 Day 6 预算 Gate 已完成 |
+| Day 6～30 | 未开始 | 尚无 E-D6-001、训练 checkpoint 或最终外部评测证据 |
 
 ## 2. 已完成进度与正式起点
 
@@ -101,7 +112,7 @@ Day 1 从“冻结项目、数据和评测协议”开始。工作区现有个�
 | global batch | 8 |
 | 预计 optimizer steps | 128 |
 | rollout n | 1 |
-| max prompt length | 先统计 P99，默认上限 4096 |
+| max prompt length | Day 7 用实际 Processor 统计 P99/max；根据 Day 4 已见 4,212～6,511 Token 输入，起始候选为 8192，禁止继续默认 4096 |
 | max response length | 256 |
 | learning rate | 2e-6 |
 | Top-K | 100 |
@@ -200,11 +211,12 @@ docs/
 | E-D7-001 | Vision-OPD Smoke |
 | E-D8-001 | Vision-OPD 64 条稳定性训练 |
 | E-D10-001 | Vision-OPD 1024 正式训练 |
-| E-D12-001 | Vision-OPD 最终内部与外部评测 |
+| E-D12-001 | Vision-OPD 内部定版 |
 | E-D14-001 | Cached Prefix 契约测试 |
 | E-D15-001 | Cached Prefix 64 条稳定性训练 |
 | E-D16-001 | Cached Prefix 1024 正式训练 |
-| E-D18-001 | Cached Prefix 最终内部与外部评测 |
+| E-D18-001 | Cached Prefix 内部定版 |
+| E-D18-002 | Vision-OPD/Cached 统一外部评测 |
 | E-D23-001 | GRPO 32 prompt Pilot |
 | E-D24-001 | GRPO 64 prompt Pilot |
 | E-D25-001 | GRPO 正式训练 |
@@ -372,12 +384,34 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - overlap 报告能区分精确重复、疑似感知重复和未确认项。
 - 完整评测的 GPU/Judge 预算不突破 2000 元项目硬上限。
 
+### Day 6 启动前：后续实验可比性 Gate（新增，不回写 Day 1～5）
+
+任务：
+
+1. 生成 `artifacts/runs/E-D6-001/preflight/training_design_lock.yaml`，在查看 Day 6 完整外部分数前冻结 Vision-OPD/Cached 共享的 Base、数据、seed、Chat Template、Student/Teacher 视图、Top-K/JSD/EMA、epoch、内部评测器和 checkpoint 选择规则。OOM/吞吐参数后续只能根据训练 Smoke 修订，不得引用外部准确率。
+2. 建立外部结果防泄漏规则：Day 6 可执行 Base 全量评测，但在 `training_design_lock.yaml` 及其 SHA256 落盘前不得打开汇总分数；Day 12 只做 Vision-OPD 内部定版，Vision-OPD 与 Cached 的外部结果统一延后到 Day 18，避免影响 Cached 设计。
+3. 对 ZoomBench 开放题 Judge 做至少 32 对的人工校准，覆盖确定性数字、MathRuler 可解、语义等价、明确错误和边界表达；保存人工标签、Judge 结果、一致率和错误类型。一致率低于 90% 或存在系统性 Base 表达偏置时，LLM Judge 不得作为自动主评分，未决样本改为人工复核或单独报告。
+4. 固定服务器轻量验证入口为 `conda run -n vision-opd python -m pytest -q`，先校验 `openai`、`yaml`、`torch` 等必需 import；不再把 Windows base Conda 或独立 `pytest.exe` 的失败冒充服务器项目环境结果。
+5. 对 Git 跟踪的 Markdown/YAML/JSON/JSONL/TXT 证据使用 canonical LF SHA256，大型模型、图片、Parquet 和其他二进制文件仍按原始 bytes 计算 SHA256；哈希清单必须标记算法与换行规则。
+
+产物：
+
+- `artifacts/runs/E-D6-001/preflight/training_design_lock.yaml` 及 SHA256
+- `artifacts/runs/E-D6-001/preflight/judge_calibration.jsonl`
+- `artifacts/runs/E-D6-001/preflight/judge_calibration_summary.json`
+- 服务器环境与轻量测试日志
+
+验收：
+
+- 设计锁定、Judge 校准、环境和 canonical hash 四个 Gate 全部 PASS，才能启动 E-D6-001。
+- 任何 Gate 失败都只修正后续执行协议，不重跑、删除或改写 Day 1～5 证据。
+
 ### Day 6：Base / Vanilla 三项外部 Benchmark 基线（4～6 小时主动 + 机器时间按 Day 5 实测）
 
 任务：
 
 1. 再次校验 Day 4 使用的原始 Qwen3.5-4B Base checkpoint hash，不加载官方 Vision-OPD-4B 或任何训练后权重。
-2. 按 Day 5 冻结协议完整运行 ZoomBench、MMStar、V* Bench。
+2. 确认“Day 6 启动前 Gate”全部 PASS，再按 Day 5 冻结协议完整运行 ZoomBench、MMStar、V* Bench。
 3. 保存每个 Benchmark 的逐样本输入标识、原始输出、解析结果、Judge 来源、正确性、错误和延迟。
 4. 汇总总体及官方子类指标、无效输出率、平均输出长度、GPU 小时和 Judge 成本。
 5. 可选评测官方 Vision-OPD-4B 作为参考行，但必须使用独立实验 ID，并明确它不是本项目 Base 或本人训练结果。
@@ -408,6 +442,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
    - 只对 Student backward；
    - optimizer step 后 EMA 更新 Teacher。
 4. 记录一次训练前后 Student/Teacher 参数差异与 Teacher 无梯度证据。
+5. 用训练时实际 Processor 对 train 1024 统计 text/image/total prompt Token 的 P50/P95/P99/max；起始候选用 8192，若仍有超长样本则在 Smoke 前明确扩容或冻结排除规则，不得静默截断。
 
 产物：
 
@@ -419,6 +454,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 至少完成 2 个真实 optimizer steps。
 - 日志中出现有效 `vopd_loss`、response length、Student grad、EMA update。
 - Teacher 没有被 optimizer 直接更新。
+- 真实 8～16 条 Smoke 的 prompt 超长/静默截断数为 0，并已保存 train 1024 长度统计。
 
 ### Day 8：Vision-OPD 64 条稳定性训练（6～8 小时主动 + 4～8 双卡小时）
 
@@ -506,15 +542,15 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 训练完成，或有可恢复 checkpoint 和明确恢复命令。
 - 没有超出预算仍持续空跑。
 
-### Day 12：Vision-OPD 模型合并与最终评测（5～6 小时主动 + 机器时间按 Day 5 实测）
+### Day 12：Vision-OPD 模型合并与内部定版（5～6 小时主动）
 
 任务：
 
 1. 合并/导出最终 Student。
 2. 在新进程完成模型加载与 5 条推理测试。
 3. 在 internal eval-128 与 retention-64 上评测并保存逐样本预测。
-4. checkpoint、内部评测和配置冻结后，按 Day 5 协议完整运行 ZoomBench、MMStar、V* Bench；不得根据外部分数回头挑 checkpoint。
-5. 计算内部样本相对 Vanilla 的 corrected、regressed、unchanged，并比较三项外部指标与 Base 的变化。
+4. 计算内部样本相对 Vanilla 的 corrected、regressed、unchanged，冻结 Vision-OPD checkpoint、配置、内部结果与 SHA256。
+5. 本日不打开 Vision-OPD 外部结果；三项外部 Benchmark 统一延后到 Day 18，待 Cached 实现和 checkpoint 也冻结后再运行。
 
 产物：
 
@@ -525,7 +561,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 验收：
 
 - checkpoint 可复现加载。
-- internal 128/64 及三个外部 Benchmark 结果完整，评测协议与 Base 对应项相同。
+- internal 128/64 结果完整；checkpoint、配置和内部结果不再因 Day 18 外部分数更改。
 - 即使整体指标没有提升，也保留真实结果和失败分析。
 
 ### Day 13：Vision-OPD 审计与 Cached 设计冻结（5 小时）
@@ -537,6 +573,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 3. 明确 Cached Prefix 的实现位置和数据契约。
 4. 设计 `prefix_source: online|cached`，默认保持 `online`。
 5. 编写 Cached 契约测试用例。
+6. 将 Day 4 缓存的来源明确冻结为 `base_tokenizer_reencoded_openai_response_text`，不冒充 vLLM 原始 sampled token IDs；冻结严格契约的 PASS/降级命名条件。
 
 产物：
 
@@ -548,6 +585,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 - Vision-OPD 实验可从记录中重建。
 - Cached 对照除 prefix 来源外无其他变量变化。
+- 在看到 Vision-OPD 外部结果前，Cached 配置、契约和降级命名规则已冻结。
 
 ### Day 14：实现 Cached Prefix 分支（6 小时）
 
@@ -564,6 +602,7 @@ data:
 3. cached 分支读取 Day 4 保存的 Base response，构造同样的 response IDs/mask。
 4. cached 分支必须绕过在线生成，Teacher 仍看 crop，Student 仍看 full image。
 5. 用真实 4～8 条数据执行契约测试和至少 1 个 optimizer step。
+6. 契约测试必须比较 online/cached 的 Base 身份、Chat Template 哈希、Processor、图像输入、sampling 参数、EOS/停止策略、prompt IDs、response decode→encode 往返、response mask 和 padding；不要求两次随机采样的 response 逐 Token 相等。
 
 产物：
 
@@ -576,6 +615,7 @@ data:
 - cached 模式没有调用 rollout generation。
 - sample_id 与 cached response 一一对应。
 - 训练 loss、梯度和 EMA 均有效。
+- 只有所有非 prefix-source 契约项都相同才记为 `STRICT_PREFIX_SOURCE_ABLATION=PASS`；否则停止“单变量”表述，记为 `IMPLEMENTATION_ABLATION` 并列出额外差异。
 
 ### Day 15：Cached Prefix 64 条稳定性训练（6～8 小时主动 + 4～8 双卡小时）
 
@@ -630,12 +670,12 @@ data:
 - 正式训练完成，或有明确可恢复状态。
 - 费用记录完整。
 
-### Day 18：Cached 最终评测与三组统一对比（6 小时主动 + 机器时间按 Day 5 实测）
+### Day 18：Cached 内部定版与三组统一外部对比（6 小时主动 + 机器时间按 Day 5 实测）
 
 任务：
 
 1. 合并/导出 Cached 最终模型并重新加载。
-2. 在 internal eval-128、retention-64、ZoomBench、MMStar、V* Bench 上按冻结协议评测。
+2. 先在 internal eval-128、retention-64 上按冻结协议评测，并冻结 Cached checkpoint 与内部结果。
 3. 实现 `eval/compare_experiments.py`。
 4. 统一对比 Vanilla / Base、Vision-OPD、Cached：
    - 总体与题型准确率；
@@ -643,6 +683,7 @@ data:
    - 输出长度与格式；
    - 训练时长、峰值显存和费用。
 5. 对 Vision-OPD vs Cached 做 paired sample 分析。
+6. 在 Vision-OPD、Cached 两个 checkpoint、内部结果和比较脚本均冻结后，使用同一协议统一运行两个模型的 ZoomBench、MMStar、V* Bench，再与 Day 6 Base 结果比较；外部分数不得触发重选 checkpoint 或重训。
 
 产物：
 
@@ -918,9 +959,9 @@ Day 20 不得写：
 
 ### Day 20 投递版
 
-- [ ] 固定 1024 train、128 eval、64 retention，且无组级泄漏。
-- [ ] Vanilla 128 条预测和评测结果完整。
-- [ ] ZoomBench、MMStar、V* Bench 的数据版本、Prompt、预处理、评分和 Judge 协议已冻结并完成 overlap 审计。
+- [x] 固定 1024 train、128 eval、64 retention，且无组级泄漏。
+- [x] Vanilla 128 条预测和评测结果完整。
+- [x] ZoomBench、MMStar、V* Bench 的数据版本、Prompt、预处理、评分和 Judge 协议已冻结并完成 overlap 审计。
 - [ ] Base 在三个外部 Benchmark 上的逐样本预测与汇总完整。
 - [ ] Vision-OPD 真实链路包含在线生成、Crop Teacher、Top-K JSD、Student backward、EMA。
 - [ ] Vision-OPD 1024 checkpoint 可加载并完成 internal 128/64 与三项外部评测。
