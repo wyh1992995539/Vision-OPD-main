@@ -1,0 +1,32 @@
+schema_version: 1
+amendment_id: A-2026-08-25-DAY6-JUDGE-CALIBRATION
+experiment_id: E-D6-001
+created_at_utc: '2026-08-25T13:20:44.031865+00:00'
+scope: post_day5_execution_protocol_only
+base_protocol:
+  config: configs/benchmark_eval.yaml
+  protocol_revision: 4
+  sha256_raw_bytes: d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6
+trigger:
+  human_labeled_pairs: 40
+  agreement_rate: 0.9
+  systematic_bias: true
+  disagreement_ids:
+  - JC-004
+  - JC-012
+  - JC-020
+  - JC-028
+effective_scoring_policy:
+  deterministic_standalone_numeric: automatic_primary
+  mathruler: automatic_primary_when_positive
+  fixed_base_4b_llm_judge: advisory_only_not_automatic_primary
+  semantic_unresolved: human_review_or_report_separately
+  boundary_or_approximation_expression: human_review_required
+  failed_or_unreviewed: retain_in_official_denominator_and_report_status
+comparability:
+  apply_same_policy_to_base_vision_opd_cached_and_grpo: true
+  forbid_using_external_scores_for_training_or_checkpoint_selection: true
+  do_not_modify_day1_to_day5_evidence: true
+status: superseded
+superseded_at_utc: '2026-08-25T13:22:30.099353+00:00'
+superseded_by: A-2026-08-25-DAY6-JUDGE-CALIBRATION-R2

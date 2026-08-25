@@ -1,0 +1,67 @@
+{
+  "api_base": "http://127.0.0.1:8000/v1",
+  "calibration": {
+    "judge_failure_count": 0,
+    "judge_raw_counts": {
+      "No": 4,
+      "Yes": 12
+    },
+    "pending_count": 0,
+    "record_count": 32,
+    "score_source_counts": {
+      "deterministic_numeric_equal": 8,
+      "deterministic_numeric_mismatch": 8,
+      "fixed_base_4b_judge": 16
+    }
+  },
+  "captured_at_utc": "2026-08-25T12:56:08.537971+00:00",
+  "cuda_available": true,
+  "gpu_count": 2,
+  "gpus": [
+    {
+      "free_bytes": 19644547072,
+      "index": 0,
+      "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "total_bytes": 101974081536
+    },
+    {
+      "free_bytes": 19644547072,
+      "index": 1,
+      "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "total_bytes": 101974081536
+    }
+  ],
+  "health": "pass",
+  "models_response": {
+    "data": [
+      {
+        "created": 1787662568,
+        "id": "vision-opd-base",
+        "max_model_len": 32768,
+        "object": "model",
+        "owned_by": "vllm",
+        "parent": null,
+        "permission": [
+          {
+            "allow_create_engine": false,
+            "allow_fine_tuning": false,
+            "allow_logprobs": true,
+            "allow_sampling": true,
+            "allow_search_indices": false,
+            "allow_view": true,
+            "created": 1787662568,
+            "group": null,
+            "id": "modelperm-a884fd0cf5965214",
+            "is_blocking": false,
+            "object": "model_permission",
+            "organization": "*"
+          }
+        ],
+        "root": "/root/autodl-tmp/models/Qwen3.5-4B"
+      }
+    ],
+    "object": "list"
+  },
+  "schema_version": 1,
+  "server_command": "OMP_NUM_THREADS=1 /root/miniconda3/envs/vision-opd/bin/python -m vllm.entrypoints.openai.api_server --model /root/autodl-tmp/models/Qwen3.5-4B --served-model-name vision-opd-base --tensor-parallel-size 2 --dtype bfloat16 --gpu-memory-utilization 0.80 --max-model-len 32768 --max-num-seqs 8 --seed 42 --trust-remote-code --host 127.0.0.1 --port 8000"
+}

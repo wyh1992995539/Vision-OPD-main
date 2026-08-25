@@ -314,7 +314,7 @@ def summarize_calibration(repo: Path, rows: list[dict[str, Any]]) -> dict[str, A
             for key in sorted({row["coverage_type"] for row in rows})
         },
         "decision_note": (
-            "Codex provisional labels are not human labels. A human must review all 32 rows, "
+            "Codex provisional labels are not human labels. A human must review at least 32 rows, "
             "populate human_label/human_reviewer, then rerun summarize before this Gate can PASS."
         ),
     }

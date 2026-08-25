@@ -303,6 +303,48 @@
     {
       "algorithm": "sha256",
       "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/environment_summary.json",
+      "sha256": "a78e6e238808d30ef1b23653236e3a6040f7641145767757e80f5c35da141453"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/frozen_inputs_verification.json",
+      "sha256": "93762880d60d5eed0910406b18fe88312f6eb8ba43a22c7648391d48c9b590f5"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/hash_manifest.json",
+      "sha256": "3114ee089f445b12c6e246a7a961ab56c1f5660eeaf5a0b38f6248bc124dc1fa"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_calibration.jsonl",
+      "sha256": "29ed1337bc93f7ceba216f39d9b8f084cae2485dd714f96f13c4251a59944e0e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_calibration_summary.json",
+      "sha256": "cf7abaedf0d9dc43d8233d1a54d782c987974e6293bb3662c98accc099f67128"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/preflight_summary.json",
+      "sha256": "49edd100516ac506d46c4899b7557d94ae9af053d3c00658652ef7b247e9a002"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/training_design_lock.yaml",
+      "sha256": "171ae8efa9b6d8094f48a82f0c0feba12b1f2eb1189b6881f3119909cb883437"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
       "path": "artifacts/runs/preflight/README.md",
       "sha256": "66645d6ff44d4618d40e65d56d0a3ce419bf0f17a4973010337a22970ed957fb"
     },
@@ -802,19 +844,43 @@
       "algorithm": "sha256",
       "content_rule": "canonical_lf_utf8",
       "path": "artifacts/runs/E-D6-001/preflight/judge_calibration.jsonl",
-      "sha256": "57f70a6f571d52266dd28bc13766c3343ac288de609b56803c5ba92af3413813"
+      "sha256": "29ed1337bc93f7ceba216f39d9b8f084cae2485dd714f96f13c4251a59944e0e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_calibration_revision_history.jsonl",
+      "sha256": "ba7f180b33105bd701bfbf8eab28106aa508da7f833b91e6f8ff542636d17b86"
     },
     {
       "algorithm": "sha256",
       "content_rule": "canonical_lf_utf8",
       "path": "artifacts/runs/E-D6-001/preflight/judge_calibration_summary.json",
-      "sha256": "56e2f82e499b55623795154fd9fcffe95abbf9b9b226491223b3a89c4bde4a86"
+      "sha256": "cf7abaedf0d9dc43d8233d1a54d782c987974e6293bb3662c98accc099f67128"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_protocol_amendment.yaml",
+      "sha256": "ccbbca6f5ccde858b42627355b34e0859a0f0b8090c7b7d872c77bbd168435eb"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_protocol_amendment_r2.yaml",
+      "sha256": "fc1884c4b98212e9eee8dedc846a731f7a66b6feae4183896dc1ee8bb0a87a45"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_runtime.json",
+      "sha256": "836a29c1257b0ba4f878bf7dca1eb587dd476de3dd7d85038a79c5adfc5d1a1d"
     },
     {
       "algorithm": "sha256",
       "content_rule": "canonical_lf_utf8",
       "path": "artifacts/runs/E-D6-001/preflight/preflight_summary.json",
-      "sha256": "ccad86fe3e46bf8d27cfff0910137e6fb04ef6832e1b22d507929b6695199efb"
+      "sha256": "49edd100516ac506d46c4899b7557d94ae9af053d3c00658652ef7b247e9a002"
     },
     {
       "algorithm": "sha256",
@@ -835,6 +901,6 @@
       "sha256": "171ae8efa9b6d8094f48a82f0c0feba12b1f2eb1189b6881f3119909cb883437"
     }
   ],
-  "generated_at_utc": "2026-08-25T02:19:39.992698+00:00",
+  "generated_at_utc": "2026-08-25T13:22:32.308104+00:00",
   "schema_version": 1
 }

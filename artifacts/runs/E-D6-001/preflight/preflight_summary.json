@@ -1,16 +1,14 @@
 {
-  "blocking_gates": [
-    "judge_calibration"
-  ],
-  "day6_full_external_evaluation_authorized": false,
+  "blocking_gates": [],
+  "day6_full_external_evaluation_authorized": true,
   "experiment_id": "E-D6-001",
   "gates": {
     "canonical_hash": true,
-    "judge_calibration": false,
+    "judge_calibration": true,
     "server_environment": true,
     "training_design_lock": true
   },
-  "generated_at_utc": "2026-08-25T02:19:41.091248+00:00",
+  "generated_at_utc": "2026-08-25T13:22:30.465654+00:00",
   "schema_version": 1,
-  "status": "blocked"
+  "status": "pass"
 }

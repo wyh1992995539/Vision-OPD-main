@@ -1,0 +1,21 @@
+schema_version: 1
+amendment_id: A-2026-08-25-DAY6-JUDGE-CALIBRATION-R2
+status: effective
+experiment_id: E-D6-001
+created_at_utc: '2026-08-25T13:22:30.103637+00:00'
+supersedes: A-2026-08-25-DAY6-JUDGE-CALIBRATION
+reason: project_owner_corrected_four_boundary_labels_to_correct
+calibration:
+  human_labeled_pairs: 40
+  agreement_rate: 1.0
+  systematic_bias: false
+  disagreement_ids: []
+effective_scoring_policy:
+  deterministic_standalone_numeric: automatic_primary
+  mathruler: automatic_primary_when_positive
+  fixed_base_4b_llm_judge: automatic_primary_for_semantic_unresolved
+  judge_failure: record_error_and_follow_frozen_failure_policy
+comparability:
+  apply_same_policy_to_base_vision_opd_cached_and_grpo: true
+  forbid_using_external_scores_for_training_or_checkpoint_selection: true
+  do_not_modify_day1_to_day5_evidence: true
