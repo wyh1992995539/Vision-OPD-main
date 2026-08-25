@@ -1,0 +1,840 @@
+{
+  "files": [
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "README.md",
+      "sha256": "cb9545204c6d1cd507eec306e32e6ce8cb309f931e3da6c30cda241e7f346b9d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/eval/evaluator_version.json",
+      "sha256": "77e05ac6a763eb6709aaad1a4bc4297f94ca8a7ed7073e45b08fd17ac36ec744"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/eval/evaluator_version.sha256.txt",
+      "sha256": "b1148df91d2cdb6e6474fd611125b593b1c8a4cd6a3982a3a4cb05aeacf5ce2c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/base_model_manifest.txt",
+      "sha256": "e71bede63b7ad0999115084a6964ac5ca1773456bf1d6e0c0879fe0ae9a2dd5b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/base_model_sha256.txt",
+      "sha256": "91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/base_model_sha256_check.txt",
+      "sha256": "c3bb04e9f0137201eb11b55f8787f304bae8cac81083d23b550b535a2222bf47"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_1024/generator_code_sha256.txt",
+      "sha256": "51b9fd1172c7afbaeb46014e94fec42e0dbf96171e4b431173e167c21af80b5c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_1024/generator_git_commit.txt",
+      "sha256": "19c9fd28b55d4909579863ef90e8a9c4e66114ee1d8cd89fd32669cb362cd681"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_1024/parquet_sha256.txt",
+      "sha256": "2108e53dd85c2e3c10f0779335789588de0c348f88ee466120ffd5352ddbeda6"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_1024/report.json",
+      "sha256": "9e2232ecdccb7367fc6299de3ba15bc240c866ec3617149884e01ef17c5677e7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_smoke_8_8192/external_parquet_sha256.txt",
+      "sha256": "bd6b44c89be634d20b672ea85ccd78796ffab6a41de238171a8d3291d095db9a"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_smoke_8_8192/parquet_sha256.txt",
+      "sha256": "bd6b44c89be634d20b672ea85ccd78796ffab6a41de238171a8d3291d095db9a"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/cached_prefix_smoke_8_8192/report.json",
+      "sha256": "861752acd99291bdc13e82a6da2e591abc333c6a0a8e57fa5901f7a7b21bfa31"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/disk.txt",
+      "sha256": "e4c7d950a243aa0ee71c49f0c2ccaf1c4a4e44bc3fdd8ccd8fde947b89bac5f7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/env.txt",
+      "sha256": "7d92f16f51cb9888bff602a91a73136c98b497a339d5114fc33fbd443973fdb4"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/evaluator_version.json",
+      "sha256": "77e05ac6a763eb6709aaad1a4bc4297f94ca8a7ed7073e45b08fd17ac36ec744"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/evaluator_version.sha256.txt",
+      "sha256": "b1148df91d2cdb6e6474fd611125b593b1c8a4cd6a3982a3a4cb05aeacf5ce2c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/final_invalid_audit_8192.txt",
+      "sha256": "07b366886527b9e38289d3c7261c70d7ee499dcf0bbc46a909ea9ede7304ce73"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/invalid_audit.txt",
+      "sha256": "29e1a65790210932715a8c2722f52fc0d89585f0a3c9ddf59c4fed3b8b35efd0"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/predictions.jsonl",
+      "sha256": "9dc30fc71ee43b1ffd3e3fcfe4c442160e09d0c3b164a796c8287a8a73e806f1"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/result_sha256.txt",
+      "sha256": "931ee99deba9ba38f70902bae71a6c41a349b6b5c79765d90d87b8e9d6c51c7b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval/summary.json",
+      "sha256": "3477ccef70e976c16d58aa7a3526030c295a60badb96ba794a08eae438672bf3"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_failed_maxlen4096/invalid_audit.txt",
+      "sha256": "29e1a65790210932715a8c2722f52fc0d89585f0a3c9ddf59c4fed3b8b35efd0"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_failed_maxlen4096/predictions.jsonl",
+      "sha256": "90f476de8a8a1ed23bb41b58e65e2d0905ad899140cf24a80cb0ae23c08f9fb3"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_failed_maxlen4096/summary.json",
+      "sha256": "d85a3979ed9d6d4feddec90b5c10648b7603e4e8ca8068ea5771e6a485cb16dc"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_smoke_8/predictions.jsonl",
+      "sha256": "8b20993a458b53ae15ed551ca8ad9967319598c1ac1bdb72ed480fc7b586accc"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_smoke_8/summary.json",
+      "sha256": "08f8b800c107d5ecdbca18e00453fced5ee008d9f9ff3d5e14e52ff746e5fead"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_smoke_repair_13_8192/predictions.jsonl",
+      "sha256": "b38342a51b77355c2407c33acdbc5aa20dde28e264a9d27654571929dcbb8000"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/eval_smoke_repair_13_8192/summary.json",
+      "sha256": "7eab6c74af021159865e94330d786e1baa3041fb9027ba239fe97eb6c4ddd2a2"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/generation_protocol_sha256.txt",
+      "sha256": "cd5652b715fb23788db6afaeef9cd60fe14a91e20fa9e7eeb366d5dfb57aedc2"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/git_state.txt",
+      "sha256": "44fe53735cefcf1c5ab42ce892b4a7a6ef4dbc2a04d46524ea0bc3b2a4faa38a"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/hardware.txt",
+      "sha256": "5e6b64f222a6ac29ca533c92bef884ece73c742a90f0be69e40ea3e7b4480deb"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D4-001/started_at.txt",
+      "sha256": "10b11d7d15102f9569474b862365098d242f2fe4ef550413f991cc27b9daba74"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/budget_inputs.json",
+      "sha256": "9f03f8c83108319e248753442ac080f2385dd2e70015fee7acea9ab39bbefe61"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/converted_data_sha256.txt",
+      "sha256": "a0635d4a74efe8dda3ab52f219aabcaa5e964614f9599ed8bbb0fff4f758c913"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/cost.json",
+      "sha256": "13fb707e790850b6c75e549db642689dfdb837396336b503096f7dc05744456d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/data_validation.json",
+      "sha256": "1c46d66e16eebe4ffd90c4080d7f50036697b675dc710cf1f83be2f9f88d660e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/dataset_manifest.json",
+      "sha256": "464d2ffd4fcd0168f88053992d69c0d22e3571f00ada8286877e5146cd1ac357"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/full_eval_budget.md",
+      "sha256": "e6dea91a8498263e0bde758b08b6bf148acf412c5fad4d1f911880356c065470"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/overlap/image_fingerprint_cache.json",
+      "sha256": "584f226ce5bd347e2d31ecbde0920f17f5966db03cf0d6b408825f7d6a85e174"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/overlap/manual_review_decisions.json",
+      "sha256": "d01ccb81bbec362341a4a38caa352efae5540cb67cbb79cdfcb110bf4bb06e00"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/overlap/overlap_candidates.jsonl",
+      "sha256": "65500b56a1b5b7c858385c4608f8c8eea9e59512fb169c3dadc5287934930cac"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/overlap/overlap_report.json",
+      "sha256": "c0c8c9d4ca9ef31ec3c3034cc95bfe8eeda8849621ba978f748e7f055aebb1fc"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/overlap/overlap_report.md",
+      "sha256": "4a887aa04100295c0ab09628f614c4c781c02bee7cd24336096a8bb9fa0946b1"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/overlap/report_artifact.json",
+      "sha256": "1b1d59c486be2d262b622830deb6130eb76fde6a4e45c6944ed426411131c186"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/raw_data_sha256.txt",
+      "sha256": "5ee972b644c9f90e535ec970b34bd12adae9a4d6bf7bcf115b78a4caa6a5656a"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/smoke/base/predictions.jsonl",
+      "sha256": "02d90a298dea80036014b139569585fe3404c913e5019e0eb454aaa6f2e8e395"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/smoke/base/scores.jsonl",
+      "sha256": "056e4f4b2222c84d2cb20f619e32b22b4a3247b5c2b987cd886b4ed2a953864c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/smoke/base/summary.json",
+      "sha256": "b0f42696d2b4a19bce40c4b2d080146fc82e2c7cf5ea8b26b5ae077361a1cd53"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D5-001/smoke_selection.json",
+      "sha256": "dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/README.md",
+      "sha256": "66645d6ff44d4618d40e65d56d0a3ce419bf0f17a4973010337a22970ed957fb"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/disk.txt",
+      "sha256": "1e991afbcd6c86b2bc8fdd914acab2513e35e03f89cc215544d076f6994df01d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/env.txt",
+      "sha256": "ae04d4240f88957f4ac1519fbf60a0c3276c004e3bd4f70a7e95e19414578bce"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/git_state.txt",
+      "sha256": "bf4263675747e91d2aec67b992683cd372ef575869ea839ed29bb4de0f6bec14"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/hardware.txt",
+      "sha256": "cbeb7fe92b2453a36c4e5b4e62d6f686a5b51839753d799c96f8600b96eeb1a7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/model_manifest.txt",
+      "sha256": "e71bede63b7ad0999115084a6964ac5ca1773456bf1d6e0c0879fe0ae9a2dd5b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/model_sha256.txt",
+      "sha256": "91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/pip_check.txt",
+      "sha256": "0e725fab0fef4ec5a0e495b8755dbfb86723da29e29dd90660175be8cd5ca1cd"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/preflight/storage_decision.md",
+      "sha256": "1e0460a8c0078cd17b39b9fa030d1be2931e92a9ae0e4c6afcee74d942f14cf3"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "configs/benchmark_eval.yaml",
+      "sha256": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "configs/day4_generation.yaml",
+      "sha256": "6f57e2f7b713e57e34a4b2364695ede32e23f02f8ecf160459c5cf52ecfe7636"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "configs/project_1024.yaml",
+      "sha256": "248c9c9b1a9c1eae472860a1ee8563fe4dd424b3eadd3021e338fc4b970f02b4"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/benchmark_protocol.md",
+      "sha256": "24e02e9d8a1b1de0ba0b8edacd52379ad2eccadfe9973282c41ef74b821d3dbb"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/day1_project_freeze_brief.md",
+      "sha256": "135f4f5dfbe77b7f8396b2113bd96d29c65be57291b9a15f3b6608a220fecf52"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/day2_metadata_split_brief.md",
+      "sha256": "d0dfb4474d3c4e9e2a660c95fd6ccd6add130b15b443715a61916ab793bbe5e2"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/day3_data_qa_brief.md",
+      "sha256": "d6d4a0019c86d128c1d8436b3b30a9c7e193c12ddf5e04d6022848d582a622c1"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/day4_evaluation_and_cached_prefix_brief.md",
+      "sha256": "c3c8f98175bc25b9553a98425fefb2f84cf9b2e614b06f908937e84377a3a672"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/day5_external_benchmark_brief.md",
+      "sha256": "31f537f15e440320f45ac98b177f6f07bee7c88ec45f3f08d83b653189fcdd3f"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/environment.md",
+      "sha256": "be5c58eec6dcd3b9f42db4b6cfb2e460494898c439b0a2092eb6972d35b2ab28"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/environment_setup_and_validation.md",
+      "sha256": "199870892f345d11f025b4f41f75dcc62b774b49138ef1dc6ecb7db6b0d0f0ce"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/project_freeze.md",
+      "sha256": "8bacdf44cfce0341ef89e41e36cda0b45e254c64ff07d4be1143665744c8a33e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "docs/vision_opd_21_day_plan.md",
+      "sha256": "d027e09abba56ab2cfea20c4f41b917fe32ad438ebccf6bf1d67aba506d6550d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "requirements.txt",
+      "sha256": "28d23d4dece1e9481e2c5a33008c9bf225abba4621d59c81ca186e10d7766f5e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl.egg-info/SOURCES.txt",
+      "sha256": "04185c5ef07341bcb69dfd4ab7367a561827fbd04889aaa72cf7389033831b0f"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl.egg-info/dependency_links.txt",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl.egg-info/top_level.txt",
+      "sha256": "60afe54eb7ab22076c3472937a799f00b51b13654978820142c55220589af561"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/checkpoint_engine/README.md",
+      "sha256": "d51cd8fe0e9b8e5185b5bd2d060dc6f3aead7e7a0e280607392a0335854cbf59"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/fully_async_policy/README.md",
+      "sha256": "bf2413bafa54860328c820d4a5224d7b38eb8cf8f9a5d6a56371af8d526f0f0a"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/fully_async_policy/README_zh.md",
+      "sha256": "cf3e57999075c44998acd03d7dbfd5ba18449f39755fd7aaeead0fdbc5725d7c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/fully_async_policy/config/fully_async_ppo_megatron_trainer.yaml",
+      "sha256": "f258d55baa7e1e00c3be7e7f96b71f866e4ca4ef29b46f29d467953e7bbfe275"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/fully_async_policy/config/fully_async_ppo_trainer.yaml",
+      "sha256": "3655a0794b5f0d558f6a9346021601f5e4157dd24a2013f0f6040bc3010ded40"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/fully_async_policy/shell/runtime_env.yaml",
+      "sha256": "19e48f7c02d2d074434bed70417018939ae912df12746a93058b63945b4ffd7c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/one_step_off_policy/README.md",
+      "sha256": "dd1a8960abf0257c58c2c1b215852484f540de3a7c6ac61057d9fc05190c6054"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/one_step_off_policy/config/one_step_off_ppo_megatron_trainer.yaml",
+      "sha256": "35ef46156228170b25c26db16f8bbeacd94f386e6cbf00a1a179f83b4dbd23ed"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/one_step_off_policy/config/one_step_off_ppo_trainer.yaml",
+      "sha256": "feb18ed3172938cc0551714ba311bf27d64e781ac9858e3bc51bb5933b9631c0"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/transfer_queue/config/transfer_queue_ppo_megatron_trainer.yaml",
+      "sha256": "f860186ad08efa0882441fcea649ccc70c2ec6cb24302c8e58c11c9123fac49d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/transfer_queue/config/transfer_queue_ppo_trainer.yaml",
+      "sha256": "cea6f6b2216534d2a79f776f091b4558dabded172b694c7554fbb53554971201"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/vla/README.md",
+      "sha256": "7d8d97637a40dc69682cdf8eda27a0b9197d1a77be7db5cdc6336df5bde50671"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/vla/config/rob_ppo_trainer.yaml",
+      "sha256": "0ef49173ce75cd4515a849c215d596972ed64a0e6fcabc5826e40a2ffc39a9f0"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/experimental/vla/requirements_vla.txt",
+      "sha256": "2ac7955800c07cf472044270e71dca6e228724c5f27592c59ff1266c87cdc6ee"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/_generated_ppo_megatron_trainer.yaml",
+      "sha256": "e0bc6864b103837d0cd111548eb08b5ea43ba7334d0a2ea1a8755cd1a3453562"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/_generated_ppo_trainer.yaml",
+      "sha256": "9ab7695c856ac45c7e373d7a7712a6146d190dfb41630268f938e0308bb73739"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/actor/actor.yaml",
+      "sha256": "9e0e0c955740150df75c3b3dff71f2078b12fe0a4e87a766b2c80618f4f48b5b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/actor/dp_actor.yaml",
+      "sha256": "e27ebc158bfe7c1eecc0029b65e412418d5d002fe58e76b4497b8b8c265ec786"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/actor/megatron_actor.yaml",
+      "sha256": "8fe0b41a1b07f16153c9dbc94d4baf07a16042327531ec7bdd66f5227c7ba5e7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/algorithm/rollout_correction.yaml",
+      "sha256": "7535b2ca79f86399d88eb36a93bde3461db377f1fad150bd6f65d3b73333cba7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/baseline_grpo.yaml",
+      "sha256": "89141b8d5086a9a52693cb1817cf0f7ab8827bfeee6de68a6c99d7b78ec52226"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/critic/critic.yaml",
+      "sha256": "99dcff605df0f63216953cd2718648f3e4eb564530d7f12a2d6646ca32283f5b"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/critic/dp_critic.yaml",
+      "sha256": "23d2af9360bf744d79c872bf5c6bc3e91da2d1a51a41bacd69fcc4b6d9dbbc82"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/critic/megatron_critic.yaml",
+      "sha256": "65c6573c31a063da092459856ddb5eb832a755f6bff980cd74105996347025a5"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/engine/fsdp.yaml",
+      "sha256": "6198459de2737451ca52e9d594eabeaa3f96096d74eec423474592104774277a"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/engine/megatron.yaml",
+      "sha256": "af7a95423e2f40e88a338ddc042b0b69cf639b3540d8eaa4d551b5be4014bb6f"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/engine/veomni.yaml",
+      "sha256": "baef13222879aae5ad5e9941435e9c178fb11a4b212d6cf2c695bd7ee1c0d7c8"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/evaluation.yaml",
+      "sha256": "2fd0dfd7cd4ce3eb9017f3c2985ca2a560b9a479837531816fb59d93e32c8cd1"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/generation.yaml",
+      "sha256": "8efdba571257d3f41984a3efd3cf45275d41b33801d2eedcebe2a15ea593105f"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/model/hf_model.yaml",
+      "sha256": "4cd4424200ab93dcb361c03aeb529af213918869762a077d85ef7709c48fe0f4"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/npu_profile/npu_profile.yaml",
+      "sha256": "47d1d6b18d626975f652b7b24c05cbf8a48fae629f984bc6039232cfbe4d6f18"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/opsd.yaml",
+      "sha256": "2645e74fa1f1a11fe770c06c8824e414358f9096edde65e2acd4024ef521bbf1"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/optim/fsdp.yaml",
+      "sha256": "ed8fa06db37ab006c7be00052f512d72c1436186072aaa21e0176240eade222e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/optim/megatron.yaml",
+      "sha256": "7e2e8cbed63557fb4b505fb0de6fac5470093289e3978009ebb0a1afa3d3bd9d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/optim/veomni.yaml",
+      "sha256": "4a7971f354174685133e5e31014f5a24cd63c39e2ee26715029781569e4348b1"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/ppo_megatron_trainer.yaml",
+      "sha256": "1f145f414a47270fb05d4cc28d096570b3aa98b6792ea9d0b555070bd74d29b7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/ppo_trainer.yaml",
+      "sha256": "1bcb104ff4a6dddda19c69f3816812cef84aa744af870de9f1d912c8d2774f28"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/profiler/profiler.yaml",
+      "sha256": "7e889292dca33444837dacb645205d61afff99fa7a3a0c3d92296417535f896c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/ref/dp_ref.yaml",
+      "sha256": "195d1b6974a58f9bfa6a09ce0f00a4c2ce10140f557738caf3a06d3cdeb784f3"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/ref/megatron_ref.yaml",
+      "sha256": "865488f7084f5105099c3ebd87b3ca78d7ac739845430996e511081e4d1c953c"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/ref/ref.yaml",
+      "sha256": "1a37687936cc9423b063cca7fd43f2ed7983af4dadc8c21fad7f80762d48de38"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/reward_manager.yaml",
+      "sha256": "f6d0cce71bee9e2adc539c776fb8fa9ba85d513f3b082f2580de9721cf419b73"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/reward_model/dp_reward_loop.yaml",
+      "sha256": "b336bedd0630b6a5374b1aa47d7314a15a2a717be882edc315076a4d44662254"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/reward_model/dp_reward_model.yaml",
+      "sha256": "0a69873b68d0804c411c4823ad3adf55e3cda6af5de791ff2d0012c51a81f9ba"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/reward_model/megatron_reward_loop.yaml",
+      "sha256": "04c8273a0de1e6d58dc939c8df1935c62d56808c9883f4816bcef108db800d1e"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/reward_model/megatron_reward_model.yaml",
+      "sha256": "2ee7ce557416971906054411fdca6fb8a52aa62140b067a2d3d5a718a83b9326"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/reward_model/reward_model.yaml",
+      "sha256": "4046e3d09296744a6551406c3be49ed59e4af5456b26effffa3b4d1ef4dea5e5"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/rollout/rollout.yaml",
+      "sha256": "a344e9734986761c246957a49f718fd74932463cea100a99f56a5df3591dc482"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/sft_trainer.yaml",
+      "sha256": "aee29d2b12500df38f5a5012422b5c155b15285b744fbf754b7658ce7799d2a3"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/sft_trainer_engine.yaml",
+      "sha256": "18858918679b75ffeeb00e83c378d7aa2a94b140634c64f679c8a71485e98fc7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/user.yaml",
+      "sha256": "fdcc604ec6adacf361d7a6d9d39e3dd0a9ef7bc74252b4a027d7afeb6a113c81"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/config/vopd.yaml",
+      "sha256": "8661a77a7dc24fec2c13423bcbbcaddf10f5a48d69fc9629b2da732140a7abbc"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/trainer/runtime_env.yaml",
+      "sha256": "2cba335a0a3a82f39d0cec83654de576530f357b181825200950bb4ca2b88e7d"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/utils/dataset/README.md",
+      "sha256": "de346fc1a883566c1b8f1f22c0ba4563efadfdb7b53d5935796401ad18d56f57"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "verl/utils/reward_score/prime_code/README.md",
+      "sha256": "cd5d1f2d0f2dc84ddfe9f4a8b221990c816628870c95c6f0fe46a078397549fb"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/environment_summary.json",
+      "sha256": "a78e6e238808d30ef1b23653236e3a6040f7641145767757e80f5c35da141453"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/frozen_inputs_verification.json",
+      "sha256": "93762880d60d5eed0910406b18fe88312f6eb8ba43a22c7648391d48c9b590f5"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_calibration.jsonl",
+      "sha256": "57f70a6f571d52266dd28bc13766c3343ac288de609b56803c5ba92af3413813"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/judge_calibration_summary.json",
+      "sha256": "56e2f82e499b55623795154fd9fcffe95abbf9b9b226491223b3a89c4bde4a86"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/preflight_summary.json",
+      "sha256": "ccad86fe3e46bf8d27cfff0910137e6fb04ef6832e1b22d507929b6695199efb"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "raw_bytes",
+      "path": "artifacts/runs/E-D6-001/preflight/pytest.log",
+      "sha256": "581a190ad19d7802213b3c5ee87d0399a5aac40944739c45f65c923feea24fa7"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "raw_bytes",
+      "path": "artifacts/runs/E-D6-001/preflight/training_design_lock.sha256",
+      "sha256": "90c3e4d68ab62cfbe67d84c39b4d905d543598eab834dcca501a55d756a92875"
+    },
+    {
+      "algorithm": "sha256",
+      "content_rule": "canonical_lf_utf8",
+      "path": "artifacts/runs/E-D6-001/preflight/training_design_lock.yaml",
+      "sha256": "171ae8efa9b6d8094f48a82f0c0feba12b1f2eb1189b6881f3119909cb883437"
+    }
+  ],
+  "generated_at_utc": "2026-08-25T02:19:39.992698+00:00",
+  "schema_version": 1
+}

@@ -1,0 +1,100 @@
+schema_version: 1
+experiment_id: E-D6-001
+created_at_utc: '2026-08-25T02:14:55.615705+00:00'
+git_commit_at_lock: 7aff351e8bdb8e82661f4c0a33e6bd0923055ce7
+status: frozen_before_day6_full_external_scores
+model:
+  name: Qwen3.5-4B
+  path: /root/autodl-tmp/models/Qwen3.5-4B
+  role: shared_untrained_base_for_vision_opd_and_cached_prefix
+  weight_shards_sha256:
+    model.safetensors-00001-of-00002.safetensors: 26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61
+    model.safetensors-00002-of-00002.safetensors: cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188
+  forbid_official_vision_opd_weights_as_base: true
+  forbid_serial_branch_inheritance: true
+data:
+  source_revision: eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4
+  splits:
+    train_1024:
+      path: /root/autodl-tmp/data/vision_opd_1024/train_1024.parquet
+      sha256_raw_bytes: 84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa
+    eval_128:
+      path: /root/autodl-tmp/data/vision_opd_1024/eval_128.parquet
+      sha256_raw_bytes: 3afcd9efa515edaf0527a04ede4f8dd1a2133dc6a69c8f6a24823a0a2e92252f
+      usage: internal_checkpoint_selection_only
+    retention_64:
+      path: /root/autodl-tmp/data/vision_opd_1024/retention_64.parquet
+      sha256_raw_bytes: 074eb46e16fbe33068a3a9555d0788349e66c2a7a096c991347ad43de93b3a58
+      usage: internal_retention_and_format_guardrail
+reproducibility:
+  master_seed: 42
+  data_split_seed: 42
+  dataloader_seed: 42
+  training_seed: 42
+  rollout_seed: 42
+  require_explicit_seed_in_every_experiment: true
+chat_and_views:
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  chat_template_sha256_raw_bytes: d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db
+  student_view: full_red_box_image
+  teacher_view: crop_image
+  deployment_view: student_full_red_box_image_only
+shared_training_design:
+  epoch: 1
+  global_batch: 8
+  estimated_optimizer_steps: 128
+  rollout_n: 1
+  max_prompt_length:
+    starting_candidate: 8192
+    final_value_requires_day7_processor_p99_and_max_gate: true
+    forbid_default_4096: true
+    forbid_silent_truncation: true
+  max_response_length: 256
+  learning_rate: 2.0e-06
+  top_k: 100
+  jsd_alpha: 0.5
+  jsd_beta: 0.5
+  ema_update_rate: 0.05
+  gpu_per_node: 2
+  node_count: 1
+single_variable_ablation:
+  vision_opd:
+    prefix_source: online
+  cached_prefix:
+    prefix_source: cached
+  all_other_model_data_loss_and_eval_fields_must_match: true
+  cached_label_requires_day14_contract_pass: true
+internal_evaluation:
+  evaluator_version_file: artifacts/eval/evaluator_version.json
+  evaluator_id: e40cc751a2b732b5cd8eaeb4f4ca61754c75a3286800ab44bf4a2e72dbe7c689
+  generation_temperature: 0
+  unsupported_policy: mark_unsupported
+  invalid_prediction_policy: count_as_incorrect_in_full_denominator
+checkpoint_selection:
+  vision_opd_day12: select_and_freeze_using_only_internal_eval_128_and_retention_64
+  cached_prefix_day18: select_and_freeze_using_only_internal_eval_128_and_retention_64
+  forbid_external_benchmark_score_for_selection_or_retraining: true
+  external_evaluation_after_both_branches_frozen: E-D18-002
+external_result_firewall:
+  lock_and_sha256_required_before_opening_day6_full_summary: true
+  day6_base_full_external_allowed_after_all_preflight_gates_pass: true
+  vision_opd_external_results_forbidden_on_day12: true
+  vision_opd_and_cached_external_results_deferred_to_day18: true
+  external_scores_must_not_change_learning_rate_epoch_prompt_loss_or_checkpoint: true
+allowed_post_lock_changes:
+  only_after_real_training_smoke:
+  - micro_batch_size
+  - gradient_accumulation_preserving_global_batch
+  - memory_offload
+  - max_prompt_length_from_measured_processor_distribution
+  - throughput_and_oom_parameters
+  require_amendment_with_smoke_evidence: true
+  forbid_external_accuracy_as_evidence: true
+day6_external_protocol:
+  config: configs/benchmark_eval.yaml
+  protocol_revision: 4
+  config_sha256_raw_bytes: d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6
+  benchmarks:
+  - zoombench
+  - mmstar
+  - vstar

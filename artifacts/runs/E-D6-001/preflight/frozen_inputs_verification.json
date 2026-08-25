@@ -1,0 +1,80 @@
+{
+  "checks": [
+    {
+      "actual_sha256_raw_bytes": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6",
+      "expected_sha256_raw_bytes": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6",
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval.yaml",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b",
+      "expected_sha256_raw_bytes": "dc5856cf6563e5b4a341f5131fcb33785ea36efd3c4ac7f239aebb428e0a392b",
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/smoke_selection.json",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "9f03f8c83108319e248753442ac080f2385dd2e70015fee7acea9ab39bbefe61",
+      "expected_sha256_raw_bytes": "9f03f8c83108319e248753442ac080f2385dd2e70015fee7acea9ab39bbefe61",
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/budget_inputs.json",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "13fb707e790850b6c75e549db642689dfdb837396336b503096f7dc05744456d",
+      "expected_sha256_raw_bytes": "13fb707e790850b6c75e549db642689dfdb837396336b503096f7dc05744456d",
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D5-001/cost.json",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "expected_sha256_raw_bytes": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "path": "/root/autodl-tmp/models/Qwen3.5-4B/model.safetensors-00001-of-00002.safetensors",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188",
+      "expected_sha256_raw_bytes": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188",
+      "path": "/root/autodl-tmp/models/Qwen3.5-4B/model.safetensors-00002-of-00002.safetensors",
+      "status": "pass"
+    },
+    {
+      "path": "artifacts/runs/E-D5-001/budget_artifacts.sha256",
+      "requirement": "contains frozen cost.json SHA256",
+      "status": "pass"
+    },
+    {
+      "actual": 11.96,
+      "expected": 11.96,
+      "field": "pricing.dual_gpu_hourly_cny",
+      "path": "artifacts/runs/E-D5-001/cost.json",
+      "status": "pass"
+    },
+    {
+      "actual": 4,
+      "expected": 4,
+      "field": "protocol.protocol_revision",
+      "path": "configs/benchmark_eval.yaml",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "15d334cedbaadbfcb802680509c4bb473e0358d9abef98d62a78716a9427fcfd",
+      "expected_sha256_raw_bytes": "15d334cedbaadbfcb802680509c4bb473e0358d9abef98d62a78716a9427fcfd",
+      "path": "/root/autodl-tmp/benchmark_data/converted/zoombench/zoombench.json",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "4cef7496590fce9e3c95bf133c36db2712e75a083a355c56d4976bd27603f813",
+      "expected_sha256_raw_bytes": "4cef7496590fce9e3c95bf133c36db2712e75a083a355c56d4976bd27603f813",
+      "path": "/root/autodl-tmp/benchmark_data/converted/mmstar/mmstar.json",
+      "status": "pass"
+    },
+    {
+      "actual_sha256_raw_bytes": "0e7da878d87363c2c5d5b44319594ebc30e3ee71ea53cde098ef77677257b255",
+      "expected_sha256_raw_bytes": "0e7da878d87363c2c5d5b44319594ebc30e3ee71ea53cde098ef77677257b255",
+      "path": "/root/autodl-tmp/benchmark_data/converted/vstar/vstar.json",
+      "status": "pass"
+    }
+  ],
+  "generated_at_utc": "2026-08-25T02:19:28.318154+00:00",
+  "schema_version": 1,
+  "status": "pass"
+}

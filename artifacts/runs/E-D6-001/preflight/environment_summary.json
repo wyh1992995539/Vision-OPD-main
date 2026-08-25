@@ -1,0 +1,36 @@
+{
+  "actual_python": "/root/miniconda3/envs/vision-opd/bin/python",
+  "generated_at_utc": "2026-08-25T02:15:33.804446+00:00",
+  "imports": {
+    "openai": {
+      "module_path": "/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/openai/__init__.py",
+      "status": "pass",
+      "version": "2.24.0"
+    },
+    "torch": {
+      "module_path": "/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/torch/__init__.py",
+      "status": "pass",
+      "version": "2.10.0"
+    },
+    "yaml": {
+      "module_path": "/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/yaml/__init__.py",
+      "status": "pass",
+      "version": "6.0.3"
+    }
+  },
+  "platform": "Linux-5.15.0-78-generic-x86_64-with-glibc2.35",
+  "pytest": {
+    "command": [
+      "/root/miniconda3/envs/vision-opd/bin/python",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "exit_code": 0,
+    "log": "artifacts/runs/E-D6-001/preflight/pytest.log"
+  },
+  "python_version": "3.12.13",
+  "required_entry": "conda run -n vision-opd python -m pytest -q",
+  "schema_version": 1,
+  "status": "pass"
+}
