@@ -1,0 +1,22 @@
+schema_version: 1
+amendment_id: A-2026-08-26-D6-VSTAR-OFFICIAL-ONLY
+status: effective
+experiment_id: E-D6-001
+created_at_utc: '2026-08-26T00:00:00+00:00'
+scope: future_day6_vstar_reporting_only
+supersedes:
+  - report_deduplicated_diagnostic_separately
+effective_reporting_policy:
+  preserve_official_test_samples: true
+  report_official_full_score: true
+  report_deduplicated_diagnostic_separately: false
+  vstar_official_request_count: 191
+  vstar_summary_denominator: 191
+  persist_all_vstar_predictions_and_scores: true
+historical_evidence:
+  preserve_day5_overlap_audit_unchanged: true
+  overlap_artifact_directory: artifacts/runs/E-D5-001/overlap
+execution_impact:
+  extra_gpu_requests: 0
+  extra_model_runs: 0
+  additional_summary_outputs: 0
