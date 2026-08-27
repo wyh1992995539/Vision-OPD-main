@@ -21,7 +21,9 @@ auth.json
 
 # Models, datasets, caches, and training artifacts
 data/
-models/
+/models/
+!/verl/models/
+!/verl/models/**
 checkpoints/
 rollouts/
 outputs/

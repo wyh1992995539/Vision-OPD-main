@@ -1,0 +1,35 @@
+{
+  "experiment_id": "E-D7-001",
+  "status": "PASS",
+  "gpu_used": false,
+  "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_1024.yaml",
+  "config_sha256": "ada7f94b542b7431fc1b848bca344b046e8d087ee12c11ad4ed644f8057c230d",
+  "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+  "train_file": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+  "train_file_sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
+  "train_rows": 1024,
+  "parquet_columns": [
+    "data_source",
+    "prompt",
+    "images",
+    "bbox_images",
+    "ability",
+    "reward_model",
+    "extra_info"
+  ],
+  "chat_template": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+  "checks": {
+    "prefix_source_online": true,
+    "seed_is_42": true,
+    "two_gpus": true,
+    "global_batch_is_8": true,
+    "rollout_n_is_1": true,
+    "two_optimizer_steps": true,
+    "prompt_limit_is_8192": true,
+    "response_limit_is_256": true,
+    "truncation_is_error": true,
+    "teacher_uses_bbox_images": true
+  },
+  "missing_image_paths": [],
+  "errors": []
+}

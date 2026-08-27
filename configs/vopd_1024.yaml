@@ -1,0 +1,63 @@
+schema_version: 1
+
+experiment:
+  id: E-D7-001
+  name: vision-opd-qwen35-4b-day7-smoke
+  prefix_source: online
+  seed: 42
+
+paths:
+  model: /root/autodl-tmp/models/Qwen3.5-4B
+  train_file: /root/autodl-tmp/data/vision_opd_1024/train_1024.parquet
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  output_dir: artifacts/runs/E-D7-001
+
+data:
+  expected_train_rows: 1024
+  train_batch_size: 8
+  image_key: images
+  teacher_image_key: bbox_images
+  max_prompt_length: 8192
+  max_response_length: 256
+  truncation: error
+  shuffle: true
+  dataloader_num_workers: 4
+
+actor:
+  learning_rate: 2.0e-6
+  ppo_mini_batch_size: 8
+  use_dynamic_batch_size: true
+  gradient_checkpointing: true
+  parameter_offload: true
+  optimizer_offload: true
+  max_token_length_per_gpu: 8448
+
+rollout:
+  n: 1
+  tensor_model_parallel_size: 1
+  gpu_memory_utilization: 0.7
+  log_prob_micro_batch_size_per_gpu: 1
+  agent_num_workers: 2
+
+self_distillation:
+  loss_mode: vopd
+  top_k: 100
+  alpha: 0.5
+  teacher_always_on: true
+  teacher_model_source: legacy
+  teacher_regularization: ema
+  teacher_update_rate: 0.05
+  dont_reprompt_on_self_success: true
+  include_environment_feedback: false
+  importance_sampling_clip: 2.0
+
+resources:
+  nodes: 1
+  gpus_per_node: 2
+
+smoke:
+  expected_samples: 16
+  total_optimizer_steps: 2
+  save_frequency: -1
+  test_frequency: -1
+
