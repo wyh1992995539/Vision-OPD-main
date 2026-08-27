@@ -84,6 +84,9 @@ values = {
     "LR": cfg["actor"]["learning_rate"],
     "PPO_MINI_BATCH_SIZE": cfg["actor"]["ppo_mini_batch_size"],
     "PPO_MAX_TOKEN_LEN_PER_GPU": cfg["actor"]["max_token_length_per_gpu"],
+    "ACTOR_PARAM_OFFLOAD": cfg["actor"]["parameter_offload"],
+    "ACTOR_OPTIMIZER_OFFLOAD": cfg["actor"]["optimizer_offload"],
+    "REF_PARAM_OFFLOAD": cfg["actor"]["reference_parameter_offload"],
     "ROLLOUT_N": cfg["rollout"]["n"],
     "ROLLOUT_TP_SIZE": cfg["rollout"]["tensor_model_parallel_size"],
     "ROLLOUT_GPU_MEMORY_UTILIZATION": cfg["rollout"]["gpu_memory_utilization"],
@@ -100,6 +103,8 @@ values = {
 }
 
 for name, value in values.items():
+    if isinstance(value, bool):
+        value = str(value).lower()
     print(f"{name}={shlex.quote(str(value))}")
 PY
 )"
@@ -194,6 +199,10 @@ checks = {
     "response_limit_is_256": int(cfg["data"]["max_response_length"]) == 256,
     "truncation_is_error": cfg["data"]["truncation"] == "error",
     "teacher_uses_bbox_images": cfg["data"]["teacher_image_key"] == "bbox_images",
+    "actor_parameter_offload_disabled": cfg["actor"]["parameter_offload"] is False,
+    "actor_optimizer_offload_disabled": cfg["actor"]["optimizer_offload"] is False,
+    "reference_parameter_offload_disabled": cfg["actor"]["reference_parameter_offload"] is False,
+    "rollout_gpu_memory_utilization_safe_start": float(cfg["rollout"]["gpu_memory_utilization"]) <= 0.5,
 }
 failed_checks = sorted(name for name, passed in checks.items() if not passed)
 if failed_checks:
@@ -281,8 +290,8 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.actor.ppo_mini_batch_size="$PPO_MINI_BATCH_SIZE" \
     actor_rollout_ref.actor.use_dynamic_bsz=True \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu="$PPO_MAX_TOKEN_LEN_PER_GPU" \
-    actor_rollout_ref.actor.fsdp_config.param_offload=True \
-    actor_rollout_ref.actor.fsdp_config.optimizer_offload=True \
+    actor_rollout_ref.actor.fsdp_config.param_offload="$ACTOR_PARAM_OFFLOAD" \
+    actor_rollout_ref.actor.fsdp_config.optimizer_offload="$ACTOR_OPTIMIZER_OFFLOAD" \
     actor_rollout_ref.actor.policy_loss.loss_mode=vopd \
     actor_rollout_ref.actor.calculate_entropy=False \
     actor_rollout_ref.actor.use_kl_loss=False \
@@ -308,7 +317,7 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.rollout.calculate_log_probs=True \
     actor_rollout_ref.rollout.agent.num_workers="$ROLLOUT_AGENT_NUM_WORKERS" \
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1 \
-    actor_rollout_ref.ref.fsdp_config.param_offload=True \
+    actor_rollout_ref.ref.fsdp_config.param_offload="$REF_PARAM_OFFLOAD" \
     algorithm.adv_estimator=grpo \
     algorithm.norm_adv_by_std_in_grpo=False \
     algorithm.use_kl_in_reward=False \

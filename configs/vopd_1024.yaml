@@ -28,14 +28,15 @@ actor:
   ppo_mini_batch_size: 8
   use_dynamic_batch_size: true
   gradient_checkpointing: true
-  parameter_offload: true
-  optimizer_offload: true
+  parameter_offload: false
+  optimizer_offload: false
+  reference_parameter_offload: false
   max_token_length_per_gpu: 8448
 
 rollout:
   n: 1
   tensor_model_parallel_size: 1
-  gpu_memory_utilization: 0.7
+  gpu_memory_utilization: 0.45
   log_prob_micro_batch_size_per_gpu: 1
   agent_num_workers: 2
 
