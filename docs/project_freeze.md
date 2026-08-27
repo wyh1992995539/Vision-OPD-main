@@ -1,5 +1,7 @@
 # Vision-OPD 项目冻结文档
 
+> 历史状态说明（2026-08-27）：本文正文是 Day 5 时点冻结记录，其中“Day 6 尚未开始”等状态不再代表当前进度。现行外部评测以 `docs/benchmark_protocol.md`、R3 配置及 `benchmark_governance_sync_amendment.yaml` 为准；本文旧哈希只作为时间点证据。
+
 > 冻结日期：2026-08-20  
 > 对应计划：正式 Day 1——冻结项目状态与资源边界  
 > 范围修订日期：2026-08-24

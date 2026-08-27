@@ -25,6 +25,9 @@ from eval.paper_aligned_common import (
     prediction_complete,
     read_jsonl_map,
     record_key,
+    require_formal_manifest_comparable_with_base,
+    require_frozen_model_under_test_base_identity,
+    require_frozen_r3_config,
     resolve_path,
     sha256_file,
     update_cost_from_sessions,
@@ -264,9 +267,13 @@ def main() -> None:
     args = parser.parse_args()
 
     config_path, config = load_config(args.config)
+    if args.limit_per_benchmark is None:
+        require_frozen_r3_config(config_path)
     tasks = load_tasks(config, args.limit_per_benchmark)
     counts = expected_counts(config, args.limit_per_benchmark)
     identity = checkpoint_identity(resolve_path(args.model_path))
+    if args.model_role == "base":
+        require_frozen_model_under_test_base_identity(identity, config)
     out = output_directory(config, args.model_role, args.output_dir, args.limit_per_benchmark)
     out.mkdir(parents=True, exist_ok=True)
     manifest_path = out / config["paths"]["run_manifest_name"]
@@ -280,6 +287,8 @@ def main() -> None:
         counts=counts,
         limit_per_benchmark=args.limit_per_benchmark,
     )
+    comparability = require_formal_manifest_comparable_with_base(manifest, config)
+    manifest["comparability_gate"] = comparability
     require_manifest_compatible(manifest_path, manifest)
 
     predictions_path = out / config["paths"]["predictions_name"]

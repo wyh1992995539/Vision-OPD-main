@@ -5,6 +5,8 @@
 > 实验族：`E-PAPER-BASEJUDGE-001`
 > 唯一现行机器配置：[`configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`](../configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml)
 > 配置 SHA256：`e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903`
+> 治理同步：[`benchmark_governance_sync_amendment.yaml`](../artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/benchmark_governance_sync_amendment.yaml)
+> 历史版本索引：[`benchmark_history_index.md`](benchmark_history_index.md)
 
 ## 1. 适用范围
 
@@ -14,7 +16,7 @@
 
 ## 2. 冻结与变更
 
-正式运行前必须确认 R3 YAML 的 SHA256 等于页首值。数据、Prompt、图像编码、服务或 generation 参数、解析、Judge、失败策略、分母、汇总口径中的任一变化均构成新协议，必须新增 amendment、递增 revision、重跑 Smoke，并重新建立全部模型的可比基线。不得原地修改 R3 后沿用旧哈希或历史结果。
+正式运行前必须确认 R3 YAML 的 SHA256 等于页首值；正式入口和验收脚本会自动拒绝其他配置哈希。数据、Prompt、图像编码、服务或 generation 参数、解析、Judge、失败策略、分母、汇总口径中的任一变化均构成新协议，必须新增 amendment、递增 revision、重跑 Smoke，并重新建立全部模型的可比基线。不得原地修改 R3 后沿用旧哈希或历史结果。
 
 ## 3. 数据与主指标
 
@@ -53,6 +55,8 @@ artifacts/runs/E-PAPER-BASEJUDGE-001/vision_opd/
 artifacts/runs/E-PAPER-BASEJUDGE-001/cached_prefix/
 artifacts/runs/E-PAPER-BASEJUDGE-001/grpo/
 ```
+
+训练后模型在创建正式目录前，必须通过与冻结 Base `run_manifest.json` 的自动可比性门禁；配置、amendment、三份数据、请求契约、分母、恢复键任一不一致即拒绝运行。`model_role=base` 还必须通过原始 Base 权重哈希校验。
 
 每个目录必须包含 `predictions.jsonl`、`judge_results.jsonl`、`scores.jsonl`、`summary.json`、`resume_status.json`、`run_manifest.json`、`metrics.json`、`cost.json`、`artifact_sha256.txt` 和 `validation.json`。预测与评分各 2,536 条；汇总必须能完全由逐样本文件重建。
 

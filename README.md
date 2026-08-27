@@ -47,7 +47,45 @@ The server listens on port 8000 by default. You can then query the model via the
 
 Please check out our [Hugging Face Collection](https://huggingface.co/collections/yuanqianhao/vision-opd) for all public Vision-OPD checkpoints.
 
-### 2. Evaluation
+### 2. Project Reproduction Evaluation (R3)
+
+This repository's controlled Qwen3.5-4B reproduction uses one frozen local standard for Base, Vision-OPD, Cached Prefix, and GRPO:
+
+- config: `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`
+- config SHA256: `e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903`
+- Judge: the frozen original local Qwen3.5-4B Base (substituting for the unavailable GPT-OSS-120B)
+- primary denominators: ZoomBench 845, MMStar 1,500, V* Bench 191
+
+Run formal inference with the checkpoint's role and a separate output directory:
+
+```bash
+python eval/run_paper_aligned_eval.py \
+  --config configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml \
+  --model-role vision_opd \
+  --model-path /path/to/frozen/checkpoint \
+  --model-id vision-opd-r3
+```
+
+Then serve the frozen original Qwen3.5-4B Base as `vision-opd-base-judge` and run:
+
+```bash
+python eval/run_paper_aligned_judge.py \
+  --config configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml \
+  --input-dir artifacts/runs/E-PAPER-BASEJUDGE-001/vision_opd
+python eval/score_paper_aligned.py \
+  --config configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml \
+  --input-dir artifacts/runs/E-PAPER-BASEJUDGE-001/vision_opd
+python eval/validate_paper_aligned.py \
+  --config configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml \
+  --run-dir artifacts/runs/E-PAPER-BASEJUDGE-001/vision_opd \
+  --output artifacts/runs/E-PAPER-BASEJUDGE-001/vision_opd/validation.json
+```
+
+Formal runs are rejected unless their config, dataset files, request contract, denominators, and amendment match the frozen Base manifest. See `docs/benchmark_protocol.md` and `docs/benchmark_introduction_and_usage.md` before execution.
+
+### 3. Upstream Generic Evaluation
+
+The following `eval/run_eval.sh` entry point is retained for upstream general-purpose evaluation. It is not the frozen R3 project-reproduction protocol and its output must not be mixed into the R3 comparison table.
 
 Evaluate the deployed model on fine-grained visual benchmarks:
 

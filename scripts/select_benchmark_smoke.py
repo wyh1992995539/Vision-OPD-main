@@ -225,7 +225,7 @@ def write_manifest(manifest: dict[str, Any], output_path: Path, *, force: bool) 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", default="configs/benchmark_eval.yaml")
+    parser.add_argument("--config", required=True, help="Explicit legacy E-D5/E-D6 config path; R3 uses the paper-aligned entrypoints")
     parser.add_argument("--benchmarks", default=",".join(SUPPORTED_BENCHMARKS))
     parser.add_argument("--output")
     parser.add_argument("--force", action="store_true")

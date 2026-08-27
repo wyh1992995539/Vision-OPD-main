@@ -764,7 +764,7 @@ def run_audit(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Audit Vision-OPD/benchmark overlap")
-    parser.add_argument("--config", default="configs/benchmark_eval.yaml")
+    parser.add_argument("--config", required=True, help="Explicit legacy E-D5/E-D6 config path; R3 uses the paper-aligned entrypoints")
     parser.add_argument("--benchmarks", default=",".join(BENCHMARKS))
     parser.add_argument("--output-dir")
     parser.add_argument("--force", action="store_true")

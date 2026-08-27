@@ -15,6 +15,9 @@ set -euo pipefail
 #   bash eval/run_eval.sh
 # =============================================================================
 
+printf '%s\n' 'WARNING: eval/run_eval.sh is the upstream generic evaluator, not the frozen project R3 protocol.' >&2
+printf '%s\n' 'For R3 use eval/run_paper_aligned_eval.py and docs/benchmark_protocol.md.' >&2
+
 export MKL_SERVICE_FORCE_INTEL=1
 
 # --- Required ---

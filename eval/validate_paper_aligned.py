@@ -17,6 +17,8 @@ from eval.paper_aligned_common import (
     prediction_complete,
     read_jsonl_map,
     record_key,
+    require_formal_manifest_comparable_with_base,
+    require_frozen_r3_config,
     resolve_path,
     sha256_file,
     write_json,
@@ -75,6 +77,7 @@ def validate_run(out: Path, config: dict[str, Any]) -> dict[str, Any]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest.get("experiment_id") != "E-PAPER-BASEJUDGE-001":
         raise ValueError("wrong experiment_id in run manifest")
+    comparability = require_formal_manifest_comparable_with_base(manifest, config)
     request = manifest.get("request_contract", {})
     required_request = {
         "system_prompt": None,
@@ -128,6 +131,7 @@ def validate_run(out: Path, config: dict[str, Any]) -> dict[str, Any]:
         "run_dir": str(out),
         "run_mode": manifest["run_mode"],
         "model_role": manifest["model_role"],
+        "comparability_gate": comparability,
         "expected_request_count": expected,
         "prediction_count": len(predictions),
         "score_count": len(scores),
@@ -150,6 +154,7 @@ def main() -> None:
     args = parser.parse_args()
 
     config_path, config = load_config(args.config)
+    require_frozen_r3_config(config_path)
     result: dict[str, Any] = {
         "schema_version": 1,
         "generated_at_utc": now_utc(),

@@ -253,7 +253,7 @@ e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
 
 ## 8. 新 checkpoint 的推荐完整流程
 
-下面以 Vision-OPD 为例。Cached Prefix 和 GRPO 只需替换角色、checkpoint、服务名和输出目录。
+下面以 Vision-OPD 为例。Cached Prefix 和 GRPO 只需替换角色、checkpoint、服务名和输出目录。正式目录创建前，脚本会自动校验 R3 配置 SHA，并把配置、amendment、三份数据、请求契约、分母和恢复键与冻结 Base `run_manifest.json` 比较；任一差异都会直接拒绝运行。
 
 ### 8.1 定义本次身份
 
@@ -507,4 +507,6 @@ Judge 中断时同理，重新运行同一 run_paper_aligned_judge.py 命令。�
 - 不得把旧 E-D6-001 与 R3 结果直接作主比较；
 - 不得把固定 Base Judge 结果描述为使用 GPT-OSS-120B；
 - 不得宣称精确复现论文 Table 2；
-- 后续所有模型必须继续使用相同 R3 配置哈希。
+- 后续所有模型必须继续使用相同 R3 配置哈希；自动可比性 Gate 必须为 PASS。
+
+旧 E-D5/E-D6、R1/R2 文件的用途和哈希解释见 `docs/benchmark_history_index.md`。

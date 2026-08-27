@@ -23,7 +23,9 @@ from eval.paper_aligned_common import (
     prediction_complete,
     read_jsonl_map,
     record_key,
+    require_formal_manifest_comparable_with_base,
     require_frozen_base_identity,
+    require_frozen_r3_config,
     resolve_path,
     update_cost_from_sessions,
     usage_value,
@@ -137,7 +139,7 @@ def main() -> None:
     parser.add_argument("--retry-finalized-failures", action="store_true")
     args = parser.parse_args()
 
-    _, config = load_config(args.config)
+    config_path, config = load_config(args.config)
     out = resolve_path(args.input_dir)
     manifest_path = out / config["paths"]["run_manifest_name"]
     if not manifest_path.is_file():
@@ -145,6 +147,9 @@ def main() -> None:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest.get("experiment_id") != "E-PAPER-BASEJUDGE-001":
         raise ValueError("input directory is not a paper-aligned run")
+    if manifest.get("run_mode") == "formal":
+        require_frozen_r3_config(config_path)
+    require_formal_manifest_comparable_with_base(manifest, config)
 
     predictions, prediction_stats = read_jsonl_map(
         out / config["paths"]["predictions_name"], complete=prediction_complete

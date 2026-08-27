@@ -7,6 +7,8 @@ project:
   scope_amendment: remove-sft-add-external-benchmarks
   execution_sync_date: "2026-08-25"
   followup_gate_amendment: add-post-day5-comparability-gates
+  benchmark_sync_date: "2026-08-27"
+  benchmark_governance_amendment: artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/benchmark_governance_sync_amendment.yaml
   plan: docs/vision_opd_21_day_plan.md
   freeze_document: docs/project_freeze.md
   seed: 42
@@ -121,13 +123,23 @@ evaluation:
   unsupported_policy: mark_unsupported
   forbid_forced_scoring: true
   generation:
+    enable_thinking: false
     temperature: 0
-    parameters_frozen_on_day: 4
+    max_tokens: 1024
+    parameters_frozen_by_protocol_revision: 3
   external:
     protocol_document: docs/benchmark_protocol.md
-    config: configs/benchmark_eval.yaml
-    protocol_freeze_day: 5
+    config: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+    config_sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+    protocol_revision: 3
+    protocol_status: sole_active_standard
+    protocol_freeze_day: 6
     base_evaluation_day: 6
+    base_run_manifest: artifacts/runs/E-PAPER-BASEJUDGE-001/base/run_manifest.json
+    base_validation: artifacts/runs/E-PAPER-BASEJUDGE-001/base/validation.json
+    require_formal_comparability_gate: true
+    failed_or_invalid_sample_policy: count_incorrect_and_record_failure
+    include_failed_samples_in_official_denominator: true
     benchmarks:
       - zoombench
       - mmstar
@@ -145,7 +157,12 @@ evaluation:
     forbid_external_scores_before_training_design_lock: true
     vision_opd_external_evaluation_day: 18
     cached_prefix_external_evaluation_day: 18
+    judge_identity:
+      role: frozen_original_qwen35_4b_base
+      forbid_trained_checkpoint_as_judge: true
+      require_checkpoint_sha256: true
     judge_calibration:
+      status: historical_e_d6_only
       required_before_day6: true
       minimum_human_labeled_pairs: 32
       minimum_agreement: 0.90
@@ -161,6 +178,8 @@ hardware:
   memory_gb_per_gpu: 96
   gpu_per_node: 2
   current_dual_gpu_verified: true
+  external_evaluation_gpu_count: 1
+  external_evaluation_tensor_parallel_size: 1
   verification_status: pass
   must_verify_before_gpu_smoke: true
   verification_artifact: artifacts/runs/preflight/hardware.txt
@@ -171,11 +190,14 @@ budget:
   cost_per_dual_gpu_hour: 11.96
   hard_limit: 2000
   hard_limit_dual_gpu_hours: 167
-  estimate_status: day5_external_eval_frozen_branch_throughput_pending
-  full_external_eval_conservative_cny_per_model: 43.18
-  full_external_eval_worst_case_cny_per_model: 71.70
-  day6_pause_checkpoint_cny: 80
-  day6_single_run_stop_cny: 100
+  estimate_status: r3_base_measured_client_stages_only
+  r3_instance_cost_per_wall_hour_cny: 5.98
+  r3_base_client_observed_cny: 1.2865629854277778
+  r3_base_cost_excludes: model_server_startup_shutdown_and_idle_time
+  legacy_e_d6_full_external_eval_conservative_cny_per_model: 43.18
+  legacy_e_d6_full_external_eval_worst_case_cny_per_model: 71.70
+  legacy_e_d6_pause_checkpoint_cny: 80
+  legacy_e_d6_single_run_stop_cny: 100
   removed_training_branch: sft
   freeze_external_evaluation_budget_after_day5_smoke: true
   require_pre_run_cost_estimate: true
@@ -233,13 +255,22 @@ experiments:
       - mmstar_smoke_16
       - vstar_smoke_16
     status: pass
-  vanilla_external:
+  vanilla_external_legacy:
     id: E-D6-001
+    status: archived_engineering_diagnostic
+    allow_primary_comparison: false
     starts_from: base
     evaluation_suite:
       - zoombench
       - mmstar
       - vstar
+  paper_aligned_base_external:
+    id: E-PAPER-BASEJUDGE-001
+    role: base
+    status: pass
+    protocol_revision: 3
+    output_dir: artifacts/runs/E-PAPER-BASEJUDGE-001/base
+    validation: artifacts/runs/E-PAPER-BASEJUDGE-001/base/validation.json
   vision_opd_smoke:
     id: E-D7-001
     starts_from: base
@@ -380,13 +411,15 @@ evidence:
     - eval/summary.json
 
   required_evaluation_experiment_files:
-    - protocol.yaml
-    - command.txt
-    - git_commit.txt
-    - env.txt
-    - model_sha256.txt
-    - dataset_revision_sha256.json
+    - run_manifest.json
     - predictions.jsonl
-    - judge_details.jsonl
+    - judge_results.jsonl
+    - scores.jsonl
+    - summary.json
+    - resume_status.json
+    - metrics.json
+    - cost.json
+    - artifact_sha256.txt
+    - validation.json
     - summary.json
     - cost.json

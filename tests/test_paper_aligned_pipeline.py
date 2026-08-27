@@ -19,6 +19,8 @@ from eval.paper_aligned_common import (
     normalize_judge_decision,
     prediction_complete,
     read_jsonl_map,
+    require_formal_manifest_comparable_with_base,
+    require_frozen_r3_config,
     validate_config,
     write_jsonl_map,
 )
@@ -170,6 +172,27 @@ class PaperAlignedProtocolTest(unittest.TestCase):
         self.assertEqual(r3["budget"]["instance_cost_per_wall_hour"], 5.98)
         output = output_directory(r3, "base", None, 4)
         self.assertTrue(str(output).endswith("/smoke_r3/base"))
+
+    def test_formal_config_sha_and_base_manifest_are_frozen(self):
+        config_path = Path("configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml")
+        require_frozen_r3_config(config_path)
+        manifest_path = Path("artifacts/runs/E-PAPER-BASEJUDGE-001/base/run_manifest.json")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        result = require_formal_manifest_comparable_with_base(manifest, self.config)
+        self.assertEqual(result["status"], "pass")
+        self.assertEqual(result["base_identity"], "pass")
+
+    def test_trained_manifest_must_match_frozen_base_contract(self):
+        manifest_path = Path("artifacts/runs/E-PAPER-BASEJUDGE-001/base/run_manifest.json")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["model_role"] = "vision_opd"
+        manifest["model_id"] = "vision-opd-test"
+        manifest["model_checkpoint_identity"] = {"weight_sha256": {"model.safetensors": "test"}}
+        result = require_formal_manifest_comparable_with_base(manifest, self.config)
+        self.assertEqual(result["status"], "pass")
+        manifest["request_contract"] = {**manifest["request_contract"], "max_tokens": 2048}
+        with self.assertRaisesRegex(ValueError, "request_contract"):
+            require_formal_manifest_comparable_with_base(manifest, self.config)
 
     def test_r3_vstar_always_encodes_rgb_png(self):
         with tempfile.TemporaryDirectory() as directory:

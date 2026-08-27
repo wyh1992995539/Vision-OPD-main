@@ -154,7 +154,23 @@ R1 的数据准备会重新编码 ZoomBench/MMStar 图片，因此相应转换 J
 
 R3 已写入 docs/benchmark_protocol.md，并同步到项目计划。三个 Benchmark 的内容、指标和完整命令见 docs/benchmark_introduction_and_usage.md。后续 Base、Vision-OPD、Cached Prefix、GRPO 只允许改变被测 checkpoint、模型角色、权重哈希和独立输出目录，其他条件必须完全一致。
 
-旧 R1/R2 YAML 已按负责人要求删除；其 amendment、哈希、Smoke 输出和清单继续保留为历史审计证据。项目 vision-opd 环境全量回归测试为 74 passed。
+旧 R1/R2 YAML 已按负责人要求删除；其 amendment、哈希、Smoke 输出和清单继续保留为历史审计证据。
+
+### 8. 完成 Benchmark 治理同步（2026-08-27）
+
+Day 6 结束后的全仓审计发现主项目配置、README 和部分旧入口仍可能把操作者带回 E-D6。现已完成以下同步：
+
+- `configs/project_1024.yaml` 指向唯一 R3 配置、R3 Base 清单和自动可比性 Gate；
+- README 增加项目 R3 入口，并把 `eval/run_eval.sh` 标为 upstream 通用评测；
+- 正式推理、Judge、评分、验收及三项数据重建入口强制校验冻结 R3 配置 SHA；
+- `model_role=base` 强制校验原始 Qwen3.5-4B Base 权重；
+- Vision-OPD、Cached Prefix、GRPO 正式运行必须与 Base 清单逐项比较配置、amendment、数据、请求契约、分母和恢复键；
+- 七个 E-D5/E-D6 Python 入口取消默认旧配置，必须显式传 `--config`；
+- 新增 `docs/benchmark_history_index.md`，删除四个会污染搜索的 `.orig` 文件；
+- 新增机器可读 `benchmark_governance_sync_amendment.yaml`；不修改 R3 配置，因此其 SHA 和正式结果仍有效；
+- 新门禁对原正式 Base 的独立复核为 PASS，结果保存为 `preflight/post_sync_base_validation.json`，原 Base `validation.json` 与冻结目录未改写。
+
+同步后项目 vision-opd 环境完整回归为 **76 passed，另含 16 个 subtests passed**。
 
 ## 三、遇到的问题与解决方法
 
@@ -193,6 +209,8 @@ R3 已写入 docs/benchmark_protocol.md，并同步到项目计划。三个 Benc
 - 正式目录：artifacts/runs/E-PAPER-BASEJUDGE-001/base/
 - 正式报告：artifacts/reports/base_external_benchmarks_r3_single_gpu.md
 - 自动验证：artifacts/runs/E-PAPER-BASEJUDGE-001/base/validation.json，状态 PASS
+- 治理同步：artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/benchmark_governance_sync_amendment.yaml
+- 同步后独立复核：artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/post_sync_base_validation.json，状态 PASS
 
 ## 六、遗留限制与下一步
 

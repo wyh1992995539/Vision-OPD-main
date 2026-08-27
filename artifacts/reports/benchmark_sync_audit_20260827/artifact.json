@@ -1,0 +1,226 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Vision-OPD Benchmark 配置与来源切换同步审计",
+    "description": "R3 单卡论文对齐协议切换后的代码、配置、文档、数据和产物一致性审计。",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "layout": "full",
+        "body": "# Vision-OPD Benchmark 配置与来源切换同步审计"
+      },
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 结论\n\n正式 R3 Base 结果本身有效，不需要重跑：2,536 条正式请求、逐样本预测、评分、Judge、断点恢复状态、数据与图片哈希均通过校验，V* 分母固定为 191。\n\n但项目尚未完全完成从 E-D6 旧协议到 R3 的管理层同步。最需要在训练前处理的是：主项目配置仍指向旧配置、README 仍引导旧入口、后续模型缺少与 Base 冻结清单的自动同协议比较门、Base 角色缺少原始权重强制校验、计划末尾的 Base 完成项仍未勾选。"
+      },
+      {
+        "id": "audit_metrics",
+        "type": "metric-strip",
+        "layout": "full",
+        "cardIds": ["files_scanned", "tests_passed", "formal_rows", "blocking_findings"]
+      },
+      {
+        "id": "scope",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 审计范围与方法\n\n审计覆盖仓库中的文本配置、评测入口、评分与验证代码、项目计划、冻结文档、Day 5/Day 6 简报、历史报告、正式数据清单和 R3 Base 产物。采用全文检索、字段分布对账、哈希复核、正式运行验证器和完整测试集交叉检查。\n\n本报告没有修改任何现有配置、代码或历史证据；只新增这一份审计产物。"
+      },
+      {
+        "id": "must_sync_heading",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 训练前必须同步的项目"
+      },
+      {
+        "id": "must_sync_table_block",
+        "type": "table",
+        "layout": "full",
+        "tableId": "must_sync_table"
+      },
+      {
+        "id": "should_sync_heading",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 建议同步或归档的项目"
+      },
+      {
+        "id": "should_sync_table_block",
+        "type": "table",
+        "layout": "full",
+        "tableId": "should_sync_table"
+      },
+      {
+        "id": "data_reconciliation",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 数据来源切换核验\n\nV* 从旧 craigwu 快照切换到 R3 的 lmms-lab 快照后，191 个 source_id、问题、答案、类别全部一一对应；图片虽因编码不同没有相同文件 SHA256，但项目 pHash64 对 191 张图的距离全部为 0，因此属于内容等价迁移。MMStar 的 1,500 条 source_id、问题、答案和类别也全部一致。\n\nZoomBench 的旧流程产生 845 个 full 与 845 个 crop 请求，且把 official_category 统一记为 unavailable_official；R3 主评只保留 845 个 full 请求，并把 category 用作题型字段：621 道 multiple_choice、224 道 open_question。因此新旧 category 字段不能直接比较，这不是样本错位。"
+      },
+      {
+        "id": "data_table_block",
+        "type": "table",
+        "layout": "full",
+        "tableId": "data_table"
+      },
+      {
+        "id": "preservation",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 不应直接改写的历史证据\n\nconfigs/benchmark_eval.yaml、docs/project_freeze.md、Day 5/旧 Day 6 报告和 E-D6 哈希清单属于历史实验记录。它们可以增加外部的 superseded 索引、入口警告或后续 amendment，但不应静默改写原内容后继续声称原哈希可复现。\n\nR3 amendment 仍写有 preserve_r1_and_r2_configs_and_hashes: true，而后续决定已删除 R1/R2 YAML。这一矛盾也应通过新的管理性 amendment 解释，不要修改已经被冻结并被哈希引用的 R3 amendment。"
+      },
+      {
+        "id": "validity",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 对现有结果的影响\n\n上述同步缺口不推翻已经完成的 R3 Base 分数。正式目录的 2,536 条预测与评分完整，1,786 条所需 Judge 全部完成，V* 为 191/191，数据 JSON、主图和 845 张 ZoomBench crop 图的哈希均通过，74 项测试通过。\n\n风险主要发生在未来：如果操作者从 README、project_1024.yaml 或旧脚本默认值启动，就可能绕过 R3；即便使用 R3 脚本，当前校验器也只验证参数契约和 amendment 哈希，没有强制配置文件必须等于冻结 SHA，也没有在接受 Vision-OPD、Cached Prefix 或 GRPO 结果前自动对比 Base 的配置、数据和请求清单。"
+      },
+      {
+        "id": "recommended_order",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 建议实施顺序\n\n1. 新建现行主项目配置或管理性 amendment，把 external.config 和 Base 参考目录指向 R3；保留旧 project_1024.yaml 的历史哈希语义。\n2. 在 README 顶层评测说明中把项目复现入口改为 R3，并明确 upstream run_eval.sh 只是上游通用入口。\n3. 新增 formal comparability gate：硬校验 R3 配置 SHA、amendment SHA、三份数据 SHA、请求契约及 Base 清单；所有训练后模型通过后才允许进入主表。\n4. 当 model-role=base 时强制模型权重等于冻结原始 Qwen3.5-4B；未来服务名使用明确别名。\n5. 勾选 21 天计划中的 Base 完成项，为旧入口加历史警告，删除或迁移四个被 Git 跟踪的 .orig 文件，并补充时间戳与 R1/R2 保存策略的管理性说明。"
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## 限制与说明\n\n这是 2026-08-27 的仓库快照审计。外部 Hugging Face 仓库没有重新联网下载；来源一致性依据本地冻结 revision、转换数据、运行清单和已有原始缓存。没有绘制图表，因为本问题是离散的一致性审计，精确表格比图形更适合呈现文件、风险和动作。"
+      }
+    ],
+    "cards": [
+      {
+        "id": "files_scanned",
+        "dataset": "audit_metrics",
+        "description": "纳入全文检索的仓库文本类文件。",
+        "metrics": [{"label": "扫描文件", "field": "files_scanned", "format": "number"}],
+        "sourceId": "repo_scan"
+      },
+      {
+        "id": "tests_passed",
+        "dataset": "audit_metrics",
+        "description": "当前完整自动测试集通过数。",
+        "metrics": [{"label": "测试通过", "field": "tests_passed", "format": "number"}],
+        "sourceId": "test_suite"
+      },
+      {
+        "id": "formal_rows",
+        "dataset": "audit_metrics",
+        "description": "R3 正式主评唯一请求数。",
+        "metrics": [{"label": "正式请求", "field": "formal_rows", "format": "number"}],
+        "sourceId": "base_validation"
+      },
+      {
+        "id": "blocking_findings",
+        "dataset": "audit_metrics",
+        "description": "建议在后续模型正式外评前完成的同步项。",
+        "metrics": [{"label": "训练前必须同步", "field": "blocking_findings", "format": "number"}],
+        "sourceId": "audit_findings"
+      }
+    ],
+    "tables": [
+      {
+        "id": "must_sync_table",
+        "title": "训练前必须同步",
+        "description": "按严重级别排序；这些问题主要影响未来结果的可比性与误用风险。",
+        "dataset": "must_sync",
+        "columns": [
+          {"field": "priority", "label": "级别"},
+          {"field": "area", "label": "位置"},
+          {"field": "finding", "label": "现状"},
+          {"field": "risk", "label": "风险"},
+          {"field": "action", "label": "建议同步"}
+        ],
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "sourceId": "audit_findings"
+      },
+      {
+        "id": "should_sync_table",
+        "title": "建议同步、标记或归档",
+        "description": "不会使现有 R3 Base 失效，但会造成搜索污染、文档矛盾或审计歧义。",
+        "dataset": "should_sync",
+        "columns": [
+          {"field": "priority", "label": "级别"},
+          {"field": "area", "label": "位置"},
+          {"field": "finding", "label": "现状"},
+          {"field": "action", "label": "建议同步"}
+        ],
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "sourceId": "audit_findings"
+      },
+      {
+        "id": "data_table",
+        "title": "冻结数据与正式产物核验",
+        "description": "样本数、来源 revision 与内容对账结果。",
+        "dataset": "data_reconciliation",
+        "columns": [
+          {"field": "benchmark", "label": "Benchmark"},
+          {"field": "r3_source", "label": "R3 来源"},
+          {"field": "revision", "label": "Revision"},
+          {"field": "count", "label": "主评分母"},
+          {"field": "reconciliation", "label": "核验结论"}
+        ],
+        "defaultSort": {"field": "benchmark", "direction": "asc"},
+        "sourceId": "frozen_data"
+      }
+    ],
+    "charts": [],
+    "sources": [
+      {"id": "repo_scan", "label": "Repository-wide text scan", "path": "Vision-OPD-main repository", "query": {"description": "全文检索配置、代码、文档、测试和报告中的旧配置、旧来源及 R3 引用。"}},
+      {"id": "test_suite", "label": "Automated test suite", "path": "tests", "query": {"description": "在 vision-opd 环境执行完整测试集，74 项全部通过。"}},
+      {"id": "base_validation", "label": "R3 formal Base validation", "path": "artifacts/runs/E-PAPER-BASEJUDGE-001/base", "query": {"description": "正式运行校验器、逐样本文件、清单和 artifact SHA256 复核。"}},
+      {"id": "audit_findings", "label": "Configuration and documentation audit", "path": "configs, eval, scripts, docs, README", "query": {"description": "对现行入口、默认参数、哈希契约、历史状态和计划勾选项的交叉审计。"}},
+      {"id": "frozen_data", "label": "Frozen benchmark data", "path": "benchmark_data/paper_aligned/converted", "query": {"description": "对 ZoomBench、MMStar、V* 的本地冻结转换数据及旧运行记录进行 source_id、问题、答案、类别和图像指纹核验。"}}
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "status": "ready",
+    "generated_at": "2026-08-27T00:00:00Z",
+    "datasets": {
+      "audit_metrics": [
+        {"files_scanned": 572, "tests_passed": 74, "formal_rows": 2536, "blocking_findings": 5}
+      ],
+      "must_sync": [
+        {"priority": "P0", "area": "configs/project_1024.yaml", "finding": "evaluation.external.config 仍指向 configs/benchmark_eval.yaml，且 Base 运行、预算和 Judge 校准仍是 E-D6 口径。", "risk": "后续训练或自动化读取主配置时会启动旧协议。", "action": "新建现行项目配置或管理性 amendment 指向 R3；不要静默覆盖旧哈希证据。"},
+        {"priority": "P0", "area": "README.md", "finding": "Quick Start 仍把 eval/run_eval.sh、任意 Judge 和 GPT-OSS-120B 描述为项目评测入口。", "risk": "最容易让操作者绕过 R3 的单卡服务、固定 Base Judge 和冻结数据。", "action": "增加项目复现专用 R3 命令，并把 run_eval.sh 明确标成 upstream 通用入口。"},
+        {"priority": "P0", "area": "eval/paper_aligned_common.py", "finding": "validate_config 校验字段契约和 amendment SHA，但不强制配置文件 SHA 必须等于 e71255e8…2903。", "risk": "修改过但结构仍合法的配置可以被当成同一 R3 协议。", "action": "为 formal 运行增加冻结 R3 配置 SHA allowlist；Smoke 可按明确开关放宽。"},
+        {"priority": "P0", "area": "后续模型验收链", "finding": "没有自动把 Vision-OPD、Cached Prefix、GRPO 的 config/data/request hashes 与 Base run_manifest 做逐项对比。", "risk": "单次运行内部 PASS 不等于与 Base 可公平比较。", "action": "新增 comparability gate，并在主表生成前强制通过 Base 清单对账。"},
+        {"priority": "P1", "area": "eval/run_paper_aligned_eval.py", "finding": "model-role=base 时只记录 checkpoint identity，没有强制其等于冻结 Qwen3.5-4B Base 权重。", "risk": "其他 checkpoint 可被误标为 Base 并通过运行契约。", "action": "对 base 角色调用冻结 Base 权重校验；训练角色继续允许各自权重。"}
+      ],
+      "should_sync": [
+        {"priority": "P1", "area": "docs/project_freeze.md", "finding": "仍写 Day 6 尚未开始、Base 未开始，并保留旧 unsupported/不强行计分口径。", "action": "用新 freeze amendment 或状态索引标明已被 R3 取代；保留原文件历史哈希。"},
+        {"priority": "P1", "area": "docs/vision_opd_21_day_plan.md", "finding": "顶部已记录 R3 Base PASS，但最终 checklist 中 Base 完整性仍未勾选。", "action": "将该项改为完成并引用 validation.json。"},
+        {"priority": "P1", "area": "旧可执行入口", "finding": "run_smoke.py、score_smoke.py、run_day6.py、score_day6.py、重叠和预算脚本仍默认旧配置。", "action": "保留历史功能，但添加 LEGACY_E_D6 警告或要求显式 --config，避免无参数误跑。"},
+        {"priority": "P1", "area": "历史简报与报告", "finding": "Day 5 简报仍要求 V* 187 诊断，旧 Base 报告仍要求未来模型沿用 E-D6。", "action": "新增统一 superseded 索引或页首外部说明，不要改写被哈希引用的历史正文。"},
+        {"priority": "P2", "area": "四个 Git 跟踪的 .orig 文件", "finding": "计划和三个 R1 代码备份仍可被全文搜索命中并包含旧默认路径。", "action": "确认无恢复用途后删除，或迁移到明确的 historical 目录。"},
+        {"priority": "P2", "area": "R3 amendment 保存策略", "finding": "冻结 amendment 写 preserve_r1_and_r2_configs_and_hashes: true，但后续决定已删除 R1/R2 YAML。", "action": "新增管理性 amendment 说明只保留哈希与简报，不修改已冻结 R3 amendment。"},
+        {"priority": "P2", "area": "UTC 时间元数据", "finding": "R3 文件时间与 created_at_utc/frozen_at_utc 存在约 8 小时口径偏移，疑似本地时间被标为 UTC。", "action": "在管理性 amendment 中记录实际时区和冻结顺序；不要重写已有哈希文件。"},
+        {"priority": "P2", "area": "Base run_manifest.model_id", "finding": "服务别名为 Vision-OPD-4B，虽权重哈希确认是原始 Base，但名称容易误解。", "action": "保留现有清单，后续使用 qwen35-4b-base-under-test 等清晰服务名。"},
+        {"priority": "P2", "area": "E-D6 hash_manifest 语义", "finding": "清单引用了后来发生变化的 docs/benchmark_protocol.md 和计划路径，当前文件哈希不再等于旧记录。", "action": "明确其为时间点快照，或补存不可变历史副本，避免把可变路径当作当前可复核输入。"},
+        {"priority": "P2", "area": "ZoomBench 类别字段", "finding": "旧 official_category=unavailable_official；R3 category 实际表示 question_format。", "action": "比较脚本和文档分别命名 official_category 与 question_format，不做同字段类别差值。"}
+      ],
+      "data_reconciliation": [
+        {"benchmark": "MMStar", "r3_source": "Lin-Chen/MMStar", "revision": "bc98d668301da7b14f648724866e57302778ab27", "count": 1500, "reconciliation": "1,500/1,500 source_id、问题、答案、类别一致。"},
+        {"benchmark": "V* Bench", "r3_source": "lmms-lab/vstar-bench", "revision": "b44023b4dca749ed8a76b85eb576627d05a1c174", "count": 191, "reconciliation": "191/191 文本字段一致；191 张图 pHash 距离均为 0；SHA 差异来自编码。"},
+        {"benchmark": "ZoomBench", "r3_source": "inclusionAI/ZoomBench", "revision": "b788097e57d30510c6877824833234a73bf80d25", "count": 845, "reconciliation": "845 个主评样本；621 选择题、224 开放题；旧 full/crop 类别字段不可直接对比。"}
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {"id": "repo_scan", "label": "Repository-wide text scan", "path": "Vision-OPD-main repository", "query": {"description": "全文检索配置、代码、文档、测试和报告中的旧配置、旧来源及 R3 引用。"}},
+    {"id": "test_suite", "label": "Automated test suite", "path": "tests", "query": {"description": "在 vision-opd 环境执行完整测试集，74 项全部通过。"}},
+    {"id": "base_validation", "label": "R3 formal Base validation", "path": "artifacts/runs/E-PAPER-BASEJUDGE-001/base", "query": {"description": "正式运行校验器、逐样本文件、清单和 artifact SHA256 复核。"}},
+    {"id": "audit_findings", "label": "Configuration and documentation audit", "path": "configs, eval, scripts, docs, README", "query": {"description": "对现行入口、默认参数、哈希契约、历史状态和计划勾选项的交叉审计。"}},
+    {"id": "frozen_data", "label": "Frozen benchmark data", "path": "benchmark_data/paper_aligned/converted", "query": {"description": "对 ZoomBench、MMStar、V* 的本地冻结转换数据及旧运行记录进行 source_id、问题、答案、类别和图像指纹核验。"}}
+  ],
+  "package_info": {
+    "workflow": "build-report",
+    "artifact_kind": "technical_audit",
+    "snapshot_date": "2026-08-27"
+  }
+}

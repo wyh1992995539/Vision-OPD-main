@@ -11,7 +11,7 @@
 >
 > 论文对齐 R2 历史修订（2026-08-26）：R2 曾移除三项可控实现差异：服务使用 TP=1、显存利用率 0.75 和 GDN Triton；ZoomBench/MMStar 保留源图字节；V* 请求图无条件 RGB→PNG。其 amendment 与 Smoke 继续作为历史审计证据；R1/R2 可执行 YAML 已于 2026-08-27 按负责人决定删除。
 >
-> 单卡计费 R3 修订（2026-08-27）：R3 已成为 Base、Vision-OPD、Cached Prefix、GRPO 的唯一现行外部 Benchmark 标准。唯一可执行配置为 `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`；除被测 checkpoint 与独立输出目录外不得改变任何评测条件。机器可读 amendment 见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r3_single_gpu_cost_amendment.yaml`，规范见 `docs/benchmark_protocol.md`。
+> 单卡计费 R3 修订（2026-08-27）：R3 已成为 Base、Vision-OPD、Cached Prefix、GRPO 的唯一现行外部 Benchmark 标准。唯一可执行配置为 `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`；除被测 checkpoint 与独立输出目录外不得改变任何评测条件。机器可读 amendment 见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r3_single_gpu_cost_amendment.yaml`，后续治理同步见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/benchmark_governance_sync_amendment.yaml`，规范见 `docs/benchmark_protocol.md`。
 
 ## 1. 最终目标
 
@@ -1007,7 +1007,7 @@ Day 20 不得写：
 - [x] Vanilla 128 条预测和评测结果完整。
 - [x] 旧协议 `E-D6-001` 的三项外部 Benchmark 逐样本预测、评分、汇总、overlap 说明和成本已归档。
 - [x] 论文对齐 `E-PAPER-BASEJUDGE-001` amendment 已冻结，明确固定 Base Judge 替代 GPT-OSS-120B。
-- [ ] `E-PAPER-BASEJUDGE-001/base` 在 ZoomBench full、MMStar、V* 191 上的逐样本预测、Judge 记录与汇总完整。
+- [x] `E-PAPER-BASEJUDGE-001/base` 在 ZoomBench full、MMStar、V* 191 上的逐样本预测、Judge 记录与汇总完整；`validation.json` 为 PASS。
 - [ ] Vision-OPD 真实链路包含在线生成、Crop Teacher、Top-K JSD、Student backward、EMA。
 - [ ] Vision-OPD 1024 checkpoint 可加载并完成 internal 128/64 与三项外部评测。
 - [ ] Cached Prefix 只改变 prefix 来源。

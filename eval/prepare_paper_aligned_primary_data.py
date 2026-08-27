@@ -10,7 +10,13 @@ import os
 from pathlib import Path
 from typing import Any
 
-from eval.paper_aligned_common import load_config, resolve_path, sha256_file, write_json
+from eval.paper_aligned_common import (
+    load_config,
+    require_frozen_r3_config,
+    resolve_path,
+    sha256_file,
+    write_json,
+)
 
 
 def image_bytes(value: Any) -> bytes:
@@ -188,7 +194,8 @@ def main() -> None:
     parser.add_argument("--benchmarks", default="zoombench,mmstar")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
-    _, config = load_config(args.config)
+    config_path, config = load_config(args.config)
+    require_frozen_r3_config(config_path)
     selected = [item.strip() for item in args.benchmarks.split(",") if item.strip()]
     if not selected or set(selected).difference({"zoombench", "mmstar"}):
         raise ValueError("--benchmarks accepts only zoombench,mmstar")

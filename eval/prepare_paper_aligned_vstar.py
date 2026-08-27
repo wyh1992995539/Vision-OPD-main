@@ -13,7 +13,13 @@ from typing import Any
 
 from PIL import Image
 
-from eval.paper_aligned_common import load_config, resolve_path, sha256_file, write_json
+from eval.paper_aligned_common import (
+    load_config,
+    require_frozen_r3_config,
+    resolve_path,
+    sha256_file,
+    write_json,
+)
 
 
 def safe_name(value: Any) -> str:
@@ -41,7 +47,8 @@ def image_bytes(value: Any) -> bytes:
 
 
 def prepare(config_path: str, source_override: str | None, force: bool) -> dict[str, Any]:
-    _, config = load_config(config_path)
+    resolved_config_path, config = load_config(config_path)
+    require_frozen_r3_config(resolved_config_path)
     benchmark = config["benchmarks"]["vstar"]
     configured_source = resolve_path(benchmark["source_parquet"])
     source = resolve_path(source_override) if source_override else configured_source

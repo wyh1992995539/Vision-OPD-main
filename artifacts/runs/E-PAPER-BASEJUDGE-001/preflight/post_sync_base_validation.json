@@ -1,0 +1,73 @@
+{
+  "amendment_sha256_raw_bytes": "6f85950a0f566cd61d9cb957842da8dbc92478acf68c66059a9ed6454db92b60",
+  "config_contract": "pass",
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+  "config_sha256_raw_bytes": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "data": {
+    "actual_counts": {
+      "mmstar/full": 1500,
+      "vstar/full": 191,
+      "zoombench/full": 845
+    },
+    "dataset_json_sha256": {
+      "mmstar": "944ca440cc2be630df665612a9b0ddca9433c3903c775fda10dacbc766a12fed",
+      "vstar": "336a1e1a32f0b34e4e9e41b3dcc95ea87ff69fe3dcec16c99d4b16f4e967dfd5",
+      "zoombench": "31ba5d76c6b282266a62549f419e76fcbd1e513f0ccf2a11caa4584948c9449b"
+    },
+    "expected_counts": {
+      "mmstar/full": 1500,
+      "vstar/full": 191,
+      "zoombench/full": 845
+    },
+    "status": "pass",
+    "total": 2536,
+    "unique_request_keys": 2536,
+    "verified_crop_image_sha256_count": 845,
+    "verified_primary_image_sha256_count": 2536
+  },
+  "generated_at_utc": "2026-08-27T06:29:42.484645+00:00",
+  "run": {
+    "compaction_stats": {
+      "judges": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      },
+      "predictions": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      },
+      "scores": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      }
+    },
+    "comparability_gate": {
+      "base_identity": "pass",
+      "checked_fields": [
+        "experiment_id",
+        "run_mode",
+        "config_sha256_raw_bytes",
+        "amendment_sha256_raw_bytes",
+        "dataset_files",
+        "request_contract",
+        "expected_requests",
+        "expected_request_count",
+        "limit_per_benchmark",
+        "resume_key"
+      ],
+      "reference_role": "base",
+      "status": "pass"
+    },
+    "completed_judge_count": 1786,
+    "expected_request_count": 2536,
+    "model_role": "base",
+    "prediction_count": 2536,
+    "required_judge_count": 1786,
+    "run_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base",
+    "run_mode": "formal",
+    "score_count": 2536,
+    "status": "pass"
+  },
+  "schema_version": 1,
+  "status": "pass"
+}

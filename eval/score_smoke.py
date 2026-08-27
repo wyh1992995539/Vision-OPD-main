@@ -246,7 +246,7 @@ def summarize(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", default="configs/benchmark_eval.yaml")
+    parser.add_argument("--config", required=True, help="Explicit legacy E-D5/E-D6 config path; R3 uses the paper-aligned entrypoints")
     parser.add_argument("--input-dir")
     parser.add_argument("--judge-api-base")
     parser.add_argument("--judge-api-key", default="EMPTY")

@@ -1,0 +1,66 @@
+schema_version: 1
+amendment_id: A-2026-08-27-BENCHMARK-GOVERNANCE-SYNC
+status: effective
+created_at_utc: "2026-08-27T06:23:41Z"
+scope: project_metadata_entrypoints_and_formal_comparability_gates
+evaluation_contract_changed: false
+formal_rerun_required: false
+
+sole_active_standard:
+  experiment_id: E-PAPER-BASEJUDGE-001
+  protocol_revision: 3
+  config: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+  config_sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+  base_manifest: artifacts/runs/E-PAPER-BASEJUDGE-001/base/run_manifest.json
+  base_validation: artifacts/runs/E-PAPER-BASEJUDGE-001/base/validation.json
+
+dataset_sources:
+  zoombench:
+    repo_id: inclusionAI/ZoomBench
+    revision: b788097e57d30510c6877824833234a73bf80d25
+    denominator: 845
+  mmstar:
+    repo_id: Lin-Chen/MMStar
+    revision: bc98d668301da7b14f648724866e57302778ab27
+    denominator: 1500
+  vstar:
+    repo_id: lmms-lab/vstar-bench
+    revision: b44023b4dca749ed8a76b85eb576627d05a1c174
+    denominator: 191
+
+future_formal_run_gates:
+  require_exact_r3_config_sha256: true
+  require_frozen_base_identity_for_base_role: true
+  require_comparison_to_base_manifest_for_trained_roles: true
+  compared_fields:
+    - experiment_id
+    - run_mode
+    - config_sha256_raw_bytes
+    - amendment_sha256_raw_bytes
+    - dataset_files
+    - request_contract
+    - expected_requests
+    - expected_request_count
+    - limit_per_benchmark
+    - resume_key
+
+historical_policy_clarification:
+  e_d5_and_e_d6_status: archived_engineering_diagnostic
+  allow_primary_comparison: false
+  r1_r2_executable_yaml_deleted_by_owner_decision: true
+  r1_r2_amendments_hash_records_and_smoke_outputs_preserved: true
+  tracked_orig_backups_are_not_historical_evidence: true
+  legacy_hash_manifests_are_point_in_time_records: true
+  mutable_current_paths_are_not_expected_to_match_legacy_hashes: true
+
+timestamp_clarification:
+  affected_label: paper_alignment_r3_single_gpu_cost_amendment.created_at_utc
+  recorded_value: "2026-08-27T00:00:00+00:00"
+  filesystem_time: "2026-08-27T00:04:08+08:00"
+  interpretation: local_utc_plus_8_calendar_time_was_labeled_as_utc
+  formal_base_manifest_created_at_utc: "2026-08-26T16:08:18.113305+00:00"
+  effect_on_scores_or_contract: none
+
+zoombench_field_clarification:
+  legacy_official_category: unavailable_official
+  r3_category_semantics: question_format

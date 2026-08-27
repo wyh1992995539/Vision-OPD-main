@@ -82,7 +82,7 @@ def write_json(path: Path, value: Any) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", default="configs/benchmark_eval.yaml")
+    parser.add_argument("--config", required=True, help="Explicit legacy E-D5/E-D6 config path; R3 uses the paper-aligned entrypoints")
     parser.add_argument("--amendment", default="artifacts/runs/E-D6-001/preflight/vstar_reporting_amendment.yaml")
     parser.add_argument("--output-dir", default="artifacts/runs/E-D6-001/base")
     parser.add_argument("--api-base", default="http://127.0.0.1:8000/v1")

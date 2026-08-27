@@ -202,7 +202,7 @@ def score_records(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", default="configs/benchmark_eval.yaml")
+    parser.add_argument("--config", required=True, help="Explicit legacy E-D5/E-D6 config path; R3 uses the paper-aligned entrypoints")
     parser.add_argument("--api-base", default="http://127.0.0.1:8000/v1")
     parser.add_argument("--api-key", default="EMPTY")
     parser.add_argument("--model-id", default="vision-opd-base")

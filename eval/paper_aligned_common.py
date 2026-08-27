@@ -21,6 +21,21 @@ from PIL import Image
 BENCHMARK_ORDER = ("zoombench", "mmstar", "vstar")
 VIEW = "full"
 VSTAR_MAX_DEFAULT = 20 * 1024 * 1024
+FROZEN_R3_CONFIG_SHA256 = (
+    "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903"
+)
+FORMAL_COMPARABILITY_FIELDS = (
+    "experiment_id",
+    "run_mode",
+    "config_sha256_raw_bytes",
+    "amendment_sha256_raw_bytes",
+    "dataset_files",
+    "request_contract",
+    "expected_requests",
+    "expected_request_count",
+    "limit_per_benchmark",
+    "resume_key",
+)
 
 
 def now_utc() -> str:
@@ -261,6 +276,88 @@ def load_tasks(config: dict[str, Any], limit_per_benchmark: int | None = None) -
                 }
             )
     return tasks
+
+
+def require_frozen_model_under_test_base_identity(
+    identity: dict[str, Any], config: dict[str, Any]
+) -> None:
+    expected = config["model_under_test"]["base_weight_sha256"]
+    actual = identity.get("weight_sha256", {})
+    if actual != expected:
+        raise ValueError(
+            "model_role=base requires the frozen original Qwen3.5-4B Base; "
+            f"expected {expected}, got {actual}"
+        )
+
+
+def require_frozen_r3_config(config_path: Path) -> None:
+    actual = sha256_file(config_path)
+    if actual != FROZEN_R3_CONFIG_SHA256:
+        raise ValueError(
+            "formal evaluation requires the sole frozen R3 config SHA256; "
+            f"expected {FROZEN_R3_CONFIG_SHA256}, got {actual}"
+        )
+
+
+def require_formal_manifest_comparable_with_base(
+    manifest: dict[str, Any], config: dict[str, Any]
+) -> dict[str, Any]:
+    """Reject formal runs that cannot be compared to the frozen Base manifest."""
+    if manifest.get("run_mode") != "formal":
+        return {"status": "not_applicable", "reason": "smoke_run"}
+
+    actual_config_sha = str(manifest.get("config_sha256_raw_bytes") or "")
+    if actual_config_sha != FROZEN_R3_CONFIG_SHA256:
+        raise ValueError(
+            "formal run manifest does not use the frozen R3 config SHA256: "
+            f"{actual_config_sha}"
+        )
+
+    model_role = str(manifest.get("model_role") or "")
+    allowed_roles = set(config["model_under_test"]["allowed_roles"])
+    if model_role not in allowed_roles:
+        raise ValueError(f"unsupported formal model_role: {model_role!r}")
+    if model_role == "base":
+        require_frozen_model_under_test_base_identity(
+            manifest.get("model_checkpoint_identity", {}), config
+        )
+        return {
+            "status": "pass",
+            "reference_role": "base",
+            "checked_fields": list(FORMAL_COMPARABILITY_FIELDS),
+            "base_identity": "pass",
+        }
+
+    base_manifest_path = (
+        resolve_path(config["paths"]["run_root"])
+        / "base"
+        / config["paths"]["run_manifest_name"]
+    )
+    if not base_manifest_path.is_file():
+        raise FileNotFoundError(
+            f"frozen Base run manifest required for comparison: {base_manifest_path}"
+        )
+    base_manifest = json.loads(base_manifest_path.read_text(encoding="utf-8"))
+    mismatches = [
+        field
+        for field in FORMAL_COMPARABILITY_FIELDS
+        if manifest.get(field) != base_manifest.get(field)
+    ]
+    if mismatches:
+        raise ValueError(
+            "formal run is not comparable with the frozen Base manifest; "
+            f"mismatched fields: {mismatches}"
+        )
+    require_frozen_model_under_test_base_identity(
+        base_manifest.get("model_checkpoint_identity", {}), config
+    )
+    return {
+        "status": "pass",
+        "reference_role": "base",
+        "reference_manifest": str(base_manifest_path),
+        "checked_fields": list(FORMAL_COMPARABILITY_FIELDS),
+        "base_identity": "pass",
+    }
 
 
 def expected_counts(config: dict[str, Any], limit_per_benchmark: int | None = None) -> dict[str, int]:
