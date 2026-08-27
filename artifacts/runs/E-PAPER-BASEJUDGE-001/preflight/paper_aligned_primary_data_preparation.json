@@ -1,0 +1,32 @@
+{
+  "benchmarks": [
+    {
+      "benchmark": "zoombench",
+      "converted_json": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/zoombench/zoombench.json",
+      "converted_json_sha256": "31ba5d76c6b282266a62549f419e76fcbd1e513f0ccf2a11caa4584948c9449b",
+      "dataset_repo_id": "inclusionAI/ZoomBench",
+      "dataset_revision": "b788097e57d30510c6877824833234a73bf80d25",
+      "image_policy": "preserve_source_bytes",
+      "record_count": 845,
+      "source_parquet": "/root/autodl-tmp/benchmark_data/raw/zoombench/data/test.parquet",
+      "source_parquet_sha256": "d44ebda2eda485cba055181f4e6dc50c42f81b5d0f7e936bf427fa01502a391a",
+      "status": "pass",
+      "unique_sample_uid_count": 845
+    },
+    {
+      "benchmark": "mmstar",
+      "converted_json": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/mmstar/mmstar.json",
+      "converted_json_sha256": "944ca440cc2be630df665612a9b0ddca9433c3903c775fda10dacbc766a12fed",
+      "dataset_repo_id": "Lin-Chen/MMStar",
+      "dataset_revision": "bc98d668301da7b14f648724866e57302778ab27",
+      "image_policy": "preserve_source_bytes",
+      "record_count": 1500,
+      "source_parquet": "/root/autodl-tmp/benchmark_data/raw/mmstar/mmstar.parquet",
+      "source_parquet_sha256": "29afd74b0134cfab083a8909b5358577ab18fd41c1e612031577cfb3635531c2",
+      "status": "pass",
+      "unique_sample_uid_count": 1500
+    }
+  ],
+  "schema_version": 1,
+  "status": "pass"
+}

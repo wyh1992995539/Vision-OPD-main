@@ -1,0 +1,29 @@
+{
+  "amendment_sha256_raw_bytes": "b74c28646a2396c0b5c790ed67c3e9163b1c56a8d5a66a9c7731d60f349862a0",
+  "config_contract": "pass",
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge.yaml",
+  "config_sha256_raw_bytes": "ad2ffc149ca228eb4d18778f1785b1bed036ab4fd444cc7e4a733850580cc595",
+  "data": {
+    "actual_counts": {
+      "mmstar/full": 1500,
+      "vstar/full": 191,
+      "zoombench/full": 845
+    },
+    "dataset_json_sha256": {
+      "mmstar": "4cef7496590fce9e3c95bf133c36db2712e75a083a355c56d4976bd27603f813",
+      "vstar": "336a1e1a32f0b34e4e9e41b3dcc95ea87ff69fe3dcec16c99d4b16f4e967dfd5",
+      "zoombench": "15d334cedbaadbfcb802680509c4bb473e0358d9abef98d62a78716a9427fcfd"
+    },
+    "expected_counts": {
+      "mmstar/full": 1500,
+      "vstar/full": 191,
+      "zoombench/full": 845
+    },
+    "status": "pass",
+    "total": 2536,
+    "unique_request_keys": 2536
+  },
+  "generated_at_utc": "2026-08-26T10:46:00.794519+00:00",
+  "schema_version": 1,
+  "status": "pass"
+}

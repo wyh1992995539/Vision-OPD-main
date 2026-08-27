@@ -1,0 +1,165 @@
+schema_version: 1
+amendment_id: A-2026-08-26-PAPER-ALIGNED-BASE-JUDGE
+status: effective
+experiment_id: E-PAPER-BASEJUDGE-001
+created_at_utc: "2026-08-26T00:00:00+00:00"
+owner_document: docs/vision_opd_21_day_plan.md
+amendment_sha256_file: artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_aligned_evaluation_amendment.sha256
+scope: future_external_primary_evaluations
+
+reason: >-
+  Align external benchmark inference and scoring as closely as possible with
+  the public Vision-OPD paper and official repository while declaring the one
+  unavailable core dependency: GPT-OSS-120B Judge.
+
+historical_evidence_policy:
+  preserve_experiment: E-D6-001
+  preserve_outputs_unchanged: true
+  historical_role: old_protocol_engineering_diagnostic
+  forbid_direct_primary_comparison_with_paper_aligned_runs: true
+  forbid_overwrite_or_relabel: true
+
+applies_to:
+  model_roles:
+    - base
+    - vision_opd
+    - cached_prefix
+    - grpo
+  required_shared_protocol: true
+  only_allowed_cross_model_difference: evaluated_checkpoint_identity_and_hash
+
+model_under_test:
+  base_model: Qwen/Qwen3.5-4B
+  local_base_path: /root/autodl-tmp/models/Qwen3.5-4B
+  base_huggingface_revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  require_runtime_checkpoint_hash: true
+  forbid_external_scores_for_checkpoint_selection_or_retraining: true
+
+inference_protocol:
+  api: openai_compatible_chat_completions
+  messages:
+    system_prompt: null
+    user_image_count: 1
+    user_text_source: frozen_benchmark_query
+  image_view: full
+  chat_template_kwargs:
+    enable_thinking: false
+  generation:
+    temperature: 0
+    max_tokens: 1024
+    forbidden_request_parameters:
+      - top_p
+      - top_k
+      - presence_penalty
+      - repetition_penalty
+    num_return_sequences: 1
+  execution:
+    parallel_workers: 16
+    max_retries: 3
+    request_timeout_seconds: 3600
+    require_resumable_per_sample_writes: true
+
+benchmarks:
+  zoombench:
+    dataset_repo_id: inclusionAI/ZoomBench
+    dataset_revision: b788097e57d30510c6877824833234a73bf80d25
+    split: test
+    primary_view: full
+    official_request_count: 845
+    primary_summary_denominator: 845
+    crop_view_policy: optional_separate_diagnostic_not_in_paper_primary_table
+  mmstar:
+    dataset_repo_id: Lin-Chen/MMStar
+    dataset_revision: bc98d668301da7b14f648724866e57302778ab27
+    split: val
+    primary_view: full
+    official_request_count: 1500
+    primary_summary_denominator: 1500
+  vstar:
+    dataset_repo_id: lmms-lab/vstar-bench
+    dataset_revision: b44023b4dca749ed8a76b85eb576627d05a1c174
+    split: test
+    primary_view: full
+    official_request_count: 191
+    primary_summary_denominator: 191
+    preserve_all_official_samples: true
+    exclude_confirmed_training_overlaps: false
+    overlap_assumption: treat_as_non_duplicate_for_primary_reporting
+  expected_total_visual_requests: 2536
+
+scoring_protocol:
+  ordered_pipeline:
+    - mathruler
+    - multiple_choice_first_letter_match
+    - fixed_base_4b_llm_judge_for_not_yet_correct_or_unresolved
+  invalid_prediction_policy: count_incorrect_in_official_denominator
+  api_error_policy: retry_then_count_incorrect_and_record_error
+  empty_output_policy: count_incorrect_and_record_error
+  judge_failure_policy: count_incorrect_and_record_error
+
+judge_substitution:
+  paper_judge: GPT-OSS-120B
+  paper_judge_available: false
+  substitute_model: Qwen/Qwen3.5-4B
+  substitute_local_path: /root/autodl-tmp/models/Qwen3.5-4B
+  substitute_huggingface_revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  role: frozen_original_base_judge_for_every_evaluated_checkpoint
+  forbid_self_judging_by_trained_checkpoint: true
+  system_prompt: null
+  prompt_source: official_vision_opd_judge_prompt
+  chat_template_kwargs:
+    enable_thinking: false
+  generation:
+    temperature: 0
+    max_tokens: 2048
+  accepted_correct_output: "Yes"
+  comparability_label: paper_aligned_inference_with_frozen_local_base_judge
+
+required_output_contract:
+  root: artifacts/runs/E-PAPER-BASEJUDGE-001
+  model_subdirectories:
+    - base
+    - vision_opd
+    - cached_prefix
+    - grpo
+  required_per_model_files:
+    - run_manifest.json
+    - predictions.jsonl
+    - judge_results.jsonl
+    - scores.jsonl
+    - summary.json
+    - resume_status.json
+    - metrics.json
+    - cost.json
+    - artifact_sha256.txt
+  resume_key_fields:
+    - benchmark
+    - view
+    - sample_uid
+  persist_fields:
+    - raw_model_answer
+    - parsed_answer
+    - rule_score
+    - judge_required
+    - judge_raw_output
+    - judge_source
+    - final_is_correct
+    - prompt_tokens
+    - completion_tokens
+    - latency_seconds
+    - retry_count
+    - error
+
+reporting_constraints:
+  primary_comparison_baseline: E-PAPER-BASEJUDGE-001/base
+  compare_old_e_d6_001_as_diagnostic_only: true
+  allow_claim_exact_table2_reproduction: false
+  required_limitation_statement: >-
+    Paper-aligned non-thinking inference with a frozen Qwen3.5-4B Base Judge
+    substituted for the unavailable GPT-OSS-120B Judge.
+  report_tokens_latency_gpu_time_and_cost: true
+
+known_public_reproduction_ambiguities:
+  evaluation_max_tokens_not_explicit_in_paper_main_text: true
+  selected_value_basis: later_official_repository_reproduction_command
+  exact_author_serving_hardware_and_backend_not_fully_disclosed: true

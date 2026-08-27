@@ -1,0 +1,52 @@
+schema_version: 1
+amendment_id: A-2026-08-27-PAPER-ALIGNMENT-R3-SINGLE-GPU-COST
+status: effective
+experiment_id: E-PAPER-BASEJUDGE-001
+created_at_utc: "2026-08-27T00:00:00+00:00"
+owner_document: docs/vision_opd_21_day_plan.md
+scope: formal_base_and_all_later_cross_model_external_evaluations
+
+supersedes_for_future_runs:
+  amendment: artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r2_amendment.yaml
+  protocol_revision: 2
+
+reason: >-
+  The project owner moved without data loss from a billed two-GPU instance to
+  a billed one-GPU instance before formal Base evaluation. R2 inference was
+  already TP=1, so only cost-reporting metadata changes.
+
+inherited_without_change_from_r2:
+  model_checkpoint_and_hashes: true
+  benchmark_datasets_revisions_and_hashes: true
+  prompt_and_image_processing: true
+  generation_parameters: true
+  serving_tensor_parallel_size: 1
+  serving_gpu_memory_utilization: 0.75
+  serving_gdn_prefill_backend: triton
+  judge_model_prompt_and_parameters: true
+  scoring_and_denominators: true
+  resume_and_output_contract: true
+
+reporting_only_change:
+  previous_billed_gpu_count: 2
+  current_billed_gpu_count: 1
+  previous_instance_cost_per_wall_hour_cny: 11.96
+  current_instance_cost_per_wall_hour_cny: 5.98
+  effective_before_formal_base_started: true
+
+smoke_inheritance:
+  source: artifacts/runs/E-PAPER-BASEJUDGE-001/smoke_r2/base
+  source_status: pass
+  repeat_required: false
+  rationale: >-
+    R2 Smoke already executed TP=1 on one active GPU. The host switch changes
+    billing capacity only and does not change any inference or Judge request.
+
+preservation_policy:
+  preserve_r1_and_r2_configs_and_hashes: true
+  preserve_r1_and_r2_smoke_outputs: true
+  forbid_mixing_formal_resume_records_across_config_hashes: true
+
+remaining_limitation_statement: >-
+  Best-public-recipe-aligned non-thinking inference with a frozen Qwen3.5-4B
+  Base Judge substituted for the unavailable GPT-OSS-120B Judge.

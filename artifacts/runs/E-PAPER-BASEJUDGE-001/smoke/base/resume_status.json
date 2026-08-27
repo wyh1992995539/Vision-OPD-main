@@ -1,0 +1,12 @@
+{
+  "completed_successful_request_count": 12,
+  "duplicate_request_keys_compacted": 0,
+  "expected_request_count": 12,
+  "malformed_lines_compacted": 0,
+  "recorded_unique_request_count": 12,
+  "remaining_request_count": 0,
+  "resume_complete": true,
+  "retryable_error_count": 0,
+  "schema_version": 1,
+  "updated_at_utc": "2026-08-26T10:49:18.706234+00:00"
+}

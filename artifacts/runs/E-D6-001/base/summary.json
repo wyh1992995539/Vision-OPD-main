@@ -1,0 +1,110 @@
+{
+  "amendment_sha256_raw_bytes": "bcc392986513a00fbebe505218951988c05bad7748303f9ca5fb2c4b938938ef",
+  "config_sha256_raw_bytes": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6",
+  "decision_status": "complete",
+  "deduplicated_diagnostic": null,
+  "experiment_id": "E-D6-001",
+  "generated_at_utc": "2026-08-26T06:20:40.048294+00:00",
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.7046666666666667,
+      "correct": 1057,
+      "incorrect": 443,
+      "pending_judge": 0,
+      "total": 1500
+    },
+    "vstar/full": {
+      "accuracy": 0.8638743455497382,
+      "correct": 165,
+      "incorrect": 26,
+      "pending_judge": 0,
+      "total": 191
+    },
+    "zoombench/crop": {
+      "accuracy": 0.6792899408284023,
+      "correct": 574,
+      "incorrect": 271,
+      "pending_judge": 0,
+      "total": 845
+    },
+    "zoombench/full": {
+      "accuracy": 0.5124260355029586,
+      "correct": 433,
+      "incorrect": 412,
+      "pending_judge": 0,
+      "total": 845
+    }
+  },
+  "official_category_groups": {
+    "mmstar/full/coarse perception": {
+      "accuracy": 0.692,
+      "correct": 173,
+      "incorrect": 77,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/fine-grained perception": {
+      "accuracy": 0.62,
+      "correct": 155,
+      "incorrect": 95,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/instance reasoning": {
+      "accuracy": 0.76,
+      "correct": 190,
+      "incorrect": 60,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/logical reasoning": {
+      "accuracy": 0.804,
+      "correct": 201,
+      "incorrect": 49,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/math": {
+      "accuracy": 0.808,
+      "correct": 202,
+      "incorrect": 48,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/science & technology": {
+      "accuracy": 0.544,
+      "correct": 136,
+      "incorrect": 114,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "vstar/full/direct_attributes": {
+      "accuracy": 0.8434782608695652,
+      "correct": 97,
+      "incorrect": 18,
+      "pending_judge": 0,
+      "total": 115
+    },
+    "vstar/full/relative_position": {
+      "accuracy": 0.8947368421052632,
+      "correct": 68,
+      "incorrect": 8,
+      "pending_judge": 0,
+      "total": 76
+    }
+  },
+  "request_count": 3381,
+  "resume_gate": {
+    "duplicate_request_keys": 0,
+    "unique_request_keys": 3381
+  },
+  "schema_version": 1,
+  "vstar_reporting_policy": {
+    "persist_all_vstar_predictions_and_scores": true,
+    "preserve_official_test_samples": true,
+    "report_deduplicated_diagnostic_separately": false,
+    "report_official_full_score": true,
+    "vstar_official_request_count": 191,
+    "vstar_summary_denominator": 191
+  }
+}

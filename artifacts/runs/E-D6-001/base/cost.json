@@ -1,0 +1,23 @@
+{
+  "basis": "Observed vLLM service start/stop timestamps; local Base 4B Judge used the same dual-GPU service.",
+  "costs": {
+    "external_judge_api_cny": 0.0,
+    "gpu_instance_cny": 23.46485555555556,
+    "total_cny": 23.46485555555556
+  },
+  "currency": "CNY",
+  "experiment_id": "E-D6-001",
+  "pricing": {
+    "dual_gpu_hourly_cny": 11.96
+  },
+  "schema_version": 1,
+  "timing": {
+    "first_prediction_utc": "2026-08-26T04:25:41.667932+00:00",
+    "gpu_service_hours": 1.9619444444444445,
+    "gpu_service_seconds": 7063.0,
+    "last_prediction_utc": "2026-08-26T06:09:45.685227+00:00",
+    "summary_completed_utc": "2026-08-26T06:20:40.048294+00:00",
+    "vllm_service_start_utc": "2026-08-26T04:23:09+00:00",
+    "vllm_service_stop_utc": "2026-08-26T06:20:52+00:00"
+  }
+}

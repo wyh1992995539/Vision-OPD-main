@@ -1,0 +1,24 @@
+{
+  "enable_thinking": false,
+  "experiment_id": "E-PAPER-BASEJUDGE-001",
+  "judge_checkpoint_identity": {
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    }
+  },
+  "judge_model_id": "vision-opd-base-judge",
+  "judge_role": "frozen_original_base_judge_for_all_checkpoints",
+  "max_tokens": 2048,
+  "paper_judge": "GPT-OSS-120B",
+  "required_judge_count": 1786,
+  "schema_version": 1,
+  "substitution_reason": "unavailable_to_project_owner",
+  "system_prompt": null,
+  "temperature": 0
+}

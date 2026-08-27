@@ -1,0 +1,66 @@
+schema_version: 1
+amendment_id: A-2026-08-26-PAPER-ALIGNMENT-R2
+status: effective
+experiment_id: E-PAPER-BASEJUDGE-001
+created_at_utc: "2026-08-26T00:00:00+00:00"
+owner_document: docs/vision_opd_21_day_plan.md
+scope: future_r2_smoke_and_formal_external_primary_evaluations
+
+supersedes_for_future_runs:
+  amendment: artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_aligned_evaluation_amendment.yaml
+  protocol_revision: 1
+preservation_policy:
+  preserve_r1_config_and_hash: true
+  preserve_r1_smoke_outputs_unchanged: true
+  r1_smoke_role: historical_engineering_smoke
+  forbid_mixing_r1_and_r2_resume_records: true
+
+reason: >-
+  Remove three controllable engineering differences discovered after the R1
+  smoke run. These changes improve alignment with the public Vision-OPD
+  repository recipe; they do not correct a scoring-validity defect.
+
+controlled_differences_removed:
+  serving:
+    previous: tensor_parallel_size=2, gpu_memory_utilization=0.80, explicit_dtype_and_scheduler_limits
+    r2: tensor_parallel_size=1, gpu_memory_utilization=0.75, gdn_prefill_backend=triton
+    public_basis: official_repository_serving_command
+  zoombench_and_mmstar_images:
+    previous: decoded_and_reencoded_as_png_during_frozen_preparation
+    r2: preserve_source_image_bytes_exactly_as_official_prepare_data.py
+    public_basis: official_repository_prepare_data.py
+  vstar_request_images:
+    previous: preserve_source_bytes_when_at_or_below_20MiB_then_png_only_if_oversize
+    r2: always_decode_convert_to_rgb_and_encode_png_then_downsize_only_if_above_20MiB
+    public_basis: official_repository_infer.py
+
+unchanged_protocol:
+  model_under_test: Qwen/Qwen3.5-4B
+  enable_thinking: false
+  temperature: 0
+  max_tokens: 1024
+  parallel_workers: 16
+  full_image_only: true
+  official_request_counts:
+    zoombench: 845
+    mmstar: 1500
+    vstar: 191
+  vstar_primary_denominator: 191
+  judge_substitution: frozen_original_Qwen3.5-4B_Base
+  judge_max_tokens: 2048
+  resume_and_per_sample_output_contract: unchanged
+
+remaining_unavoidable_or_undisclosed_differences:
+  paper_judge_unavailable:
+    paper: GPT-OSS-120B
+    substitute: frozen_original_Qwen3.5-4B_Base
+  exact_table2_dataset_snapshot_dates_not_disclosed: true
+  exact_table2_runtime_versions_and_hardware_not_disclosed: true
+  exact_table2_serving_scheduler_defaults_not_disclosed: true
+
+reporting_constraints:
+  comparability_label: best_public_recipe_aligned_with_frozen_local_base_judge
+  allow_claim_exact_table2_reproduction: false
+  required_limitation_statement: >-
+    Best-public-recipe-aligned non-thinking inference with a frozen
+    Qwen3.5-4B Base Judge substituted for the unavailable GPT-OSS-120B Judge.

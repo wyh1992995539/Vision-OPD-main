@@ -1,0 +1,14 @@
+{
+  "dual_gpu_cost_per_wall_hour_cny": 11.96,
+  "estimated_cost_cny": 0.07844163007777778,
+  "excluded_time": "model_server_startup_shutdown and idle time",
+  "gpu_count": 2,
+  "measurement_scope": "client_observed_inference_and_judge_sessions_only",
+  "schema_version": 1,
+  "total_wall_hours": 0.006558664722222223,
+  "updated_at_utc": "2026-08-26T10:51:34.400044+00:00",
+  "wall_seconds_by_stage": {
+    "inference": 14.188332,
+    "judge": 9.422861
+  }
+}

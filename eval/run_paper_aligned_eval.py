@@ -1,0 +1,375 @@
+#!/usr/bin/env python3
+"""Run resumable paper-aligned visual inference for one frozen checkpoint."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import time
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+from typing import Any
+
+from eval.paper_aligned_common import (
+    append_jsonl,
+    checkpoint_identity,
+    expected_counts,
+    finish_reason,
+    image_data_uri,
+    inference_messages,
+    inference_request_kwargs,
+    load_config,
+    load_tasks,
+    now_utc,
+    prediction_complete,
+    read_jsonl_map,
+    record_key,
+    resolve_path,
+    sha256_file,
+    update_cost_from_sessions,
+    usage_value,
+    write_json,
+    write_jsonl_map,
+)
+
+
+def output_directory(
+    config: dict[str, Any],
+    model_role: str,
+    requested: str | None,
+    limit_per_benchmark: int | None,
+) -> Path:
+    if requested:
+        return resolve_path(requested)
+    root = resolve_path(config["paths"]["run_root"])
+    configured = (
+        config["smoke"]["output_subdirectory"]
+        if limit_per_benchmark is not None
+        else config["smoke"]["formal_output_subdirectory"]
+    )
+    relative = Path(str(configured))
+    if relative.name == "base":
+        relative = relative.parent / model_role
+    return root / relative
+
+
+def manifest_document(
+    *,
+    config_path: Path,
+    config: dict[str, Any],
+    model_role: str,
+    model_id: str,
+    identity: dict[str, Any],
+    tasks: list[dict[str, Any]],
+    counts: dict[str, int],
+    limit_per_benchmark: int | None,
+) -> dict[str, Any]:
+    dataset_files = {
+        name: {
+            "path": str(resolve_path(config["benchmarks"][name]["converted_json"])),
+            "sha256": sha256_file(resolve_path(config["benchmarks"][name]["converted_json"])),
+            "dataset_repo_id": config["benchmarks"][name]["dataset_repo_id"],
+            "dataset_revision": config["benchmarks"][name]["dataset_revision"],
+        }
+        for name in ("zoombench", "mmstar", "vstar")
+    }
+    return {
+        "schema_version": 1,
+        "experiment_id": "E-PAPER-BASEJUDGE-001",
+        "created_at_utc": now_utc(),
+        "run_mode": "smoke" if limit_per_benchmark is not None else "formal",
+        "model_role": model_role,
+        "model_id": model_id,
+        "model_checkpoint_identity": identity,
+        "config_path": str(config_path),
+        "config_sha256_raw_bytes": sha256_file(config_path),
+        "amendment_path": str(resolve_path(config["protocol"]["amendment"])),
+        "amendment_sha256_raw_bytes": config["protocol"]["amendment_sha256"],
+        "dataset_files": dataset_files,
+        "request_contract": {
+            "system_prompt": None,
+            "message_roles": ["user"],
+            "input_image_count": 1,
+            "image_view": "full",
+            "enable_thinking": False,
+            "temperature": 0,
+            "max_tokens": 1024,
+            "forbidden_parameters": config["generation"]["forbidden_request_parameters"],
+        },
+        "expected_requests": counts,
+        "expected_request_count": len(tasks),
+        "limit_per_benchmark": limit_per_benchmark,
+        "resume_key": config["execution"]["resume_key"],
+        "output_files": {
+            "predictions": config["paths"]["predictions_name"],
+            "judge_results": config["paths"]["judge_results_name"],
+            "scores": config["paths"]["scores_name"],
+            "summary": config["paths"]["summary_name"],
+            "resume_status": config["paths"]["resume_status_name"],
+        },
+    }
+
+
+def require_manifest_compatible(path: Path, proposed: dict[str, Any]) -> None:
+    if not path.is_file():
+        write_json(path, proposed)
+        return
+    existing = json.loads(path.read_text(encoding="utf-8"))
+    fields = (
+        "experiment_id",
+        "run_mode",
+        "model_role",
+        "model_id",
+        "model_checkpoint_identity",
+        "config_sha256_raw_bytes",
+        "amendment_sha256_raw_bytes",
+        "dataset_files",
+        "request_contract",
+        "expected_requests",
+        "expected_request_count",
+        "limit_per_benchmark",
+        "resume_key",
+    )
+    mismatches = [field for field in fields if existing.get(field) != proposed.get(field)]
+    if mismatches:
+        raise ValueError(
+            f"output directory belongs to an incompatible run; mismatched fields: {mismatches}"
+        )
+
+
+def update_runtime_files(
+    out: Path,
+    config: dict[str, Any],
+    records: dict[str, dict[str, Any]],
+    counts: dict[str, int],
+    load_stats: dict[str, int],
+) -> None:
+    expected = sum(counts.values())
+    successful = sum(prediction_complete(item) for item in records.values())
+    errors = sum(not prediction_complete(item) for item in records.values())
+    resume = {
+        "schema_version": 1,
+        "updated_at_utc": now_utc(),
+        "expected_request_count": expected,
+        "recorded_unique_request_count": len(records),
+        "completed_successful_request_count": successful,
+        "retryable_error_count": errors,
+        "remaining_request_count": expected - successful,
+        "duplicate_request_keys_compacted": load_stats["duplicate_keys"],
+        "malformed_lines_compacted": load_stats["malformed_lines"],
+        "resume_complete": successful == expected,
+    }
+    write_json(out / config["paths"]["resume_status_name"], resume)
+    latencies = [float(item.get("latency_seconds") or 0) for item in records.values()]
+    metrics = {
+        "schema_version": 1,
+        "updated_at_utc": now_utc(),
+        "request_count": len(records),
+        "successful_request_count": successful,
+        "inference_error_count": errors,
+        "finish_reason_length_count": sum(
+            str(item.get("finish_reason") or "").casefold() == "length"
+            for item in records.values()
+        ),
+        "prompt_tokens": sum(int(item.get("prompt_tokens") or 0) for item in records.values()),
+        "completion_tokens": sum(int(item.get("completion_tokens") or 0) for item in records.values()),
+        "latency_sum_seconds": sum(latencies),
+        "latency_mean_seconds": sum(latencies) / len(latencies) if latencies else 0.0,
+    }
+    write_json(out / config["paths"]["metrics_name"], metrics)
+
+
+def run_one(
+    task: dict[str, Any],
+    *,
+    get_client: Any,
+    config: dict[str, Any],
+    model_id: str,
+) -> dict[str, Any]:
+    row = task["row"]
+    started = time.perf_counter()
+    raw = ""
+    error = None
+    response_finish = None
+    prompt_tokens = completion_tokens = 0
+    attempt = 0
+    max_retries = int(config["execution"]["max_retries"])
+    backoffs = list(config["execution"]["retry_backoff_seconds"])
+    for attempt in range(1, max_retries + 1):
+        try:
+            uri = image_data_uri(
+                task["image_path"],
+                task["benchmark"],
+                int(config["prompt_and_image"]["vstar_max_encoded_bytes"]),
+                vstar_always_rgb_png=(
+                    config["prompt_and_image"].get("vstar_encoding") == "always_rgb_png"
+                ),
+            )
+            messages = inference_messages(uri, str(row["query"]))
+            response = get_client().chat.completions.create(
+                **inference_request_kwargs(model_id=model_id, messages=messages, config=config)
+            )
+            raw = str(response.choices[0].message.content or "").strip()
+            response_finish = finish_reason(response)
+            prompt_tokens = usage_value(response, "prompt_tokens")
+            completion_tokens = usage_value(response, "completion_tokens")
+            if not raw:
+                raise ValueError("empty model response")
+            error = None
+            break
+        except Exception as exc:
+            error = f"{type(exc).__name__}: {exc}"
+            if attempt < max_retries:
+                delay = backoffs[min(attempt - 1, len(backoffs) - 1)] if backoffs else attempt
+                time.sleep(float(delay))
+    return {
+        "schema_version": 1,
+        "benchmark": task["benchmark"],
+        "view": "full",
+        "sample_uid": str(row["sample_uid"]),
+        "source_id": str(row["source_id"]),
+        "dataset_repo_id": str(row.get("source_repo_id") or config["benchmarks"][task["benchmark"]]["dataset_repo_id"]),
+        "dataset_revision": str(row["source_revision"]),
+        "question_format": str(row.get("question_format") or "unknown"),
+        "official_category": str(row.get("category") or "unavailable_official"),
+        "official_l2_category": str(row.get("l2_category") or "unavailable_official"),
+        "prompt": str(row["query"]).replace("<image>", "").strip(),
+        "reference_answer": str(row["response"]),
+        "raw_model_answer": raw,
+        "parsed_answer": None,
+        "model_id": model_id,
+        "finish_reason": response_finish,
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens,
+        "latency_seconds": round(time.perf_counter() - started, 6),
+        "retry_count": max(0, attempt - 1),
+        "error": error,
+        "generated_at_utc": now_utc(),
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", default="configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml")
+    parser.add_argument("--model-role", required=True, choices=["base", "vision_opd", "cached_prefix", "grpo"])
+    parser.add_argument("--model-path", required=True)
+    parser.add_argument("--model-id", required=True)
+    parser.add_argument("--output-dir")
+    parser.add_argument("--api-base", default="http://127.0.0.1:8000/v1")
+    parser.add_argument("--api-key", default="EMPTY")
+    parser.add_argument("--workers", type=int)
+    parser.add_argument("--limit-per-benchmark", type=int)
+    parser.add_argument("--prepare-only", action="store_true")
+    args = parser.parse_args()
+
+    config_path, config = load_config(args.config)
+    tasks = load_tasks(config, args.limit_per_benchmark)
+    counts = expected_counts(config, args.limit_per_benchmark)
+    identity = checkpoint_identity(resolve_path(args.model_path))
+    out = output_directory(config, args.model_role, args.output_dir, args.limit_per_benchmark)
+    out.mkdir(parents=True, exist_ok=True)
+    manifest_path = out / config["paths"]["run_manifest_name"]
+    manifest = manifest_document(
+        config_path=config_path,
+        config=config,
+        model_role=args.model_role,
+        model_id=args.model_id,
+        identity=identity,
+        tasks=tasks,
+        counts=counts,
+        limit_per_benchmark=args.limit_per_benchmark,
+    )
+    require_manifest_compatible(manifest_path, manifest)
+
+    predictions_path = out / config["paths"]["predictions_name"]
+    records, load_stats = read_jsonl_map(predictions_path, complete=prediction_complete)
+    expected_keys = {
+        record_key({"benchmark": task["benchmark"], "view": "full", "sample_uid": task["row"]["sample_uid"]})
+        for task in tasks
+    }
+    records = {key: value for key, value in records.items() if key in expected_keys}
+    write_jsonl_map(predictions_path, records)
+    update_runtime_files(out, config, records, counts, load_stats)
+    if args.prepare_only:
+        print(json.dumps({"status": "prepared", **manifest}, ensure_ascii=False, indent=2))
+        return
+
+    from openai import OpenAI
+
+    local = threading.local()
+
+    def get_client() -> OpenAI:
+        client = getattr(local, "client", None)
+        if client is None:
+            client = OpenAI(
+                api_key=args.api_key,
+                base_url=args.api_base,
+                timeout=float(config["execution"]["request_timeout_seconds"]),
+            )
+            local.client = client
+        return client
+
+    pending = [
+        task
+        for task in tasks
+        if not prediction_complete(records.get(record_key({
+            "benchmark": task["benchmark"],
+            "view": "full",
+            "sample_uid": task["row"]["sample_uid"],
+        }), {}))
+    ]
+    workers = args.workers or int(config["execution"]["parallel_workers"])
+    if workers <= 0:
+        raise ValueError("--workers must be positive")
+    print(
+        f"paper-aligned inference: total={len(tasks)} complete={len(tasks)-len(pending)} "
+        f"pending={len(pending)} workers={workers}",
+        flush=True,
+    )
+    session_started_utc = now_utc()
+    session_started = time.perf_counter()
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {
+            pool.submit(run_one, task, get_client=get_client, config=config, model_id=args.model_id): task
+            for task in pending
+        }
+        for index, future in enumerate(as_completed(futures), 1):
+            item = future.result()
+            append_jsonl(predictions_path, item)
+            records[record_key(item)] = item
+            print(
+                f"[{index}/{len(pending)}] {item['benchmark']}/{item['sample_uid']} "
+                f"error={bool(item['error'])} tokens={item['completion_tokens']}",
+                flush=True,
+            )
+    session_wall = time.perf_counter() - session_started
+    session_path = out / "run_sessions.jsonl"
+    append_jsonl(
+        session_path,
+        {
+            "schema_version": 1,
+            "stage": "inference",
+            "started_at_utc": session_started_utc,
+            "finished_at_utc": now_utc(),
+            "wall_seconds": round(session_wall, 6),
+            "submitted_request_count": len(pending),
+            "workers": workers,
+            "model_id": args.model_id,
+        },
+    )
+    final_records, final_stats = read_jsonl_map(predictions_path, complete=prediction_complete)
+    final_records = {key: value for key, value in final_records.items() if key in expected_keys}
+    update_cost_from_sessions(out, config)
+    write_jsonl_map(predictions_path, final_records)
+    update_runtime_files(out, config, final_records, counts, final_stats)
+    successful = sum(prediction_complete(item) for item in final_records.values())
+    if successful != len(tasks):
+        raise RuntimeError(
+            f"inference incomplete: {successful}/{len(tasks)} successful; rerun the same command to resume"
+        )
+    print(f"inference complete: {successful}/{len(tasks)}", flush=True)
+
+
+if __name__ == "__main__":
+    main()

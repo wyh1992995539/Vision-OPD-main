@@ -1,0 +1,156 @@
+{
+  "experiment_id": "E-D6-001",
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.7046666666666667,
+      "average_completion_tokens": 2393.307333333333,
+      "completion_tokens": 3589961,
+      "correct": 1057,
+      "invalid_or_ambiguous": 160,
+      "latency": {
+        "max_seconds": 71.392121,
+        "mean_seconds": 16.451265126,
+        "median_seconds": 7.8023965,
+        "p95_seconds": 56.279636
+      },
+      "length_finished": 194,
+      "prompt_tokens": 552472,
+      "requests": 1500
+    },
+    "vstar/full": {
+      "accuracy": 0.8638743455497382,
+      "average_completion_tokens": 1150.413612565445,
+      "completion_tokens": 219729,
+      "correct": 165,
+      "invalid_or_ambiguous": 7,
+      "latency": {
+        "max_seconds": 77.771024,
+        "mean_seconds": 11.111083429319372,
+        "median_seconds": 5.247286,
+        "p95_seconds": 57.045589
+      },
+      "length_finished": 7,
+      "prompt_tokens": 671212,
+      "requests": 191
+    },
+    "zoombench/crop": {
+      "accuracy": 0.6792899408284023,
+      "average_completion_tokens": 1500.9917159763313,
+      "completion_tokens": 1268338,
+      "correct": 574,
+      "invalid_or_ambiguous": 18,
+      "latency": {
+        "max_seconds": 61.320023,
+        "mean_seconds": 10.628818119526628,
+        "median_seconds": 4.941401,
+        "p95_seconds": 55.810393
+      },
+      "length_finished": 44,
+      "prompt_tokens": 584319,
+      "requests": 845
+    },
+    "zoombench/full": {
+      "accuracy": 0.5124260355029586,
+      "average_completion_tokens": 1916.8284023668639,
+      "completion_tokens": 1619720,
+      "correct": 433,
+      "invalid_or_ambiguous": 19,
+      "latency": {
+        "max_seconds": 77.63428,
+        "mean_seconds": 16.94470215739645,
+        "median_seconds": 9.065192,
+        "p95_seconds": 65.32867
+      },
+      "length_finished": 56,
+      "prompt_tokens": 3205558,
+      "requests": 845
+    }
+  },
+  "inference_error_count": 0,
+  "invalid_or_ambiguous_count": 204,
+  "invalid_or_ambiguous_rate": 0.06033717834960071,
+  "latency_overall": {
+    "max_seconds": 77.771024,
+    "mean_seconds": 14.817728263235729,
+    "median_seconds": 7.253442,
+    "p95_seconds": 56.398915
+  },
+  "length_finished_count": 301,
+  "length_finished_rate": 0.08902691511387163,
+  "official_category_groups": {
+    "mmstar/full/coarse perception": {
+      "accuracy": 0.692,
+      "correct": 173,
+      "incorrect": 77,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/fine-grained perception": {
+      "accuracy": 0.62,
+      "correct": 155,
+      "incorrect": 95,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/instance reasoning": {
+      "accuracy": 0.76,
+      "correct": 190,
+      "incorrect": 60,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/logical reasoning": {
+      "accuracy": 0.804,
+      "correct": 201,
+      "incorrect": 49,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/math": {
+      "accuracy": 0.808,
+      "correct": 202,
+      "incorrect": 48,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/science & technology": {
+      "accuracy": 0.544,
+      "correct": 136,
+      "incorrect": 114,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "vstar/full/direct_attributes": {
+      "accuracy": 0.8434782608695652,
+      "correct": 97,
+      "incorrect": 18,
+      "pending_judge": 0,
+      "total": 115
+    },
+    "vstar/full/relative_position": {
+      "accuracy": 0.8947368421052632,
+      "correct": 68,
+      "incorrect": 8,
+      "pending_judge": 0,
+      "total": 76
+    }
+  },
+  "request_count": 3381,
+  "schema_version": 1,
+  "score_sources": {
+    "deterministic_numeric_equal": 213,
+    "deterministic_numeric_mismatch": 177,
+    "exact_final_option": 2663,
+    "explicit_final_option": 30,
+    "fixed_base_4b_judge": 58,
+    "invalid_or_ambiguous": 204,
+    "trailing_final_option": 36
+  },
+  "status": "complete",
+  "tokens": {
+    "completion_total": 6697748,
+    "prompt_total": 5013561,
+    "total": 11711309
+  },
+  "zoombench_zooming_gap": 0.1668639053254437
+}

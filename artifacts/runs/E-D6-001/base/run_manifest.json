@@ -1,7 +1,7 @@
 {
   "config": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval.yaml",
   "config_sha256_raw_bytes": "d50d420d760fa59bd8a139fa4615aed8a4b41c79ca969d5f194e95c2ad6c25b6",
-  "created_at_utc": "2026-08-26T02:28:37.724740+00:00",
+  "created_at_utc": "2026-08-26T04:24:51.749907+00:00",
   "expected_request_count": 3381,
   "expected_requests": {
     "mmstar/full": 1500,

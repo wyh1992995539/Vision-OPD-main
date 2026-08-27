@@ -1,0 +1,12 @@
+{
+  "completion_tokens": 550330,
+  "finish_reason_length_count": 172,
+  "inference_error_count": 0,
+  "latency_mean_seconds": 4.613503830047319,
+  "latency_sum_seconds": 11699.845713,
+  "prompt_tokens": 4287226,
+  "request_count": 2536,
+  "schema_version": 1,
+  "successful_request_count": 2536,
+  "updated_at_utc": "2026-08-26T16:20:35.472053+00:00"
+}

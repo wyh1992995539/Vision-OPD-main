@@ -1,0 +1,133 @@
+{
+  "amendment_sha256_raw_bytes": "4aa0427bb31579809fe988935eb735b7d74204e860017b4108d3f867cf66f207",
+  "config_sha256_raw_bytes": "637b538c2e5250443f926d467bc3b237955b79a90c42c35d4485a6ba3aec8fd4",
+  "decision_status": "complete",
+  "experiment_id": "E-PAPER-BASEJUDGE-001",
+  "generated_at_utc": "2026-08-26T15:56:30.178038+00:00",
+  "generation_diagnostics": {
+    "completion_tokens": 1638,
+    "finish_reason_length_count": 0,
+    "latency_mean_seconds": 48.660286916666664,
+    "latency_sum_seconds": 583.923443,
+    "prompt_tokens": 35579
+  },
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    },
+    "vstar/full": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    },
+    "zoombench/full": {
+      "accuracy": 0.5,
+      "correct": 2,
+      "incorrect": 2,
+      "pending_judge": 0,
+      "total": 4
+    }
+  },
+  "input_compaction": {
+    "judge_duplicate_keys": 0,
+    "judge_malformed_lines": 0,
+    "prediction_duplicate_keys": 0,
+    "prediction_malformed_lines": 0
+  },
+  "limitation_statement": "Best-public-recipe-aligned non-thinking inference with a frozen Qwen3.5-4B Base Judge substituted for the unavailable GPT-OSS-120B Judge.",
+  "model_id": "Vision-OPD-4B",
+  "model_role": "base",
+  "official_category_groups": {
+    "mmstar/full/coarse perception": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    },
+    "vstar/full/direct_attributes": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    },
+    "zoombench/full/multiple_choice": {
+      "accuracy": 0.6666666666666666,
+      "correct": 2,
+      "incorrect": 1,
+      "pending_judge": 0,
+      "total": 3
+    },
+    "zoombench/full/open_question": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "incorrect": 1,
+      "pending_judge": 0,
+      "total": 1
+    }
+  },
+  "official_l2_category_groups": {
+    "mmstar/full/image scene and topic": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    }
+  },
+  "question_format_groups": {
+    "mmstar/full/multiple_choice": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    },
+    "vstar/full/multiple_choice": {
+      "accuracy": 1.0,
+      "correct": 4,
+      "incorrect": 0,
+      "pending_judge": 0,
+      "total": 4
+    },
+    "zoombench/full/multiple_choice": {
+      "accuracy": 0.6666666666666666,
+      "correct": 2,
+      "incorrect": 1,
+      "pending_judge": 0,
+      "total": 3
+    },
+    "zoombench/full/open_question": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "incorrect": 1,
+      "pending_judge": 0,
+      "total": 1
+    }
+  },
+  "request_count": 12,
+  "resume_gate": {
+    "duplicate_prediction_keys": 0,
+    "duplicate_score_keys": 0,
+    "unique_prediction_keys": 12,
+    "unique_score_keys": 12
+  },
+  "run_mode": "smoke",
+  "schema_version": 1,
+  "scoring_pipeline": {
+    "first_letter_correct_count": 6,
+    "inference_failure_count": 0,
+    "judge_failure_count": 0,
+    "llm_judge_completed_count": 6,
+    "llm_judge_required_count": 6,
+    "mathruler_correct_count": 0,
+    "pending_judge_count": 0
+  }
+}

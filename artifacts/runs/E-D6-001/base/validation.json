@@ -1,0 +1,20 @@
+{
+  "assessment": "ready_to_share",
+  "caveats": [
+    "Accuracy is descriptive for the frozen benchmark snapshots; no uncertainty interval or causal claim is made.",
+    "invalid_or_ambiguous counts parser failures as incorrect in the official denominator.",
+    "length_finished means the generation hit max_new_tokens; it is not automatically invalid if a valid final option was parsed.",
+    "No chart is used because this is a single-snapshot audit with exact denominators; tables preserve the requested detail."
+  ],
+  "checks": {
+    "duplicate_request_keys_zero": true,
+    "expected_group_counts": true,
+    "inference_errors_zero": true,
+    "pending_judge_zero": true,
+    "prediction_count": true,
+    "score_count": true,
+    "unique_prediction_keys": true,
+    "vstar_denominator_191": true
+  },
+  "schema_version": 1
+}

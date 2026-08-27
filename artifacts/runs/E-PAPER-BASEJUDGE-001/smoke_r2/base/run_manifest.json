@@ -1,0 +1,76 @@
+{
+  "amendment_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r2_amendment.yaml",
+  "amendment_sha256_raw_bytes": "4aa0427bb31579809fe988935eb735b7d74204e860017b4108d3f867cf66f207",
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r2.yaml",
+  "config_sha256_raw_bytes": "637b538c2e5250443f926d467bc3b237955b79a90c42c35d4485a6ba3aec8fd4",
+  "created_at_utc": "2026-08-26T15:12:02.501694+00:00",
+  "dataset_files": {
+    "mmstar": {
+      "dataset_repo_id": "Lin-Chen/MMStar",
+      "dataset_revision": "bc98d668301da7b14f648724866e57302778ab27",
+      "path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/mmstar/mmstar.json",
+      "sha256": "944ca440cc2be630df665612a9b0ddca9433c3903c775fda10dacbc766a12fed"
+    },
+    "vstar": {
+      "dataset_repo_id": "lmms-lab/vstar-bench",
+      "dataset_revision": "b44023b4dca749ed8a76b85eb576627d05a1c174",
+      "path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/vstar.json",
+      "sha256": "336a1e1a32f0b34e4e9e41b3dcc95ea87ff69fe3dcec16c99d4b16f4e967dfd5"
+    },
+    "zoombench": {
+      "dataset_repo_id": "inclusionAI/ZoomBench",
+      "dataset_revision": "b788097e57d30510c6877824833234a73bf80d25",
+      "path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/zoombench/zoombench.json",
+      "sha256": "31ba5d76c6b282266a62549f419e76fcbd1e513f0ccf2a11caa4584948c9449b"
+    }
+  },
+  "expected_request_count": 12,
+  "expected_requests": {
+    "mmstar/full": 4,
+    "vstar/full": 4,
+    "zoombench/full": 4
+  },
+  "experiment_id": "E-PAPER-BASEJUDGE-001",
+  "limit_per_benchmark": 4,
+  "model_checkpoint_identity": {
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    }
+  },
+  "model_id": "Vision-OPD-4B",
+  "model_role": "base",
+  "output_files": {
+    "judge_results": "judge_results.jsonl",
+    "predictions": "predictions.jsonl",
+    "resume_status": "resume_status.json",
+    "scores": "scores.jsonl",
+    "summary": "summary.json"
+  },
+  "request_contract": {
+    "enable_thinking": false,
+    "forbidden_parameters": [
+      "seed",
+      "top_p",
+      "top_k",
+      "presence_penalty",
+      "repetition_penalty"
+    ],
+    "image_view": "full",
+    "input_image_count": 1,
+    "max_tokens": 1024,
+    "message_roles": [
+      "user"
+    ],
+    "system_prompt": null,
+    "temperature": 0
+  },
+  "resume_key": "benchmark\\0view\\0sample_uid",
+  "run_mode": "smoke",
+  "schema_version": 1
+}

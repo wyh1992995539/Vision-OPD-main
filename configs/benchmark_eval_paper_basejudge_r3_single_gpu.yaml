@@ -1,0 +1,221 @@
+schema_version: 1
+
+protocol:
+  name: vision-opd-paper-aligned-base-judge-evaluation
+  experiment_id: E-PAPER-BASEJUDGE-001
+  status: frozen
+  protocol_revision: 3
+  frozen_at_utc: "2026-08-27"
+  owner_document: docs/vision_opd_21_day_plan.md
+  amendment: artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r3_single_gpu_cost_amendment.yaml
+  amendment_sha256: 6f85950a0f566cd61d9cb957842da8dbc92478acf68c66059a9ed6454db92b60
+  comparability_label: best_public_recipe_aligned_single_gpu_with_frozen_local_base_judge
+  historical_experiment_policy:
+    preserve: E-D6-001
+    role: old_protocol_engineering_diagnostic
+    allow_primary_comparison: false
+
+model_under_test:
+  base_name: Qwen/Qwen3.5-4B
+  base_path: /root/autodl-tmp/models/Qwen3.5-4B
+  base_huggingface_revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  allowed_roles:
+    - base
+    - vision_opd
+    - cached_prefix
+    - grpo
+  require_local_model_path: true
+  require_runtime_checkpoint_sha256: true
+  base_weight_sha256:
+    model.safetensors-00001-of-00002.safetensors: 26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61
+    model.safetensors-00002-of-00002.safetensors: cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188
+
+serving:
+  api: openai_compatible_chat_completions
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.75
+  trust_remote_code: true
+  additional_config:
+    gdn_prefill_backend: triton
+  intentionally_unspecified_to_follow_public_command_defaults:
+    - dtype
+    - max_model_len
+    - max_num_seqs
+
+prompt_and_image:
+  system_prompt: null
+  message_roles:
+    - user
+  strip_literal_image_token: true
+  input_image_count: 1
+  image_view: full
+  preserve_aspect_ratio: true
+  vstar_max_encoded_bytes: 20971520
+  vstar_encoding: always_rgb_png
+  zoombench_mmstar_encoding: preserve_source_bytes
+
+generation:
+  enable_thinking: false
+  temperature: 0
+  max_tokens: 1024
+  num_return_sequences: 1
+  forbidden_request_parameters:
+    - seed
+    - top_p
+    - top_k
+    - presence_penalty
+    - repetition_penalty
+
+execution:
+  parallel_workers: 16
+  max_retries: 3
+  request_timeout_seconds: 3600
+  retry_backoff_seconds:
+    - 1
+    - 2
+  resume_key: "benchmark\\0view\\0sample_uid"
+  retry_existing_error_records: true
+  atomic_compaction_at_start_and_end: true
+  append_and_flush_each_completed_sample: true
+
+judge:
+  paper_model: GPT-OSS-120B
+  paper_model_available: false
+  substitution_reason: unavailable_to_project_owner
+  model:
+    name: Qwen/Qwen3.5-4B
+    path: /root/autodl-tmp/models/Qwen3.5-4B
+    huggingface_revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+    served_model_name: vision-opd-base-judge
+    role: frozen_original_base_judge_for_all_checkpoints
+    base_weight_sha256:
+      model.safetensors-00001-of-00002.safetensors: 26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61
+      model.safetensors-00002-of-00002.safetensors: cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188
+  forbid_trained_checkpoint_as_judge: true
+  system_prompt: null
+  prompt: |-
+    Your task is to judge whether the response expresses the same meaning as the answer of a question.
+    The question is: {question}
+    The answer is: {reference_answer}
+    The response is: {model_answer}
+    Please check and compare them and then judge. If the response is correct, your output should be Yes. Otherwise, your output should be No. Directly give me your output.
+  scoring_pipeline:
+    - mathruler
+    - first_letter_match_for_official_mcq_benchmarks
+    - fixed_base_4b_llm_judge
+  first_letter_benchmarks:
+    - mmstar
+    - vstar
+  generation:
+    enable_thinking: false
+    temperature: 0
+    max_tokens: 2048
+  accepted_outputs:
+    correct: "Yes"
+    incorrect: "No"
+  normalization: strip_then_casefold_exact
+  invalid_output_policy: retry_then_count_incorrect_and_record_error
+  api_error_policy: retry_then_count_incorrect_and_record_error
+  parallel_workers: 16
+  max_retries: 3
+  request_timeout_seconds: 600
+
+benchmarks:
+  zoombench:
+    display_name: ZoomBench
+    dataset_repo_id: inclusionAI/ZoomBench
+    dataset_revision: b788097e57d30510c6877824833234a73bf80d25
+    split: test
+    source_parquet: /root/autodl-tmp/benchmark_data/raw/zoombench/data/test.parquet
+    converted_json: /root/autodl-tmp/benchmark_data/paper_aligned/converted/zoombench/zoombench.json
+    expected_sample_count: 845
+    primary_view: full
+    primary_summary_denominator: 845
+    question_formats:
+      - multiple_choice
+      - open_question
+    crop_policy: optional_separate_diagnostic_not_in_primary_run
+    category_fields:
+      - question_format
+  mmstar:
+    display_name: MMStar
+    dataset_repo_id: Lin-Chen/MMStar
+    dataset_revision: bc98d668301da7b14f648724866e57302778ab27
+    split: val
+    source_parquet: /root/autodl-tmp/benchmark_data/raw/mmstar/mmstar.parquet
+    converted_json: /root/autodl-tmp/benchmark_data/paper_aligned/converted/mmstar/mmstar.json
+    expected_sample_count: 1500
+    primary_view: full
+    primary_summary_denominator: 1500
+    question_formats:
+      - multiple_choice
+    category_fields:
+      - category
+      - l2_category
+  vstar:
+    display_name: V* Bench
+    dataset_repo_id: lmms-lab/vstar-bench
+    dataset_revision: b44023b4dca749ed8a76b85eb576627d05a1c174
+    split: test
+    source_parquet: /root/autodl-tmp/benchmark_data/paper_aligned/raw/vstar/data/test-00000-of-00001.parquet
+    converted_json: /root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/vstar.json
+    expected_sample_count: 191
+    primary_view: full
+    primary_summary_denominator: 191
+    question_formats:
+      - multiple_choice
+    categories:
+      - direct_attributes
+      - relative_position
+    prompt_suffix: "Answer with the option's letter from the given choices directly."
+    preserve_all_official_samples: true
+    exclude_confirmed_training_overlaps: false
+    category_fields:
+      - category
+
+paths:
+  run_root: artifacts/runs/E-PAPER-BASEJUDGE-001
+  predictions_name: predictions.jsonl
+  judge_results_name: judge_results.jsonl
+  scores_name: scores.jsonl
+  summary_name: summary.json
+  resume_status_name: resume_status.json
+  run_manifest_name: run_manifest.json
+  metrics_name: metrics.json
+  cost_name: cost.json
+  artifact_sha256_name: artifact_sha256.txt
+
+reporting:
+  expected_total_visual_requests: 2536
+  include_failed_samples_in_denominator: true
+  invalid_prediction_is_incorrect: true
+  vstar_summary_denominator: 191
+  save_raw_model_answer: true
+  save_parsed_answer: true
+  save_rule_score: true
+  save_judge_input_and_output: true
+  save_finish_reason: true
+  save_prompt_and_completion_tokens: true
+  save_latency_seconds: true
+  save_retry_count_and_error: true
+  required_breakdowns:
+    - benchmark
+    - question_format
+    - official_category
+    - official_l2_category
+  required_limitation_statement: >-
+    Best-public-recipe-aligned non-thinking inference with a frozen
+    Qwen3.5-4B Base Judge substituted for the unavailable GPT-OSS-120B Judge.
+
+budget:
+  currency: CNY
+  gpu_count: 1
+  cost_per_gpu_hour: 5.98
+  instance_cost_per_wall_hour: 5.98
+  active_inference_gpu_count: 1
+  measure_client_observed_inference_and_judge_wall_time: true
+
+smoke:
+  default_samples_per_benchmark: 4
+  output_subdirectory: smoke_r3/base
+  formal_output_subdirectory: base

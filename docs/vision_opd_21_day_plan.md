@@ -5,7 +5,13 @@
 >
 > 计划修订：Day 4 完成后删除 SFT 分支，改为在训练开发阶段使用内部 `eval-128` 与 `retention-64`，在模型最终定版后统一运行 ZoomBench、MMStar、V* Bench。Day 1～4 已完成的数据、评测与 Cached Prefix 证据继续有效，不重复执行；仅更新冻结文档中的实验范围和术语。
 >
-> 后续 Gate 修订（2026-08-25）：Day 1～5 的任务正文、结果、失败轮次和哈希证据不回写；从 Day 6 起新增外部结果防泄漏、Judge 校准、多模态长度、Cached Prefix 契约和跨平台哈希 Gate。当前真实进度为 Day 1～5 PASS，Day 6 尚未开始。
+> 后续 Gate 修订（2026-08-25）：Day 1～5 的任务正文、结果、失败轮次和哈希证据不回写；从 Day 6 起新增外部结果防泄漏、Judge 校准、多模态长度、Cached Prefix 契约和跨平台哈希 Gate。
+>
+> 论文对齐评测修订（2026-08-26）：`E-D6-001` 已按 Day 5 冻结的旧项目协议完成并永久保留，定位为旧协议工程诊断基线，不覆盖、不删除，也不与后续训练模型的论文对齐主结果直接比较。后续外部主比较统一使用 `E-PAPER-BASEJUDGE-001`：按公开论文/官方仓库尽量对齐非思考推理参数，唯一预先声明的核心替代是使用固定原始 Qwen3.5-4B Base Judge 代替不可获得的 GPT-OSS-120B Judge。机器可读协议见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_aligned_evaluation_amendment.yaml`。
+>
+> 论文对齐 R2 历史修订（2026-08-26）：R2 曾移除三项可控实现差异：服务使用 TP=1、显存利用率 0.75 和 GDN Triton；ZoomBench/MMStar 保留源图字节；V* 请求图无条件 RGB→PNG。其 amendment 与 Smoke 继续作为历史审计证据；R1/R2 可执行 YAML 已于 2026-08-27 按负责人决定删除。
+>
+> 单卡计费 R3 修订（2026-08-27）：R3 已成为 Base、Vision-OPD、Cached Prefix、GRPO 的唯一现行外部 Benchmark 标准。唯一可执行配置为 `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`；除被测 checkpoint 与独立输出目录外不得改变任何评测条件。机器可读 amendment 见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r3_single_gpu_cost_amendment.yaml`，规范见 `docs/benchmark_protocol.md`。
 
 ## 1. 最终目标
 
@@ -35,14 +41,16 @@
 - 外部 Benchmark 只用于冻结后的最终模型和一次 Base 基线，不用于反复挑 checkpoint 或调超参数。
 - 所有结果都限定为“4B、1024 条数据的小规模复现与受控比较”，不宣称复现论文完整 6.2K 结果。
 
-当前执行状态（2026-08-25 同步）：
+当前执行状态（2026-08-27 同步）：
 
 | 范围 | 状态 | 边界 |
 |---|---|---|
 | Day 1～3 | PASS | 项目冻结、确定性 1024/128/64 划分、图片/QA/服务器 Parquet Gate 已完成 |
 | Day 4 | PASS | Base internal `67/128`；Cached Prefix `1024/1024`，保留 54 条固定上限截断 |
 | Day 5 | PASS | 三项 Benchmark 协议、数据、overlap、64 次 Smoke 请求与 Day 6 预算 Gate 已完成 |
-| Day 6～30 | 未开始 | 尚无 E-D6-001、训练 checkpoint 或最终外部评测证据 |
+| Day 6 | PASS（旧协议） | `E-D6-001` 的逐样本预测、评分、汇总、资源指标和成本已归档；仅作为旧协议诊断证据 |
+| 论文对齐 Base 重评 | PASS（R3） | 2536/2536 完整；ZoomBench 50.65%、MMStar 75.07%、V* 83.77%，作为后续统一基线 |
+| Day 7～30 | 未开始 | Vision-OPD、Cached、GRPO 定版后均只使用 R3 单卡协议评测 |
 
 ## 2. 已完成进度与正式起点
 
@@ -163,7 +171,8 @@ Cached:     prefix_source=cached
 ```text
 configs/
   project_1024.yaml
-  benchmark_eval.yaml
+  benchmark_eval.yaml  # E-D5 历史协议
+  benchmark_eval_paper_basejudge_r3_single_gpu.yaml  # 唯一现行外评协议
   vopd_1024.yaml
   cached_prefix_1024.yaml
   grpo_1024.yaml
@@ -207,7 +216,8 @@ docs/
 |---|---|
 | E-D4-001 | Base / Vanilla 内部 eval-128 与 Cached Prefix 生成 |
 | E-D5-001 | ZoomBench、MMStar、V* Bench 协议与 Smoke |
-| E-D6-001 | Base / Vanilla 三项外部 Benchmark 基线 |
+| E-D6-001 | Base / Vanilla 三项外部 Benchmark 旧协议诊断基线（已完成，永久保留） |
+| E-PAPER-BASEJUDGE-001 | Base、Vision-OPD、Cached、GRPO 论文对齐外部主评测（固定 Base Judge） |
 | E-D7-001 | Vision-OPD Smoke |
 | E-D8-001 | Vision-OPD 64 条稳定性训练 |
 | E-D10-001 | Vision-OPD 1024 正式训练 |
@@ -408,6 +418,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 ### Day 6：Base / Vanilla 三项外部 Benchmark 基线（4～6 小时主动 + 机器时间按 Day 5 实测）
 
+状态说明（2026-08-26）：本日 `E-D6-001` 已按当时冻结协议完成。其 thinking/system prompt/8192-token/Zoom crop/严格 MCQ 解析等设置与后续论文对齐协议不同，因此结果保留为旧协议工程诊断，不作为后续跨 checkpoint 主比较基线。
+
 任务：
 
 1. 再次校验 Day 4 使用的原始 Qwen3.5-4B Base checkpoint hash，不加载官方 Vision-OPD-4B 或任何训练后权重。
@@ -427,6 +439,38 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 三个 Benchmark 均覆盖官方协议要求的全部样本，或对缺失/失败样本逐条解释，禁止只按成功样本计算准确率。
 - 模型 hash、Chat Template、thinking 开关、图像预处理、生成参数和评分协议全部可回溯。
 - 本日是新增外部 Base 基线，不重跑或覆盖 Day 4 的 `67/128` 内部结果。
+
+### Day 6 补充：论文对齐协议与 Base 重评（新增，完成后进入 Day 7）
+
+任务：
+
+1. 冻结 `E-PAPER-BASEJUDGE-001` 的 R1、R2、R3 amendment；保留 `E-D6-001`、R1/R2 Smoke 和历史哈希作为审计证据。
+2. 将 `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml` 固定为唯一现行外评配置；R1/R2 YAML 已按负责人决定删除，后续不得恢复为可执行入口。
+3. 实现可供 Base、Vision-OPD、Cached、GRPO 共用的推理与评分入口：无 system prompt，`enable_thinking=false`，`temperature=0`，`max_tokens=1024`，不传 `top_p`、`top_k`、presence/repetition penalty；并发 16、失败最多重试 3 次。
+4. 外部主指标只运行 ZoomBench full 845、MMStar 1500、V* Bench 官方 191，共 2536 个视觉推理请求。V* 保留全部官方样本且汇总分母固定为 191；已确认的 4 条训练集重叠不删除，按“不重复假设”处理。ZoomBench crop 仅可作为另行标注的诊断，不进入论文主表。
+5. 评分链统一为 MathRuler、选择题首字母匹配、对仍未判对/未解决样本调用固定 Judge。Judge 固定为未经项目训练的原始 Qwen3.5-4B Base，使用官方 Judge prompt、无 system prompt、`enable_thinking=false`、`temperature=0`、`max_tokens=2048`；不得让被训练后的 checkpoint 给自身评分。
+6. 被测模型推理与 Base Judge 分阶段执行并分别支持断点恢复；保存逐样本原始输出、解析结果、规则判分、Judge 输入/输出与来源、最终正确性、token、延迟、错误和重试次数。
+7. R3 Smoke、正式 Base 与自动 Gate 已完成；Base 结果和配置哈希已经冻结。Day 18/28/30 的最终模型只更换 checkpoint，并分别写入 `vision_opd`、`cached_prefix`、`grpo`。
+
+产物：
+
+- `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_aligned_evaluation_amendment.yaml`
+- `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r2_amendment.yaml`（历史）
+- `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r3_single_gpu_cost_amendment.yaml`
+- `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`（唯一现行配置）
+- `docs/benchmark_protocol.md`（统一评测标准）
+- `docs/benchmark_introduction_and_usage.md`（三个 Benchmark 介绍与运行指南）
+- `docs/day6_external_benchmark_brief.md`（Day 6 工作简报）
+- `artifacts/runs/E-PAPER-BASEJUDGE-001/base/`
+- 新协议的推理、Judge、评分、验证和报告脚本/测试
+
+验收：
+
+- 正式视觉请求恰好为 2536，三个 Benchmark 无缺失、重复或被静默排除的样本。
+- V* `total=191`；失败、空输出和无法判定结果仍留在官方分母并按冻结失败策略计错。
+- `predictions.jsonl`、`judge_results.jsonl`、`scores.jsonl`、`summary.json`、`resume_status.json`、运行清单、哈希、资源与成本记录齐全，且可由逐样本记录重新生成汇总。
+- Base、Vision-OPD、Cached、GRPO 之间只允许被测 checkpoint 身份不同；数据、Prompt、图像、生成、解析、Judge 和报告协议完全相同。
+- 结果表述为“论文对齐推理 + 固定本地 Base Judge”，不得宣称使用 GPT-OSS-120B 或精确复现论文 Table 2。
 
 ### Day 7：Vision-OPD 双卡入口与真实 Smoke（6 小时主动 + 2～4 双卡小时）
 
@@ -683,7 +727,7 @@ data:
    - 输出长度与格式；
    - 训练时长、峰值显存和费用。
 5. 对 Vision-OPD vs Cached 做 paired sample 分析。
-6. 在 Vision-OPD、Cached 两个 checkpoint、内部结果和比较脚本均冻结后，使用同一协议统一运行两个模型的 ZoomBench、MMStar、V* Bench，再与 Day 6 Base 结果比较；外部分数不得触发重选 checkpoint 或重训。
+6. 在 Vision-OPD、Cached 两个 checkpoint、内部结果和比较脚本均冻结后，使用 `E-PAPER-BASEJUDGE-001` 统一运行两个模型的 ZoomBench full、MMStar、V* Bench，并只与 `E-PAPER-BASEJUDGE-001/base` 比较；不得把旧协议 `E-D6-001` 混入主表，外部分数不得触发重选 checkpoint 或重训。
 
 产物：
 
@@ -888,7 +932,7 @@ Day 20 不得写：
 
 1. 在 eval 128 上执行与其他实验相同的 generation 与评分。
 2. 在 retention 64 上做能力保持评测。
-3. checkpoint 与内部结果冻结后，按同一协议运行 ZoomBench、MMStar、V* Bench。
+3. checkpoint 与内部结果冻结后，按 `E-PAPER-BASEJUDGE-001` 运行 ZoomBench full、MMStar、V* Bench，并与同协议 Base、Vision-OPD、Cached 结果比较。
 4. 保存逐样本预测并计算 corrected/regressed。
 5. 审查高 Reward 但内部或外部固定评测错误的样本。
 
@@ -950,7 +994,7 @@ Day 20 不得写：
 
 1. 保住 Vanilla、Vision-OPD、Cached Prefix 与统一评测。
 2. 外部 Benchmark 费用超出 Day 5 预算时，先保留 ZoomBench、MMStar，再延后 V* Bench；不得只保留分数更好看的集合。
-3. eval 题目无法规则判分时标记 unsupported；需要 Judge 时必须使用 Day 5 冻结的同一模型、Prompt 和参数。
+3. 外部主评测需要 Judge 时，必须使用 `E-PAPER-BASEJUDGE-001` 冻结的原始 Qwen3.5-4B Base、官方 Judge Prompt 和统一参数；Judge 失败按错并保留逐样本错误，不得临时换 Judge 或让训练后模型自评。
 4. GRPO 可验证样本不足时缩小数据量，不混入高噪声开放题。
 5. GRPO 正式训练超预算时，保留 32/64 prompt 的真实 Pilot，明确写成“机制与工程验证”，不冒充完整训练。
 6. 任何方法若只有脚本启动、没有 checkpoint 与评测，只能写“跑通 Smoke”，不能写“完成训练”。
@@ -961,8 +1005,9 @@ Day 20 不得写：
 
 - [x] 固定 1024 train、128 eval、64 retention，且无组级泄漏。
 - [x] Vanilla 128 条预测和评测结果完整。
-- [x] ZoomBench、MMStar、V* Bench 的数据版本、Prompt、预处理、评分和 Judge 协议已冻结并完成 overlap 审计。
-- [ ] Base 在三个外部 Benchmark 上的逐样本预测与汇总完整。
+- [x] 旧协议 `E-D6-001` 的三项外部 Benchmark 逐样本预测、评分、汇总、overlap 说明和成本已归档。
+- [x] 论文对齐 `E-PAPER-BASEJUDGE-001` amendment 已冻结，明确固定 Base Judge 替代 GPT-OSS-120B。
+- [ ] `E-PAPER-BASEJUDGE-001/base` 在 ZoomBench full、MMStar、V* 191 上的逐样本预测、Judge 记录与汇总完整。
 - [ ] Vision-OPD 真实链路包含在线生成、Crop Teacher、Top-K JSD、Student backward、EMA。
 - [ ] Vision-OPD 1024 checkpoint 可加载并完成 internal 128/64 与三项外部评测。
 - [ ] Cached Prefix 只改变 prefix 来源。
@@ -977,6 +1022,6 @@ Day 20 不得写：
 - [ ] Reward 单元测试覆盖正例、负例、格式变体和歧义例。
 - [ ] GRPO Pilot 证明 group rollout、relative advantage 和 actor update。
 - [ ] GRPO checkpoint 可加载并完成 internal 128/64 与三项外部评测。
-- [ ] 四组方法使用统一评测协议。
+- [ ] Base、Vision-OPD、Cached、GRPO 四组方法均使用 `E-PAPER-BASEJUDGE-001`，且固定原始 Base Judge，不让训练后模型自评。
 - [ ] 总费用不超过 2000 元，或对超支原因有事前批准和完整记录。
 - [ ] 项目边界、失败结果和未复现内容均如实写明。

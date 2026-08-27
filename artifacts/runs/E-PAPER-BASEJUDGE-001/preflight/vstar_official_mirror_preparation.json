@@ -1,0 +1,16 @@
+{
+  "category_counts": {
+    "direct_attributes": 115,
+    "relative_position": 76
+  },
+  "converted_json": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/vstar.json",
+  "converted_json_sha256": "336a1e1a32f0b34e4e9e41b3dcc95ea87ff69fe3dcec16c99d4b16f4e967dfd5",
+  "dataset_repo_id": "lmms-lab/vstar-bench",
+  "dataset_revision": "b44023b4dca749ed8a76b85eb576627d05a1c174",
+  "record_count": 191,
+  "schema_version": 1,
+  "source_parquet": "/root/autodl-tmp/benchmark_data/paper_aligned/raw/vstar/data/test-00000-of-00001.parquet",
+  "source_parquet_sha256": "6f9a089e93e75931350157544f8e74713d9d108c5f73585609ca262c33528a27",
+  "status": "pass",
+  "unique_sample_uid_count": 191
+}
