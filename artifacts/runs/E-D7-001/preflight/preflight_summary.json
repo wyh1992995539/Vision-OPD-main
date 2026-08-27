@@ -3,7 +3,7 @@
   "status": "PASS",
   "gpu_used": false,
   "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_1024.yaml",
-  "config_sha256": "ada7f94b542b7431fc1b848bca344b046e8d087ee12c11ad4ed644f8057c230d",
+  "config_sha256": "881f24f825eebc6c105cf6ed7c62501064e1bad0f7a10852f154e83fe2c1670c",
   "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
   "train_file": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
   "train_file_sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
@@ -28,7 +28,11 @@
     "prompt_limit_is_8192": true,
     "response_limit_is_256": true,
     "truncation_is_error": true,
-    "teacher_uses_bbox_images": true
+    "teacher_uses_bbox_images": true,
+    "actor_parameter_offload_disabled": true,
+    "actor_optimizer_offload_disabled": true,
+    "reference_parameter_offload_disabled": true,
+    "rollout_gpu_memory_utilization_safe_start": true
   },
   "missing_image_paths": [],
   "errors": []

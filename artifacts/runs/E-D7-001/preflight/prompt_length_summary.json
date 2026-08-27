@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D7-001",
+  "status": "PASS",
+  "gpu_used": false,
+  "processor_contract": {
+    "add_generation_prompt": true,
+    "truncation_argument_passed": false,
+    "max_length_argument_passed": false,
+    "image_processing": "qwen_vl_utils.process_vision_info",
+    "text_tokens_definition": "total_tokens minus expanded image_token_id tokens; includes template/control tokens",
+    "quantile_method": "nearest_rank"
+  },
+  "input": {
+    "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_1024.yaml",
+    "config_sha256": "881f24f825eebc6c105cf6ed7c62501064e1bad0f7a10852f154e83fe2c1670c",
+    "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "processor_class": "Qwen3VLProcessor",
+    "processor_name_or_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "chat_template": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+    "chat_template_sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
+    "train_file": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+    "train_file_sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
+    "token_count_method": "input_ids_equals_processor_image_token_id"
+  },
+  "row_count": 1024,
+  "expected_rows": 1024,
+  "limit": null,
+  "max_prompt_length_candidate": 8192,
+  "views": {
+    "student": {
+      "processed": 1024,
+      "text_tokens": {
+        "p50": 76,
+        "p95": 87,
+        "p99": 100,
+        "max": 129
+      },
+      "image_tokens": {
+        "p50": 3290,
+        "p95": 3901,
+        "p99": 4559,
+        "max": 7802
+      },
+      "total_tokens": {
+        "p50": 3366,
+        "p95": 3974,
+        "p99": 4638,
+        "max": 7880
+      },
+      "overlength_count": 0
+    },
+    "teacher": {
+      "processed": 1024,
+      "text_tokens": {
+        "p50": 76,
+        "p95": 87,
+        "p99": 100,
+        "max": 129
+      },
+      "image_tokens": {
+        "p50": 209,
+        "p95": 1444,
+        "p99": 1800,
+        "max": 2134
+      },
+      "total_tokens": {
+        "p50": 287,
+        "p95": 1527,
+        "p99": 1881,
+        "max": 2213
+      },
+      "overlength_count": 0
+    }
+  },
+  "error_count": 0,
+  "errors": [],
+  "gate_checks": {
+    "full_1024_rows": true,
+    "all_requested_views_processed": true,
+    "processing_errors_zero": true,
+    "overlength_count_zero": true,
+    "silent_truncation_disabled": true
+  },
+  "elapsed_seconds": 374.766
+}
