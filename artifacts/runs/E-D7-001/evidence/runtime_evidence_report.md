@@ -25,7 +25,7 @@ Vision-OPD 双卡 Smoke 已完成 2 个真实 optimizer steps 和 16 条在线 r
 
 - 训练进度：`2/2`。
 - Rollout：Step 1 为 8 条，Step 2 为 8 条，共 16 条。
-- Checkpoint：`global_step_2`，包含两个 rank 的 model、optimizer 和 extra-state 分片。
+- Checkpoint：`global_step_2` 曾完整保存并核对两个 rank 的 model、optimizer 和 extra-state 分片；因后续实验从 Base 启动，验证后已清理，分片清单保存在 `checkpoint_prune_manifest.json`。
 - 训练日志 SHA256：`b470672347a65d9c90a9ad5b6b687a4e1a3756eb9914213aaf40753552053845`。
 - 完整 1024 条 Token 审计：Student max 7880，Teacher max 2213，超长数和处理错误数均为 0。
 

@@ -48,7 +48,7 @@
     "ema_update_applied": true,
     "smoke_prompt_clip_ratio_zero": true,
     "full_1024_prompt_audit_passed": true,
-    "checkpoint_global_step_2_present": true
+    "checkpoint_global_step_2_was_saved": true
   },
   "prompt_audit": {
     "student_total_tokens_p50": 3366,
@@ -65,7 +65,9 @@
   },
   "checkpoint": {
     "latest_checkpointed_iteration": 2,
-    "path": "artifacts/runs/E-D7-001/checkpoints/global_step_2",
+    "original_path": "artifacts/runs/E-D7-001/checkpoints/global_step_2",
+    "retention_status": "PRUNED_AFTER_VALIDATION",
+    "prune_manifest": "artifacts/runs/E-D7-001/evidence/checkpoint_prune_manifest.json",
     "model_rank_files": 2,
     "optimizer_rank_files": 2,
     "extra_state_rank_files": 2
@@ -82,6 +84,6 @@
     "A DataLoader worker was killed during shutdown after training reached 2/2 and global_step_2 checkpoint files were saved.",
     "perf/cpu_memory_used_gb was about 193.9 GiB, but verl computes it from psutil.virtual_memory().used, so it is a host-wide snapshot rather than process RSS or cgroup peak usage.",
     "The current cgroup reports oom=0 and oom_kill=0; there is no evidence that the DataLoader shutdown warning was caused by cgroup OOM.",
-    "The checkpoint shards were checked for presence and size but were not reloaded in this validation pass."
+    "The checkpoint shards were checked for presence and size but were not reloaded; they were pruned because subsequent experiments start from Base."
   ]
 }

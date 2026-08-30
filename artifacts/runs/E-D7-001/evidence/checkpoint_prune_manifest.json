@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D7-001",
+  "checkpoint": "global_step_2",
+  "status": "PRUNED_AFTER_VALIDATION",
+  "reason": "Day 7 Smoke checkpoint is not a dependency of later runs; E-D8-001 and E-D10-001 start from Base.",
+  "recoverability": "The deleted checkpoint can only be recreated by rerunning E-D7-001.",
+  "validation_before_prune": {
+    "optimizer_steps_completed": 2,
+    "checkpoint_iteration_marker": 2,
+    "model_rank_files_present": 2,
+    "optimizer_rank_files_present": 2,
+    "extra_state_rank_files_present": 2,
+    "checkpoint_reload_tested": false
+  },
+  "deleted_inventory": {
+    "model_world_size_2_rank_0.pt": 10350349843,
+    "model_world_size_2_rank_1.pt": 10350349843,
+    "optim_world_size_2_rank_0.pt": 18157114647,
+    "optim_world_size_2_rank_1.pt": 18157114647,
+    "extra_state_world_size_2_rank_0.pt": 15077,
+    "extra_state_world_size_2_rank_1.pt": 15077,
+    "data.pt": 7188,
+    "huggingface_metadata_approx_bytes": 20000000,
+    "fsdp_world_size": 2
+  },
+  "retained_evidence": [
+    "logs/train.log",
+    "rollouts/1.jsonl",
+    "rollouts/2.jsonl",
+    "evidence/log_probs/",
+    "evidence/runtime_evidence_summary.json",
+    "evidence/runtime_evidence_report.md",
+    "preflight/"
+  ]
+}
