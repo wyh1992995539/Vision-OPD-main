@@ -12,6 +12,16 @@ assert SPEC.loader is not None
 SPEC.loader.exec_module(runtime_evidence)
 
 
+def test_large_parameter_indices_never_round_past_endpoint():
+    length = 4_000_000_000
+    indices = runtime_evidence.evenly_spaced_indices(length, count=16)
+
+    assert indices.dtype == torch.long
+    assert indices[0].item() == 0
+    assert indices[-1].item() == length - 1
+    assert bool(((indices >= 0) & (indices < length)).all())
+
+
 def test_runtime_probe_observes_optimizer_then_ema_boundaries():
     student = nn.Sequential(nn.Linear(4, 4), nn.Linear(4, 1))
     teacher = nn.Sequential(nn.Linear(4, 4), nn.Linear(4, 1))

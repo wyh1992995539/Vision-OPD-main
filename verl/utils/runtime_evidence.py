@@ -8,6 +8,17 @@ from torch.distributed.tensor import DTensor
 ParameterProbe = list[tuple[int, torch.Tensor, torch.Tensor]]
 
 
+def evenly_spaced_indices(length: int, count: int, device: torch.device | str = "cpu") -> torch.Tensor:
+    """Return valid int64 indices without floating-point endpoint rounding."""
+    if length <= 0 or count <= 0:
+        raise ValueError("Index length and count must be positive.")
+    count = min(length, count)
+    if count == 1:
+        return torch.zeros(1, dtype=torch.long, device=device)
+    positions = torch.arange(count, dtype=torch.long, device=device)
+    return positions * (length - 1) // (count - 1)
+
+
 def local_parameter_tensor(parameter: nn.Parameter) -> torch.Tensor:
     tensor = parameter.detach()
     if isinstance(tensor, DTensor):
@@ -32,7 +43,7 @@ def capture_parameter_probe(
         return []
 
     if len(eligible) > max_parameters:
-        positions = torch.linspace(0, len(eligible) - 1, steps=max_parameters, dtype=torch.long).tolist()
+        positions = evenly_spaced_indices(len(eligible), max_parameters).tolist()
         selected = [eligible[position] for position in positions]
     else:
         selected = eligible
@@ -41,13 +52,7 @@ def capture_parameter_probe(
     for parameter_index in selected:
         flat = local_parameter_tensor(parameters[parameter_index]).reshape(-1)
         sample_count = min(samples_per_parameter, flat.numel())
-        sample_indices = torch.linspace(
-            0,
-            flat.numel() - 1,
-            steps=sample_count,
-            device=flat.device,
-            dtype=torch.long,
-        )
+        sample_indices = evenly_spaced_indices(flat.numel(), sample_count, device=flat.device)
         sample_values = flat.index_select(0, sample_indices).float().clone()
         probe.append((parameter_index, sample_indices, sample_values))
     return probe

@@ -21,6 +21,8 @@ auth.json
 
 # Models, datasets, caches, and training artifacts
 data/
+!verl/trainer/config/data/
+!verl/trainer/config/data/legacy_data.yaml
 /models/
 checkpoints/
 rollouts/

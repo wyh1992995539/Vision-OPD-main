@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+if ! [[ "${OMP_NUM_THREADS:-}" =~ ^[1-9][0-9]*$ ]]; then
+    export OMP_NUM_THREADS=1
+fi
+
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_FILE="${VOPD_CONFIG_FILE:-${PROJECT_ROOT}/configs/vopd_1024.yaml}"
 MODE="preflight"
@@ -342,4 +346,3 @@ python -m verl.trainer.main_ppo --config-name vopd \
     trainer.default_local_dir="${OUTPUT_DIR}/checkpoints" \
     trainer.rollout_data_dir="${OUTPUT_DIR}/rollouts" \
     "${EXTRA_ARGS[@]}" 2>&1 | tee "$TRAIN_LOG"
-

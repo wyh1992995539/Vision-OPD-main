@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D7-001",
+  "status": "PASS_WITH_CAVEAT",
+  "completed_optimizer_steps": 2,
+  "completed_samples": 16,
+  "runtime_metrics": {
+    "step_1": {
+      "actor_vopd_loss": 0.042094644624739885,
+      "actor_grad_norm": 5.213621616363525,
+      "runtime_probe_enabled": 1.0,
+      "parameter_probe_elements": 512.0,
+      "student_param_probe_max_delta_after_optimizer": 2.0265579223632812e-06,
+      "teacher_param_probe_max_delta_after_optimizer": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_param_probe_max_delta_after_ema": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "prompt_length_max": 4169.0,
+      "prompt_length_clip_ratio": 0.0,
+      "response_length_mean": 95.75,
+      "response_length_max": 256.0
+    },
+    "step_2": {
+      "actor_vopd_loss": 0.028209318406879902,
+      "actor_grad_norm": 6.766190052032471,
+      "runtime_probe_enabled": 1.0,
+      "parameter_probe_elements": 512.0,
+      "student_param_probe_max_delta_after_optimizer": 2.001761458814144e-06,
+      "teacher_param_probe_max_delta_after_optimizer": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_param_probe_max_delta_after_ema": 4.76837158203125e-07,
+      "ema_update_applied": 1.0,
+      "prompt_length_max": 3509.0,
+      "prompt_length_clip_ratio": 0.0,
+      "response_length_mean": 54.75,
+      "response_length_max": 125.0
+    }
+  },
+  "acceptance_checks": {
+    "two_optimizer_steps_completed": true,
+    "sixteen_rollout_samples_saved": true,
+    "vopd_loss_finite_and_positive": true,
+    "student_gradient_finite_and_positive": true,
+    "student_changed_after_optimizer": true,
+    "teacher_unchanged_during_optimizer": true,
+    "teacher_has_no_gradient": true,
+    "teacher_changed_after_ema": true,
+    "ema_update_applied": true,
+    "smoke_prompt_clip_ratio_zero": true,
+    "full_1024_prompt_audit_passed": true,
+    "checkpoint_global_step_2_present": true
+  },
+  "prompt_audit": {
+    "student_total_tokens_p50": 3366,
+    "student_total_tokens_p95": 3974,
+    "student_total_tokens_p99": 4638,
+    "student_total_tokens_max": 7880,
+    "student_overlength_count": 0,
+    "teacher_total_tokens_p50": 287,
+    "teacher_total_tokens_p95": 1527,
+    "teacher_total_tokens_p99": 1881,
+    "teacher_total_tokens_max": 2213,
+    "teacher_overlength_count": 0,
+    "processing_error_count": 0
+  },
+  "checkpoint": {
+    "latest_checkpointed_iteration": 2,
+    "path": "artifacts/runs/E-D7-001/checkpoints/global_step_2",
+    "model_rank_files": 2,
+    "optimizer_rank_files": 2,
+    "extra_state_rank_files": 2
+  },
+  "source": {
+    "train_log": "artifacts/runs/E-D7-001/logs/train.log",
+    "train_log_sha256": "b470672347a65d9c90a9ad5b6b687a4e1a3756eb9914213aaf40753552053845",
+    "prompt_length_summary": "artifacts/runs/E-D7-001/preflight/prompt_length_summary.json",
+    "preflight_summary": "artifacts/runs/E-D7-001/preflight/preflight_summary.json",
+    "rollout_step_1": "artifacts/runs/E-D7-001/rollouts/1.jsonl",
+    "rollout_step_2": "artifacts/runs/E-D7-001/rollouts/2.jsonl"
+  },
+  "caveats": [
+    "A DataLoader worker was killed during shutdown after training reached 2/2 and global_step_2 checkpoint files were saved.",
+    "perf/cpu_memory_used_gb was about 193.9 GiB, but verl computes it from psutil.virtual_memory().used, so it is a host-wide snapshot rather than process RSS or cgroup peak usage.",
+    "The current cgroup reports oom=0 and oom_kill=0; there is no evidence that the DataLoader shutdown warning was caused by cgroup OOM.",
+    "The checkpoint shards were checked for presence and size but were not reloaded in this validation pass."
+  ]
+}

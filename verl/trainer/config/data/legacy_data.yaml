@@ -1,0 +1,101 @@
+# Tokenizer class or path. If null, it will be inferred from the model.
+tokenizer: null
+
+# Whether to use shared memory for data loading.
+use_shm: False
+
+# Training set parquet. Can be a list or a single file.
+train_files: ~/data/rlhf/gsm8k/train.parquet
+
+# Validation parquet. Can be a list or a single file.
+val_files: ~/data/rlhf/gsm8k/test.parquet
+
+# Maximum number of training samples. -1 uses the full dataset.
+train_max_samples: -1
+
+# Maximum number of validation samples. -1 uses the full dataset.
+val_max_samples: -1
+
+# Prompt field in the dataset.
+prompt_key: prompt
+
+# Field used to select the reward function.
+reward_fn_key: data_source
+
+# Maximum prompt length.
+max_prompt_length: 512
+
+# Maximum generated response length.
+max_response_length: 512
+
+# Global training batch size.
+train_batch_size: 1024
+
+# Validation batch size. Null lets the trainer choose.
+val_batch_size: null
+
+# Tool config used to calculate the true prompt length.
+tool_config_path: ${oc.select:actor_rollout_ref.rollout.multi_turn.tool_config_path, null}
+
+# Return input IDs before applying the policy chat template.
+return_raw_input_ids: False
+
+# Return the original chat messages.
+return_raw_chat: True
+
+# Return the fully rendered prompt.
+return_full_prompt: False
+
+# Shuffle training data.
+shuffle: True
+
+# Data shuffle seed.
+seed: null
+
+# Number of data-loader workers.
+dataloader_num_workers: 8
+
+# Image patch size used for multimodal token accounting.
+image_patch_size: 14
+
+# Shuffle validation data.
+validation_shuffle: False
+
+# Filter prompts that exceed max_prompt_length.
+filter_overlong_prompts: False
+
+# Workers used when filtering overlong prompts.
+filter_overlong_prompts_workers: 1
+
+# Overlength behavior: error, left, right, or middle.
+truncation: error
+
+# Dataset image field.
+image_key: images
+
+# Dataset video field.
+video_key: videos
+
+# Allow tokenizer/model remote code.
+trust_remote_code: False
+
+# Optional custom dataset implementation.
+custom_cls:
+  path: null
+  name: null
+
+# Return multimodal processor inputs from the dataset.
+return_multi_modal_inputs: True
+
+# Optional custom data sampler.
+sampler:
+  class_path: null
+  class_name: null
+
+# Optional dynamic data generation.
+datagen:
+  path: null
+  name: null
+
+# Extra keyword arguments for tokenizer.apply_chat_template.
+apply_chat_template_kwargs: {}
