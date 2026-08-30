@@ -37,6 +37,12 @@ from verl.utils.fsdp_utils import FSDPModule, fsdp2_clip_grad_norm_
 from verl.utils.metric import AggregationType, Metric, reduce_metrics
 from verl.utils.profiler import GPUMemoryLogger
 from verl.utils.py_functional import append_to_dict
+from verl.utils.runtime_evidence import (
+    capture_parameter_probe,
+    non_none_gradient_count,
+    parameter_probe_max_abs_delta,
+    update_ema_parameters,
+)
 from verl.utils.seqlen_balancing import prepare_dynamic_batch, restore_dynamic_batch
 from verl.utils.torch_dtypes import PrecisionType
 from verl.utils.torch_functional import logprobs_from_logits
@@ -131,14 +137,18 @@ class DataParallelPPOActor(BasePPOActor):
                 f"{self.use_fused_kernels=} or {self.use_prefix_grouper=} for now."
             )
 
-    def _update_teacher(self) -> None:
+    _capture_parameter_probe = staticmethod(capture_parameter_probe)
+    _parameter_probe_max_abs_delta = staticmethod(parameter_probe_max_abs_delta)
+    _non_none_gradient_count = staticmethod(non_none_gradient_count)
+
+    def _update_teacher(self) -> bool:
         self_distillation_cfg = getattr(self.config, "self_distillation", None)
         loss_mode = self.config.policy_loss.get("loss_mode", "vanilla")
         if not self_distillation_cfg or loss_mode != "vopd":
-            return
+            return False
         teacher_model_source = getattr(self_distillation_cfg, "teacher_model_source", "legacy")
         if teacher_model_source != "legacy":
-            return
+            return False
         teacher_regularization = getattr(self_distillation_cfg, "teacher_regularization", "ema")
         if self.teacher_module is None or self.teacher_module is self.actor_module:
             raise ValueError("Teacher updates require a separate teacher_module in the actor worker.")
@@ -146,14 +156,9 @@ class DataParallelPPOActor(BasePPOActor):
             if teacher_regularization == "ema":
                 update_rate = getattr(self_distillation_cfg, "teacher_update_rate", 0.0)
                 if update_rate == 0.0:
-                    return
-                for teacher_param, student_param in zip(
-                    self.teacher_module.parameters(),
-                    self.actor_module.parameters(),
-                ):
-                    student_data = student_param.data.to(device=teacher_param.device)
-                    teacher_param.data.mul_(1.0 - update_rate).add_(student_data, alpha=update_rate)
-                return
+                    return False
+                update_ema_parameters(self.teacher_module, self.actor_module, update_rate)
+                return True
 
             if teacher_regularization == "progressive":
                 teacher_update_interval = getattr(self_distillation_cfg, "teacher_update_interval", None)
@@ -161,20 +166,22 @@ class DataParallelPPOActor(BasePPOActor):
                     raise ValueError("Progressive teacher requires self_distillation.teacher_update_interval.")
                 global_steps = getattr(self, "_current_global_steps", None)
                 if global_steps is None or global_steps % teacher_update_interval != 0:
-                    return
+                    return False
                 for teacher_param, student_param in zip(
                     self.teacher_module.parameters(),
                     self.actor_module.parameters(),
+                    strict=True,
                 ):
                     teacher_param.data.copy_(student_param.data.to(device=teacher_param.device))
                 for teacher_buffer, student_buffer in zip(
                     self.teacher_module.buffers(),
                     self.actor_module.buffers(),
+                    strict=True,
                 ):
                     teacher_buffer.data.copy_(student_buffer.data.to(device=teacher_buffer.device))
-                return
+                return True
 
-            return
+            return False
 
     @staticmethod
     def _has_non_empty_multi_modal_inputs(multi_modal_inputs) -> bool:
@@ -930,6 +937,22 @@ class DataParallelPPOActor(BasePPOActor):
                 "timing_s/update_actor/optimizer_step": 0.0,
                 "timing_s/update_actor/teacher_ema_update": 0.0,
             }
+        runtime_evidence_enabled = bool(
+            self_distillation_enabled
+            and self.teacher_module is not None
+            and self.teacher_module is not self.actor_module
+            and getattr(self_distillation_cfg, "teacher_model_source", "legacy") == "legacy"
+            and getattr(self_distillation_cfg, "teacher_regularization", "ema") == "ema"
+        )
+        runtime_evidence = {
+            "evidence/runtime_probe_enabled": float(runtime_evidence_enabled),
+            "evidence/parameter_probe_elements": 0.0,
+            "evidence/student_param_probe_max_delta_after_optimizer": 0.0,
+            "evidence/teacher_param_probe_max_delta_after_optimizer": 0.0,
+            "evidence/teacher_grad_non_none_count": 0.0,
+            "evidence/teacher_param_probe_max_delta_after_ema": 0.0,
+            "evidence/ema_update_applied": 0.0,
+        }
         did_update = False
         for _ in range(self.config.ppo_epochs):
             for batch_idx, mini_batch in enumerate(mini_batches):
@@ -1183,12 +1206,39 @@ class DataParallelPPOActor(BasePPOActor):
                             metrics["actor/grpo_loss"] += grpo_loss.detach().item() * loss_scale_factor
                     append_to_dict(metrics, micro_batch_metrics)
 
+                student_optimizer_probe = []
+                teacher_optimizer_probe = []
+                if runtime_evidence_enabled:
+                    runtime_evidence["evidence/teacher_grad_non_none_count"] = max(
+                        runtime_evidence["evidence/teacher_grad_non_none_count"],
+                        float(self._non_none_gradient_count(self.teacher_module)),
+                    )
+                    student_optimizer_probe = self._capture_parameter_probe(self.actor_module)
+                    teacher_optimizer_probe = self._capture_parameter_probe(self.teacher_module)
+                    probe_elements = min(
+                        sum(values.numel() for _, _, values in student_optimizer_probe),
+                        sum(values.numel() for _, _, values in teacher_optimizer_probe),
+                    )
+                    runtime_evidence["evidence/parameter_probe_elements"] = max(
+                        runtime_evidence["evidence/parameter_probe_elements"],
+                        float(probe_elements),
+                    )
+
                 optimizer_step_start = time.perf_counter()
                 grad_norm = self._optimizer_step()
                 if self_distillation_enabled:
                     optimizer_step_time = time.perf_counter() - optimizer_step_start
                 if torch.isfinite(grad_norm).item():
                     did_update = True
+                if runtime_evidence_enabled:
+                    runtime_evidence["evidence/student_param_probe_max_delta_after_optimizer"] = max(
+                        runtime_evidence["evidence/student_param_probe_max_delta_after_optimizer"],
+                        self._parameter_probe_max_abs_delta(self.actor_module, student_optimizer_probe),
+                    )
+                    runtime_evidence["evidence/teacher_param_probe_max_delta_after_optimizer"] = max(
+                        runtime_evidence["evidence/teacher_param_probe_max_delta_after_optimizer"],
+                        self._parameter_probe_max_abs_delta(self.teacher_module, teacher_optimizer_probe),
+                    )
                 mini_batch_metrics = {"actor/grad_norm": grad_norm.detach().item()}
                 if self_distillation_enabled:
                     stage_wall_time_totals["timing_s/update_actor/optimizer_step"] += optimizer_step_time
@@ -1200,9 +1250,17 @@ class DataParallelPPOActor(BasePPOActor):
                 self_distillation_cfg=self_distillation_cfg,
                 dump_chunks=distill_dump_chunks,
             )
+        teacher_ema_probe = []
+        if did_update and runtime_evidence_enabled:
+            teacher_ema_probe = self._capture_parameter_probe(self.teacher_module)
         if did_update:
             teacher_update_start = time.perf_counter()
-            self._update_teacher()
+            teacher_update_applied = self._update_teacher()
+            runtime_evidence["evidence/ema_update_applied"] = float(teacher_update_applied)
+            if runtime_evidence_enabled and teacher_update_applied:
+                runtime_evidence["evidence/teacher_param_probe_max_delta_after_ema"] = (
+                    self._parameter_probe_max_abs_delta(self.teacher_module, teacher_ema_probe)
+                )
             if self_distillation_enabled:
                 stage_wall_time_totals["timing_s/update_actor/teacher_ema_update"] += (
                     time.perf_counter() - teacher_update_start
@@ -1210,6 +1268,8 @@ class DataParallelPPOActor(BasePPOActor):
         if self_distillation_enabled:
             for key, total_time in stage_wall_time_totals.items():
                 metrics[key] = Metric(aggregation=AggregationType.MAX, value=total_time)
+            for key, value in runtime_evidence.items():
+                metrics[key] = Metric(aggregation=AggregationType.MAX, value=value)
         metric_keys_to_keep_unreduced = set(stage_wall_time_totals.keys()) if stage_wall_time_totals is not None else set()
         local_metrics_to_reduce = {
             key: value
