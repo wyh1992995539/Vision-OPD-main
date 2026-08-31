@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D8-001",
+  "phase": "checkpoint_cold_reload",
+  "status": "PASS",
+  "started_at_utc": "2026-08-31T08:48:18.593055+00:00",
+  "completed_at_utc": "2026-08-31T08:50:46.290752+00:00",
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8",
+  "source_checkpoint_unchanged": true,
+  "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/merged_hf",
+  "merged_manifest_sha256": "fd3990c1dd2516a89c086e17a56dc983eacc17d5c2032987c70e36536e2fdc50",
+  "served_model_name": "vopd-day8-reload",
+  "server_exit_code_after_controlled_shutdown": 0,
+  "verification": {
+    "status": "PASS",
+    "prediction_count": 5,
+    "sample_ids": [
+      "vopd_1613d81195645f79b38e2a8e",
+      "vopd_862c86a7c1e488f7e6d70ab9",
+      "vopd_d865f5b0bee902d4aa79c52f",
+      "vopd_1c18524af1483a641b0e13a2",
+      "vopd_0978c0dd4d80880f6da2702c"
+    ],
+    "nonempty_response_count": 5,
+    "inference_error_count": 0,
+    "errors": []
+  }
+}

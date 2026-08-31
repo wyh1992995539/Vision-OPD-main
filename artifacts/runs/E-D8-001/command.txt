@@ -1,0 +1,1 @@
+OMP_NUM_THREADS=44 CUDA_VISIBLE_DEVICES=0,1 scripts/run_vopd_2gpu.sh --config configs/vopd_day8_64.yaml --run

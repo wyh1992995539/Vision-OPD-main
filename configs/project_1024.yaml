@@ -279,6 +279,19 @@ experiments:
     id: E-D8-001
     starts_from: base
     prefix_source: online
+    status: pass_with_caveat
+    completed_date_utc: "2026-08-31"
+    config: configs/vopd_day8_64.yaml
+    output_dir: artifacts/runs/E-D8-001
+    checkpoint: artifacts/runs/E-D8-001/checkpoints/global_step_8
+    report: artifacts/reports/vopd_64_stability.md
+    stability_summary: artifacts/runs/E-D8-001/evidence/stability_summary.json
+    reload_validation: artifacts/runs/E-D8-001/evidence/reload/reload_validation_summary.json
+    next_gate: day9_formal_training_freeze
+    caveats:
+      - dataloader_worker_killed_after_step_8_and_checkpoint_save
+      - per_gpu_peak_memory_not_auditable_from_trainer_metric
+      - training_started_from_dirty_worktree_with_hashes_recorded
   vision_opd_train:
     id: E-D10-001
     starts_from: base

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-31T09:26:52.817525+00:00",
+  "experiment_id": "E-D8-001",
+  "observed_windows": {
+    "currency": "CNY",
+    "cost_per_dual_gpu_hour": 11.96,
+    "training_window_dual_gpu_hours": 0.16986482916666665,
+    "training_window_cost_cny": 2.0315833568333335,
+    "reload_window_dual_gpu_hours": 0.04102713805555556,
+    "reload_window_cost_cny": 0.4906845711444445,
+    "coverage": "evidence timestamp windows only; excludes unrecorded attempts, idle, and billing rounding"
+  },
+  "projection_1024": {
+    "target_samples": 1024,
+    "global_batch_size": 8,
+    "target_optimizer_steps": 128,
+    "startup_seconds": 231.44967084221003,
+    "first_step_seconds": 86.48464148119092,
+    "checkpoint_save_seconds": 114.08559809438884,
+    "cost_per_dual_gpu_hour_cny": 11.96,
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 21.861009687185287,
+        "total_seconds": 3208.3681406903215,
+        "dual_gpu_hours": 0.8912133724139782,
+        "estimated_cost_cny": 10.658911934071181
+      },
+      "mean": {
+        "steady_step_seconds": 25.64192494031574,
+        "total_seconds": 3688.5443778378885,
+        "dual_gpu_hours": 1.0245956605105246,
+        "estimated_cost_cny": 12.254164099705875
+      },
+      "conservative_max": {
+        "steady_step_seconds": 45.99778247624636,
+        "total_seconds": 6273.738284901077,
+        "dual_gpu_hours": 1.7427050791391883,
+        "estimated_cost_cny": 20.842752746504694
+      }
+    },
+    "planning_scenario": "mean",
+    "resource_reservation_scenario": "conservative_max"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-31T08:47:26.778524+00:00",
+  "experiment_id": "E-D8-001",
+  "phase": "checkpoint_cold_reload",
+  "status": "PASS",
+  "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_day8_reload.yaml",
+  "config_sha256": "8c7b509982ccde698fa735dc1c56ed095a1d24203744f780ee901bceddd5eddd",
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8",
+  "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/merged_hf",
+  "eval_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "sample_ids": [
+    "vopd_1613d81195645f79b38e2a8e",
+    "vopd_862c86a7c1e488f7e6d70ab9",
+    "vopd_d865f5b0bee902d4aa79c52f",
+    "vopd_1c18524af1483a641b0e13a2",
+    "vopd_0978c0dd4d80880f6da2702c"
+  ],
+  "free_disk_gb": 44.607,
+  "cpu_memory_limit_gb": 220.0,
+  "checks": {
+    "source_checkpoint_exists": true,
+    "required_checkpoint_files_complete": true,
+    "latest_iteration_matches": true,
+    "eval_sha256_matches": true,
+    "frozen_sample_ids_match": true,
+    "source_and_merged_paths_are_separate": true,
+    "chat_template_exists": true
+  },
+  "warnings": [
+    "merged model directory is already non-empty: /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/merged_hf"
+  ],
+  "errors": []
+}

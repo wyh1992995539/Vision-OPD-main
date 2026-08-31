@@ -1,0 +1,43 @@
+{
+  "accuracy": 0.6,
+  "by_ground_truth": {
+    "A": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 2
+    },
+    "B": {
+      "accuracy": 1.0,
+      "correct": 2,
+      "total": 2
+    },
+    "C": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 0
+    },
+    "D": {
+      "accuracy": 1.0,
+      "correct": 1,
+      "total": 1
+    }
+  },
+  "correct": 3,
+  "experiment_id": "E-D8-001",
+  "incorrect": 2,
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "invalid_prediction": 0,
+  "is_smoke": true,
+  "model_id": "vopd-day8-reload",
+  "response_token_count": {
+    "count": 5,
+    "max": 8,
+    "mean": 4.4,
+    "min": 3
+  },
+  "schema_version": 1,
+  "supported_accuracy": 0.6,
+  "total": 5,
+  "unique_sample_ids": 5,
+  "unsupported": 0
+}

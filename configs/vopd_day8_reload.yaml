@@ -1,0 +1,115 @@
+schema_version: 1
+
+experiment:
+  id: E-D8-001
+  phase: checkpoint_cold_reload
+  source_training_experiment: E-D8-001
+  base_model_path: /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/merged_hf
+  seed: 42
+
+checkpoint:
+  global_step: 8
+  world_size: 2
+  source_dir: artifacts/runs/E-D8-001/checkpoints/global_step_8
+  actor_dir: artifacts/runs/E-D8-001/checkpoints/global_step_8/actor
+  latest_iteration_file: artifacts/runs/E-D8-001/checkpoints/latest_checkpointed_iteration.txt
+  merged_model_dir: artifacts/runs/E-D8-001/merged_hf
+  preserve_source_checkpoint: true
+  merge_backend: fsdp
+  required_rank_files:
+    - model_world_size_2_rank_0.pt
+    - model_world_size_2_rank_1.pt
+    - optim_world_size_2_rank_0.pt
+    - optim_world_size_2_rank_1.pt
+    - extra_state_world_size_2_rank_0.pt
+    - extra_state_world_size_2_rank_1.pt
+  required_huggingface_files:
+    - config.json
+    - tokenizer.json
+    - tokenizer_config.json
+    - processor_config.json
+    - chat_template.jinja
+
+serving:
+  served_model_name: vopd-day8-reload
+  host: 127.0.0.1
+  port: 8018
+  tensor_parallel_size: 2
+  distributed_executor_backend: mp
+  dtype: bfloat16
+  max_model_len: 8192
+  max_num_seqs: 8
+  gpu_memory_utilization: 0.80
+  startup_timeout_seconds: 600
+  limit_mm_per_prompt:
+    image: 1
+    video: 0
+
+shared:
+  prompt_column: prompt
+  student_image_key: images
+  forbidden_model_inputs:
+    - bbox_images
+    - reward_model.ground_truth
+
+  chat_template:
+    file: chat_templates/perception_chat_template_qwen35.jinja
+    add_generation_prompt: true
+    enable_thinking: false
+    record_template_sha256: true
+
+  output:
+    keep_raw_text: true
+    keep_finish_reason: true
+    keep_response_token_ids: true
+    exclude_prompt_token_ids: true
+    exclude_padding_token_ids: true
+    keep_eos_token: true
+
+evaluation:
+  input_parquet: /root/autodl-tmp/data/vision_opd_1024/eval_128.parquet
+  input_parquet_sha256: 3afcd9efa515edaf0527a04ede4f8dd1a2133dc6a69c8f6a24823a0a2e92252f
+  expected_samples: 128
+  reload_samples: 5
+  selection_algorithm: sha256(seed|sample_id),ascending
+  sample_ids:
+    - vopd_1613d81195645f79b38e2a8e
+    - vopd_862c86a7c1e488f7e6d70ab9
+    - vopd_d865f5b0bee902d4aa79c52f
+    - vopd_1c18524af1483a641b0e13a2
+    - vopd_0978c0dd4d80880f6da2702c
+  output_dir: artifacts/runs/E-D8-001/reload_5
+
+  generation:
+    num_return_sequences: 1
+    do_sample: false
+    temperature: 0.0
+    top_p: 1.0
+    top_k: -1
+    max_new_tokens: 256
+    seed: 42
+    stop: tokenizer_eos_only
+
+evidence:
+  directory: artifacts/runs/E-D8-001/evidence/reload
+  preflight_summary: artifacts/runs/E-D8-001/evidence/reload/preflight_summary.json
+  checkpoint_manifest: artifacts/runs/E-D8-001/evidence/reload/checkpoint_manifest.json
+  merged_manifest: artifacts/runs/E-D8-001/evidence/reload/merged_manifest.json
+  server_log: artifacts/runs/E-D8-001/evidence/reload/vllm_server.log
+  inference_log: artifacts/runs/E-D8-001/evidence/reload/inference.log
+  final_summary: artifacts/runs/E-D8-001/evidence/reload/reload_validation_summary.json
+
+runtime_gate:
+  cuda_visible_devices: "0,1"
+  required_gpu_count: 2
+  minimum_free_disk_gb: 30
+  minimum_cpu_memory_gb: 48
+  forbid_existing_nonempty_merged_dir: true
+
+validation:
+  require_exact_sample_order: true
+  require_nonempty_response: true
+  require_zero_inference_errors: true
+  require_all_finish_reasons_non_error: true
+  require_merged_model_hashes: true
+  require_original_checkpoint_unchanged: true

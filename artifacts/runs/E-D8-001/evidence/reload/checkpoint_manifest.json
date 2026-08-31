@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D8-001",
+  "generated_at_utc": "2026-08-31T08:47:28.181999+00:00",
+  "global_step": 8,
+  "world_size": 2,
+  "files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788152961220052479,
+      "sha256": "4d7f1fe07f8c354c1fa6b4eb0abf4759631813c0a4553f487c29d175288f3490"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788152959468051341,
+      "sha256": "f31fded67af7dd4679e2efbae36275c1405f175ef20daab75cca1d291831f0b8"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157114647,
+      "mtime_ns": 1788153041900037649,
+      "sha256": "ea6cf7211624964c0d6591946c9171e717b7a816a056cebe3ad2a4041a88f196"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157114647,
+      "mtime_ns": 1788153039288040084,
+      "sha256": "5269693e298cdb003f4272445cf75f14ae0558ef91fb8cdb5b748f5557d9ba0f"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "mtime_ns": 1788153041900037649,
+      "sha256": "b48dbc9a7d1033f19ca935266672248f6cb0efb85f57ef4e36b27b3bc016010b"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "mtime_ns": 1788153039288040084,
+      "sha256": "d1479fc92fb47ecc22cabaee5a5bc538d721cbb8d19ac2c2fe3abe912745feb0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "mtime_ns": 1788153041912037638,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "mtime_ns": 1788153042108037451,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "mtime_ns": 1788153041912037638,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "mtime_ns": 1788153043140036450,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "mtime_ns": 1788153042120037439,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "mtime_ns": 1788153043328036265,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8/data.pt",
+      "size_bytes": 1819,
+      "mtime_ns": 1788153043584036013,
+      "sha256": "5d1297d258b828b459d13846544f9ccf35be428bda93b0f0e7fc2e7c1fbc612a"
+    }
+  ]
+}

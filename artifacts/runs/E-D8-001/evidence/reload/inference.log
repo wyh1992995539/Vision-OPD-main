@@ -1,0 +1,49 @@
+COMMAND=["/root/miniconda3/envs/vision-opd/bin/python", "/root/autodl-tmp/Vision-OPD-main/eval/run_internal_eval.py", "--config", "/root/autodl-tmp/Vision-OPD-main/configs/vopd_day8_reload.yaml", "--api-base", "http://127.0.0.1:8018/v1", "--model-id", "vopd-day8-reload", "--output-dir", "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/reload_5", "--sample-id", "vopd_1613d81195645f79b38e2a8e", "--sample-id", "vopd_862c86a7c1e488f7e6d70ab9", "--sample-id", "vopd_d865f5b0bee902d4aa79c52f", "--sample-id", "vopd_1c18524af1483a641b0e13a2", "--sample-id", "vopd_0978c0dd4d80880f6da2702c"]
+[1/5] vopd_1613d81195645f79b38e2a8e status=correct prediction=B
+[2/5] vopd_862c86a7c1e488f7e6d70ab9 status=incorrect prediction=B
+[3/5] vopd_d865f5b0bee902d4aa79c52f status=incorrect prediction=C
+[4/5] vopd_1c18524af1483a641b0e13a2 status=correct prediction=D
+[5/5] vopd_0978c0dd4d80880f6da2702c status=correct prediction=B
+{
+  "schema_version": 1,
+  "total": 5,
+  "unique_sample_ids": 5,
+  "correct": 3,
+  "incorrect": 2,
+  "invalid_prediction": 0,
+  "unsupported": 0,
+  "accuracy": 0.6,
+  "supported_accuracy": 0.6,
+  "by_ground_truth": {
+    "A": {
+      "total": 2,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "B": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    "C": {
+      "total": 0,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "D": {
+      "total": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    }
+  },
+  "response_token_count": {
+    "count": 5,
+    "min": 3,
+    "max": 8,
+    "mean": 4.4
+  },
+  "experiment_id": "E-D8-001",
+  "model_id": "vopd-day8-reload",
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_1024/eval_128.parquet",
+  "is_smoke": true
+}

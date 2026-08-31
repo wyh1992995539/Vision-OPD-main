@@ -41,7 +41,7 @@
 - 外部 Benchmark 只用于冻结后的最终模型和一次 Base 基线，不用于反复挑 checkpoint 或调超参数。
 - 所有结果都限定为“4B、1024 条数据的小规模复现与受控比较”，不宣称复现论文完整 6.2K 结果。
 
-当前执行状态（2026-08-27 同步）：
+当前执行状态（2026-08-31 同步）：
 
 | 范围 | 状态 | 边界 |
 |---|---|---|
@@ -50,7 +50,9 @@
 | Day 5 | PASS | 三项 Benchmark 协议、数据、overlap、64 次 Smoke 请求与 Day 6 预算 Gate 已完成 |
 | Day 6 | PASS（旧协议） | `E-D6-001` 的逐样本预测、评分、汇总、资源指标和成本已归档；仅作为旧协议诊断证据 |
 | 论文对齐 Base 重评 | PASS（R3） | 2536/2536 完整；ZoomBench 50.65%、MMStar 75.07%、V* 83.77%，作为后续统一基线 |
-| Day 7～30 | 未开始 | Vision-OPD、Cached、GRPO 定版后均只使用 R3 单卡协议评测 |
+| Day 7 | PASS_WITH_CAVEAT | `E-D7-001` 双卡 Smoke 完成；Teacher/Student/EMA 关键证据通过，结束阶段 worker 异常保留为 caveat |
+| Day 8 | PASS_WITH_CAVEAT | `E-D8-001` 完成 64 条/8 steps、`global_step_8`、5/5 冷重载和 1024 条成本外推；详见 `artifacts/reports/vopd_64_stability.md` |
+| Day 9～30 | 未开始 | 下一步为 Day 9 正式训练 Gate；Vision-OPD、Cached、GRPO 定版后均只使用 R3 单卡协议评测 |
 
 ## 2. 已完成进度与正式起点
 
@@ -501,6 +503,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 真实 8～16 条 Smoke 的 prompt 超长/静默截断数为 0，并已保存 train 1024 长度统计。
 
 ### Day 8：Vision-OPD 64 条稳定性训练（6～8 小时主动 + 4～8 双卡小时）
+
+> 执行状态（2026-08-31 UTC）：**PASS_WITH_CAVEAT / 已收尾**。固定 64 条完成 8/8 steps，`global_step_8` 冷重载 5/5 通过，1024 条规划外推约 1.02 双卡小时、¥12.25，保守上界约 1.75 小时、¥20.84。checkpoint 保存后出现一次 DataLoader worker `Killed`，且训练日志显存值不能作为可信逐卡峰值；两项已写入 `artifacts/reports/vopd_64_stability.md`，并转为 Day 9 观测性 Gate。
 
 任务：
 

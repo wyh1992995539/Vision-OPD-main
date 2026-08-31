@@ -13,14 +13,23 @@ EXTRA_ARGS=()
 
 usage() {
     printf '%s\n' \
-        "Usage: scripts/run_vopd_2gpu.sh [--preflight-only|--run] [Hydra overrides...]" \
+        "Usage: scripts/run_vopd_2gpu.sh [--config PATH] [--preflight-only|--run] [Hydra overrides...]" \
         "" \
-        "  --preflight-only  Validate files, Parquet schema, image paths, and config without GPU (default)." \
-        "  --run             Run the two-GPU, two-optimizer-step Day 7 smoke after preflight passes."
+        "  --config PATH     Select an auditable experiment config (default: configs/vopd_1024.yaml)." \
+        "  --preflight-only  Validate model, data, images, hashes, and training contract (default)." \
+        "  --run             Run the configured two-GPU Vision-OPD experiment after preflight passes."
 }
 
 while (($#)); do
     case "$1" in
+        --config)
+            if (($# < 2)); then
+                echo "--config requires a path" >&2
+                exit 2
+            fi
+            CONFIG_FILE="$2"
+            shift
+            ;;
         --preflight-only)
             MODE="preflight"
             ;;
@@ -37,6 +46,11 @@ while (($#)); do
     esac
     shift
 done
+
+if [[ "$CONFIG_FILE" != /* ]]; then
+    CONFIG_FILE="${PROJECT_ROOT}/${CONFIG_FILE}"
+fi
+export VOPD_CONFIG_FILE="$CONFIG_FILE"
 
 if [[ "${CONDA_DEFAULT_ENV:-}" != "vision-opd" ]]; then
     if ! command -v conda >/dev/null 2>&1; then
@@ -65,183 +79,82 @@ import yaml
 
 config_path = Path(sys.argv[1])
 project_root = Path(sys.argv[2])
-cfg = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+training = config.get("training", config.get("smoke"))
+if not isinstance(training, dict):
+    raise ValueError("config must contain a training or legacy smoke mapping")
 
 def resolve(value):
     path = Path(value)
     return str(path if path.is_absolute() else project_root / path)
 
 values = {
-    "EXPERIMENT_ID": cfg["experiment"]["id"],
-    "SEED": cfg["experiment"]["seed"],
-    "MODEL_PATH": resolve(cfg["paths"]["model"]),
-    "TRAIN_FILE": resolve(cfg["paths"]["train_file"]),
-    "CHAT_TEMPLATE_FILE": resolve(cfg["paths"]["chat_template"]),
-    "OUTPUT_DIR": resolve(cfg["paths"]["output_dir"]),
-    "EXPECTED_TRAIN_ROWS": cfg["data"]["expected_train_rows"],
-    "TRAIN_BATCH_SIZE": cfg["data"]["train_batch_size"],
-    "IMAGE_KEY": cfg["data"]["image_key"],
-    "TEACHER_IMAGE_KEY": cfg["data"]["teacher_image_key"],
-    "MAX_PROMPT_LENGTH": cfg["data"]["max_prompt_length"],
-    "MAX_RESPONSE_LENGTH": cfg["data"]["max_response_length"],
-    "DATALOADER_NUM_WORKERS": cfg["data"]["dataloader_num_workers"],
-    "LR": cfg["actor"]["learning_rate"],
-    "PPO_MINI_BATCH_SIZE": cfg["actor"]["ppo_mini_batch_size"],
-    "PPO_MAX_TOKEN_LEN_PER_GPU": cfg["actor"]["max_token_length_per_gpu"],
-    "ACTOR_PARAM_OFFLOAD": cfg["actor"]["parameter_offload"],
-    "ACTOR_OPTIMIZER_OFFLOAD": cfg["actor"]["optimizer_offload"],
-    "REF_PARAM_OFFLOAD": cfg["actor"]["reference_parameter_offload"],
-    "ROLLOUT_N": cfg["rollout"]["n"],
-    "ROLLOUT_TP_SIZE": cfg["rollout"]["tensor_model_parallel_size"],
-    "ROLLOUT_GPU_MEMORY_UTILIZATION": cfg["rollout"]["gpu_memory_utilization"],
-    "ROLLOUT_LOGPROB_MICRO_BATCH_SIZE": cfg["rollout"]["log_prob_micro_batch_size_per_gpu"],
-    "ROLLOUT_AGENT_NUM_WORKERS": cfg["rollout"]["agent_num_workers"],
-    "TOP_K": cfg["self_distillation"]["top_k"],
-    "ALPHA": cfg["self_distillation"]["alpha"],
-    "TEACHER_MODEL_SOURCE": cfg["self_distillation"]["teacher_model_source"],
-    "TEACHER_REGULARIZATION": cfg["self_distillation"]["teacher_regularization"],
-    "TEACHER_UPDATE_RATE": cfg["self_distillation"]["teacher_update_rate"],
-    "N_NODES": cfg["resources"]["nodes"],
-    "N_GPUS": cfg["resources"]["gpus_per_node"],
-    "TOTAL_OPTIMIZER_STEPS": cfg["smoke"]["total_optimizer_steps"],
+    "EXPERIMENT_ID": config["experiment"]["id"],
+    "GROUP_NAME": config["experiment"].get("group_name", config["experiment"]["id"]),
+    "SEED": config["experiment"]["seed"],
+    "MODEL_PATH": resolve(config["paths"]["model"]),
+    "TRAIN_FILE": resolve(config["paths"]["train_file"]),
+    "CHAT_TEMPLATE_FILE": resolve(config["paths"]["chat_template"]),
+    "OUTPUT_DIR": resolve(config["paths"]["output_dir"]),
+    "TRAIN_BATCH_SIZE": config["data"]["train_batch_size"],
+    "DATA_SHUFFLE": config["data"]["shuffle"],
+    "IMAGE_KEY": config["data"]["image_key"],
+    "TEACHER_IMAGE_KEY": config["data"]["teacher_image_key"],
+    "MAX_PROMPT_LENGTH": config["data"]["max_prompt_length"],
+    "MAX_RESPONSE_LENGTH": config["data"]["max_response_length"],
+    "DATALOADER_NUM_WORKERS": config["data"]["dataloader_num_workers"],
+    "LR": config["actor"]["learning_rate"],
+    "PPO_MINI_BATCH_SIZE": config["actor"]["ppo_mini_batch_size"],
+    "USE_DYNAMIC_BSZ": config["actor"]["use_dynamic_batch_size"],
+    "GRADIENT_CHECKPOINTING": config["actor"]["gradient_checkpointing"],
+    "PPO_MAX_TOKEN_LEN_PER_GPU": config["actor"]["max_token_length_per_gpu"],
+    "ACTOR_PARAM_OFFLOAD": config["actor"]["parameter_offload"],
+    "ACTOR_OPTIMIZER_OFFLOAD": config["actor"]["optimizer_offload"],
+    "REF_PARAM_OFFLOAD": config["actor"]["reference_parameter_offload"],
+    "ROLLOUT_N": config["rollout"]["n"],
+    "ROLLOUT_TP_SIZE": config["rollout"]["tensor_model_parallel_size"],
+    "ROLLOUT_GPU_MEMORY_UTILIZATION": config["rollout"]["gpu_memory_utilization"],
+    "ROLLOUT_LOGPROB_MICRO_BATCH_SIZE": config["rollout"]["log_prob_micro_batch_size_per_gpu"],
+    "ROLLOUT_AGENT_NUM_WORKERS": config["rollout"]["agent_num_workers"],
+    "TOP_K": config["self_distillation"]["top_k"],
+    "ALPHA": config["self_distillation"]["alpha"],
+    "TEACHER_ALWAYS_ON": config["self_distillation"]["teacher_always_on"],
+    "TEACHER_MODEL_SOURCE": config["self_distillation"]["teacher_model_source"],
+    "TEACHER_REGULARIZATION": config["self_distillation"]["teacher_regularization"],
+    "TEACHER_UPDATE_RATE": config["self_distillation"]["teacher_update_rate"],
+    "DONT_REPROMPT": config["self_distillation"]["dont_reprompt_on_self_success"],
+    "INCLUDE_ENVIRONMENT_FEEDBACK": config["self_distillation"]["include_environment_feedback"],
+    "IMPORTANCE_SAMPLING_CLIP": config["self_distillation"]["importance_sampling_clip"],
+    "N_NODES": config["resources"]["nodes"],
+    "N_GPUS": config["resources"]["gpus_per_node"],
+    "TOTAL_OPTIMIZER_STEPS": training["total_optimizer_steps"],
+    "TOTAL_EPOCHS": training.get("total_epochs", 1),
+    "SAVE_FREQUENCY": training["save_frequency"],
+    "TEST_FREQUENCY": training["test_frequency"],
+    "RESUME_MODE": training.get("resume_mode", "disable"),
+    "MAX_ACTOR_CKPT_TO_KEEP": training.get("max_actor_ckpt_to_keep", None),
 }
 
 for name, value in values.items():
     if isinstance(value, bool):
         value = str(value).lower()
+    elif value is None:
+        value = "null"
     print(f"{name}={shlex.quote(str(value))}")
 PY
 )"
 
 PREFLIGHT_DIR="${OUTPUT_DIR}/preflight"
+PREFLIGHT_SUMMARY="${PREFLIGHT_DIR}/preflight_summary.json"
 mkdir -p "$PREFLIGHT_DIR"
 
-python - "$CONFIG_FILE" "$PROJECT_ROOT" "$PREFLIGHT_DIR/preflight_summary.json" <<'PY'
-import hashlib
-import json
-import sys
-from pathlib import Path
-
-import pyarrow.parquet as pq
-import yaml
-
-config_path = Path(sys.argv[1]).resolve()
-project_root = Path(sys.argv[2]).resolve()
-summary_path = Path(sys.argv[3]).resolve()
-cfg = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-
-def resolve(value):
-    path = Path(value)
-    return (path if path.is_absolute() else project_root / path).resolve()
-
-def sha256(path):
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-errors = []
-model_path = resolve(cfg["paths"]["model"])
-train_file = resolve(cfg["paths"]["train_file"])
-chat_template = resolve(cfg["paths"]["chat_template"])
-
-required_model_files = [
-    "config.json",
-    "model.safetensors.index.json",
-    "tokenizer_config.json",
-    "preprocessor_config.json",
-]
-missing_model_files = [name for name in required_model_files if not (model_path / name).is_file()]
-if missing_model_files:
-    errors.append(f"missing model files: {missing_model_files}")
-if not list(model_path.glob("model-*.safetensors")) and not list(model_path.glob("model.safetensors-*.safetensors")):
-    errors.append("no model safetensors shards found")
-if not train_file.is_file():
-    errors.append(f"training parquet not found: {train_file}")
-if not chat_template.is_file():
-    errors.append(f"chat template not found: {chat_template}")
-
-row_count = None
-columns = []
-missing_image_paths = []
-if train_file.is_file():
-    table = pq.read_table(train_file)
-    row_count = table.num_rows
-    columns = table.column_names
-    expected_rows = int(cfg["data"]["expected_train_rows"])
-    if row_count != expected_rows:
-        errors.append(f"expected {expected_rows} rows, found {row_count}")
-    required_columns = {"prompt", cfg["data"]["image_key"], cfg["data"]["teacher_image_key"], "extra_info"}
-    missing_columns = sorted(required_columns.difference(columns))
-    if missing_columns:
-        errors.append(f"missing parquet columns: {missing_columns}")
-    else:
-        for column_name in (cfg["data"]["image_key"], cfg["data"]["teacher_image_key"]):
-            for row_index, items in enumerate(table[column_name].to_pylist()):
-                for item in items or []:
-                    image_path = Path(item["path"])
-                    if not image_path.is_file():
-                        missing_image_paths.append({"row": row_index, "column": column_name, "path": str(image_path)})
-                        if len(missing_image_paths) >= 20:
-                            break
-                if len(missing_image_paths) >= 20:
-                    break
-            if len(missing_image_paths) >= 20:
-                break
-        if missing_image_paths:
-            errors.append("one or more image paths are missing; first 20 are recorded")
-
-checks = {
-    "prefix_source_online": cfg["experiment"]["prefix_source"] == "online",
-    "seed_is_42": int(cfg["experiment"]["seed"]) == 42,
-    "two_gpus": int(cfg["resources"]["gpus_per_node"]) == 2,
-    "global_batch_is_8": int(cfg["data"]["train_batch_size"]) == 8,
-    "rollout_n_is_1": int(cfg["rollout"]["n"]) == 1,
-    "two_optimizer_steps": int(cfg["smoke"]["total_optimizer_steps"]) == 2,
-    "prompt_limit_is_8192": int(cfg["data"]["max_prompt_length"]) == 8192,
-    "response_limit_is_256": int(cfg["data"]["max_response_length"]) == 256,
-    "truncation_is_error": cfg["data"]["truncation"] == "error",
-    "teacher_uses_bbox_images": cfg["data"]["teacher_image_key"] == "bbox_images",
-    "actor_parameter_offload_disabled": cfg["actor"]["parameter_offload"] is False,
-    "actor_optimizer_offload_disabled": cfg["actor"]["optimizer_offload"] is False,
-    "reference_parameter_offload_disabled": cfg["actor"]["reference_parameter_offload"] is False,
-    "rollout_gpu_memory_utilization_safe_start": float(cfg["rollout"]["gpu_memory_utilization"]) <= 0.5,
-}
-failed_checks = sorted(name for name, passed in checks.items() if not passed)
-if failed_checks:
-    errors.append(f"frozen config checks failed: {failed_checks}")
-
-summary = {
-    "experiment_id": cfg["experiment"]["id"],
-    "status": "PASS" if not errors else "FAIL",
-    "gpu_used": False,
-    "config": str(config_path),
-    "config_sha256": sha256(config_path),
-    "model_path": str(model_path),
-    "train_file": str(train_file),
-    "train_file_sha256": sha256(train_file) if train_file.is_file() else None,
-    "train_rows": row_count,
-    "parquet_columns": columns,
-    "chat_template": str(chat_template),
-    "checks": checks,
-    "missing_image_paths": missing_image_paths,
-    "errors": errors,
-}
-summary_path.parent.mkdir(parents=True, exist_ok=True)
-summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print(f"DAY7_PREFLIGHT={summary['status']}")
-print(f"SUMMARY={summary_path}")
-print(f"TRAIN_ROWS={row_count}")
-print(f"MISSING_IMAGE_PATHS={len(missing_image_paths)}")
-if errors:
-    for error in errors:
-        print(f"ERROR={error}", file=sys.stderr)
-    raise SystemExit(1)
-PY
+python "${PROJECT_ROOT}/scripts/vopd_training_preflight.py" \
+    --config "$CONFIG_FILE" \
+    --project-root "$PROJECT_ROOT" \
+    --output "$PREFLIGHT_SUMMARY"
 
 if [[ "$MODE" == "preflight" ]]; then
-    echo "No GPU training started. Re-run with --run only after GPUs are available."
+    echo "No GPU training started. Re-run with --run only after the preflight passes."
     exit 0
 fi
 
@@ -257,6 +170,47 @@ fi
 
 mkdir -p "$OUTPUT_DIR/logs" "$OUTPUT_DIR/rollouts" "$OUTPUT_DIR/checkpoints" "$OUTPUT_DIR/evidence"
 
+RUN_MANIFEST="${PREFLIGHT_DIR}/run_invocation.json"
+python - "$PREFLIGHT_SUMMARY" "$RUN_MANIFEST" "${EXTRA_ARGS[@]}" <<'PY'
+import datetime
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+summary_path = Path(sys.argv[1])
+output_path = Path(sys.argv[2])
+summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+def git(*args):
+    result = subprocess.run(
+        ["git", "-C", os.environ["PROJECT_ROOT"], *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
+
+payload = {
+    "schema_version": 1,
+    "experiment_id": summary["experiment_id"],
+    "started_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    "config": summary["config"],
+    "config_sha256": summary["config_sha256"],
+    "train_file": summary["train_file"],
+    "train_file_sha256": summary["train_file_sha256"],
+    "sample_ids": summary["sample_ids"],
+    "training_contract": summary["training_contract"],
+    "git_commit": git("rev-parse", "HEAD"),
+    "git_status_porcelain": git("status", "--porcelain"),
+    "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+    "omp_num_threads": os.environ.get("OMP_NUM_THREADS"),
+    "hydra_overrides": sys.argv[3:],
+}
+output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+PY
+
 export PYTHONPATH="${PROJECT_ROOT}:${PYTHONPATH:-}"
 export PYTHONBUFFERED=1
 export VLLM_USE_V1=1
@@ -269,6 +223,7 @@ TRAIN_LOG="${OUTPUT_DIR}/logs/train.log"
 echo "Starting $EXPERIMENT_ID on CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 echo "Config: $CONFIG_FILE"
 echo "Training data: $TRAIN_FILE"
+echo "Audit manifest: $RUN_MANIFEST"
 echo "Log: $TRAIN_LOG"
 
 python -m verl.trainer.main_ppo --config-name vopd \
@@ -278,7 +233,7 @@ python -m verl.trainer.main_ppo --config-name vopd \
     data.max_prompt_length="$MAX_PROMPT_LENGTH" \
     data.max_response_length="$MAX_RESPONSE_LENGTH" \
     data.truncation=error \
-    data.shuffle=True \
+    data.shuffle="$DATA_SHUFFLE" \
     data.trust_remote_code=True \
     data.return_multi_modal_inputs=True \
     data.image_key="$IMAGE_KEY" \
@@ -288,11 +243,11 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.model.trust_remote_code=True \
     actor_rollout_ref.model.custom_chat_template_file="$CHAT_TEMPLATE_FILE" \
     actor_rollout_ref.model.use_remove_padding=True \
-    actor_rollout_ref.model.enable_gradient_checkpointing=True \
+    actor_rollout_ref.model.enable_gradient_checkpointing="$GRADIENT_CHECKPOINTING" \
     actor_rollout_ref.actor.data_loader_seed="$SEED" \
     actor_rollout_ref.actor.optim.lr="$LR" \
     actor_rollout_ref.actor.ppo_mini_batch_size="$PPO_MINI_BATCH_SIZE" \
-    actor_rollout_ref.actor.use_dynamic_bsz=True \
+    actor_rollout_ref.actor.use_dynamic_bsz="$USE_DYNAMIC_BSZ" \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu="$PPO_MAX_TOKEN_LEN_PER_GPU" \
     actor_rollout_ref.actor.fsdp_config.param_offload="$ACTOR_PARAM_OFFLOAD" \
     actor_rollout_ref.actor.fsdp_config.optimizer_offload="$ACTOR_OPTIMIZER_OFFLOAD" \
@@ -301,14 +256,14 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.actor.use_kl_loss=False \
     actor_rollout_ref.actor.self_distillation.distillation_topk="$TOP_K" \
     actor_rollout_ref.actor.self_distillation.alpha="$ALPHA" \
-    actor_rollout_ref.actor.self_distillation.teacher_always_on=True \
+    actor_rollout_ref.actor.self_distillation.teacher_always_on="$TEACHER_ALWAYS_ON" \
     actor_rollout_ref.actor.self_distillation.teacher_model_source="$TEACHER_MODEL_SOURCE" \
     actor_rollout_ref.actor.self_distillation.teacher_regularization="$TEACHER_REGULARIZATION" \
     actor_rollout_ref.actor.self_distillation.teacher_update_rate="$TEACHER_UPDATE_RATE" \
     actor_rollout_ref.actor.self_distillation.teacher_image_key="$TEACHER_IMAGE_KEY" \
-    actor_rollout_ref.actor.self_distillation.dont_reprompt_on_self_success=True \
-    actor_rollout_ref.actor.self_distillation.include_environment_feedback=False \
-    actor_rollout_ref.actor.self_distillation.is_clip=2.0 \
+    actor_rollout_ref.actor.self_distillation.dont_reprompt_on_self_success="$DONT_REPROMPT" \
+    actor_rollout_ref.actor.self_distillation.include_environment_feedback="$INCLUDE_ENVIRONMENT_FEEDBACK" \
+    actor_rollout_ref.actor.self_distillation.is_clip="$IMPORTANCE_SAMPLING_CLIP" \
     actor_rollout_ref.actor.self_distillation.log_prob_dump_dir="${OUTPUT_DIR}/evidence/log_probs" \
     actor_rollout_ref.rollout.n="$ROLLOUT_N" \
     actor_rollout_ref.rollout.name=vllm \
@@ -326,23 +281,24 @@ python -m verl.trainer.main_ppo --config-name vopd \
     algorithm.norm_adv_by_std_in_grpo=False \
     algorithm.use_kl_in_reward=False \
     algorithm.rollout_correction.rollout_is=token \
-    algorithm.rollout_correction.rollout_is_threshold=2.0 \
+    algorithm.rollout_correction.rollout_is_threshold="$IMPORTANCE_SAMPLING_CLIP" \
     reward_model.enable=False \
     reward_model.use_reward_loop=False \
     custom_reward_function.path=null \
     critic.model.path="$MODEL_PATH" \
     trainer.project_name=Vision-OPD \
-    trainer.group_name=E-D7-001 \
+    trainer.group_name="$GROUP_NAME" \
     trainer.experiment_name="$EXPERIMENT_ID" \
     'trainer.logger=["console","tensorboard"]' \
     trainer.n_gpus_per_node="$N_GPUS" \
     trainer.nnodes="$N_NODES" \
-    trainer.total_epochs=1 \
+    trainer.total_epochs="$TOTAL_EPOCHS" \
     trainer.total_training_steps="$TOTAL_OPTIMIZER_STEPS" \
-    trainer.save_freq=-1 \
-    trainer.test_freq=-1 \
+    trainer.save_freq="$SAVE_FREQUENCY" \
+    trainer.test_freq="$TEST_FREQUENCY" \
+    trainer.max_actor_ckpt_to_keep="$MAX_ACTOR_CKPT_TO_KEEP" \
     trainer.val_before_train=False \
-    trainer.resume_mode=disable \
+    trainer.resume_mode="$RESUME_MODE" \
     trainer.default_local_dir="${OUTPUT_DIR}/checkpoints" \
     trainer.rollout_data_dir="${OUTPUT_DIR}/rollouts" \
     "${EXTRA_ARGS[@]}" 2>&1 | tee "$TRAIN_LOG"
