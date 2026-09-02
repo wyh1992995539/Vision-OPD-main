@@ -1,0 +1,78 @@
+schema_version: 1
+status: blocked_until_day11_gate_passes
+
+experiment:
+  id: E-D12-6K-VOPD-001
+  name: vision-opd-qwen35-4b-full-6241
+  group_name: E-D12-6K-VOPD-001
+  prefix_source: online
+  seed: 42
+
+paths:
+  model: /root/autodl-tmp/models/Qwen3.5-4B
+  train_file: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  output_dir: artifacts/runs/E-D12-6K-VOPD-001
+
+data:
+  expected_train_rows: 6241
+  train_batch_size: 8
+  image_key: images
+  teacher_image_key: bbox_images
+  max_prompt_length: 8192
+  max_response_length: 256
+  truncation: error
+  shuffle: true
+  dataloader_num_workers: 0
+  full_coverage_padding:
+    enabled: true
+    multiple: 8
+    padding_source_index: 0
+    expected_unique_samples: 6241
+    expected_padding_rows: 7
+    receipt_path: artifacts/runs/E-D12-6K-VOPD-001/evidence/full_coverage_receipt.json
+
+actor:
+  learning_rate: 2.0e-6
+  ppo_mini_batch_size: 8
+  use_dynamic_batch_size: true
+  gradient_checkpointing: true
+  parameter_offload: false
+  optimizer_offload: false
+  reference_parameter_offload: false
+  max_token_length_per_gpu: 8448
+
+rollout:
+  n: 1
+  tensor_model_parallel_size: 1
+  gpu_memory_utilization: 0.45
+  log_prob_micro_batch_size_per_gpu: 1
+  agent_num_workers: 2
+
+self_distillation:
+  loss_mode: vopd
+  top_k: 100
+  alpha: 0.5
+  teacher_always_on: true
+  teacher_model_source: legacy
+  teacher_regularization: ema
+  teacher_update_rate: 0.05
+  dont_reprompt_on_self_success: true
+  include_environment_feedback: false
+  importance_sampling_clip: 2.0
+
+resources:
+  nodes: 1
+  gpus_per_node: 2
+
+training:
+  expected_samples: 6241
+  padded_samples: 6248
+  padding_rows: 7
+  total_optimizer_steps: 781
+  total_epochs: 1
+  require_full_epoch: true
+  save_frequency: 390
+  test_frequency: -1
+  max_actor_ckpt_to_keep: 1
+  resume_mode: disable

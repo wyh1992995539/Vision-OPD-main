@@ -166,17 +166,17 @@ def build_summary(
     expected_processed = (min(row_count, limit) if limit is not None else row_count) * len(views)
     full_audit = limit is None
     gate_checks = {
-        "full_1024_rows": full_audit and row_count == expected_rows == 1024,
+        "full_expected_rows": full_audit and row_count == expected_rows,
         "all_requested_views_processed": len(records) == expected_processed,
         "processing_errors_zero": not errors,
         "overlength_count_zero": all(view_summaries[view]["overlength_count"] == 0 for view in views),
         "silent_truncation_disabled": True,
     }
-    smoke_checks = all(passed for name, passed in gate_checks.items() if name != "full_1024_rows")
+    smoke_checks = all(passed for name, passed in gate_checks.items() if name != "full_expected_rows")
     status = "PASS" if all(gate_checks.values()) else ("SMOKE_PASS" if not full_audit and smoke_checks else "FAIL")
     return {
         "schema_version": 1,
-        "experiment_id": "E-D7-001",
+        "experiment_id": metadata["experiment_id"],
         "status": status,
         "gpu_used": False,
         "processor_contract": {
@@ -201,7 +201,7 @@ def build_summary(
 
 def write_report(summary: dict[str, Any], path: Path) -> None:
     lines = [
-        "# Day 7 Prompt Length Audit",
+        "# Vision-OPD Prompt Length Audit",
         "",
         f"- Status: **{summary['status']}**",
         f"- Rows: **{summary['row_count']}**",
@@ -294,6 +294,7 @@ def main() -> int:
     final_records_path = output_dir / "prompt_lengths.jsonl"
     partial_path.replace(final_records_path)
     metadata = {
+        "experiment_id": str(cfg["experiment"]["id"]),
         "config": str(config_path),
         "config_sha256": sha256(config_path),
         "model_path": str(model_path),

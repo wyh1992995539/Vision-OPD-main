@@ -92,6 +92,15 @@ sampler:
   class_path: null
   class_name: null
 
+# Fixed-width full-coverage batches for datasets not divisible by train_batch_size.
+full_coverage_padding:
+  enabled: false
+  multiple: null
+  padding_source_index: 0
+  expected_unique_samples: null
+  expected_padding_rows: null
+  receipt_path: null
+
 # Optional dynamic data generation.
 datagen:
   path: null

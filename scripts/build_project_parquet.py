@@ -22,6 +22,7 @@ from typing import Any
 
 import pyarrow as pa
 import pyarrow.parquet as pq
+import yaml
 
 
 DATA_SOURCE = "zwz_rl_vqa_bbox_teacher"
@@ -53,6 +54,11 @@ REQUIRED_FIELDS = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Build frozen train/eval/retention Parquet files from project manifests."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        help="Project YAML defining active split manifests, outputs, and row counts.",
     )
     parser.add_argument(
         "--data-root",
@@ -268,6 +274,22 @@ def atomic_write_text(path: Path, content: str) -> None:
         temporary_path.unlink(missing_ok=True)
 
 
+def configured_splits(config_path: Path) -> dict[str, tuple[str, str, int]]:
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    data = config["data"]
+    outputs = data.get("frozen_outputs", {})
+    result: dict[str, tuple[str, str, int]] = {}
+    for name, split in data["splits"].items():
+        if bool(split.get("historical_only", False)):
+            continue
+        manifest_name = Path(data["manifests"][f"{name}_jsonl"]).name
+        output_value = outputs.get(name, f"{name}_{int(split['size'])}.parquet")
+        result[name] = (manifest_name, Path(output_value).name, int(split["size"]))
+    if not result:
+        raise ValueError("Project config contains no active data splits")
+    return result
+
+
 def build_project_parquets(
     manifest_dir: Path,
     data_root: Path,
@@ -376,6 +398,14 @@ def main() -> None:
             "This command must run on the Linux server so Parquet image paths use /root/... paths."
         )
 
+    configured = None
+    if args.config:
+        config_path = args.config.resolve()
+        config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+        configured = configured_splits(config_path)
+        configured_root = config.get("storage", {}).get("dataset_root")
+        if args.data_root == "/root/autodl-tmp/data/vision_opd_1024" and configured_root:
+            args.data_root = configured_root
     data_root = Path(args.data_root).resolve()
     manifest_dir = Path(args.manifest_dir).resolve() if args.manifest_dir else data_root / "manifests"
     output_dir = Path(args.output_dir).resolve() if args.output_dir else data_root
@@ -383,6 +413,7 @@ def main() -> None:
         manifest_dir,
         data_root,
         output_dir,
+        expected_splits=configured,
         overwrite=args.overwrite,
     )
 

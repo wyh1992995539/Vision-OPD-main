@@ -1,0 +1,54 @@
+schema_version: 1
+
+experiment:
+  id: E-D11-6K-CACHED-GEN-001
+  base_model_path: /root/autodl-tmp/models/Qwen3.5-4B
+  base_model_sha256_file: artifacts/runs/E-D4-001/base_model_sha256.txt
+  seed: 42
+
+serving:
+  served_model_name: vision-opd-base
+  tensor_parallel_size: 2
+  distributed_executor_backend: mp
+  dtype: bfloat16
+  max_model_len: 8192
+  max_num_seqs: 8
+  gpu_memory_utilization: 0.80
+  limit_mm_per_prompt:
+    image: 1
+    video: 0
+
+shared:
+  prompt_column: prompt
+  student_image_key: images
+  forbidden_model_inputs:
+    - bbox_images
+    - reward_model.ground_truth
+  chat_template:
+    file: chat_templates/perception_chat_template_qwen35.jinja
+    add_generation_prompt: true
+    enable_thinking: false
+    record_template_sha256: true
+  output:
+    keep_raw_text: true
+    keep_finish_reason: true
+    keep_response_token_ids: true
+    exclude_prompt_token_ids: true
+    exclude_padding_token_ids: true
+    keep_eos_token: true
+
+cached_prefix:
+  input_parquet: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+  expected_samples: 6241
+  output_parquet: /root/autodl-tmp/data/vision_opd_6241/cached_prefix_base_6241.parquet
+  report_file: artifacts/runs/E-D11-6K-GATE-001/cached_prefix/report.json
+  sha256_file: artifacts/runs/E-D11-6K-GATE-001/cached_prefix/sha256.txt
+  generation:
+    num_return_sequences: 1
+    do_sample: true
+    temperature: 1.0
+    top_p: 1.0
+    top_k: -1
+    max_new_tokens: 256
+    seed: 42
+    stop: tokenizer_eos_only

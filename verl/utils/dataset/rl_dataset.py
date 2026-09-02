@@ -345,7 +345,20 @@ class RLHFDataset(Dataset):
 
     def __getitem__(self, item):
         """For rollout, apply_chat_template has been moved to AgentLoop, so we only return raw_prompt here."""
-        row_dict: dict = self.dataframe[item]
+        sample_weight = None
+        is_padding = None
+        dataset_index = item
+        from verl.utils.dataset.full_coverage_sampler import SampleReference
+
+        if isinstance(item, SampleReference):
+            dataset_index = item.index
+            sample_weight = item.sample_weight
+            is_padding = item.is_padding
+        row_dict: dict = self.dataframe[dataset_index]
+        if sample_weight is not None:
+            row_dict["sample_weight"] = torch.tensor(sample_weight, dtype=torch.float32)
+            row_dict["is_padding"] = torch.tensor(is_padding, dtype=torch.bool)
+            row_dict["dataset_index"] = torch.tensor(dataset_index, dtype=torch.int64)
         row_dict["raw_prompt"] = self._build_messages(row_dict)
 
         # TODO(wuxibin): We still need a dummy tensor to make sure DataProto.batch is not empty.

@@ -175,17 +175,37 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
     batch_size = int(data["train_batch_size"])
     total_epochs = int(training.get("total_epochs", 1))
     require_full_epoch = bool(training.get("require_full_epoch", False))
+    coverage = data.get("full_coverage_padding") or {}
+    coverage_enabled = bool(coverage.get("enabled", False))
+    expected_padding_rows = int(training.get("padding_rows", 0))
+    padded_samples = int(training.get("padded_samples", expected_samples))
     checks = {
+        "config_not_explicitly_blocked": not str(config.get("status", "")).startswith("blocked"),
         "prefix_source_online": experiment["prefix_source"] == "online",
         "seed_is_42": int(experiment["seed"]) == 42,
         "two_gpus": int(resources["gpus_per_node"]) == 2,
         "global_batch_is_8": batch_size == 8,
         "rollout_n_is_1": int(rollout["n"]) == 1,
         "positive_optimizer_steps": total_steps > 0,
-        "sample_budget_matches_steps": expected_samples == total_steps * batch_size,
+        "sample_budget_matches_steps": (
+            padded_samples == total_steps * batch_size
+            and expected_samples + expected_padding_rows == padded_samples
+            if coverage_enabled
+            else expected_samples == total_steps * batch_size
+        ),
         "sample_budget_within_dataset": row_count is None or expected_samples <= row_count * total_epochs,
         "full_epoch_contract": not require_full_epoch
         or (row_count is not None and expected_samples == row_count * total_epochs),
+        "full_coverage_contract": (
+            not coverage_enabled
+            or (
+                int(coverage.get("multiple", -1)) == batch_size
+                and int(coverage.get("expected_unique_samples", -1)) == expected_samples
+                and int(coverage.get("expected_padding_rows", -1)) == expected_padding_rows
+                and expected_padding_rows == (-expected_samples) % batch_size
+                and bool(coverage.get("receipt_path"))
+            )
+        ),
         "prompt_limit_is_8192": int(data["max_prompt_length"]) == 8192,
         "response_limit_is_256": int(data["max_response_length"]) == 256,
         "truncation_is_error": data["truncation"] == "error",
@@ -233,6 +253,9 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
         "selection_manifest": str(selection_manifest_path) if selection_manifest_path else None,
         "training_contract": {
             "expected_samples": expected_samples,
+            "padded_samples": padded_samples,
+            "padding_rows": expected_padding_rows,
+            "full_coverage_padding": coverage_enabled,
             "total_optimizer_steps": total_steps,
             "total_epochs": total_epochs,
             "require_full_epoch": require_full_epoch,

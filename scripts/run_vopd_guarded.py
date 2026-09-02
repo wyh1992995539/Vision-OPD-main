@@ -196,6 +196,13 @@ def main() -> int:
         print("No GPU training started.")
         return 0 if result["status"] == "PASS" else 1
 
+    print(
+        "E-D10-001 is historical-only and was superseded by the 6K amendment; "
+        "use scripts/run_vopd_6241_guarded.py after the Day 11 gate.",
+        file=sys.stderr,
+    )
+    return 42
+
     if args.current_autodl_cost_cny is None or not args.billing_observed_at_utc:
         parser.error("--run requires --current-autodl-cost-cny and --billing-observed-at-utc")
     result = live_launch_preflight(

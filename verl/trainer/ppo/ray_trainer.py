@@ -1371,11 +1371,14 @@ class RayPPOTrainer:
                     teacher_position_ids[i, :, : position_ids.shape[-1]] = position_ids.to(device)
 
             teacher_present_mask = torch.tensor(teacher_present_mask_list, dtype=torch.float32, device=device)
-            grpo_fallback_count = float(batch_size - teacher_present_mask.sum().item())
+            sample_weight = batch.batch.get("sample_weight", torch.ones_like(teacher_present_mask)).to(device)
+            active_count = sample_weight.sum().clamp(min=1.0)
+            active_teacher_fraction = (teacher_present_mask * sample_weight).sum() / active_count
+            grpo_fallback_count = float(((1.0 - teacher_present_mask) * sample_weight).sum().item())
             metrics = {
-                "self_distillation/teacher_always_on_fraction": teacher_present_mask.mean().item(),
-                "self_distillation/teacher_image_swap_fraction": teacher_present_mask.mean().item(),
-                "self_distillation/policy_fallback_fraction": (1.0 - teacher_present_mask.mean()).item(),
+                "self_distillation/teacher_always_on_fraction": active_teacher_fraction.item(),
+                "self_distillation/teacher_image_swap_fraction": active_teacher_fraction.item(),
+                "self_distillation/policy_fallback_fraction": (1.0 - active_teacher_fraction).item(),
                 "self_distillation/grpo_fallback_count": grpo_fallback_count,
             }
             return DataProto.from_dict(
@@ -2341,6 +2344,15 @@ class RayPPOTrainer:
                 batch: DataProto = DataProto.from_single_dict(batch_dict)
                 batch.meta_info["temperature"] = self.config.actor_rollout_ref.rollout.temperature
 
+                coverage = self.config.data.get("full_coverage_padding", None)
+                coverage_extra_infos = None
+                coverage_sample_weights = None
+                if coverage is not None and coverage.get("enabled", False):
+                    if "sample_weight" not in batch.batch:
+                        raise ValueError("full coverage batch is missing sample_weight")
+                    coverage_extra_infos = list(batch.non_tensor_batch["extra_info"])
+                    coverage_sample_weights = batch.batch["sample_weight"].detach().cpu()
+
                 # add uid to batch
                 batch.non_tensor_batch["uid"] = np.array(
                     [str(uuid.uuid4()) for _ in range(len(batch.batch))], dtype=object
@@ -2407,6 +2419,16 @@ class RayPPOTrainer:
 
                     if "response_mask" not in batch.batch.keys():
                         batch.batch["response_mask"] = compute_response_mask(batch)
+                    if "sample_weight" in batch.batch:
+                        sample_weight = batch.batch["sample_weight"].to(
+                            device=batch.batch["response_mask"].device,
+                            dtype=batch.batch["response_mask"].dtype,
+                        )
+                        if not torch.all((sample_weight == 0) | (sample_weight == 1)):
+                            raise ValueError("sample_weight must be exactly 0 or 1")
+                        batch.batch["response_mask"] = (
+                            batch.batch["response_mask"] * sample_weight.unsqueeze(-1)
+                        )
                     # Balance the number of valid tokens across DP ranks.
                     # NOTE: This usually changes the order of data in the `batch`,
                     # which won't affect the advantage calculation (since it's based on uid),
@@ -2415,7 +2437,16 @@ class RayPPOTrainer:
                         self._balance_batch(batch, metrics=metrics)
 
                     # compute global_valid tokens
-                    batch.meta_info["global_token_num"] = torch.sum(batch.batch["attention_mask"], dim=-1).tolist()
+                    global_token_num = torch.sum(batch.batch["attention_mask"], dim=-1)
+                    if "sample_weight" in batch.batch:
+                        global_token_num = global_token_num * batch.batch["sample_weight"].to(global_token_num.device)
+                    batch.meta_info["global_token_num"] = global_token_num.tolist()
+                    # The legacy FSDP VOPD worker needs the global *response* token
+                    # denominator.  Keep this separate from the full-sequence token
+                    # list above, which is used for FLOP accounting.
+                    batch.meta_info["global_response_token_num"] = torch.sum(
+                        batch.batch["response_mask"], dim=-1
+                    ).tolist()
                     # get images_seqlens
                     images_seqlens_all = []
                     for multi_modal_input in batch.non_tensor_batch["multi_modal_inputs"]:
@@ -2586,6 +2617,26 @@ class RayPPOTrainer:
                             actor_output = self._update_actor(batch)
                         actor_output_metrics = reduce_metrics(actor_output.meta_info["metrics"])
                         metrics.update(actor_output_metrics)
+
+                    if coverage_extra_infos is not None:
+                        from verl.utils.dataset.full_coverage_receipt import update_coverage_receipt
+
+                        receipt = update_coverage_receipt(
+                            coverage.receipt_path,
+                            extra_infos=coverage_extra_infos,
+                            sample_weights=coverage_sample_weights,
+                            global_step=self.global_steps,
+                            expected_unique_samples=int(coverage.expected_unique_samples),
+                            expected_padding_rows=int(coverage.expected_padding_rows),
+                            final_step=self.global_steps >= self.total_training_steps,
+                        )
+                        metrics.update(
+                            {
+                                "coverage/unique_source_seen": receipt["unique_source_seen"],
+                                "coverage/effective_train_samples": receipt["effective_train_samples"],
+                                "coverage/padding_rows": receipt["padding_rows"],
+                            }
+                        )
 
                     # Log rollout generations if enabled
                     rollout_data_dir = self.config.trainer.get("rollout_data_dir", None)

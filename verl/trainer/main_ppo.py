@@ -449,7 +449,21 @@ def create_rl_sampler(data_config, dataset):
     # torch.utils.data.RandomSampler could not recover properly
     from torchdata.stateful_dataloader.sampler import RandomSampler
 
-    if data_config.sampler is not None and data_config.sampler.get("class_path", None) is not None:
+    coverage = data_config.get("full_coverage_padding", None)
+    if coverage is not None and coverage.get("enabled", False):
+        from verl.utils.dataset.full_coverage_sampler import FullCoveragePaddingSampler
+
+        multiple = coverage.get("multiple") or data_config.train_batch_size
+        if int(multiple) != int(data_config.train_batch_size):
+            raise ValueError("full_coverage_padding.multiple must equal train_batch_size")
+        sampler = FullCoveragePaddingSampler(
+            data_source=dataset,
+            multiple=int(multiple),
+            shuffle=bool(data_config.shuffle),
+            seed=int(data_config.get("seed") or 0),
+            padding_source_index=int(coverage.get("padding_source_index", 0)),
+        )
+    elif data_config.sampler is not None and data_config.sampler.get("class_path", None) is not None:
         curriculum_class = load_extern_object(
             data_config.sampler.class_path,
             data_config.sampler.class_name,

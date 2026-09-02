@@ -66,10 +66,16 @@ def _compute_response_info(batch: DataProto) -> dict[str, Any]:
     response_length = batch.batch["responses"].shape[-1]
 
     prompt_mask = batch.batch["attention_mask"][:, :-response_length]
-    response_mask = batch.batch["attention_mask"][:, -response_length:]
+    response_mask = batch.batch.get(
+        "response_mask", batch.batch["attention_mask"][:, -response_length:]
+    )
 
     prompt_length = prompt_mask.sum(-1).float()
     response_length = response_mask.sum(-1).float()  # (batch_size,)
+    if "sample_weight" in batch.batch:
+        sample_weight = batch.batch["sample_weight"].to(prompt_length.device)
+        prompt_length = prompt_length * sample_weight
+        response_length = response_length * sample_weight
 
     return dict(
         response_mask=response_mask,
@@ -120,9 +126,18 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
     response_info = _compute_response_info(batch)
     prompt_length = response_info["prompt_length"]
     response_length = response_info["response_length"]
+    active_mask = (
+        batch.batch["sample_weight"] > 0
+        if "sample_weight" in batch.batch
+        else torch.ones_like(response_length, dtype=torch.bool)
+    )
 
-    aborted_mask = (response_length == 0).bool()
-    non_aborted_mask = ~aborted_mask
+    aborted_mask = (response_length == 0).bool() & active_mask
+    non_aborted_mask = (response_length > 0).bool() & active_mask
+    active_prompt_length = prompt_length[active_mask]
+    active_response_length = response_length[active_mask]
+    if active_response_length.numel() == 0:
+        raise ValueError("Batch contains no effective samples")
 
     if sequence_score is not None:
         non_aborted_sequence_score = sequence_score[non_aborted_mask]
@@ -147,7 +162,7 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
 
     # Aborted samples and non-aborted response length statistics
     # response_length_non_aborted/*: statistics computed on non-aborted samples only
-    aborted_ratio = torch.mean(aborted_mask.float()).detach().item()
+    aborted_ratio = (aborted_mask.sum() / active_mask.sum().clamp(min=1)).detach().item()
 
     non_aborted_response_length = response_length[non_aborted_mask]
     if non_aborted_response_length.numel() > 0:
@@ -162,10 +177,10 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
 
     metrics = {
         # response length
-        "response_length/mean": torch.mean(response_length).detach().item(),
-        "response_length/max": torch.max(response_length).detach().item(),
-        "response_length/min": torch.min(response_length).detach().item(),
-        "response_length/clip_ratio": torch.mean(torch.eq(response_length, max_response_length).float())
+        "response_length/mean": torch.mean(active_response_length).detach().item(),
+        "response_length/max": torch.max(active_response_length).detach().item(),
+        "response_length/min": torch.min(active_response_length).detach().item(),
+        "response_length/clip_ratio": torch.mean(torch.eq(active_response_length, max_response_length).float())
         .detach()
         .item(),
         # response length (non-aborted only)
@@ -178,10 +193,10 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
         # Fraction of samples whose response length is zero
         "response/aborted_ratio": aborted_ratio,
         # prompt length
-        "prompt_length/mean": torch.mean(prompt_length).detach().item(),
-        "prompt_length/max": torch.max(prompt_length).detach().item(),
-        "prompt_length/min": torch.min(prompt_length).detach().item(),
-        "prompt_length/clip_ratio": torch.mean(torch.eq(prompt_length, max_prompt_length).float()).detach().item(),
+        "prompt_length/mean": torch.mean(active_prompt_length).detach().item(),
+        "prompt_length/max": torch.max(active_prompt_length).detach().item(),
+        "prompt_length/min": torch.min(active_prompt_length).detach().item(),
+        "prompt_length/clip_ratio": torch.mean(torch.eq(active_prompt_length, max_prompt_length).float()).detach().item(),
     }
 
     if sequence_score is not None:

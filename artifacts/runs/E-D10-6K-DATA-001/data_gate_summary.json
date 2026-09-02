@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "source_path": "/root/autodl-tmp/data/vision_opd_6241/raw/train.jsonl",
+    "source_sha256": "8ad2fb81da0f6fba1766545dc5f84cc2250e48704738757461b2d75aa31821df",
+    "manifest_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241",
+    "candidate_sha256": "24b842cf1323f332ee74a87bbf2bfdcaac3afebc14a92e3362831ee22bd82c43",
+    "historical_reconciliation": {
+      "historical_rows": 1216,
+      "historical_unique_ids": 1216,
+      "candidate_unique_ids": 6241,
+      "missing_historical_ids": 0
+    }
+  },
+  "schema_version": 1,
+  "stage": "metadata",
+  "status": "METADATA_PASS",
+  "overall_data_gate_status": "INCOMPLETE",
+  "disk_after": {
+    "observed_at_utc": "2026-09-02T16:08:30.988384+00:00",
+    "scope": "after_current_invocation",
+    "git_status_short": [
+      " M .gitignore",
+      " M docs/project_freeze.md",
+      " M docs/vision_opd_21_day_plan.md",
+      " M scripts/audit_vopd_prompt_lengths.py",
+      " M scripts/build_project_parquet.py",
+      " M scripts/extract_project_images.py",
+      " M scripts/monitor_vopd_training.py",
+      " M scripts/prepare_project_subset.py",
+      " M scripts/run_vopd_2gpu.sh",
+      " M scripts/run_vopd_guarded.py",
+      " M scripts/validate_project_data.py",
+      " M scripts/vopd_training_preflight.py",
+      " M verl/trainer/config/data/legacy_data.yaml",
+      " M verl/trainer/main_ppo.py",
+      " M verl/trainer/ppo/metric_utils.py",
+      " M verl/trainer/ppo/ray_trainer.py",
+      " M verl/utils/dataset/rl_dataset.py",
+      "?? artifacts/data/",
+      "?? artifacts/runs/E-D10-6K-DATA-001/",
+      "?? artifacts/runs/E-D12-6K-VOPD-001/",
+      "?? configs/cached_prefix_6241.yaml",
+      "?? configs/project_6241.yaml",
+      "?? configs/vopd_6241.yaml",
+      "?? configs/vopd_6241_abort_policy.yaml",
+      "?? docs/amendments/",
+      "?? docs/day10_6241_environment_handoff.md",
+      "?? scripts/activate_vision_opd_6241.sh",
+      "?? scripts/prepare_vision_opd_6241.py",
+      "?? scripts/run_vopd_6241_guarded.py",
+      "?? tests/test_full_coverage_sampler.py",
+      "?? tests/test_project_6241_config.py",
+      "?? verl/utils/dataset/full_coverage_receipt.py",
+      "?? verl/utils/dataset/full_coverage_sampler.py"
+    ],
+    "path": "/root/autodl-tmp",
+    "total_bytes": 322122547200,
+    "used_bytes": 92089065472,
+    "free_bytes": 230033481728,
+    "free_gib": 214.2353744506836,
+    "system_disk_free_bytes": 6152835072,
+    "dataset_root_bytes": 4574470,
+    "cache_environment": {
+      "HF_HOME": "/root/autodl-tmp/hf_cache",
+      "HUGGINGFACE_HUB_CACHE": "/root/autodl-tmp/hf_cache/hub",
+      "HF_DATASETS_CACHE": "/root/autodl-tmp/hf_cache/datasets",
+      "TORCH_HOME": "/root/autodl-tmp/torch_cache",
+      "PIP_CACHE_DIR": "/root/autodl-tmp/pip_cache",
+      "XDG_CACHE_HOME": "/root/autodl-tmp/xdg_cache",
+      "TMPDIR": "/root/autodl-tmp/tmp"
+    }
+  }
+}

@@ -858,6 +858,25 @@ class DataParallelPPOActor(BasePPOActor):
         pad_token_id = data.meta_info.get("pad_token_id", 0)
         loss_mode = self.config.policy_loss.get("loss_mode", "vanilla")
 
+        # Dispatch shards the batch across FSDP ranks but copies meta_info to each
+        # rank.  Use the global effective-response counts so zero-weight padding
+        # produces the same gradient as the unpadded partial batch.
+        self.config.global_batch_info.clear()
+        global_response_tokens = data.meta_info.get("global_response_token_num")
+        if global_response_tokens is not None:
+            batch_num_tokens = int(sum(global_response_tokens))
+            if batch_num_tokens <= 0:
+                raise ValueError("global effective response token count must be positive")
+            dp_size = torch.distributed.get_world_size() // self.ulysses_sequence_parallel_size
+            self.config.global_batch_info.update(
+                {
+                    "dp_size": dp_size,
+                    "batch_num_tokens": batch_num_tokens,
+                    "global_batch_size": sum(value > 0 for value in global_response_tokens),
+                    "loss_scale_factor": self.config.loss_scale_factor,
+                }
+            )
+
         self_distillation_enabled = loss_mode == "vopd"
         self_distillation_cfg = getattr(self.config, "self_distillation", None)
         if self_distillation_enabled:
@@ -1102,6 +1121,7 @@ class DataParallelPPOActor(BasePPOActor):
                             self_distillation_mask=self_distillation_mask,
                             loss_agg_mode=loss_agg_mode,
                             rollout_is_weights=rollout_is_weights,
+                            dp_size=self.config.global_batch_info.get("dp_size", 1),
                             batch_num_tokens=self.config.global_batch_info.get("batch_num_tokens"),
                             global_batch_size=self.config.global_batch_info.get("global_batch_size"),
                             loss_scale_factor=self.config.global_batch_info.get("loss_scale_factor"),
@@ -1167,7 +1187,12 @@ class DataParallelPPOActor(BasePPOActor):
 
                     policy_loss = pg_loss
                     if calculate_entropy and entropy is not None:
-                        entropy_agg = agg_loss(loss_mat=entropy, loss_mask=response_mask, loss_agg_mode=loss_agg_mode)
+                        entropy_agg = agg_loss(
+                            loss_mat=entropy,
+                            loss_mask=response_mask,
+                            loss_agg_mode=loss_agg_mode,
+                            **self.config.global_batch_info,
+                        )
                         micro_batch_metrics["actor/entropy"] = entropy_agg.detach().item()
                         if entropy_coeff != 0:
                             policy_loss -= entropy_agg * entropy_coeff
@@ -1178,7 +1203,12 @@ class DataParallelPPOActor(BasePPOActor):
                         kld = kl_penalty(
                             logprob=log_prob, ref_logprob=ref_log_prob, kl_penalty=self.config.kl_loss_type
                         )
-                        kl_loss = agg_loss(loss_mat=kld, loss_mask=response_mask, loss_agg_mode=loss_agg_mode)
+                        kl_loss = agg_loss(
+                            loss_mat=kld,
+                            loss_mask=response_mask,
+                            loss_agg_mode=loss_agg_mode,
+                            **self.config.global_batch_info,
+                        )
 
                         policy_loss = policy_loss + kl_loss * self.config.kl_loss_coef
                         metrics["actor/kl_loss"] += kl_loss.detach().item() * loss_scale_factor

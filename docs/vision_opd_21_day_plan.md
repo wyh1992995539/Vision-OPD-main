@@ -590,21 +590,21 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 1. 在任何下载前记录 `git status --short`、`df -h / /root/autodl-tmp`、缓存目录和当前数据/checkpoint 占用；确认数据盘总量约 300GB、预计可用约 214GB。
 2. 将 `HF_HOME`、`TORCH_HOME`、`PIP_CACHE_DIR`、`XDG_CACHE_HOME`、`TMPDIR` 全部指向 `/root/autodl-tmp`，禁止把全量缓存、临时解压或编译文件写入系统盘。
 3. 新建 scope amendment 和 `configs/project_6241.yaml`；保留 `configs/project_1024.yaml`、`configs/vopd_1024.yaml`、Day 9 哈希和全部历史证据。
-4. 复用冻结的 `candidate_manifest.jsonl`、source revision、原始元数据 SHA256 和 stable sample ID；将 6,241 条全部写入 train，不生成现行 eval/test/retention/holdout。
-5. 将既有 eval-128、retention-64 标记为 `historical_only=true`：保留旧文件与旧结果，但这些记录同样进入 train-6241，后续不得用旧 split 评价新 checkpoint。
+4. 仓库当前缺少 Day 2 所述全量 `candidate_manifest.jsonl`，不得假定其可直接复用。先从同一 source revision 重新取得原始 `train.jsonl`，同时通过 6,241 行、4,566,587 bytes 与冻结 SHA256 三重校验，再用原 stable sample ID 算法重建 candidate/train manifest；历史 1,216 个 sample ID 必须全部可在新 candidate 集合中对账。将 6,241 条全部写入 train，不生成现行 eval/test/retention/holdout。
+5. 在新配置/迁移登记中将既有 eval-128、retention-64 标记为 `historical_only=true`；禁止改写旧 JSONL/Parquet 或破坏旧哈希。这些记录同样进入 train-6241，后续不得用旧 split 评价新 checkpoint。
 6. 下载并解压全量 Student images 和 Teacher crops。自动检查全部 6,241 条训练记录：路径安全、文件存在、零字节、Pillow 完整解码、尺寸、bbox、full/crop 配对和 sample ID 唯一。
-7. 不重新做完整 30 条人工 QA；只人工查看自动失败项、Processor 失败项和后续长度最长的 5～10 条。报告中只能写“全量自动 QA + 异常/长尾人工复核”。
+7. 不重新做完整 30 条人工 QA。Day 10 只人工查看图片/路径/配对自动失败项，并从新增 5,025 条中按尺寸与 bbox 面积分层确定性抽取约 10 条正常记录，排查系统性语义错配；Processor 失败项和长度最长的 5～10 条移到 Day 11 长度审计完成后复核。报告按实际阶段写“全量自动图片 QA + 失败项/新增样本分层复核”或“Processor 异常/长尾复核”。
 8. 使用项目当前 Schema 在服务器原子生成 `/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet`；不得直接使用缺少 `extra_info.provenance.sample_id` 的官方简化 Parquet。
 9. 保存 train-6241 manifest、Parquet SHA256、行数、列、Linux 路径和一次完整 load Gate。
-10. 数据验证完成后转移可恢复的下载压缩包，或经确认后删除；训练前不得让压缩包与 checkpoint 峰值长期共存。
+10. 数据验证完成后优先把下载压缩包转移到可恢复归档位置；只有获得明确确认后才可删除。训练前不得让压缩包与 checkpoint 峰值长期共存。
 
 产物：
 
 - `configs/project_6241.yaml`
-- `artifacts/data/train_6241.jsonl`
-- `artifacts/data/vision_opd_6241_manifest.json`
-- `artifacts/data/vision_opd_6241_data_qa.json`
-- `artifacts/data/vision_opd_6241_sha256.txt`
+- `artifacts/data/vision_opd_6241/train_6241.jsonl`
+- `artifacts/data/vision_opd_6241/vision_opd_6241_manifest.json`
+- `artifacts/data/vision_opd_6241/vision_opd_6241_data_qa.json`
+- `artifacts/data/vision_opd_6241/vision_opd_6241_sha256.txt`
 - `/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet`
 - `artifacts/runs/E-D10-6K-DATA-001/`
 
@@ -623,7 +623,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 1. 使用训练时相同的 Processor、Chat Template 和图像预处理，对 train-6241 统计 text/image/total prompt Token 的 P50/P95/P99/max、Processor error 和 over-8192 数量。
 2. `truncation=error` 保持不变；若存在 over-8192 或 Processor 失败，不得删除或换成留出样本。修复数据/路径/Processor 或事前提高长度上限，直到 6,241/6,241 可处理，并更新全部哈希。
-3. 对 train-6241 与 ZoomBench、MMStar、V* Bench 重新执行文件 SHA256、标准化问题文本和 64-bit pHash overlap；旧 train-1024 overlap 只能作历史参考。
+3. 对 train-6241 与 ZoomBench、MMStar、V* Bench 重新执行文件 SHA256、标准化问题文本和 64-bit pHash overlap；旧 train-1024 overlap 只能作历史参考。V* R3 主结果仍固定官方 191 分母；根据新 overlap 报告产生的分层/去重统计仅为同一批预测上的次级诊断，不替换 R3 主结果。
 4. 实现并测试全量覆盖 sampler：前 780 批各 8 条真实记录，最后一批为 1 条真实尾样本 + 7 条确定性补齐行；补齐行 `sample_weight=0`，且权重贯穿 rollout、JSD/GRPO loss、metric 和 coverage receipt。禁止只把 `drop_last=False` 当成完成，必须证明两卡和 loss 路径接受尾批合同。
 5. 保存 `unique_source_seen=6241`、`effective_train_samples=6241`、`padding_rows=7`、`dropped_rows=0`；单测覆盖打乱前后、恢复点后和两卡分片，不允许补齐行产生梯度或污染均值。
 6. 使用冻结原始 Qwen3.5-4B Base 和 Day 4 同一生成协议，为 6,241 条训练样本生成 Cached Prefix；保留所有达到 256-token 上限的记录，不重采样。
@@ -752,7 +752,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 - 两个模型均为 2536/2536，Judge/评分完整，`validation.json` 为 PASS。
 - Base/Vision-OPD/Cached 使用同一 R3 数据、输入、生成、解析、Judge 和 denominator。
-- V* 191 与去重诊断、train-6241 overlap、invalid/truncated/API/Judge failure 均单独报告。
+- V* 主结果固定官方 191 分母；overlap 分层/去重诊断使用同一批预测并作为次级结果单列，train-6241 overlap、invalid/truncated/API/Judge failure 均单独报告。
 
 ### Day 16：6K 主项目 Bad Case、报告与投递验收
 

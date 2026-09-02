@@ -19,6 +19,8 @@ import time
 from pathlib import Path, PurePosixPath
 from typing import BinaryIO, Iterable
 
+import yaml
+
 
 EXPECTED_SPLIT_SIZES = {
     "train_1024.jsonl": 1024,
@@ -66,6 +68,11 @@ def parse_args() -> argparse.Namespace:
         description="Extract only images referenced by the frozen 1024/128/64 manifests."
     )
     parser.add_argument(
+        "--config",
+        type=Path,
+        help="Project YAML whose active split manifests and sizes should be used.",
+    )
+    parser.add_argument(
         "--raw-dir",
         type=Path,
         required=True,
@@ -102,13 +109,29 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_targets(manifest_dir: Path) -> tuple[set[str], set[str], int]:
+def configured_splits(config_path: Path) -> dict[str, int]:
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    data = config["data"]
+    result: dict[str, int] = {}
+    for name, split in data["splits"].items():
+        if bool(split.get("historical_only", False)):
+            continue
+        manifest = Path(data["manifests"][f"{name}_jsonl"]).name
+        result[manifest] = int(split["size"])
+    if not result:
+        raise ValueError("Project config contains no active data splits")
+    return result
+
+
+def load_targets(
+    manifest_dir: Path, expected_split_sizes: dict[str, int] | None = None
+) -> tuple[set[str], set[str], int]:
     full_names: set[str] = set()
     crop_names: set[str] = set()
     sample_ids: set[str] = set()
     total = 0
 
-    for filename, expected_size in EXPECTED_SPLIT_SIZES.items():
+    for filename, expected_size in (expected_split_sizes or EXPECTED_SPLIT_SIZES).items():
         path = manifest_dir / filename
         if not path.is_file():
             raise FileNotFoundError(f"Missing manifest: {path}")
@@ -281,7 +304,8 @@ def main() -> int:
     manifest_dir = args.manifest_dir.resolve()
     report_path = args.report.resolve()
 
-    full_names, crop_names, total = load_targets(manifest_dir)
+    expected_splits = configured_splits(args.config.resolve()) if args.config else None
+    full_names, crop_names, total = load_targets(manifest_dir, expected_splits)
     student_parts, teacher_archive = require_archives(raw_dir)
 
     print(f"Frozen samples: {total}")

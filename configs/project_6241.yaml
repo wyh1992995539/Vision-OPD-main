@@ -1,0 +1,127 @@
+schema_version: 1
+
+project:
+  name: vision-opd-qwen35-4b-6241
+  amendment_date: "2026-09-02"
+  scope_amendment: docs/amendments/full_train_6241_scope_amendment.md
+  plan: docs/vision_opd_21_day_plan.md
+  seed: 42
+  status: data_gate_not_completed
+
+reproducibility:
+  master_seed: 42
+  data_split_seed: 42
+  dataloader_seed: 42
+  training_seed: 42
+  rollout_seed: 42
+
+model:
+  name: Qwen3.5-4B
+  path: /root/autodl-tmp/models/Qwen3.5-4B
+  starts_from: frozen_base
+  forbid_serial_inheritance: true
+
+data:
+  source: yuanqianhao/Vision-OPD-6K
+  source_revision: eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4
+  source_metadata:
+    file: train.jsonl
+    local_path: /root/autodl-tmp/data/vision_opd_6241/raw/train.jsonl
+    sha256: 8ad2fb81da0f6fba1766545dc5f84cc2250e48704738757461b2d75aa31821df
+    record_count: 6241
+    byte_size: 4566587
+  source_archives:
+    images/images.tar.gz00:
+      byte_size: 5368709120
+      sha256: e72239bb03d393886e84aa2758eabcad387b03e86a7d7ce7238178f5832f52d0
+    images/images.tar.gz01:
+      byte_size: 5368709120
+      sha256: 3e0872e7ae37cc4b94019ec0f23ae274ec5c1f7dbebfa087e6219e0da9301979
+    images/images.tar.gz02:
+      byte_size: 5368709120
+      sha256: b0bd79677a7439e87745f39716da57b85796dc241974032831ef67772f96be1a
+    images/images.tar.gz03:
+      byte_size: 5368709120
+      sha256: 4b230e8f814b22117126064e8eb6d4d7ba6f639860c6982a387ce8bb814e99ee
+    images/images.tar.gz04:
+      byte_size: 5368709120
+      sha256: d7872e12c1ab49ca4fd0773f1e6aa621a7c3ef8355ca7e72fc57e8ce6292cfc6
+    images/images.tar.gz05:
+      byte_size: 1496961022
+      sha256: 44844e97bc43ee0bf8546ae50ca5b709decb22c144bfda410f3ddfe8c546060a
+    teacher_images/teacher_images.tar.gz:
+      byte_size: 2942713517
+      sha256: f2fb6541e8e1ea4e33114aff9d511c5e8ce764c0972798151c8d5b1b5b91883e
+  split_once: true
+  grouping_rule: original_image_or_question_group
+  require_stable_sample_id: true
+  preserve_original_source_id: true
+  active_split_count: 1
+  splits:
+    train:
+      size: 6241
+      usage:
+        - vision_opd
+        - cached_prefix
+        - grpo_verifiable_subset
+  historical_splits:
+    eval_128:
+      historical_only: true
+      path: /root/autodl-tmp/data/vision_opd_1024/eval_128.parquet
+      forbidden_for_new_checkpoint_evaluation: true
+    retention_64:
+      historical_only: true
+      path: /root/autodl-tmp/data/vision_opd_1024/retention_64.parquet
+      forbidden_for_new_checkpoint_evaluation: true
+  required_fields:
+    - sample_id
+    - source_id
+    - split
+    - question
+    - answer
+    - question_type
+    - full_image_path
+    - crop_image_path
+    - bbox
+  manifests:
+    candidate: artifacts/data/vision_opd_6241/candidate_manifest.jsonl
+    split: artifacts/data/vision_opd_6241/vision_opd_6241_manifest.json
+    candidate_statistics: artifacts/data/vision_opd_6241/candidate_stats.json
+    train_jsonl: artifacts/data/vision_opd_6241/train_6241.jsonl
+  frozen_outputs:
+    train: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+    validation: artifacts/data/vision_opd_6241/vision_opd_6241_data_qa.json
+    statistics: artifacts/data/vision_opd_6241/vision_opd_6241_stats.json
+    sha256: artifacts/data/vision_opd_6241/vision_opd_6241_sha256.txt
+
+storage:
+  data_root: /root/autodl-tmp
+  dataset_root: /root/autodl-tmp/data/vision_opd_6241
+  raw_download_root: /root/autodl-tmp/data/vision_opd_6241/raw
+  minimum_free_gib_after_extraction: 120
+  full_download_peak_plan:
+    # Historical 1,216-pair extraction projects to ~31.34 GB for 6,241 pairs;
+    # reserve 40 GiB to absorb distribution shift and filesystem overhead.
+    conservative_extracted_bytes: 42949672960
+    safety_free_bytes_after_extraction: 128849018880
+  forbid_system_disk_large_artifacts: true
+  cache_paths:
+    hf_home: /root/autodl-tmp/hf_cache
+    torch_home: /root/autodl-tmp/torch_cache
+    pip_cache_dir: /root/autodl-tmp/pip_cache
+    xdg_cache_home: /root/autodl-tmp/xdg_cache
+    tmpdir: /root/autodl-tmp/tmp
+  archive_cleanup_requires_confirmation: true
+
+training_contract:
+  active_train_rows: 6241
+  active_eval_rows: 0
+  active_test_rows: 0
+  active_retention_rows: 0
+  global_batch_size: 8
+  optimizer_steps: 781
+  effective_train_samples: 6241
+  padding_rows: 7
+  dropped_rows: 0
+  padding_sample_weight: 0
+  require_full_coverage_sampler: true

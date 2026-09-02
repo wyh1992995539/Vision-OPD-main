@@ -248,6 +248,10 @@ def select_one_record_per_group(records: list[dict[str, Any]]) -> list[dict[str,
 def assign_splits(
     representatives: list[dict[str, Any]], seed: int, split_sizes: dict[str, int]
 ) -> dict[str, list[dict[str, Any]]]:
+    if not split_sizes:
+        raise ValueError("At least one active split must be configured")
+    if any(size <= 0 for size in split_sizes.values()):
+        raise ValueError("Active split sizes must be positive")
     total_required = sum(split_sizes.values())
     if len(representatives) < total_required:
         raise ValueError(
@@ -266,8 +270,7 @@ def assign_splits(
 
     assigned: dict[str, list[dict[str, Any]]] = {}
     cursor = 0
-    for split_name in ("train", "eval", "retention"):
-        size = split_sizes[split_name]
+    for split_name, size in split_sizes.items():
         split_records = ranked[cursor : cursor + size]
         for record in split_records:
             record["split"] = split_name
@@ -349,28 +352,32 @@ def resolve_config_path(project_root: Path, value: str) -> Path:
 def output_paths(
     config: dict[str, Any], project_root: Path, output_dir: str | None
 ) -> dict[str, Path]:
+    manifests = config["data"]["manifests"]
+    split_names = tuple(config["data"]["splits"])
+    split_keys = {name: f"{name}_jsonl" for name in split_names}
     if output_dir:
         root = Path(output_dir).resolve()
-        return {
-            "candidate": root / "candidate_manifest.jsonl",
-            "split": root / "split_manifest.json",
-            "statistics": root / "candidate_stats.json",
-            "train": root / "train_1024.jsonl",
-            "eval": root / "eval_128.jsonl",
-            "retention": root / "retention_64.jsonl",
+        paths = {
+            "candidate": root / Path(manifests["candidate"]).name,
+            "split": root / Path(manifests["split"]).name,
+            "statistics": root / Path(manifests["candidate_statistics"]).name,
         }
+        for split_name, key in split_keys.items():
+            paths[split_name] = root / Path(manifests[key]).name
+        return paths
 
-    manifests = config["data"]["manifests"]
-    return {
+    paths = {
         "candidate": resolve_config_path(project_root, manifests["candidate"]),
         "split": resolve_config_path(project_root, manifests["split"]),
         "statistics": resolve_config_path(
             project_root, manifests["candidate_statistics"]
         ),
-        "train": resolve_config_path(project_root, manifests["train_jsonl"]),
-        "eval": resolve_config_path(project_root, manifests["eval_jsonl"]),
-        "retention": resolve_config_path(project_root, manifests["retention_jsonl"]),
     }
+    for split_name, key in split_keys.items():
+        if key not in manifests:
+            raise KeyError(f"data.manifests.{key} is required for split {split_name!r}")
+        paths[split_name] = resolve_config_path(project_root, manifests[key])
+    return paths
 
 
 def build_statistics(
@@ -445,8 +452,9 @@ def main() -> None:
     mark_exact_duplicates(records)
     representatives = select_one_record_per_group(records)
     split_sizes = {
-        name: int(data_config["splits"][name]["size"])
-        for name in ("train", "eval", "retention")
+        name: int(split_config["size"])
+        for name, split_config in data_config["splits"].items()
+        if not bool(split_config.get("historical_only", False))
     }
     seed = int(config["reproducibility"]["data_split_seed"])
     assigned = assign_splits(representatives, seed, split_sizes)
@@ -478,7 +486,7 @@ def main() -> None:
         paths["statistics"],
         json.dumps(statistics, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
     )
-    for split_name in ("train", "eval", "retention"):
+    for split_name in assigned:
         atomic_write_text(
             paths[split_name],
             jsonl_content(selected_record(record) for record in assigned[split_name]),
@@ -489,7 +497,7 @@ def main() -> None:
     print(f"source_sha256={actual_sha256}")
     print(f"source_records={len(records)}")
     print(f"valid_unique_groups={len(representatives)}")
-    for split_name in ("train", "eval", "retention"):
+    for split_name in assigned:
         print(f"{split_name}={len(assigned[split_name])}")
     for name, path in paths.items():
         print(f"{name}_path={path}")

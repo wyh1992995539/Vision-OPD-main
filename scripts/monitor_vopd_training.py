@@ -46,9 +46,13 @@ def load_policy(path: Path) -> dict[str, Any]:
     if missing:
         raise ValueError(f"abort policy missing sections: {', '.join(missing)}")
     disk = policy["disk"]
-    expected = 2 * int(disk["checkpoint_estimate_bytes"]) + int(disk["reserve_bytes"])
+    formula_required = 2 * int(disk["checkpoint_estimate_bytes"]) + int(disk["reserve_bytes"])
+    minimum_free = int(disk.get("minimum_free_bytes", formula_required))
+    expected = max(formula_required, minimum_free)
+    if int(disk.get("formula_required_bytes", formula_required)) != formula_required:
+        raise ValueError("formula_required_bytes must equal 2 * checkpoint estimate + reserve")
     if int(disk["prelaunch_required_bytes"]) != expected:
-        raise ValueError("prelaunch_required_bytes must equal 2 * checkpoint estimate + reserve")
+        raise ValueError("prelaunch_required_bytes must equal max(formula requirement, minimum free)")
     soft = int(disk["checkpoint_estimate_bytes"]) + int(disk["reserve_bytes"])
     if int(disk["runtime_soft_floor_bytes"]) != soft:
         raise ValueError("runtime_soft_floor_bytes must equal checkpoint estimate + reserve")

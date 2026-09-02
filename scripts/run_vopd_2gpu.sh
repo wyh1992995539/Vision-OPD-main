@@ -108,6 +108,12 @@ values = {
     "MAX_PROMPT_LENGTH": config["data"]["max_prompt_length"],
     "MAX_RESPONSE_LENGTH": config["data"]["max_response_length"],
     "DATALOADER_NUM_WORKERS": config["data"]["dataloader_num_workers"],
+    "FULL_COVERAGE_ENABLED": config["data"].get("full_coverage_padding", {}).get("enabled", False),
+    "FULL_COVERAGE_MULTIPLE": config["data"].get("full_coverage_padding", {}).get("multiple", config["data"]["train_batch_size"]),
+    "FULL_COVERAGE_PADDING_SOURCE_INDEX": config["data"].get("full_coverage_padding", {}).get("padding_source_index", 0),
+    "FULL_COVERAGE_EXPECTED_UNIQUE": config["data"].get("full_coverage_padding", {}).get("expected_unique_samples", config["data"]["expected_train_rows"]),
+    "FULL_COVERAGE_EXPECTED_PADDING": config["data"].get("full_coverage_padding", {}).get("expected_padding_rows", 0),
+    "FULL_COVERAGE_RECEIPT": resolve(config["data"].get("full_coverage_padding", {}).get("receipt_path", config["paths"]["output_dir"] + "/evidence/full_coverage_receipt.json")),
     "LR": config["actor"]["learning_rate"],
     "PPO_MINI_BATCH_SIZE": config["actor"]["ppo_mini_batch_size"],
     "USE_DYNAMIC_BSZ": config["actor"]["use_dynamic_batch_size"],
@@ -239,6 +245,13 @@ python -m verl.trainer.main_ppo --config-name vopd \
     data.max_response_length="$MAX_RESPONSE_LENGTH" \
     data.truncation=error \
     data.shuffle="$DATA_SHUFFLE" \
+    data.seed="$SEED" \
+    data.full_coverage_padding.enabled="$FULL_COVERAGE_ENABLED" \
+    data.full_coverage_padding.multiple="$FULL_COVERAGE_MULTIPLE" \
+    data.full_coverage_padding.padding_source_index="$FULL_COVERAGE_PADDING_SOURCE_INDEX" \
+    data.full_coverage_padding.expected_unique_samples="$FULL_COVERAGE_EXPECTED_UNIQUE" \
+    data.full_coverage_padding.expected_padding_rows="$FULL_COVERAGE_EXPECTED_PADDING" \
+    data.full_coverage_padding.receipt_path="$FULL_COVERAGE_RECEIPT" \
     data.trust_remote_code=True \
     data.return_multi_modal_inputs=True \
     data.image_key="$IMAGE_KEY" \

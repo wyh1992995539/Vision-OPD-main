@@ -15,6 +15,7 @@ from pathlib import Path, PurePosixPath
 from typing import Iterable
 
 from PIL import Image, UnidentifiedImageError
+import yaml
 
 
 EXPECTED_SPLITS = {
@@ -28,6 +29,11 @@ def parse_args() -> argparse.Namespace:
     repo_root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(
         description="Validate frozen manifests and all extracted Student/Teacher images."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        help="Project YAML defining active split manifests and expected counts.",
     )
     parser.add_argument(
         "--manifest-dir",
@@ -63,6 +69,20 @@ def parse_args() -> argparse.Namespace:
         help="Parallel image readers. Use 1 for a slow mechanical disk.",
     )
     return parser.parse_args()
+
+
+def configured_splits(config_path: Path) -> dict[str, tuple[str, int]]:
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    data = config["data"]
+    result: dict[str, tuple[str, int]] = {}
+    for name, split in data["splits"].items():
+        if bool(split.get("historical_only", False)):
+            continue
+        filename = Path(data["manifests"][f"{name}_jsonl"]).name
+        result[filename] = (name, int(split["size"]))
+    if not result:
+        raise ValueError("Project config contains no active data splits")
+    return result
 
 
 def add_issue(
@@ -478,10 +498,12 @@ def validate_dataset(
 
 def main() -> int:
     args = parse_args()
+    expected_splits = configured_splits(args.config.resolve()) if args.config else EXPECTED_SPLITS
     validation, statistics_report, sha_lines = validate_dataset(
         args.manifest_dir.resolve(),
         args.subset_root.resolve(),
         workers=args.workers,
+        expected_splits=expected_splits,
     )
     write_json_atomic(args.validation_report.resolve(), validation)
     write_json_atomic(args.statistics_report.resolve(), statistics_report)

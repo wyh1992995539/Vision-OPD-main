@@ -23,6 +23,12 @@ auth.json
 data/
 !verl/trainer/config/data/
 !verl/trainer/config/data/legacy_data.yaml
+# Small auditable manifests belong in Git; images and Parquet remain ignored.
+!artifacts/data/
+!artifacts/data/**/*.json
+!artifacts/data/**/*.jsonl
+!artifacts/data/**/*.md
+!artifacts/data/**/*.txt
 /models/
 checkpoints/
 rollouts/

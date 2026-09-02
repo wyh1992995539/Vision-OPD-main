@@ -1,5 +1,7 @@
 # Vision-OPD 项目冻结文档
 
+> 6K 现行范围说明（2026-09-02）：本文主体继续作为 Day 1–9 的 1024 范围历史冻结证据，不回写。Day 10 之后的现行合同见 `docs/amendments/full_train_6241_scope_amendment.md` 与 `configs/project_6241.yaml`；旧 `E-D10-001` 不再是可执行训练入口。
+
 > 历史状态说明（2026-08-27）：本文正文是 Day 5 时点冻结记录，其中“Day 6 尚未开始”等状态不再代表当前进度。现行外部评测以 `docs/benchmark_protocol.md`、R3 配置及 `benchmark_governance_sync_amendment.yaml` 为准；本文旧哈希只作为时间点证据。
 
 > 冻结日期：2026-08-20  
