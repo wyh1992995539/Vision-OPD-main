@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-02T06:45:46.436375+00:00",
+  "mode": "cpu_only_static_preflight",
+  "gpu_used": false,
+  "status": "PASS",
+  "checks": {
+    "task4_pass_to_task5": true,
+    "task4_complete": true,
+    "experiment_identity": true,
+    "formal_config_hash_frozen": true,
+    "task4_config_hash_matches": true,
+    "dataloader_workers_zero": true,
+    "expected_steps_128": true,
+    "policy_disk_formula_valid": true
+  },
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_1024.yaml",
+  "config_sha256": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c",
+  "policy_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_abort_policy.yaml",
+  "policy_sha256": "6fbea2890817a08baaaeb911e7a491d5c1003dc2bc08c8f77057ea5311f29174",
+  "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+  "historical_billing_cny": 200.0,
+  "billing_note": "Historical only; --run requires a fresh console observation."
+}

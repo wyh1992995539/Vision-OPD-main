@@ -17,7 +17,7 @@ usage() {
         "" \
         "  --config PATH     Select an auditable experiment config (default: configs/vopd_1024.yaml)." \
         "  --preflight-only  Validate model, data, images, hashes, and training contract (default)." \
-        "  --run             Run the configured two-GPU Vision-OPD experiment after preflight passes."
+        "  --run             Internal training entry; use scripts/run_vopd_guarded.py for formal training."
 }
 
 while (($#)); do
@@ -51,6 +51,11 @@ if [[ "$CONFIG_FILE" != /* ]]; then
     CONFIG_FILE="${PROJECT_ROOT}/${CONFIG_FILE}"
 fi
 export VOPD_CONFIG_FILE="$CONFIG_FILE"
+
+if [[ "$MODE" == "run" && "${VOPD_GUARD_ACTIVE:-}" != "1" ]]; then
+    echo "Direct --run is blocked: formal training must be owned by scripts/run_vopd_guarded.py." >&2
+    exit 2
+fi
 
 if [[ "${CONDA_DEFAULT_ENV:-}" != "vision-opd" ]]; then
     if ! command -v conda >/dev/null 2>&1; then
