@@ -41,7 +41,7 @@
 - 外部 Benchmark 只用于冻结后的最终模型和一次 Base 基线，不用于反复挑 checkpoint 或调超参数。
 - 所有结果都限定为“4B、1024 条数据的小规模复现与受控比较”，不宣称复现论文完整 6.2K 结果。
 
-当前执行状态（2026-08-31 同步）：
+当前执行状态（2026-09-02 同步）：
 
 | 范围 | 状态 | 边界 |
 |---|---|---|
@@ -52,7 +52,8 @@
 | 论文对齐 Base 重评 | PASS（R3） | 2536/2536 完整；ZoomBench 50.65%、MMStar 75.07%、V* 83.77%，作为后续统一基线 |
 | Day 7 | PASS_WITH_CAVEAT | `E-D7-001` 双卡 Smoke 完成；Teacher/Student/EMA 关键证据通过，结束阶段 worker 异常保留为 caveat |
 | Day 8 | PASS_WITH_CAVEAT | `E-D8-001` 完成 64 条/8 steps、`global_step_8`、5/5 冷重载和 1024 条成本外推；详见 `artifacts/reports/vopd_64_stability.md` |
-| Day 9～30 | 未开始 | 下一步为 Day 9 正式训练 Gate；Vision-OPD、Cached、GRPO 定版后均只使用 R3 单卡协议评测 |
+| Day 9 | PASS_TO_DAY10 | E-D10-001 预算、readiness、配置冻结、正式 preflight 和中止控制均已通过；详见 `docs/day9_vopd_formal_training_gate_brief.md` |
+| Day 10～30 | 未开始 | 下一步为 Day 10 正式训练；Vision-OPD、Cached、GRPO 定版后均只使用 R3 单卡协议评测 |
 
 ## 2. 已完成进度与正式起点
 
@@ -525,6 +526,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 已有可信的 1024 条耗时与费用外推。
 
 ### Day 9：正式训练 Gate 与配置冻结（5 小时）
+
+> 执行状态（2026-09-02 UTC）：**PASS_TO_DAY10 / 已完成**。五项任务及问题处理均已归档，详见 `docs/day9_vopd_formal_training_gate_brief.md`。
 
 任务：
 
