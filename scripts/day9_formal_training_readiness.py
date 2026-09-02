@@ -39,7 +39,9 @@ PREFLIGHT_WHITELIST = {
     "git_state.json", "output_path_gate.json", "preflight_summary.json",
     "storage_gate.json", "task2_readiness.json", "task2_readiness.md",
     "task3_config_freeze.json", "task3_config_freeze.md",
+    "task4_preflight_report.json",
 }
+OUTPUT_ROOT_WHITELIST = {"preflight.md"}
 GIB = 1024 ** 3
 
 FORMAL_CONFIG_EXPECTED = {
@@ -268,7 +270,13 @@ def audit_output(project_root: Path, output_dir: Path) -> dict[str, Any]:
         for item in output_dir.rglob("*"):
             if item.is_file():
                 rel = item.relative_to(output_dir)
-                if len(rel.parts) != 2 or rel.parts[0] != "preflight" or rel.name not in PREFLIGHT_WHITELIST:
+                allowed_root = len(rel.parts) == 1 and rel.name in OUTPUT_ROOT_WHITELIST
+                allowed_preflight = (
+                    len(rel.parts) == 2
+                    and rel.parts[0] == "preflight"
+                    and rel.name in PREFLIGHT_WHITELIST
+                )
+                if not (allowed_root or allowed_preflight):
                     unexpected.append(str(rel))
     symlink_free = not output_dir.is_symlink() and not preflight.is_symlink()
     writable = os.access(preflight if preflight.exists() else output_dir, os.W_OK)
@@ -279,6 +287,7 @@ def audit_output(project_root: Path, output_dir: Path) -> dict[str, Any]:
         "status": status, "path": str(output_dir), "resolved_path": str(resolved),
         "inside_expected_runs_root": inside_runs, "symlink_free": symlink_free,
         "writable": writable, "unexpected_existing_files": unexpected,
+        "allowed_output_root_files": sorted(OUTPUT_ROOT_WHITELIST),
         "allowed_preflight_files": sorted(PREFLIGHT_WHITELIST),
         "log_path": {"status": "PASS" if log_ok else "FAIL", "path": str(log_path), "collision": log_path.exists()},
     }
@@ -308,10 +317,15 @@ def build_markdown(report: dict[str, Any]) -> str:
         for item in report["findings"]
     )
     storage = report["storage"]
-    if report["config"]["status"] == "PASS":
+    if report["config"]["status"] == "PASS" and not report["blocking_gates"]:
+        conclusion = (
+            "正式 E-D10-001 配置已冻结，数据、Base、预算、Git、磁盘、输出目录和日志路径 Gate 全部通过。"
+            "基础 readiness 已关闭，可以生成 Task 4 正式报告；Day 10 仍需等待 Task 5 中止条件落盘。"
+        )
+    elif report["config"]["status"] == "PASS":
         conclusion = (
             "正式 E-D10-001 配置已经冻结并通过身份检查。任务 2/3 的审计产物完整，"
-            "但 Git 尚未提交且磁盘容量不足，因此 readiness 仍为 `BLOCKED`，不能进入 Day 10。"
+            f"但仍有 Gate 未关闭：{', '.join(report['blocking_gates'])}，因此不能进入 Day 10。"
         )
     else:
         conclusion = (

@@ -66,6 +66,7 @@ class Day9FormalTrainingReadinessTest(unittest.TestCase):
             preflight = output / "preflight"
             preflight.mkdir(parents=True)
             (preflight / "budget_projection.json").write_text("{}", encoding="utf-8")
+            (output / "preflight.md").write_text("# Formal preflight\n", encoding="utf-8")
             self.assertEqual(audit_output(root, output)["status"], "PASS")
             (output / "checkpoint.bin").write_bytes(b"collision")
             self.assertEqual(audit_output(root, output)["status"], "FAIL")
