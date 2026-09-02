@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-02T06:55:17.608888+00:00",
+  "status": "PASS",
+  "gpu_used": false,
+  "unit_tests": {
+    "status": "PASS",
+    "return_code": 0,
+    "test_count": 14,
+    "command": "/root/miniconda3/bin/python -m unittest tests.test_vopd_abort_guard -v",
+    "output": "test_cgroup_oom_increment_is_immediate (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_cgroup_oom_increment_is_immediate) ... ok\ntest_checkpoint_postcondition (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_checkpoint_postcondition) ... ok\ntest_day8_replay_has_clean_metrics_and_detects_worker_kill (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_day8_replay_has_clean_metrics_and_detects_worker_kill) ... ok\ntest_disk_hard_and_soft_floors (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_disk_hard_and_soft_floors) ... ok\ntest_fatal_log_patterns_are_specific (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_fatal_log_patterns_are_specific) ... ok\ntest_gpu_and_cgroup_pressure_require_three_samples (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_gpu_and_cgroup_pressure_require_three_samples) ... ok\ntest_healthy_metrics_do_not_abort (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_healthy_metrics_do_not_abort) ... ok\ntest_nonfinite_and_teacher_contract_are_immediate (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_nonfinite_and_teacher_contract_are_immediate) ... ok\ntest_parses_real_console_metric_shape (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_parses_real_console_metric_shape) ... ok\ntest_policy_formulas_are_frozen (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_policy_formulas_are_frozen) ... ok\ntest_termination_escalates_from_term_to_kill (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_termination_escalates_from_term_to_kill) ... ok\ntest_three_consecutive_generation_errors_abort_and_reset (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_three_consecutive_generation_errors_abort_and_reset) ... ok\ntest_two_nonpositive_ema_or_student_steps_abort (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_two_nonpositive_ema_or_student_steps_abort) ... ok\ntest_wall_time_limit (tests.test_vopd_abort_guard.VopdAbortGuardTest.test_wall_time_limit) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 0.084s\n\nOK\n"
+  },
+  "day8_replay": {
+    "metrics_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/metrics.jsonl",
+    "log_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/logs/train.log",
+    "metric_rows": 8,
+    "metric_issues": [],
+    "fatal_log_issues": [
+      {
+        "rule": "dataloader_worker_killed",
+        "line_number": 1206
+      }
+    ]
+  },
+  "direct_run_guard": {
+    "status": "PASS",
+    "return_code": 2,
+    "stderr": "Direct --run is blocked: formal training must be owned by scripts/run_vopd_guarded.py.",
+    "gpu_training_started": false
+  },
+  "static_preflight": {
+    "schema_version": 1,
+    "generated_at_utc": "2026-09-02T06:55:17.613837+00:00",
+    "mode": "cpu_only_static_preflight",
+    "gpu_used": false,
+    "status": "PASS",
+    "checks": {
+      "task4_pass_to_task5": true,
+      "task4_complete": true,
+      "experiment_identity": true,
+      "formal_config_hash_frozen": true,
+      "task4_config_hash_matches": true,
+      "dataloader_workers_zero": true,
+      "expected_steps_128": true,
+      "policy_disk_formula_valid": true
+    },
+    "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_1024.yaml",
+    "config_sha256": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c",
+    "policy_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_abort_policy.yaml",
+    "policy_sha256": "6fbea2890817a08baaaeb911e7a491d5c1003dc2bc08c8f77057ea5311f29174",
+    "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+    "historical_billing_cny": 200.0,
+    "billing_note": "Historical only; --run requires a fresh console observation."
+  }
+}

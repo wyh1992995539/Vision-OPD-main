@@ -1,100 +1,65 @@
-# E-D10-001 基础 Gate 已通过，Day 10 仍等待中止条件冻结
+# E-D10-001 Task 5 已完成：允许进入 Day 10 动态启动检查
 
-> 生成时间：2026-09-02T06:07:07.519370+00:00
-> Task 4：**COMPLETE**
-> 决策：**PASS_TO_TASK5**
+> 生成时间：2026-09-02T06:55:17.608888+00:00
+> 决策：**PASS_TO_DAY10**
 > GPU 使用：**false**
 
 ## 结论
 
-E-D10-001 的数据、Base、正式配置、预算、Git、输出目录、日志路径、磁盘和 CPU-only launcher preflight 均已通过。任务 4 已完成，可以进入任务 5；当前仍不得执行正式训练，因为训练中止条件和观测性控制尚未冻结。
+Task 5 的可执行中止策略、逐卡 GPU/进程树 RSS/cgroup/磁盘观测、训练指标解析、进程组终止、
+最终 checkpoint 后置校验和防绕过入口均已落地。任务五完成，可以进入 Day10；这不等于可以跳过
+启动时动态 Gate，AutoDL 累计费用必须在启动前 15 分钟内刷新。
 
-磁盘满足项目定义的 `2 × 最终 checkpoint 估算 + 5 GiB`。公式之外另有 46542057302 bytes（约 43.35 GiB）余量，容量 Gate 为 `PASS`。checkpoint 写入量仍然较大，因此任务 5 继续保留磁盘监控。
+正式训练配置 SHA256 仍为 `5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c`，没有因 Task 5 改动训练数学合同。
+中止策略 SHA256 为 `6fbea2890817a08baaaeb911e7a491d5c1003dc2bc08c8f77057ea5311f29174`。
 
-## 正式训练合同
+## Gate
 
-| 项目 | 冻结值 |
+| Gate | 状态 |
+|---|---|
+| task4_and_static_contract | PASS |
+| formal_config_hash_unchanged | PASS |
+| dataloader_workers_zero | PASS |
+| policy_schema_and_formulas | PASS |
+| unit_and_replay_tests | PASS |
+| day8_metric_contract_clean | PASS |
+| day8_killed_event_detected | PASS |
+| direct_run_blocked | PASS |
+| cpu_only_task5 | PASS |
+| source_worktree_clean_before_report | PASS |
+
+## 冻结控制
+
+| 控制 | 值 |
 |---|---:|
-| 实验 | E-D10-001 |
-| 样本数 | 1024 |
-| global batch | 8 |
-| optimizer steps | 128 |
-| epochs | 1 |
-| 完整 epoch | True |
-| 配置 SHA256 | `5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c` |
+| 观测周期 | 10 秒 |
+| 最长墙钟时间 | 38 小时 |
+| GPU 显存中止比例 | 95%，连续 3 次 |
+| cgroup 内存中止比例 | 95%，连续 3 次 |
+| 启动磁盘要求 | 119438631082 bytes |
+| 运行期磁盘软下限 | 62403670101 bytes |
+| 运行期磁盘硬下限 | 5368709120 bytes |
+| 最终 checkpoint | step 128，13 个必需文件 |
 
-配置从冻结 Base 冷启动，`resume_mode=disable`；`dataloader_num_workers=0`；只保留最终 checkpoint。
+NaN/Inf、Teacher 直接梯度、Teacher optimizer 改变、cgroup OOM、checkpoint 保存错误和磁盘硬下限
+属于立即中止条件；EMA/Student 不更新、连续生成错误、内存压力、磁盘软下限和日志心跳使用冻结的
+连续阈值。中止先发送 `SIGTERM`，60 秒后必要时升级为 `SIGKILL`。
 
-## Gate 证据
+## Day8 回放
 
-| Gate | 状态 | 证据 |
-|---|---|---|
-| data | PASS | 1024 rows; frozen SHA256 match=True |
-| base | PASS | frozen shard hashes match=True |
-| config_identity | PASS | E-D10 identity and 1024/128 formal settings |
-| git_state | PASS | commit=f47e9947e0d6; clean=True; diff-check=PASS |
-| output_directory | PASS | unexpected files=0 |
-| log_path | PASS | /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log |
-| storage | PASS | required=119438631082; available=165980688384; shortage=0 |
-| budget | PASS | current=200.0 CNY; projected=220.8427527465047 CNY |
-| launcher_preflight | PASS | 1024 rows; missing images=0; gpu_used=false |
-| config_hash_identity | PASS | 5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c |
-| day8_cold_reload | PASS | 5 predictions; 0 inference errors |
+- 结构化指标：8 步，合同异常 0 项。
+- 日志命中：dataloader_worker_killed。
+- 这证明守护器能保留 Day8 的真实 caveat，而不是将其改写为已解决。
 
-审计源提交为 `f47e9947e0d62400a6659a9255a1cda33c2ccdbf`，审计开始时工作树 clean=`True`。本报告生成后产生的新文件需要单独提交，最终 clean 状态在提交后复核。
+## Day10 启动前仍需执行
 
-## 时间与预算
-
-| 口径 | 双卡小时 | 费用 |
-|---|---:|---:|
-| 均值规划 | 1.0246 | ¥12.25 |
-| 保守预留 | 1.7427 | ¥20.84 |
-
-- 用户报告的 AutoDL 累计费用：¥200.00。
-- 加入保守预留后的预计累计费用：¥220.84。
-- 项目预算预计剩余：¥1779.16。
-- 该累计费用是点时值；Day 10 启动前必须刷新 AutoDL 控制台。
-
-## 磁盘口径
-
-- Day 8 checkpoint：57034960981 bytes。
-- 冻结公式要求：119438631082 bytes。
-- 当前可用：165980688384 bytes。
-- 高于最低要求：46542057302 bytes。
-
-## 风险与任务 5 交接
-
-| 严重度 | 状态 | 风险 | 交接动作 |
-|---|---|---|---|
-| INFO | PASS | Storage exceeds the frozen checkpoint-retention formula with additional headroom. | Retain filesystem monitoring in Task 5 because checkpoint writes are still large. |
-| MEDIUM | MITIGATED_REQUIRES_MONITORING | Day 8 recorded one DataLoader worker Killed event after checkpoint save. | Task 5 must capture trainer RSS and cgroup memory events. |
-| MEDIUM | REFRESH_BEFORE_LAUNCH | The controlling AutoDL cumulative charge is a user-reported point-in-time value. | Refresh the console value immediately before Day 10 launch. |
-| HIGH | OPEN_TASK5 | Training abort conditions and monitoring are not yet frozen as executable controls. | Complete Task 5 before authorizing the --run command. |
-
-Day 8 的 checkpoint 已完成 5/5 冷重载推理且没有 inference error。DataLoader worker `Killed` 和不可审计的逐卡显存峰值仍作为观测性 caveat 保留，不改写为已解决。
-
-## 可复制命令
-
-允许重复执行的 CPU-only preflight：
+1. 在 AutoDL 控制台读取最新累计费用，并记录带时区的 ISO-8601 时间。
+2. 保持 Git 工作区 clean；重新检查输出冲突、磁盘、两张 GPU 和 cgroup v2。
+3. 仅使用以下入口：
 
 ```bash
-bash scripts/run_vopd_2gpu.sh --config configs/vopd_1024.yaml --preflight-only
+python scripts/run_vopd_guarded.py --current-autodl-cost-cny <LATEST> --billing-observed-at-utc <ISO-8601> --run
 ```
 
-正式训练命令已经冻结，但只有 Task 5 完成、AutoDL 费用刷新且所有 Gate 仍为 PASS 后才允许执行：
-
-```bash
-bash scripts/run_vopd_2gpu.sh --config configs/vopd_1024.yaml --run
-```
-
-## 证据来源
-
-- `budget`：`artifacts/runs/E-D10-001/preflight/budget_projection.json`，SHA256 `56da1e5269f0d89329e6efba50ce891e8c0f253374adfc4e083f62a6180b093e`
-- `data`：`artifacts/runs/E-D10-001/preflight/data_manifest.json`，SHA256 `edfd183340e8cc635512d8bcd137a618247cf27738e736b143f80ee48437cc63`
-- `base`：`artifacts/runs/E-D10-001/preflight/base_model_manifest.json`，SHA256 `f8e7f3d922acb63a9dd9d6866d5bf70a4c5c3af1c93bc4546f8b99d179d8a11c`
-- `launcher`：`artifacts/runs/E-D10-001/preflight/preflight_summary.json`，SHA256 `fcd9dadebce0fcfff102e2d6394b4895db0b771fd1e9b227798f947666fa7398`
-- `readiness`：`artifacts/runs/E-D10-001/preflight/task2_readiness.json`，SHA256 `4d6b26c651a08aaa6f12771aabacb30366473edda5640f946b4a5f14b582821a`
-- `config_freeze`：`artifacts/runs/E-D10-001/preflight/task3_config_freeze.json`，SHA256 `c5374f6bee49fc6d97e2e32b3ef0c62f83ac4cc4a412e748448ac5a33d11281c`
-- `day8_stability`：`artifacts/runs/E-D8-001/evidence/stability_summary.json`，SHA256 `2f4fad9a3187f835df2295327d51aa4518c80afb07d7c634b86ff475884cde51`
-
-未绘制趋势图：这些证据是离散的单次 readiness Gate，不是连续时间序列；表格能更准确地保留状态、单位和来源。
+直接执行 `bash scripts/run_vopd_2gpu.sh --run` 已被拒绝。完整操作见
+`docs/day9_task5_abort_runbook.md`。

@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-02T06:55:17.608888+00:00",
+  "experiment_id": "E-D10-001",
+  "purpose": "day9_task5_executable_abort_controls",
+  "artifact_status": "COMPLETE",
+  "report_status": "PASS_TO_DAY10",
+  "task5_completed": true,
+  "advance_to_day10": true,
+  "gpu_used": false,
+  "gates": {
+    "task4_and_static_contract": true,
+    "formal_config_hash_unchanged": true,
+    "dataloader_workers_zero": true,
+    "policy_schema_and_formulas": true,
+    "unit_and_replay_tests": true,
+    "day8_metric_contract_clean": true,
+    "day8_killed_event_detected": true,
+    "direct_run_blocked": true,
+    "cpu_only_task5": true,
+    "source_worktree_clean_before_report": true
+  },
+  "formal_config_sha256": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c",
+  "abort_policy_sha256": "6fbea2890817a08baaaeb911e7a491d5c1003dc2bc08c8f77057ea5311f29174",
+  "audited_source_commit": "043a6be8602012638307a1fd62340ca1e3dad161",
+  "audited_source_worktree_clean": true,
+  "controls": {
+    "sample_interval_seconds": 10,
+    "max_wall_time_hours": 38,
+    "gpu_memory_ratio": 0.95,
+    "cgroup_memory_ratio": 0.95,
+    "prelaunch_storage_bytes": 119438631082,
+    "runtime_storage_soft_floor_bytes": 62403670101,
+    "runtime_storage_hard_floor_bytes": 5368709120,
+    "expected_checkpoint_step": 128,
+    "required_checkpoint_files": 13
+  },
+  "day8_replay": {
+    "metric_rows": 8,
+    "metric_issues": [],
+    "fatal_log_rules": [
+      "dataloader_worker_killed"
+    ]
+  },
+  "launch_requirements": [
+    "Refresh the AutoDL cumulative charge within 15 minutes of launch.",
+    "Keep the Git worktree clean.",
+    "Recheck output collision, storage, two GPUs, and cgroup v2 at launch.",
+    "Use scripts/run_vopd_guarded.py; never call the raw --run entry directly."
+  ],
+  "commands": {
+    "cpu_only_preflight": "python scripts/run_vopd_guarded.py --preflight-only",
+    "formal_training": "python scripts/run_vopd_guarded.py --current-autodl-cost-cny <LATEST> --billing-observed-at-utc <ISO-8601> --run"
+  },
+  "sources": {
+    "policy": {
+      "path": "configs/vopd_abort_policy.yaml",
+      "sha256": "6fbea2890817a08baaaeb911e7a491d5c1003dc2bc08c8f77057ea5311f29174"
+    },
+    "monitor": {
+      "path": "scripts/monitor_vopd_training.py",
+      "sha256": "1d927661c97e9cc57204549eb6270605d31778b62a159207edb54ae032cb534f"
+    },
+    "guarded_launcher": {
+      "path": "scripts/run_vopd_guarded.py",
+      "sha256": "7f732a556119bc90f3864acbbc0b7ebf5d407f11f637c85ff6fdd8fdf035fc2c"
+    },
+    "runbook": {
+      "path": "docs/day9_task5_abort_runbook.md",
+      "sha256": "31ab0b278148cf618103ad0aa9d4b0803354dec16eaa12cdc8f7dcbc8c654e0b"
+    }
+  }
+}
