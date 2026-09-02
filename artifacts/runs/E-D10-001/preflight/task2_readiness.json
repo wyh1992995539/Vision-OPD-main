@@ -1,0 +1,468 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-01T08:51:09.023141+00:00",
+  "experiment_id": "E-D10-001",
+  "purpose": "day9_task2_formal_training_inputs_and_paths",
+  "artifact_status": "COMPLETE",
+  "task2_completed": true,
+  "readiness_status": "BLOCKED",
+  "advance_to_task3": true,
+  "advance_to_day10": false,
+  "blocking_gates": [
+    "git_state",
+    "storage"
+  ],
+  "gates": {
+    "data": {
+      "status": "PASS",
+      "evidence": "1024 rows; frozen SHA256 match=True"
+    },
+    "base": {
+      "status": "PASS",
+      "evidence": "frozen shard hashes match=True"
+    },
+    "config_identity": {
+      "status": "PASS",
+      "evidence": "E-D10 identity and 1024/128 formal settings"
+    },
+    "git_state": {
+      "status": "PENDING_COMMIT",
+      "evidence": "commit=e28db390f181; clean=False; diff-check=PASS"
+    },
+    "output_directory": {
+      "status": "PASS",
+      "evidence": "unexpected files=0"
+    },
+    "log_path": {
+      "status": "PASS",
+      "evidence": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log"
+    },
+    "storage": {
+      "status": "FAIL",
+      "evidence": "required=119438631082; available=69364817920; shortage=50073813162"
+    },
+    "budget": {
+      "status": "PASS",
+      "evidence": "current=200.0 CNY; projected=220.8427527465047 CNY"
+    }
+  },
+  "data": {
+    "status": "PASS",
+    "dataset": "frozen Vision-OPD train split",
+    "grain": "one multimodal training example per sample_id",
+    "path": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+    "sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
+    "expected_sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
+    "row_count": 1024,
+    "columns": [
+      "data_source",
+      "prompt",
+      "images",
+      "bbox_images",
+      "ability",
+      "reward_model",
+      "extra_info"
+    ],
+    "null_count_by_column": {
+      "data_source": 0,
+      "prompt": 0,
+      "images": 0,
+      "bbox_images": 0,
+      "ability": 0,
+      "reward_model": 0,
+      "extra_info": 0
+    },
+    "unique_sample_ids": 1024,
+    "prompt_empty_count": 0,
+    "empty_student_image_rows": 0,
+    "empty_teacher_image_rows": 0,
+    "missing_student_image_count": 0,
+    "missing_teacher_image_count": 0,
+    "cached_response_columns": [],
+    "checks": {
+      "sha256_frozen": true,
+      "row_count_1024": true,
+      "required_columns": true,
+      "sample_id_nonempty": true,
+      "sample_id_unique": true,
+      "prompt_nonempty": true,
+      "student_images_present": true,
+      "teacher_images_present": true,
+      "no_cached_response_columns": true
+    }
+  },
+  "base": {
+    "status": "PASS",
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "missing_required_files": [],
+    "frozen_weight_hashes_match": true,
+    "total_size_bytes": 9342911293,
+    "files": [
+      {
+        "name": "config.json",
+        "size_bytes": 3161,
+        "sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+        "expected_sha256": null
+      },
+      {
+        "name": "model.safetensors-00001-of-00002.safetensors",
+        "size_bytes": 5329398688,
+        "sha256": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+        "expected_sha256": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61"
+      },
+      {
+        "name": "model.safetensors-00002-of-00002.safetensors",
+        "size_bytes": 3990429408,
+        "sha256": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188",
+        "expected_sha256": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+      },
+      {
+        "name": "model.safetensors.index.json",
+        "size_bytes": 76196,
+        "sha256": "cf3f798ee02ba45f9622aa8892a47369ab667d0afbf154ee7c2212de42e6302d",
+        "expected_sha256": null
+      },
+      {
+        "name": "preprocessor_config.json",
+        "size_bytes": 390,
+        "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+        "expected_sha256": null
+      },
+      {
+        "name": "tokenizer.json",
+        "size_bytes": 12807982,
+        "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+        "expected_sha256": null
+      },
+      {
+        "name": "tokenizer_config.json",
+        "size_bytes": 16710,
+        "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+        "expected_sha256": null
+      }
+    ]
+  },
+  "config": {
+    "status": "PASS",
+    "path": "configs/vopd_1024.yaml",
+    "comparisons": {
+      "experiment.id": {
+        "expected": "E-D10-001",
+        "actual": "E-D10-001",
+        "match": true
+      },
+      "experiment.name": {
+        "expected": "vision-opd-qwen35-4b-day10-formal-1024",
+        "actual": "vision-opd-qwen35-4b-day10-formal-1024",
+        "match": true
+      },
+      "experiment.group_name": {
+        "expected": "E-D10-001",
+        "actual": "E-D10-001",
+        "match": true
+      },
+      "experiment.prefix_source": {
+        "expected": "online",
+        "actual": "online",
+        "match": true
+      },
+      "experiment.seed": {
+        "expected": 42,
+        "actual": 42,
+        "match": true
+      },
+      "paths.model": {
+        "expected": "/root/autodl-tmp/models/Qwen3.5-4B",
+        "actual": "/root/autodl-tmp/models/Qwen3.5-4B",
+        "match": true
+      },
+      "paths.train_file": {
+        "expected": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+        "actual": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+        "match": true
+      },
+      "paths.output_dir": {
+        "expected": "artifacts/runs/E-D10-001",
+        "actual": "artifacts/runs/E-D10-001",
+        "match": true
+      },
+      "data.expected_train_rows": {
+        "expected": 1024,
+        "actual": 1024,
+        "match": true
+      },
+      "data.train_batch_size": {
+        "expected": 8,
+        "actual": 8,
+        "match": true
+      },
+      "data.max_prompt_length": {
+        "expected": 8192,
+        "actual": 8192,
+        "match": true
+      },
+      "data.max_response_length": {
+        "expected": 256,
+        "actual": 256,
+        "match": true
+      },
+      "data.truncation": {
+        "expected": "error",
+        "actual": "error",
+        "match": true
+      },
+      "data.shuffle": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      },
+      "data.dataloader_num_workers": {
+        "expected": 0,
+        "actual": 0,
+        "match": true
+      },
+      "actor.learning_rate": {
+        "expected": 2e-06,
+        "actual": 2e-06,
+        "match": true
+      },
+      "actor.ppo_mini_batch_size": {
+        "expected": 8,
+        "actual": 8,
+        "match": true
+      },
+      "actor.use_dynamic_batch_size": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      },
+      "actor.gradient_checkpointing": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      },
+      "actor.max_token_length_per_gpu": {
+        "expected": 8448,
+        "actual": 8448,
+        "match": true
+      },
+      "rollout.n": {
+        "expected": 1,
+        "actual": 1,
+        "match": true
+      },
+      "rollout.tensor_model_parallel_size": {
+        "expected": 1,
+        "actual": 1,
+        "match": true
+      },
+      "rollout.gpu_memory_utilization": {
+        "expected": 0.45,
+        "actual": 0.45,
+        "match": true
+      },
+      "rollout.log_prob_micro_batch_size_per_gpu": {
+        "expected": 1,
+        "actual": 1,
+        "match": true
+      },
+      "rollout.agent_num_workers": {
+        "expected": 2,
+        "actual": 2,
+        "match": true
+      },
+      "self_distillation.loss_mode": {
+        "expected": "vopd",
+        "actual": "vopd",
+        "match": true
+      },
+      "self_distillation.top_k": {
+        "expected": 100,
+        "actual": 100,
+        "match": true
+      },
+      "self_distillation.alpha": {
+        "expected": 0.5,
+        "actual": 0.5,
+        "match": true
+      },
+      "self_distillation.teacher_always_on": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      },
+      "self_distillation.teacher_model_source": {
+        "expected": "legacy",
+        "actual": "legacy",
+        "match": true
+      },
+      "self_distillation.teacher_regularization": {
+        "expected": "ema",
+        "actual": "ema",
+        "match": true
+      },
+      "self_distillation.teacher_update_rate": {
+        "expected": 0.05,
+        "actual": 0.05,
+        "match": true
+      },
+      "self_distillation.dont_reprompt_on_self_success": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      },
+      "self_distillation.include_environment_feedback": {
+        "expected": false,
+        "actual": false,
+        "match": true
+      },
+      "self_distillation.importance_sampling_clip": {
+        "expected": 2.0,
+        "actual": 2.0,
+        "match": true
+      },
+      "resources.nodes": {
+        "expected": 1,
+        "actual": 1,
+        "match": true
+      },
+      "resources.gpus_per_node": {
+        "expected": 2,
+        "actual": 2,
+        "match": true
+      },
+      "training.expected_samples": {
+        "expected": 1024,
+        "actual": 1024,
+        "match": true
+      },
+      "training.total_optimizer_steps": {
+        "expected": 128,
+        "actual": 128,
+        "match": true
+      },
+      "training.total_epochs": {
+        "expected": 1,
+        "actual": 1,
+        "match": true
+      },
+      "training.require_full_epoch": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      },
+      "training.save_frequency": {
+        "expected": -1,
+        "actual": -1,
+        "match": true
+      },
+      "training.test_frequency": {
+        "expected": -1,
+        "actual": -1,
+        "match": true
+      },
+      "training.max_actor_ckpt_to_keep": {
+        "expected": 1,
+        "actual": 1,
+        "match": true
+      },
+      "training.resume_mode": {
+        "expected": "disable",
+        "actual": "disable",
+        "match": true
+      },
+      "legacy_smoke_absent": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      }
+    },
+    "handoff": "Task 3 formal parameter contract is frozen; rerun this gate after any config edit."
+  },
+  "git": {
+    "status": "PENDING_COMMIT",
+    "commit": "e28db390f1811608a2034f71ce1469a6cfaf88e3",
+    "branch": "main",
+    "clean": false,
+    "porcelain": [
+      "M configs/vopd_1024.yaml",
+      "?? artifacts/runs/E-D10-001/",
+      "?? scripts/day9_formal_training_readiness.py",
+      "?? scripts/finalize_day9_budget.py",
+      "?? scripts/finalize_day9_config_freeze.py",
+      "?? tests/test_day9_formal_training_readiness.py",
+      "?? tests/test_finalize_day9_budget.py",
+      "?? tests/test_finalize_day9_config_freeze.py"
+    ],
+    "diff_check_status": "PASS",
+    "diff_check_output": ""
+  },
+  "output": {
+    "status": "PASS",
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+    "resolved_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+    "inside_expected_runs_root": true,
+    "symlink_free": true,
+    "writable": true,
+    "unexpected_existing_files": [],
+    "allowed_preflight_files": [
+      "autodl_billing_input.json",
+      "base_model_manifest.json",
+      "budget_evidence.md",
+      "budget_projection.json",
+      "budget_report_artifact.json",
+      "data_manifest.json",
+      "git_state.json",
+      "output_path_gate.json",
+      "preflight_summary.json",
+      "storage_gate.json",
+      "task2_readiness.json",
+      "task2_readiness.md",
+      "task3_config_freeze.json",
+      "task3_config_freeze.md"
+    ],
+    "log_path": {
+      "status": "PASS",
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log",
+      "collision": false
+    }
+  },
+  "storage": {
+    "status": "FAIL",
+    "filesystem_probe": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+    "total_bytes": 161061273600,
+    "used_bytes": 91696455680,
+    "available_bytes": 69364817920,
+    "day8_checkpoint_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8",
+    "day8_checkpoint_size_bytes": 57034960981,
+    "formula": "2 * final_checkpoint_estimate + 5 GiB",
+    "required_bytes": 119438631082,
+    "shortage_bytes": 50073813162,
+    "remediation": "Free or add sufficient storage, then rerun Task 2. No files were deleted by this audit."
+  },
+  "budget_source": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/preflight/budget_projection.json",
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "finding": "The working tree contains uncommitted Day 9 artifacts and scripts.",
+      "impact": "The exact launch state is not yet represented by a commit.",
+      "remediation": "After Task 3-5 review, commit the frozen config, scripts, tests, and evidence together."
+    },
+    {
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "finding": "Storage is short by 50073813162 bytes against the frozen formula.",
+      "impact": "Checkpoint creation or retention could exhaust the filesystem.",
+      "remediation": "Free or add capacity without deleting evidence blindly, then rerun this audit."
+    }
+  ],
+  "assumptions": [
+    "User-reported AutoDL cumulative cost is 200 CNY at audit time.",
+    "Day 8 global_step_8 size is the final-checkpoint estimate."
+  ],
+  "temporal_analysis": {
+    "applicable": false,
+    "reason": "This is a point-in-time readiness audit, not a continuous series."
+  }
+}

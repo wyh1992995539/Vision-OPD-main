@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-01T08:49:57.822223+00:00",
+  "experiment_id": "E-D10-001",
+  "purpose": "day9_task3_formal_config_freeze",
+  "artifact_status": "COMPLETE",
+  "config_gate_status": "PASS",
+  "task3_completed": true,
+  "advance_to_task4": true,
+  "advance_to_day10": false,
+  "day10_block_reason": "Storage and Git gates remain independently controlling.",
+  "sources": {
+    "formal_config": {
+      "path": "configs/vopd_1024.yaml",
+      "sha256": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c"
+    },
+    "day8_baseline": {
+      "path": "artifacts/runs/E-D8-001/config.yaml",
+      "sha256": "59dee587c23d8ddea7814d987071a705f4a150cf29e7b92130f72d4c5056845c"
+    },
+    "task2_data_manifest": "artifacts/runs/E-D10-001/preflight/data_manifest.json",
+    "task2_base_manifest": "artifacts/runs/E-D10-001/preflight/base_model_manifest.json"
+  },
+  "formal_contract": {
+    "expected_samples": 1024,
+    "global_batch_size": 8,
+    "optimizer_steps": 128,
+    "total_epochs": 1,
+    "require_full_epoch": true
+  },
+  "frozen_parameters": {
+    "experiment.id": "E-D10-001",
+    "experiment.name": "vision-opd-qwen35-4b-day10-formal-1024",
+    "experiment.group_name": "E-D10-001",
+    "experiment.prefix_source": "online",
+    "experiment.seed": 42,
+    "paths.model": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "paths.train_file": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+    "paths.output_dir": "artifacts/runs/E-D10-001",
+    "data.expected_train_rows": 1024,
+    "data.train_batch_size": 8,
+    "data.max_prompt_length": 8192,
+    "data.max_response_length": 256,
+    "data.truncation": "error",
+    "data.shuffle": true,
+    "data.dataloader_num_workers": 0,
+    "actor.learning_rate": 2e-06,
+    "actor.ppo_mini_batch_size": 8,
+    "actor.use_dynamic_batch_size": true,
+    "actor.gradient_checkpointing": true,
+    "actor.max_token_length_per_gpu": 8448,
+    "rollout.n": 1,
+    "rollout.tensor_model_parallel_size": 1,
+    "rollout.gpu_memory_utilization": 0.45,
+    "rollout.log_prob_micro_batch_size_per_gpu": 1,
+    "rollout.agent_num_workers": 2,
+    "self_distillation.loss_mode": "vopd",
+    "self_distillation.top_k": 100,
+    "self_distillation.alpha": 0.5,
+    "self_distillation.teacher_always_on": true,
+    "self_distillation.teacher_model_source": "legacy",
+    "self_distillation.teacher_regularization": "ema",
+    "self_distillation.teacher_update_rate": 0.05,
+    "self_distillation.dont_reprompt_on_self_success": true,
+    "self_distillation.include_environment_feedback": false,
+    "self_distillation.importance_sampling_clip": 2.0,
+    "resources.nodes": 1,
+    "resources.gpus_per_node": 2,
+    "training.expected_samples": 1024,
+    "training.total_optimizer_steps": 128,
+    "training.total_epochs": 1,
+    "training.require_full_epoch": true,
+    "training.save_frequency": -1,
+    "training.test_frequency": -1,
+    "training.max_actor_ckpt_to_keep": 1,
+    "training.resume_mode": "disable"
+  },
+  "invariants": {
+    "formal_config_gate": true,
+    "sample_budget_matches_steps": true,
+    "legacy_smoke_removed": true,
+    "fresh_base_start": true,
+    "final_checkpoint_only": true,
+    "dataloader_child_processes_disabled": true
+  },
+  "day8_comparison": [
+    {
+      "field": "experiment.id",
+      "day8_value": "E-D8-001",
+      "formal_value": "E-D10-001",
+      "changed": true
+    },
+    {
+      "field": "experiment.name",
+      "day8_value": "vision-opd-qwen35-4b-day8-stability-64",
+      "formal_value": "vision-opd-qwen35-4b-day10-formal-1024",
+      "changed": true
+    },
+    {
+      "field": "experiment.group_name",
+      "day8_value": "E-D8-001",
+      "formal_value": "E-D10-001",
+      "changed": true
+    },
+    {
+      "field": "experiment.prefix_source",
+      "day8_value": "online",
+      "formal_value": "online",
+      "changed": false
+    },
+    {
+      "field": "experiment.seed",
+      "day8_value": 42,
+      "formal_value": 42,
+      "changed": false
+    },
+    {
+      "field": "paths.model",
+      "day8_value": "/root/autodl-tmp/models/Qwen3.5-4B",
+      "formal_value": "/root/autodl-tmp/models/Qwen3.5-4B",
+      "changed": false
+    },
+    {
+      "field": "paths.train_file",
+      "day8_value": "/root/autodl-tmp/data/vision_opd_1024/train_day8_64.parquet",
+      "formal_value": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+      "changed": true
+    },
+    {
+      "field": "paths.output_dir",
+      "day8_value": "artifacts/runs/E-D8-001",
+      "formal_value": "artifacts/runs/E-D10-001",
+      "changed": true
+    },
+    {
+      "field": "data.expected_train_rows",
+      "day8_value": 64,
+      "formal_value": 1024,
+      "changed": true
+    },
+    {
+      "field": "data.train_batch_size",
+      "day8_value": 8,
+      "formal_value": 8,
+      "changed": false
+    },
+    {
+      "field": "data.max_prompt_length",
+      "day8_value": 8192,
+      "formal_value": 8192,
+      "changed": false
+    },
+    {
+      "field": "data.max_response_length",
+      "day8_value": 256,
+      "formal_value": 256,
+      "changed": false
+    },
+    {
+      "field": "data.truncation",
+      "day8_value": "error",
+      "formal_value": "error",
+      "changed": false
+    },
+    {
+      "field": "data.shuffle",
+      "day8_value": false,
+      "formal_value": true,
+      "changed": true
+    },
+    {
+      "field": "data.dataloader_num_workers",
+      "day8_value": 4,
+      "formal_value": 0,
+      "changed": true
+    },
+    {
+      "field": "actor.learning_rate",
+      "day8_value": 2e-06,
+      "formal_value": 2e-06,
+      "changed": false
+    },
+    {
+      "field": "actor.ppo_mini_batch_size",
+      "day8_value": 8,
+      "formal_value": 8,
+      "changed": false
+    },
+    {
+      "field": "actor.use_dynamic_batch_size",
+      "day8_value": true,
+      "formal_value": true,
+      "changed": false
+    },
+    {
+      "field": "actor.gradient_checkpointing",
+      "day8_value": true,
+      "formal_value": true,
+      "changed": false
+    },
+    {
+      "field": "actor.max_token_length_per_gpu",
+      "day8_value": 8448,
+      "formal_value": 8448,
+      "changed": false
+    },
+    {
+      "field": "rollout.n",
+      "day8_value": 1,
+      "formal_value": 1,
+      "changed": false
+    },
+    {
+      "field": "rollout.tensor_model_parallel_size",
+      "day8_value": 1,
+      "formal_value": 1,
+      "changed": false
+    },
+    {
+      "field": "rollout.gpu_memory_utilization",
+      "day8_value": 0.45,
+      "formal_value": 0.45,
+      "changed": false
+    },
+    {
+      "field": "rollout.log_prob_micro_batch_size_per_gpu",
+      "day8_value": 1,
+      "formal_value": 1,
+      "changed": false
+    },
+    {
+      "field": "rollout.agent_num_workers",
+      "day8_value": 2,
+      "formal_value": 2,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.loss_mode",
+      "day8_value": "vopd",
+      "formal_value": "vopd",
+      "changed": false
+    },
+    {
+      "field": "self_distillation.top_k",
+      "day8_value": 100,
+      "formal_value": 100,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.alpha",
+      "day8_value": 0.5,
+      "formal_value": 0.5,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.teacher_always_on",
+      "day8_value": true,
+      "formal_value": true,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.teacher_model_source",
+      "day8_value": "legacy",
+      "formal_value": "legacy",
+      "changed": false
+    },
+    {
+      "field": "self_distillation.teacher_regularization",
+      "day8_value": "ema",
+      "formal_value": "ema",
+      "changed": false
+    },
+    {
+      "field": "self_distillation.teacher_update_rate",
+      "day8_value": 0.05,
+      "formal_value": 0.05,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.dont_reprompt_on_self_success",
+      "day8_value": true,
+      "formal_value": true,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.include_environment_feedback",
+      "day8_value": false,
+      "formal_value": false,
+      "changed": false
+    },
+    {
+      "field": "self_distillation.importance_sampling_clip",
+      "day8_value": 2.0,
+      "formal_value": 2.0,
+      "changed": false
+    },
+    {
+      "field": "resources.nodes",
+      "day8_value": 1,
+      "formal_value": 1,
+      "changed": false
+    },
+    {
+      "field": "resources.gpus_per_node",
+      "day8_value": 2,
+      "formal_value": 2,
+      "changed": false
+    },
+    {
+      "field": "training.expected_samples",
+      "day8_value": 64,
+      "formal_value": 1024,
+      "changed": true
+    },
+    {
+      "field": "training.total_optimizer_steps",
+      "day8_value": 8,
+      "formal_value": 128,
+      "changed": true
+    },
+    {
+      "field": "training.total_epochs",
+      "day8_value": 1,
+      "formal_value": 1,
+      "changed": false
+    },
+    {
+      "field": "training.require_full_epoch",
+      "day8_value": true,
+      "formal_value": true,
+      "changed": false
+    },
+    {
+      "field": "training.save_frequency",
+      "day8_value": -1,
+      "formal_value": -1,
+      "changed": false
+    },
+    {
+      "field": "training.test_frequency",
+      "day8_value": -1,
+      "formal_value": -1,
+      "changed": false
+    },
+    {
+      "field": "training.max_actor_ckpt_to_keep",
+      "day8_value": 1,
+      "formal_value": 1,
+      "changed": false
+    },
+    {
+      "field": "training.resume_mode",
+      "day8_value": "disable",
+      "formal_value": "disable",
+      "changed": false
+    }
+  ],
+  "intentional_changes": [
+    {
+      "field": "data.dataloader_num_workers",
+      "from": 4,
+      "to": 0,
+      "reason": "Remove the DataLoader child-process failure mode observed after the Day 8 checkpoint save.",
+      "model_math_effect": "None; loading runs in the trainer process and throughput may be lower."
+    },
+    {
+      "field": "data.shuffle",
+      "from": false,
+      "to": true,
+      "reason": "The formal full train split uses seeded shuffling; Day 8 used an already ordered audit subset.",
+      "determinism_control": "experiment.seed=42 and actor data_loader_seed=42"
+    }
+  ],
+  "commands": {
+    "preflight_only": "bash scripts/run_vopd_2gpu.sh --config configs/vopd_1024.yaml --preflight-only",
+    "formal_training_after_all_gates_pass": "bash scripts/run_vopd_2gpu.sh --config configs/vopd_1024.yaml --run"
+  }
+}

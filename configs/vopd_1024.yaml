@@ -1,8 +1,9 @@
 schema_version: 1
 
 experiment:
-  id: E-D7-001
-  name: vision-opd-qwen35-4b-day7-smoke
+  id: E-D10-001
+  name: vision-opd-qwen35-4b-day10-formal-1024
+  group_name: E-D10-001
   prefix_source: online
   seed: 42
 
@@ -10,7 +11,7 @@ paths:
   model: /root/autodl-tmp/models/Qwen3.5-4B
   train_file: /root/autodl-tmp/data/vision_opd_1024/train_1024.parquet
   chat_template: chat_templates/perception_chat_template_qwen35.jinja
-  output_dir: artifacts/runs/E-D7-001
+  output_dir: artifacts/runs/E-D10-001
 
 data:
   expected_train_rows: 1024
@@ -21,7 +22,10 @@ data:
   max_response_length: 256
   truncation: error
   shuffle: true
-  dataloader_num_workers: 4
+  # Day 8 completed its checkpoint, then one DataLoader child was Killed.
+  # Run loading in the trainer process for the formal run to remove that
+  # child-process memory failure mode; this does not change model math.
+  dataloader_num_workers: 0
 
 actor:
   learning_rate: 2.0e-6
@@ -56,9 +60,14 @@ resources:
   nodes: 1
   gpus_per_node: 2
 
-smoke:
-  expected_samples: 16
-  total_optimizer_steps: 2
+training:
+  expected_samples: 1024
+  total_optimizer_steps: 128
+  total_epochs: 1
+  require_full_epoch: true
+  # verl saves the final step when save_frequency is -1. Keep only that
+  # checkpoint; temporary save headroom is enforced by the storage Gate.
   save_frequency: -1
   test_frequency: -1
-
+  max_actor_ckpt_to_keep: 1
+  resume_mode: disable

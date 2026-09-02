@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "dataset": "frozen Vision-OPD train split",
+  "grain": "one multimodal training example per sample_id",
+  "path": "/root/autodl-tmp/data/vision_opd_1024/train_1024.parquet",
+  "sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
+  "expected_sha256": "84062ec65baea0e18d5c712e7ee89c814105c0f1a51cd50df2e369b6036258fa",
+  "row_count": 1024,
+  "columns": [
+    "data_source",
+    "prompt",
+    "images",
+    "bbox_images",
+    "ability",
+    "reward_model",
+    "extra_info"
+  ],
+  "null_count_by_column": {
+    "data_source": 0,
+    "prompt": 0,
+    "images": 0,
+    "bbox_images": 0,
+    "ability": 0,
+    "reward_model": 0,
+    "extra_info": 0
+  },
+  "unique_sample_ids": 1024,
+  "prompt_empty_count": 0,
+  "empty_student_image_rows": 0,
+  "empty_teacher_image_rows": 0,
+  "missing_student_image_count": 0,
+  "missing_teacher_image_count": 0,
+  "cached_response_columns": [],
+  "checks": {
+    "sha256_frozen": true,
+    "row_count_1024": true,
+    "required_columns": true,
+    "sample_id_nonempty": true,
+    "sample_id_unique": true,
+    "prompt_nonempty": true,
+    "student_images_present": true,
+    "teacher_images_present": true,
+    "no_cached_response_columns": true
+  }
+}

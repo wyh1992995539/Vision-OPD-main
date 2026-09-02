@@ -1,0 +1,426 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Day 9 E-D10-001 Budget Gate",
+    "description": "Auditable 1024-sample Vision-OPD training projection and project-budget reconciliation.",
+    "generatedAt": "2026-09-01T08:35:24.233347+00:00",
+    "sources": [
+      {
+        "id": "day8_cost",
+        "label": "Day 8 stability cost evidence",
+        "path": "artifacts/runs/E-D8-001/cost.json",
+        "query": {
+          "description": "Recompute the 1024-sample projection from fixed overheads and the three steady-step scenarios.",
+          "language": "python",
+          "tables_used": [
+            "artifacts/runs/E-D8-001/cost.json"
+          ],
+          "filters": [
+            "target_samples=1024",
+            "global_batch_size=8"
+          ],
+          "metric_definitions": [
+            "total_seconds = startup + first_step + 127 * steady_step + checkpoint_save",
+            "estimated_cost_cny = total_seconds / 3600 * 11.96"
+          ]
+        }
+      },
+      {
+        "id": "budget_projection",
+        "label": "Day 9 budget reconciliation output",
+        "path": "artifacts/runs/E-D10-001/preflight/budget_projection.json",
+        "query": {
+          "description": "Classify repository cost files as projections or observed windows and sum only non-projection records.",
+          "language": "python",
+          "tables_used": [
+            "artifacts/runs/E-D5-001/cost.json",
+            "artifacts/runs/E-D6-001/base/cost.json",
+            "artifacts/runs/E-D8-001/cost.json",
+            "artifacts/runs/E-PAPER-BASEJUDGE-001/base/cost.json",
+            "artifacts/runs/E-PAPER-BASEJUDGE-001/smoke/base/cost.json",
+            "artifacts/runs/E-PAPER-BASEJUDGE-001/smoke_r2/base/cost.json"
+          ],
+          "metric_definitions": [
+            "documented subtotal = sum(cost records classified as observed); projections are excluded",
+            "launch threshold = 2000 CNY - conservative E-D10-001 reservation"
+          ]
+        }
+      }
+    ],
+    "cards": [
+      {
+        "id": "planning_cost",
+        "description": "Mean steady-step scenario selected as the formal planning baseline.",
+        "dataset": "budget_headlines",
+        "sourceId": "day8_cost",
+        "metrics": [
+          {
+            "label": "规划费用（CNY）",
+            "field": "planning_cost"
+          },
+          {
+            "label": "双卡时间",
+            "field": "planning_hours"
+          }
+        ]
+      },
+      {
+        "id": "reservation_cost",
+        "description": "Maximum observed steady-step scenario used for launch reservation.",
+        "dataset": "budget_headlines",
+        "sourceId": "day8_cost",
+        "metrics": [
+          {
+            "label": "保守预留（CNY）",
+            "field": "reservation_cost"
+          },
+          {
+            "label": "双卡时间",
+            "field": "reservation_hours"
+          }
+        ]
+      },
+      {
+        "id": "documented_subtotal",
+        "description": "Incomplete subtotal of non-projection cost records; not the platform bill.",
+        "dataset": "budget_headlines",
+        "sourceId": "budget_projection",
+        "metrics": [
+          {
+            "label": "仓库可见小计",
+            "field": "documented_subtotal"
+          },
+          {
+            "label": "覆盖状态",
+            "field": "ledger_status"
+          }
+        ]
+      }
+    ],
+    "charts": [
+      {
+        "id": "projection_cost_chart",
+        "title": "E-D10-001 三场景预计费用",
+        "subtitle": "1024 条、128 steps；双卡单价 11.96 CNY/小时",
+        "showDescription": true,
+        "question": "How much dual-GPU cost should be planned and reserved for E-D10-001?",
+        "rationale": "A bar chart makes the three discrete scenario magnitudes comparable without implying a time trend.",
+        "type": "bar",
+        "dataset": "projection_scenarios",
+        "sourceId": "day8_cost",
+        "encodings": {
+          "x": {
+            "field": "scenario",
+            "type": "nominal",
+            "label": "场景"
+          },
+          "y": {
+            "field": "estimated_cost_cny",
+            "type": "quantitative",
+            "format": "number",
+            "label": "预计费用",
+            "unit": "CNY"
+          },
+          "tooltip": [
+            {
+              "field": "dual_gpu_hours",
+              "type": "quantitative",
+              "label": "双卡小时"
+            },
+            {
+              "field": "steady_step_seconds",
+              "type": "quantitative",
+              "label": "稳态 step 秒"
+            },
+            {
+              "field": "optimizer_steps",
+              "type": "quantitative",
+              "label": "optimizer steps"
+            }
+          ]
+        },
+        "valueFormat": "number",
+        "unit": "CNY",
+        "layout": "full",
+        "maxRows": 3
+      }
+    ],
+    "tables": [
+      {
+        "id": "historical_ledger",
+        "title": "仓库成本记录清单",
+        "subtitle": "精确列示预测与观测窗口；预测不计入可见小计",
+        "showDescription": true,
+        "dataset": "historical_cost_entries",
+        "defaultSort": {
+          "field": "sort_order",
+          "direction": "asc"
+        },
+        "density": "dense",
+        "sourceId": "budget_projection",
+        "layout": "full",
+        "columns": [
+          {
+            "field": "record_id",
+            "label": "成本记录",
+            "type": "text"
+          },
+          {
+            "field": "record_type",
+            "label": "类型",
+            "type": "text"
+          },
+          {
+            "field": "cost_cny",
+            "label": "金额（CNY）",
+            "format": "number"
+          },
+          {
+            "field": "included",
+            "label": "计入小计",
+            "type": "text"
+          },
+          {
+            "field": "coverage",
+            "label": "覆盖范围",
+            "type": "text"
+          },
+          {
+            "field": "sort_order",
+            "label": "顺序",
+            "type": "number"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Day 9 E-D10-001 Budget Gate"
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "body": "## 预算外推已通过，累计账单仍待核对\n\n1024 条正式训练需要 128 steps。规划基线为 **1.02 双卡小时 / ¥12.25**，保守预留为 **1.74 双卡小时 / ¥20.84**。三种场景均由 Day 8 原始固定开销和稳态 step 重新计算，结果与源文件一致。\n\n用户报告 AutoDL 累计费用为 ¥200.00；加上 ¥20.84 保守预留后为 ¥220.84，预算 Gate 为 PASS。 本报告产物完整；其他 readiness Gate 仍独立控制 Day 10 启动。"
+      },
+      {
+        "id": "headline_metrics",
+        "type": "metric-strip",
+        "cardIds": [
+          "planning_cost",
+          "reservation_cost",
+          "documented_subtotal"
+        ]
+      },
+      {
+        "id": "projection_finding",
+        "type": "markdown",
+        "body": "## 保守预留比规划基线高约 70%\n\n下图比较同一训练合同下的三个离散情景。均值场景用于正式规划，稳态最大值只作为资源预留；差异来自 7 个 Day 8 稳态 step 的有限样本，不应解释为置信区间或 SLA。",
+        "sourceId": "day8_cost"
+      },
+      {
+        "id": "projection_chart",
+        "type": "chart",
+        "chartId": "projection_cost_chart",
+        "layout": "full"
+      },
+      {
+        "id": "scope_definitions",
+        "type": "markdown",
+        "body": "## 计算覆盖启动、首步、127 个稳态 step 和最终保存\n\n测量对象是 E-D10-001 的 1024 条训练、global batch 8、128 个 optimizer steps。总时间定义为 `startup + first_step + 127 × steady_step + checkpoint_save`；费用为双卡小时乘以 11.96 CNY。",
+        "sourceId": "day8_cost"
+      },
+      {
+        "id": "methodology",
+        "type": "markdown",
+        "body": "## 复算采用源值而非四舍五入后的报告数字\n\n脚本读取 Day 8 `cost.json` 的完整精度字段，逐场景重算总秒数、小时和费用，并以严格数值容差核对。Day 5 的外评成本文件被识别为 projection，明确排除在历史观测小计之外。"
+      },
+      {
+        "id": "ledger_finding",
+        "type": "markdown",
+        "body": "## 历史成本记录只能形成不完整小计\n\n非预测成本记录的仓库可见小计为 **¥27.68**。由于 Day 4、Day 5 Smoke、Day 7 和若干非观测计费窗口缺失，这个小计不能替代 AutoDL 平台累计费用。",
+        "sourceId": "budget_projection"
+      },
+      {
+        "id": "ledger_table",
+        "type": "table",
+        "tableId": "historical_ledger",
+        "layout": "full"
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "body": "## 仓库成本台账仍不完整，但平台控制值已补录\n\n部分记录明确排除了模型服务启动、关闭、空闲、失败尝试或计费舍入；部分记录只有客户端观测时长和更新时间，无法证明精确服务窗口。报告不把仓库小计冒充账单；控制判断采用用户报告的 AutoDL 累计值 ¥200.00。"
+      },
+      {
+        "id": "next_steps",
+        "type": "markdown",
+        "body": "## 预算 Gate 已关闭，继续检查其余 readiness Gate\n\n当前累计费用 **¥200.00** 低于启动阈值 **¥1979.16**。正式启动前应刷新控制台数值；配置、Git 和磁盘条件仍需独立通过。"
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## 仍需核对的问题\n\n- 启动前累计费用是否仍低于已计算阈值？\n- 是否存在仓库外的失败运行或空闲占用？\n- 平台采用什么计费舍入规则？"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-09-01T08:35:24.233347+00:00",
+    "status": "ready",
+    "datasets": {
+      "budget_headlines": [
+        {
+          "planning_cost": "¥12.25",
+          "planning_hours": "1.02 h",
+          "reservation_cost": "¥20.84",
+          "reservation_hours": "1.74 h",
+          "documented_subtotal": "¥27.68",
+          "ledger_status": "PARTIAL"
+        }
+      ],
+      "projection_scenarios": [
+        {
+          "scenario_key": "median",
+          "scenario": "中位稳态",
+          "sort_order": 1,
+          "steady_step_seconds": 21.861009687185287,
+          "total_seconds": 3208.3681406903215,
+          "dual_gpu_hours": 0.8912133724139782,
+          "estimated_cost_cny": 10.658911934071181,
+          "target_samples": 1024,
+          "optimizer_steps": 128,
+          "hourly_cost_cny": 11.96
+        },
+        {
+          "scenario_key": "mean",
+          "scenario": "均值规划",
+          "sort_order": 2,
+          "steady_step_seconds": 25.64192494031574,
+          "total_seconds": 3688.5443778378885,
+          "dual_gpu_hours": 1.0245956605105246,
+          "estimated_cost_cny": 12.254164099705875,
+          "target_samples": 1024,
+          "optimizer_steps": 128,
+          "hourly_cost_cny": 11.96
+        },
+        {
+          "scenario_key": "conservative_max",
+          "scenario": "保守预留",
+          "sort_order": 3,
+          "steady_step_seconds": 45.99778247624636,
+          "total_seconds": 6273.738284901077,
+          "dual_gpu_hours": 1.7427050791391883,
+          "estimated_cost_cny": 20.842752746504694,
+          "target_samples": 1024,
+          "optimizer_steps": 128,
+          "hourly_cost_cny": 11.96
+        }
+      ],
+      "historical_cost_entries": [
+        {
+          "sort_order": 1,
+          "record_id": "E-D5-001-projection",
+          "record_type": "projection",
+          "cost_cny": 43.17871798324157,
+          "included": "否",
+          "coverage": "Conservative full-evaluation projection; not observed spend."
+        },
+        {
+          "sort_order": 2,
+          "record_id": "E-D6-001-base",
+          "record_type": "observed_service_window",
+          "cost_cny": 23.46485555555556,
+          "included": "是",
+          "coverage": "Observed vLLM service start/stop timestamps; local Base 4B Judge used the same dual-GPU service."
+        },
+        {
+          "sort_order": 3,
+          "record_id": "E-PAPER-BASEJUDGE-001-smoke-r1",
+          "record_type": "observed_client_window",
+          "cost_cny": 0.07844163007777778,
+          "included": "是",
+          "coverage": "client_observed_inference_and_judge_sessions_only"
+        },
+        {
+          "sort_order": 4,
+          "record_id": "E-PAPER-BASEJUDGE-001-smoke-r2",
+          "record_type": "observed_client_window",
+          "cost_cny": 0.3249223133,
+          "included": "是",
+          "coverage": "client_observed_inference_and_judge_sessions_only"
+        },
+        {
+          "sort_order": 5,
+          "record_id": "E-PAPER-BASEJUDGE-001-base-r3",
+          "record_type": "observed_client_window",
+          "cost_cny": 1.2865629854277778,
+          "included": "是",
+          "coverage": "client_observed_inference_and_judge_sessions_only"
+        },
+        {
+          "sort_order": 6,
+          "record_id": "E-D8-001-training-window",
+          "record_type": "observed_evidence_window",
+          "cost_cny": 2.0315833568333335,
+          "included": "是",
+          "coverage": "evidence timestamp windows only; excludes unrecorded attempts, idle, and billing rounding"
+        },
+        {
+          "sort_order": 7,
+          "record_id": "E-D8-001-reload-window",
+          "record_type": "observed_evidence_window",
+          "cost_cny": 0.4906845711444445,
+          "included": "是",
+          "coverage": "evidence timestamp windows only; excludes unrecorded attempts, idle, and billing rounding"
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "day8_cost",
+      "label": "Day 8 stability cost evidence",
+      "path": "artifacts/runs/E-D8-001/cost.json",
+      "query": {
+        "description": "Recompute the 1024-sample projection from fixed overheads and the three steady-step scenarios.",
+        "language": "python",
+        "tables_used": [
+          "artifacts/runs/E-D8-001/cost.json"
+        ],
+        "filters": [
+          "target_samples=1024",
+          "global_batch_size=8"
+        ],
+        "metric_definitions": [
+          "total_seconds = startup + first_step + 127 * steady_step + checkpoint_save",
+          "estimated_cost_cny = total_seconds / 3600 * 11.96"
+        ]
+      }
+    },
+    {
+      "id": "budget_projection",
+      "label": "Day 9 budget reconciliation output",
+      "path": "artifacts/runs/E-D10-001/preflight/budget_projection.json",
+      "query": {
+        "description": "Classify repository cost files as projections or observed windows and sum only non-projection records.",
+        "language": "python",
+        "tables_used": [
+          "artifacts/runs/E-D5-001/cost.json",
+          "artifacts/runs/E-D6-001/base/cost.json",
+          "artifacts/runs/E-D8-001/cost.json",
+          "artifacts/runs/E-PAPER-BASEJUDGE-001/base/cost.json",
+          "artifacts/runs/E-PAPER-BASEJUDGE-001/smoke/base/cost.json",
+          "artifacts/runs/E-PAPER-BASEJUDGE-001/smoke_r2/base/cost.json"
+        ],
+        "metric_definitions": [
+          "documented subtotal = sum(cost records classified as observed); projections are excluded",
+          "launch threshold = 2000 CNY - conservative E-D10-001 reservation"
+        ]
+      }
+    }
+  ]
+}

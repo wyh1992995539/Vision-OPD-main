@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+  "resolved_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+  "inside_expected_runs_root": true,
+  "symlink_free": true,
+  "writable": true,
+  "unexpected_existing_files": [],
+  "allowed_preflight_files": [
+    "autodl_billing_input.json",
+    "base_model_manifest.json",
+    "budget_evidence.md",
+    "budget_projection.json",
+    "budget_report_artifact.json",
+    "data_manifest.json",
+    "git_state.json",
+    "output_path_gate.json",
+    "preflight_summary.json",
+    "storage_gate.json",
+    "task2_readiness.json",
+    "task2_readiness.md",
+    "task3_config_freeze.json",
+    "task3_config_freeze.md"
+  ],
+  "log_path": {
+    "status": "PASS",
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log",
+    "collision": false
+  }
+}

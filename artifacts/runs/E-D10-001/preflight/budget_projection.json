@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-01T08:35:24.233347+00:00",
+  "experiment_id": "E-D10-001",
+  "purpose": "day9_task1_formal_training_time_and_cost_budget",
+  "artifact_status": "COMPLETE",
+  "gate_status": "PASS",
+  "decision": "Budget gate passes; other Day 9 readiness gates still control Day 10 launch.",
+  "source_evidence": {
+    "day8_cost": {
+      "path": "artifacts/runs/E-D8-001/cost.json",
+      "sha256": "568f1ee47155917942b699af14866701bbe379b8ee80069fbf9a9a3997f0e080"
+    },
+    "day5_budget": {
+      "path": "artifacts/runs/E-D5-001/cost.json",
+      "sha256": "13fb707e790850b6c75e549db642689dfdb837396336b503096f7dc05744456d"
+    }
+  },
+  "training_contract": {
+    "target_samples": 1024,
+    "global_batch_size": 8,
+    "target_optimizer_steps": 128,
+    "first_step_count": 1,
+    "steady_step_count": 127
+  },
+  "formula": "startup_seconds + first_step_seconds + 127 * steady_step_seconds + checkpoint_save_seconds",
+  "projection_validation": {
+    "status": "PASS",
+    "all_source_values_recomputed": true,
+    "startup_seconds": 231.44967084221003,
+    "first_step_seconds": 86.48464148119092,
+    "steady_steps": 127,
+    "checkpoint_save_seconds": 114.08559809438884,
+    "cost_per_dual_gpu_hour_cny": 11.96,
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 21.861009687185287,
+        "total_seconds": 3208.3681406903215,
+        "dual_gpu_hours": 0.8912133724139782,
+        "estimated_cost_cny": 10.658911934071181
+      },
+      "mean": {
+        "steady_step_seconds": 25.64192494031574,
+        "total_seconds": 3688.5443778378885,
+        "dual_gpu_hours": 1.0245956605105246,
+        "estimated_cost_cny": 12.254164099705875
+      },
+      "conservative_max": {
+        "steady_step_seconds": 45.99778247624636,
+        "total_seconds": 6273.738284901077,
+        "dual_gpu_hours": 1.7427050791391883,
+        "estimated_cost_cny": 20.842752746504694
+      }
+    },
+    "planning_scenario": "mean",
+    "resource_reservation_scenario": "conservative_max"
+  },
+  "selected_budget": {
+    "planning": {
+      "scenario": "mean",
+      "steady_step_seconds": 25.64192494031574,
+      "total_seconds": 3688.5443778378885,
+      "dual_gpu_hours": 1.0245956605105246,
+      "estimated_cost_cny": 12.254164099705875
+    },
+    "reservation": {
+      "scenario": "conservative_max",
+      "steady_step_seconds": 45.99778247624636,
+      "total_seconds": 6273.738284901077,
+      "dual_gpu_hours": 1.7427050791391883,
+      "estimated_cost_cny": 20.842752746504694
+    }
+  },
+  "historical_cost_reconciliation": {
+    "status": "PARTIAL",
+    "currency": "CNY",
+    "documented_cost_record_subtotal_cny": 27.677050412338893,
+    "subtotal_interpretation": "Sum of non-projection cost records found in the repository; not an invoice total or complete project spend.",
+    "entries": [
+      {
+        "sort_order": 1,
+        "record_id": "E-D5-001-projection",
+        "experiment_id": "E-D5-001",
+        "record_type": "projection",
+        "cost_cny": 43.17871798324157,
+        "included_in_documented_subtotal": false,
+        "coverage": "Conservative full-evaluation projection; not observed spend.",
+        "source": {
+          "path": "artifacts/runs/E-D5-001/cost.json",
+          "sha256": "13fb707e790850b6c75e549db642689dfdb837396336b503096f7dc05744456d"
+        }
+      },
+      {
+        "sort_order": 2,
+        "record_id": "E-D6-001-base",
+        "experiment_id": "E-D6-001",
+        "record_type": "observed_service_window",
+        "cost_cny": 23.46485555555556,
+        "included_in_documented_subtotal": true,
+        "coverage": "Observed vLLM service start/stop timestamps; local Base 4B Judge used the same dual-GPU service.",
+        "source": {
+          "path": "artifacts/runs/E-D6-001/base/cost.json",
+          "sha256": "8bd19d291b8bc41e9a9b42e5a79234bf8f498266303c88e875743df324623603"
+        }
+      },
+      {
+        "sort_order": 3,
+        "record_id": "E-PAPER-BASEJUDGE-001-smoke-r1",
+        "experiment_id": "E-PAPER-BASEJUDGE-001",
+        "record_type": "observed_client_window",
+        "cost_cny": 0.07844163007777778,
+        "included_in_documented_subtotal": true,
+        "coverage": "client_observed_inference_and_judge_sessions_only",
+        "source": {
+          "path": "artifacts/runs/E-PAPER-BASEJUDGE-001/smoke/base/cost.json",
+          "sha256": "6592ea9db4cc0bb9173c49ea0e4ea2177e03dfdd7a21c45a3150da66abad15e6"
+        }
+      },
+      {
+        "sort_order": 4,
+        "record_id": "E-PAPER-BASEJUDGE-001-smoke-r2",
+        "experiment_id": "E-PAPER-BASEJUDGE-001",
+        "record_type": "observed_client_window",
+        "cost_cny": 0.3249223133,
+        "included_in_documented_subtotal": true,
+        "coverage": "client_observed_inference_and_judge_sessions_only",
+        "source": {
+          "path": "artifacts/runs/E-PAPER-BASEJUDGE-001/smoke_r2/base/cost.json",
+          "sha256": "c53d60f1f6f0e6e3d203c053af478e254f1c86ed9ae09ccd972175b1b7794fe8"
+        }
+      },
+      {
+        "sort_order": 5,
+        "record_id": "E-PAPER-BASEJUDGE-001-base-r3",
+        "experiment_id": "E-PAPER-BASEJUDGE-001",
+        "record_type": "observed_client_window",
+        "cost_cny": 1.2865629854277778,
+        "included_in_documented_subtotal": true,
+        "coverage": "client_observed_inference_and_judge_sessions_only",
+        "source": {
+          "path": "artifacts/runs/E-PAPER-BASEJUDGE-001/base/cost.json",
+          "sha256": "c5294d2154c0b2f0c942287bb82f468f56f4b1bed8a27ec07db242029e154294"
+        }
+      },
+      {
+        "sort_order": 6,
+        "record_id": "E-D8-001-training-window",
+        "experiment_id": "E-D8-001",
+        "record_type": "observed_evidence_window",
+        "cost_cny": 2.0315833568333335,
+        "included_in_documented_subtotal": true,
+        "coverage": "evidence timestamp windows only; excludes unrecorded attempts, idle, and billing rounding",
+        "source": {
+          "path": "artifacts/runs/E-D8-001/cost.json",
+          "sha256": "568f1ee47155917942b699af14866701bbe379b8ee80069fbf9a9a3997f0e080"
+        }
+      },
+      {
+        "sort_order": 7,
+        "record_id": "E-D8-001-reload-window",
+        "experiment_id": "E-D8-001",
+        "record_type": "observed_evidence_window",
+        "cost_cny": 0.4906845711444445,
+        "included_in_documented_subtotal": true,
+        "coverage": "evidence timestamp windows only; excludes unrecorded attempts, idle, and billing rounding",
+        "source": {
+          "path": "artifacts/runs/E-D8-001/cost.json",
+          "sha256": "568f1ee47155917942b699af14866701bbe379b8ee80069fbf9a9a3997f0e080"
+        }
+      }
+    ],
+    "quality_findings": [
+      {
+        "severity": "HIGH",
+        "scope": "platform_total",
+        "finding": "No AutoDL billing export or authoritative current cumulative charge is archived.",
+        "impact": "The 2000 CNY project-cap gate cannot be marked PASS from repository evidence alone.",
+        "remediation": "Record the current platform cumulative charge before Day 10 launch."
+      },
+      {
+        "severity": "MEDIUM",
+        "scope": "E-D4-001_E-D5-001_E-D7-001",
+        "finding": "Observed GPU cost files are absent for Day 4, Day 5 Smoke, and Day 7.",
+        "impact": "The documented subtotal is incomplete and must not be presented as the cloud bill.",
+        "remediation": "Reconcile these runs against the platform billing export."
+      },
+      {
+        "severity": "MEDIUM",
+        "scope": "measurement_coverage",
+        "finding": "Several cost records exclude startup, shutdown, idle time, failed attempts, or billing rounding.",
+        "impact": "Summed records represent documented workload windows, not invoice-level spend.",
+        "remediation": "Use the platform cumulative charge as the controlling budget source."
+      },
+      {
+        "severity": "LOW",
+        "scope": "window_overlap",
+        "finding": "Some paper-aligned records have duration and update time but no exact service interval.",
+        "impact": "Exact overlap cannot be proven from the cost files, although runs are chronologically distinct.",
+        "remediation": "Do not treat the documented subtotal as an audited invoice total."
+      }
+    ]
+  },
+  "project_cap": {
+    "hard_cap_cny": 2000.0,
+    "reserved_e_d10_cost_cny": 20.842752746504694,
+    "maximum_current_platform_cumulative_charge_for_launch_cny": 1979.1572472534954,
+    "maximum_unreconciled_cost_above_documented_subtotal_cny": 1951.4801968411564,
+    "current_platform_cumulative_charge_cny": 200.0,
+    "projected_total_after_e_d10_reservation_cny": 220.8427527465047,
+    "remaining_after_e_d10_reservation_cny": 1779.1572472534954,
+    "status": "PASS",
+    "input_provenance": "User-reported AutoDL console cumulative charge in the current Codex session."
+  },
+  "gates": [
+    {
+      "gate": "Day 8 projection identity and arithmetic",
+      "status": "PASS",
+      "evidence": "1024 samples / batch 8 = 128 steps; all three scenarios recomputed exactly."
+    },
+    {
+      "gate": "Frozen dual-GPU price",
+      "status": "PASS",
+      "evidence": "11.96 CNY per dual-GPU hour."
+    },
+    {
+      "gate": "E-D10-001 planning and reservation",
+      "status": "PASS",
+      "evidence": "Mean scenario is planning baseline; conservative maximum is reservation."
+    },
+    {
+      "gate": "Project cumulative spend reconciliation",
+      "status": "PASS",
+      "evidence": "User-reported AutoDL cumulative charge is 200.00 CNY; conservative projected total is 220.84 CNY."
+    }
+  ],
+  "required_next_input": null,
+  "report_design": {
+    "audience": "technical",
+    "delivery_mode": "portable_html",
+    "chart": "Single-series bar comparison of the three discrete cost scenarios; no color grouping.",
+    "table": "Exact historical cost-record ledger; projections excluded from the documented subtotal.",
+    "omission": "No time-series chart because the evidence is a set of discrete experiment windows, not a continuous billing series."
+  }
+}
