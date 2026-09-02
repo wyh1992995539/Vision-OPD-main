@@ -6,6 +6,9 @@
   "symlink_free": true,
   "writable": true,
   "unexpected_existing_files": [],
+  "allowed_output_root_files": [
+    "preflight.md"
+  ],
   "allowed_preflight_files": [
     "autodl_billing_input.json",
     "base_model_manifest.json",
@@ -20,7 +23,8 @@
     "task2_readiness.json",
     "task2_readiness.md",
     "task3_config_freeze.json",
-    "task3_config_freeze.md"
+    "task3_config_freeze.md",
+    "task4_preflight_report.json"
   ],
   "log_path": {
     "status": "PASS",

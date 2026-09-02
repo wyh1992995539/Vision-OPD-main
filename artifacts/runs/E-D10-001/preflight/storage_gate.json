@@ -1,13 +1,13 @@
 {
-  "status": "FAIL",
+  "status": "PASS",
   "filesystem_probe": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
-  "total_bytes": 161061273600,
-  "used_bytes": 91696455680,
-  "available_bytes": 69364817920,
+  "total_bytes": 257698037760,
+  "used_bytes": 91717349376,
+  "available_bytes": 165980688384,
   "day8_checkpoint_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8",
   "day8_checkpoint_size_bytes": 57034960981,
   "formula": "2 * final_checkpoint_estimate + 5 GiB",
   "required_bytes": 119438631082,
-  "shortage_bytes": 50073813162,
-  "remediation": "Free or add sufficient storage, then rerun Task 2. No files were deleted by this audit."
+  "shortage_bytes": 0,
+  "remediation": null
 }

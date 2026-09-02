@@ -98,6 +98,14 @@ class FinalizeDay9PreflightReportTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "readiness_pass"):
             build_payload(sources, {})
 
+    def test_classifies_material_storage_margin_as_pass(self):
+        sources = valid_sources()
+        sources["readiness"]["storage"]["available_bytes"] = 130_000_000_000
+        payload = build_payload(sources, {})
+
+        self.assertEqual(payload["storage"]["report_classification"], "PASS")
+        self.assertEqual(payload["risks"][0]["severity"], "INFO")
+
 
 if __name__ == "__main__":
     unittest.main()

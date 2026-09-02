@@ -1,17 +1,14 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-01T08:51:09.023141+00:00",
+  "generated_at_utc": "2026-09-02T06:03:08.617515+00:00",
   "experiment_id": "E-D10-001",
   "purpose": "day9_task2_formal_training_inputs_and_paths",
   "artifact_status": "COMPLETE",
   "task2_completed": true,
-  "readiness_status": "BLOCKED",
+  "readiness_status": "PASS",
   "advance_to_task3": true,
-  "advance_to_day10": false,
-  "blocking_gates": [
-    "git_state",
-    "storage"
-  ],
+  "advance_to_day10": true,
+  "blocking_gates": [],
   "gates": {
     "data": {
       "status": "PASS",
@@ -26,8 +23,8 @@
       "evidence": "E-D10 identity and 1024/128 formal settings"
     },
     "git_state": {
-      "status": "PENDING_COMMIT",
-      "evidence": "commit=e28db390f181; clean=False; diff-check=PASS"
+      "status": "PASS",
+      "evidence": "commit=f47e9947e0d6; clean=True; diff-check=PASS"
     },
     "output_directory": {
       "status": "PASS",
@@ -38,8 +35,8 @@
       "evidence": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log"
     },
     "storage": {
-      "status": "FAIL",
-      "evidence": "required=119438631082; available=69364817920; shortage=50073813162"
+      "status": "PASS",
+      "evidence": "required=119438631082; available=165980688384; shortage=0"
     },
     "budget": {
       "status": "PASS",
@@ -380,20 +377,11 @@
     "handoff": "Task 3 formal parameter contract is frozen; rerun this gate after any config edit."
   },
   "git": {
-    "status": "PENDING_COMMIT",
-    "commit": "e28db390f1811608a2034f71ce1469a6cfaf88e3",
+    "status": "PASS",
+    "commit": "f47e9947e0d62400a6659a9255a1cda33c2ccdbf",
     "branch": "main",
-    "clean": false,
-    "porcelain": [
-      "M configs/vopd_1024.yaml",
-      "?? artifacts/runs/E-D10-001/",
-      "?? scripts/day9_formal_training_readiness.py",
-      "?? scripts/finalize_day9_budget.py",
-      "?? scripts/finalize_day9_config_freeze.py",
-      "?? tests/test_day9_formal_training_readiness.py",
-      "?? tests/test_finalize_day9_budget.py",
-      "?? tests/test_finalize_day9_config_freeze.py"
-    ],
+    "clean": true,
+    "porcelain": [],
     "diff_check_status": "PASS",
     "diff_check_output": ""
   },
@@ -405,6 +393,9 @@
     "symlink_free": true,
     "writable": true,
     "unexpected_existing_files": [],
+    "allowed_output_root_files": [
+      "preflight.md"
+    ],
     "allowed_preflight_files": [
       "autodl_billing_input.json",
       "base_model_manifest.json",
@@ -419,7 +410,8 @@
       "task2_readiness.json",
       "task2_readiness.md",
       "task3_config_freeze.json",
-      "task3_config_freeze.md"
+      "task3_config_freeze.md",
+      "task4_preflight_report.json"
     ],
     "log_path": {
       "status": "PASS",
@@ -428,33 +420,26 @@
     }
   },
   "storage": {
-    "status": "FAIL",
+    "status": "PASS",
     "filesystem_probe": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
-    "total_bytes": 161061273600,
-    "used_bytes": 91696455680,
-    "available_bytes": 69364817920,
+    "total_bytes": 257698037760,
+    "used_bytes": 91717349376,
+    "available_bytes": 165980688384,
     "day8_checkpoint_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8",
     "day8_checkpoint_size_bytes": 57034960981,
     "formula": "2 * final_checkpoint_estimate + 5 GiB",
     "required_bytes": 119438631082,
-    "shortage_bytes": 50073813162,
-    "remediation": "Free or add sufficient storage, then rerun Task 2. No files were deleted by this audit."
+    "shortage_bytes": 0,
+    "remediation": null
   },
   "budget_source": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/preflight/budget_projection.json",
   "findings": [
     {
-      "severity": "MEDIUM",
+      "severity": "INFO",
       "confidence": "HIGH",
-      "finding": "The working tree contains uncommitted Day 9 artifacts and scripts.",
-      "impact": "The exact launch state is not yet represented by a commit.",
-      "remediation": "After Task 3-5 review, commit the frozen config, scripts, tests, and evidence together."
-    },
-    {
-      "severity": "CRITICAL",
-      "confidence": "HIGH",
-      "finding": "Storage is short by 50073813162 bytes against the frozen formula.",
-      "impact": "Checkpoint creation or retention could exhaust the filesystem.",
-      "remediation": "Free or add capacity without deleting evidence blindly, then rerun this audit."
+      "finding": "All Task 2 gates pass.",
+      "impact": "Task 3 may proceed.",
+      "remediation": "Continue with parameter freeze."
     }
   ],
   "assumptions": [

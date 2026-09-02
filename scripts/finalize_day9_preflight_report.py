@@ -72,6 +72,23 @@ def build_payload(
     storage = readiness["storage"]
     storage_margin = int(storage["available_bytes"]) - int(storage["required_bytes"])
     storage_class = "PASS_WITH_LOW_HEADROOM" if storage_margin < 5 * GIB else "PASS"
+    storage_risk = (
+        {
+            "severity": "HIGH",
+            "status": storage_class,
+            "risk": "Storage passes the frozen formula with limited additional headroom.",
+            "evidence": f"margin={storage_margin} bytes after 2 x checkpoint + 5 GiB",
+            "handoff": "Task 5 must monitor filesystem free space and abort before the reserve is consumed.",
+        }
+        if storage_class == "PASS_WITH_LOW_HEADROOM"
+        else {
+            "severity": "INFO",
+            "status": storage_class,
+            "risk": "Storage exceeds the frozen checkpoint-retention formula with additional headroom.",
+            "evidence": f"margin={storage_margin} bytes after 2 x checkpoint + 5 GiB",
+            "handoff": "Retain filesystem monitoring in Task 5 because checkpoint writes are still large.",
+        }
+    )
     planning = budget["selected_budget"]["planning"]
     reservation = budget["selected_budget"]["reservation"]
     cap = budget["project_cap"]
@@ -102,13 +119,7 @@ def build_payload(
     )
 
     risks = [
-        {
-            "severity": "HIGH",
-            "status": storage_class,
-            "risk": "Storage passes the frozen formula with limited additional headroom.",
-            "evidence": f"margin={storage_margin} bytes after 2 x checkpoint + 5 GiB",
-            "handoff": "Task 5 must monitor filesystem free space and abort before the reserve is consumed.",
-        },
+        storage_risk,
         {
             "severity": "MEDIUM",
             "status": "MITIGATED_REQUIRES_MONITORING",
@@ -190,6 +201,18 @@ def build_markdown(payload: dict[str, Any]) -> str:
         f"- `{name}`：`{value['path']}`，SHA256 `{value['sha256']}`"
         for name, value in payload["sources"].items()
     )
+    if storage["report_classification"] == "PASS_WITH_LOW_HEADROOM":
+        storage_summary = (
+            f"公式之外仅剩 {storage['margin_above_required_bytes']} bytes（约 "
+            f"{storage['margin_above_required_bytes'] / GIB:.2f} GiB），因此标记为 "
+            "`PASS_WITH_LOW_HEADROOM`。这不是容量 FAIL，但要求训练期持续监控。"
+        )
+    else:
+        storage_summary = (
+            f"公式之外另有 {storage['margin_above_required_bytes']} bytes（约 "
+            f"{storage['margin_above_required_bytes'] / GIB:.2f} GiB）余量，容量 Gate 为 `PASS`。"
+            "checkpoint 写入量仍然较大，因此任务 5 继续保留磁盘监控。"
+        )
     return f"""# E-D10-001 基础 Gate 已通过，Day 10 仍等待中止条件冻结
 
 > 生成时间：{payload['generated_at_utc']}
@@ -201,7 +224,7 @@ def build_markdown(payload: dict[str, Any]) -> str:
 
 E-D10-001 的数据、Base、正式配置、预算、Git、输出目录、日志路径、磁盘和 CPU-only launcher preflight 均已通过。任务 4 已完成，可以进入任务 5；当前仍不得执行正式训练，因为训练中止条件和观测性控制尚未冻结。
 
-磁盘满足项目定义的 `2 × 最终 checkpoint 估算 + 5 GiB`，但公式之外只剩 {storage['margin_above_required_bytes']} bytes（约 {storage['margin_above_required_bytes'] / GIB:.2f} GiB），因此报告将它标记为 `{storage['report_classification']}`。这不是容量 FAIL，但要求训练期持续监控。
+磁盘满足项目定义的 `2 × 最终 checkpoint 估算 + 5 GiB`。{storage_summary}
 
 ## 正式训练合同
 

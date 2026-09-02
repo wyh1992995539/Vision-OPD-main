@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-02T06:07:07.519370+00:00",
+  "experiment_id": "E-D10-001",
+  "purpose": "day9_task4_formal_training_preflight_report",
+  "artifact_status": "COMPLETE",
+  "report_status": "PASS_TO_TASK5",
+  "task4_completed": true,
+  "advance_to_task5": true,
+  "advance_to_day10": false,
+  "day10_block_reason": "Task 5 executable abort conditions and monitoring remain to be frozen.",
+  "audited_source_commit": "f47e9947e0d62400a6659a9255a1cda33c2ccdbf",
+  "audited_source_worktree_clean": true,
+  "source_gates": {
+    "readiness_pass": true,
+    "all_readiness_gates_pass": true,
+    "task3_config_pass": true,
+    "config_hashes_match": true,
+    "launcher_preflight_pass": true,
+    "launcher_used_no_gpu": true,
+    "data_pass": true,
+    "base_pass": true,
+    "budget_pass": true,
+    "day8_cold_reload_pass": true
+  },
+  "config_hashes": {
+    "task3_freeze": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c",
+    "launcher_preflight": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c"
+  },
+  "training_contract": {
+    "expected_samples": 1024,
+    "global_batch_size": 8,
+    "optimizer_steps": 128,
+    "total_epochs": 1,
+    "require_full_epoch": true
+  },
+  "gate_rows": [
+    {
+      "gate": "data",
+      "status": "PASS",
+      "evidence": "1024 rows; frozen SHA256 match=True"
+    },
+    {
+      "gate": "base",
+      "status": "PASS",
+      "evidence": "frozen shard hashes match=True"
+    },
+    {
+      "gate": "config_identity",
+      "status": "PASS",
+      "evidence": "E-D10 identity and 1024/128 formal settings"
+    },
+    {
+      "gate": "git_state",
+      "status": "PASS",
+      "evidence": "commit=f47e9947e0d6; clean=True; diff-check=PASS"
+    },
+    {
+      "gate": "output_directory",
+      "status": "PASS",
+      "evidence": "unexpected files=0"
+    },
+    {
+      "gate": "log_path",
+      "status": "PASS",
+      "evidence": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log"
+    },
+    {
+      "gate": "storage",
+      "status": "PASS",
+      "evidence": "required=119438631082; available=165980688384; shortage=0"
+    },
+    {
+      "gate": "budget",
+      "status": "PASS",
+      "evidence": "current=200.0 CNY; projected=220.8427527465047 CNY"
+    },
+    {
+      "gate": "launcher_preflight",
+      "status": "PASS",
+      "evidence": "1024 rows; missing images=0; gpu_used=false"
+    },
+    {
+      "gate": "config_hash_identity",
+      "status": "PASS",
+      "evidence": "5977d0b7adda448287d7410431c9461a6f6f53c04792390b9b13d9529a00b30c"
+    },
+    {
+      "gate": "day8_cold_reload",
+      "status": "PASS",
+      "evidence": "5 predictions; 0 inference errors"
+    }
+  ],
+  "time_and_cost": {
+    "currency": "CNY",
+    "planning_dual_gpu_hours": 1.0245956605105246,
+    "planning_cost_cny": 12.254164099705875,
+    "reservation_dual_gpu_hours": 1.7427050791391883,
+    "reservation_cost_cny": 20.842752746504694,
+    "current_autodl_cumulative_charge_cny": 200.0,
+    "projected_total_after_reservation_cny": 220.8427527465047,
+    "remaining_after_reservation_cny": 1779.1572472534954
+  },
+  "storage": {
+    "status": "PASS",
+    "filesystem_probe": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001",
+    "total_bytes": 257698037760,
+    "used_bytes": 91717349376,
+    "available_bytes": 165980688384,
+    "day8_checkpoint_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D8-001/checkpoints/global_step_8",
+    "day8_checkpoint_size_bytes": 57034960981,
+    "formula": "2 * final_checkpoint_estimate + 5 GiB",
+    "required_bytes": 119438631082,
+    "shortage_bytes": 0,
+    "remediation": null,
+    "margin_above_required_bytes": 46542057302,
+    "report_classification": "PASS"
+  },
+  "risks": [
+    {
+      "severity": "INFO",
+      "status": "PASS",
+      "risk": "Storage exceeds the frozen checkpoint-retention formula with additional headroom.",
+      "evidence": "margin=46542057302 bytes after 2 x checkpoint + 5 GiB",
+      "handoff": "Retain filesystem monitoring in Task 5 because checkpoint writes are still large."
+    },
+    {
+      "severity": "MEDIUM",
+      "status": "MITIGATED_REQUIRES_MONITORING",
+      "risk": "Day 8 recorded one DataLoader worker Killed event after checkpoint save.",
+      "evidence": "Formal config sets data.dataloader_num_workers=0.",
+      "handoff": "Task 5 must capture trainer RSS and cgroup memory events."
+    },
+    {
+      "severity": "MEDIUM",
+      "status": "REFRESH_BEFORE_LAUNCH",
+      "risk": "The controlling AutoDL cumulative charge is a user-reported point-in-time value.",
+      "evidence": "recorded current=200.0 CNY",
+      "handoff": "Refresh the console value immediately before Day 10 launch."
+    },
+    {
+      "severity": "HIGH",
+      "status": "OPEN_TASK5",
+      "risk": "Training abort conditions and monitoring are not yet frozen as executable controls.",
+      "evidence": "Day 9 Task 5 remains incomplete.",
+      "handoff": "Complete Task 5 before authorizing the --run command."
+    }
+  ],
+  "day8_caveats": [
+    "one DataLoader worker was killed after 8/8 and checkpoint save; no contemporaneous cgroup/RSS snapshot exists",
+    "logged GPU memory values cannot be interpreted as an auditable per-device peak",
+    "the run started from a dirty Git worktree, although config/data hashes and status were recorded",
+    "the 1024 projection uses seven steady steps from a 64-sample subset",
+    "the final cold-reload pass reused an already merged model and excludes merge time"
+  ],
+  "commands": {
+    "preflight_only": "bash scripts/run_vopd_2gpu.sh --config configs/vopd_1024.yaml --preflight-only",
+    "formal_training_after_task5_and_launch_refresh": "bash scripts/run_vopd_2gpu.sh --config configs/vopd_1024.yaml --run"
+  },
+  "sources": {
+    "budget": {
+      "path": "artifacts/runs/E-D10-001/preflight/budget_projection.json",
+      "sha256": "56da1e5269f0d89329e6efba50ce891e8c0f253374adfc4e083f62a6180b093e"
+    },
+    "data": {
+      "path": "artifacts/runs/E-D10-001/preflight/data_manifest.json",
+      "sha256": "edfd183340e8cc635512d8bcd137a618247cf27738e736b143f80ee48437cc63"
+    },
+    "base": {
+      "path": "artifacts/runs/E-D10-001/preflight/base_model_manifest.json",
+      "sha256": "f8e7f3d922acb63a9dd9d6866d5bf70a4c5c3af1c93bc4546f8b99d179d8a11c"
+    },
+    "launcher": {
+      "path": "artifacts/runs/E-D10-001/preflight/preflight_summary.json",
+      "sha256": "fcd9dadebce0fcfff102e2d6394b4895db0b771fd1e9b227798f947666fa7398"
+    },
+    "readiness": {
+      "path": "artifacts/runs/E-D10-001/preflight/task2_readiness.json",
+      "sha256": "4d6b26c651a08aaa6f12771aabacb30366473edda5640f946b4a5f14b582821a"
+    },
+    "config_freeze": {
+      "path": "artifacts/runs/E-D10-001/preflight/task3_config_freeze.json",
+      "sha256": "c5374f6bee49fc6d97e2e32b3ef0c62f83ac4cc4a412e748448ac5a33d11281c"
+    },
+    "day8_stability": {
+      "path": "artifacts/runs/E-D8-001/evidence/stability_summary.json",
+      "sha256": "2f4fad9a3187f835df2295327d51aa4518c80afb07d7c634b86ff475884cde51"
+    }
+  },
+  "visual_omission_reason": "Readiness evidence is a point-in-time set of discrete gates, not a time series; tables are more faithful than a chart."
+}

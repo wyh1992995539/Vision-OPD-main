@@ -334,8 +334,8 @@ def build_markdown(report: dict[str, Any]) -> str:
         )
     return f"""# Day 9 Task 2：E-D10-001 正式训练输入与路径审计
 
-> 产物状态：**{report['artifact_status']}**  
-> Readiness：**{report['readiness_status']}**  
+> 产物状态：**{report['artifact_status']}**
+> Readiness：**{report['readiness_status']}**
 > 审计时间：{report['generated_at_utc']}
 
 ## 结论

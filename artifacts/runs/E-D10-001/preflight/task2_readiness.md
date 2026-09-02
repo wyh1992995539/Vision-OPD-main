@@ -1,12 +1,12 @@
 # Day 9 Task 2：E-D10-001 正式训练输入与路径审计
 
-> 产物状态：**COMPLETE**  
-> Readiness：**BLOCKED**  
-> 审计时间：2026-09-01T08:51:09.023141+00:00
+> 产物状态：**COMPLETE**
+> Readiness：**PASS**
+> 审计时间：2026-09-02T06:03:08.617515+00:00
 
 ## 结论
 
-正式 E-D10-001 配置已经冻结并通过身份检查。任务 2/3 的审计产物完整，但 Git 尚未提交且磁盘容量不足，因此 readiness 仍为 `BLOCKED`，不能进入 Day 10。
+正式 E-D10-001 配置已冻结，数据、Base、预算、Git、磁盘、输出目录和日志路径 Gate 全部通过。基础 readiness 已关闭，可以生成 Task 4 正式报告；Day 10 仍需等待 Task 5 中止条件落盘。
 
 ## Gate
 
@@ -15,22 +15,21 @@
 | data | PASS | 1024 rows; frozen SHA256 match=True |
 | base | PASS | frozen shard hashes match=True |
 | config_identity | PASS | E-D10 identity and 1024/128 formal settings |
-| git_state | PENDING_COMMIT | commit=e28db390f181; clean=False; diff-check=PASS |
+| git_state | PASS | commit=f47e9947e0d6; clean=True; diff-check=PASS |
 | output_directory | PASS | unexpected files=0 |
 | log_path | PASS | /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-001/logs/train.log |
-| storage | FAIL | required=119438631082; available=69364817920; shortage=50073813162 |
+| storage | PASS | required=119438631082; available=165980688384; shortage=0 |
 | budget | PASS | current=200.0 CNY; projected=220.8427527465047 CNY |
 
 ## 数据质量发现
 
-- **MEDIUM / HIGH**：The working tree contains uncommitted Day 9 artifacts and scripts. 影响：The exact launch state is not yet represented by a commit. 处理：After Task 3-5 review, commit the frozen config, scripts, tests, and evidence together.
-- **CRITICAL / HIGH**：Storage is short by 50073813162 bytes against the frozen formula. 影响：Checkpoint creation or retention could exhaust the filesystem. 处理：Free or add capacity without deleting evidence blindly, then rerun this audit.
+- **INFO / HIGH**：All Task 2 gates pass. 影响：Task 3 may proceed. 处理：Continue with parameter freeze.
 
 ## 磁盘计算
 
 - Day 8 checkpoint：57034960981 bytes。
 - 要求：`2 × checkpoint + 5 GiB` = 119438631082 bytes。
-- 当前可用：69364817920 bytes；缺口：50073813162 bytes。
+- 当前可用：165980688384 bytes；缺口：0 bytes。
 - 审计未删除、移动任何文件，也未启动 GPU。
 
 ## 范围与限制
