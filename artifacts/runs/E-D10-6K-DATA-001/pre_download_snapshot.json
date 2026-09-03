@@ -1,0 +1,21 @@
+{
+  "observed_at_utc": "2026-09-03T05:26:08.167100+00:00",
+  "scope": "before_current_invocation; raw metadata may already be present",
+  "git_status_short": [],
+  "path": "/root/autodl-tmp",
+  "total_bytes": 322122547200,
+  "used_bytes": 146498945024,
+  "free_bytes": 175623602176,
+  "free_gib": 163.56222534179688,
+  "system_disk_free_bytes": 6139125760,
+  "dataset_root_bytes": 31287787107,
+  "cache_environment": {
+    "HF_HOME": "/root/autodl-tmp/hf_cache",
+    "HUGGINGFACE_HUB_CACHE": "/root/autodl-tmp/hf_cache/hub",
+    "HF_DATASETS_CACHE": "/root/autodl-tmp/hf_cache/datasets",
+    "TORCH_HOME": "/root/autodl-tmp/torch_cache",
+    "PIP_CACHE_DIR": "/root/autodl-tmp/pip_cache",
+    "XDG_CACHE_HOME": "/root/autodl-tmp/xdg_cache",
+    "TMPDIR": "/root/autodl-tmp/tmp"
+  }
+}

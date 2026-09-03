@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "mode": "extract",
+  "raw_dir": "/root/autodl-tmp/data/vision_opd_6241/raw",
+  "subset_root": "/root/autodl-tmp/data/vision_opd_6241",
+  "manifest_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241",
+  "frozen_sample_count": 6241,
+  "student": {
+    "label": "student",
+    "requested": 6241,
+    "found": 6241,
+    "written": 0,
+    "reused": 6241,
+    "members_scanned": 6242,
+    "duplicates": [],
+    "missing": [],
+    "elapsed_seconds": 200.205
+  },
+  "teacher": {
+    "label": "teacher",
+    "requested": 6241,
+    "found": 6241,
+    "written": 0,
+    "reused": 6241,
+    "members_scanned": 6242,
+    "duplicates": [],
+    "missing": [],
+    "elapsed_seconds": 26.318
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "algorithm_version": "original-image-one-sample-v1",
+  "cross_split_group_overlap_count": 0,
+  "eligible_group_representatives": 6241,
+  "groups_with_multiple_records": 0,
+  "invalid_records": 0,
+  "issue_counts": {},
+  "question_type_counts_selected": {
+    "multiple_choice": 6241
+  },
+  "schema_version": 1,
+  "selected_counts": {
+    "train": 6241
+  },
+  "total_records": 6241,
+  "unique_original_image_groups": 6241,
+  "valid_records": 6241
+}

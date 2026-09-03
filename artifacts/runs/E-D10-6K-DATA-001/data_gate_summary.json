@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "source_path": "/root/autodl-tmp/data/vision_opd_6241/raw/train.jsonl",
+    "source_sha256": "8ad2fb81da0f6fba1766545dc5f84cc2250e48704738757461b2d75aa31821df",
+    "manifest_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241",
+    "candidate_sha256": "24b842cf1323f332ee74a87bbf2bfdcaac3afebc14a92e3362831ee22bd82c43",
+    "historical_reconciliation": {
+      "historical_rows": 1216,
+      "historical_unique_ids": 1216,
+      "candidate_unique_ids": 6241,
+      "missing_historical_ids": 0
+    }
+  },
+  "pre_download_storage": {
+    "status": "PASS",
+    "free_bytes": 144254803968,
+    "expected_archive_bytes": 31283220139,
+    "present_archive_bytes": 31283220139,
+    "remaining_archive_bytes": 0,
+    "conservative_extracted_bytes": 42949672960,
+    "present_extracted_bytes": 31321802388,
+    "remaining_extracted_bytes": 11627870572,
+    "safety_free_bytes_after_extraction": 128849018880,
+    "required_free_bytes_for_remaining_work": 140476889452
+  },
+  "images_and_parquet": {
+    "archive_identity": {
+      "images/images.tar.gz00": {
+        "byte_size": 5368709120,
+        "sha256": "e72239bb03d393886e84aa2758eabcad387b03e86a7d7ce7238178f5832f52d0"
+      },
+      "images/images.tar.gz01": {
+        "byte_size": 5368709120,
+        "sha256": "3e0872e7ae37cc4b94019ec0f23ae274ec5c1f7dbebfa087e6219e0da9301979"
+      },
+      "images/images.tar.gz02": {
+        "byte_size": 5368709120,
+        "sha256": "b0bd79677a7439e87745f39716da57b85796dc241974032831ef67772f96be1a"
+      },
+      "images/images.tar.gz03": {
+        "byte_size": 5368709120,
+        "sha256": "4b230e8f814b22117126064e8eb6d4d7ba6f639860c6982a387ce8bb814e99ee"
+      },
+      "images/images.tar.gz04": {
+        "byte_size": 5368709120,
+        "sha256": "d7872e12c1ab49ca4fd0773f1e6aa621a7c3ef8355ca7e72fc57e8ce6292cfc6"
+      },
+      "images/images.tar.gz05": {
+        "byte_size": 1496961022,
+        "sha256": "44844e97bc43ee0bf8546ae50ca5b709decb22c144bfda410f3ddfe8c546060a"
+      },
+      "teacher_images/teacher_images.tar.gz": {
+        "byte_size": 2942713517,
+        "sha256": "f2fb6541e8e1ea4e33114aff9d511c5e8ce764c0972798151c8d5b1b5b91883e"
+      }
+    },
+    "extraction_report": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241/extraction_report.json",
+    "validation_report": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241/vision_opd_6241_data_qa.json",
+    "statistics_report": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241/vision_opd_6241_stats.json",
+    "image_sha256_report": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241/vision_opd_6241_sha256.txt",
+    "train_parquet": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet"
+  },
+  "schema_version": 1,
+  "stage": "all",
+  "status": "PASS",
+  "overall_data_gate_status": "PASS",
+  "disk_after": {
+    "observed_at_utc": "2026-09-03T06:31:02.170188+00:00",
+    "scope": "after_current_invocation",
+    "git_status_short": [
+      "?? artifacts/data/",
+      "?? artifacts/runs/E-D10-6K-DATA-001/"
+    ],
+    "path": "/root/autodl-tmp",
+    "total_bytes": 322122547200,
+    "used_bytes": 177870700544,
+    "free_bytes": 144251846656,
+    "free_gib": 134.34500122070312,
+    "system_disk_free_bytes": 6145888256,
+    "dataset_root_bytes": 62611636468,
+    "cache_environment": {
+      "HF_HOME": "/root/autodl-tmp/hf_cache",
+      "HUGGINGFACE_HUB_CACHE": "/root/autodl-tmp/hf_cache/hub",
+      "HF_DATASETS_CACHE": "/root/autodl-tmp/hf_cache/datasets",
+      "TORCH_HOME": "/root/autodl-tmp/torch_cache",
+      "PIP_CACHE_DIR": "/root/autodl-tmp/pip_cache",
+      "XDG_CACHE_HOME": "/root/autodl-tmp/xdg_cache",
+      "TMPDIR": "/root/autodl-tmp/tmp"
+    }
+  }
+}

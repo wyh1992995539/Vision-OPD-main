@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "record_count": 6241,
+  "split_counts": {
+    "train": 6241
+  },
+  "answer_counts": {
+    "A": 1740,
+    "B": 1540,
+    "C": 1461,
+    "D": 1500
+  },
+  "problem_character_length": {
+    "min": 210,
+    "median": 253,
+    "max": 530
+  },
+  "bbox_area_ratio": {
+    "min": 5.7e-05,
+    "median": 0.011108148148148148,
+    "max": 0.09994524444444444
+  },
+  "student_images": {
+    "count": 6241,
+    "total_bytes": 28375674846,
+    "width": {
+      "min": 1500,
+      "median": 2250,
+      "max": 5304
+    },
+    "height": {
+      "min": 1330,
+      "median": 1500,
+      "max": 3577
+    },
+    "formats": {
+      "PNG": 6241
+    },
+    "modes": {
+      "RGB": 6241
+    }
+  },
+  "teacher_images": {
+    "count": 6241,
+    "total_bytes": 2946127542,
+    "width": {
+      "min": 26,
+      "median": 438,
+      "max": 6206
+    },
+    "height": {
+      "min": 22,
+      "median": 428,
+      "max": 4946
+    },
+    "formats": {
+      "PNG": 6241
+    },
+    "modes": {
+      "RGB": 6241
+    }
+  }
+}

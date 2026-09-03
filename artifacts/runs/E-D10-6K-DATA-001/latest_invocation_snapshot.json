@@ -1,0 +1,24 @@
+{
+  "observed_at_utc": "2026-09-03T05:52:07.098886+00:00",
+  "scope": "before_current_invocation; raw metadata may already be present",
+  "git_status_short": [
+    "?? artifacts/data/",
+    "?? artifacts/runs/E-D10-6K-DATA-001/"
+  ],
+  "path": "/root/autodl-tmp",
+  "total_bytes": 322122547200,
+  "used_bytes": 177867743232,
+  "free_bytes": 144254803968,
+  "free_gib": 134.3477554321289,
+  "system_disk_free_bytes": 6136930304,
+  "dataset_root_bytes": 62610355692,
+  "cache_environment": {
+    "HF_HOME": "/root/autodl-tmp/hf_cache",
+    "HUGGINGFACE_HUB_CACHE": "/root/autodl-tmp/hf_cache/hub",
+    "HF_DATASETS_CACHE": "/root/autodl-tmp/hf_cache/datasets",
+    "TORCH_HOME": "/root/autodl-tmp/torch_cache",
+    "PIP_CACHE_DIR": "/root/autodl-tmp/pip_cache",
+    "XDG_CACHE_HOME": "/root/autodl-tmp/xdg_cache",
+    "TMPDIR": "/root/autodl-tmp/tmp"
+  }
+}

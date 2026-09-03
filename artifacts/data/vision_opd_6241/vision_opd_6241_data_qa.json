@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "semantic_alignment_checked": false,
+  "semantic_alignment_note": "Full-image/crop/question/answer meaning requires manual QA.",
+  "manifest_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241",
+  "subset_root": "/root/autodl-tmp/data/vision_opd_6241",
+  "record_count": 6241,
+  "unique_sample_ids": 6241,
+  "expected_student_images": 6241,
+  "expected_teacher_images": 6241,
+  "images_checked": 12482,
+  "issue_count": 0,
+  "issue_counts": {},
+  "issues": []
+}

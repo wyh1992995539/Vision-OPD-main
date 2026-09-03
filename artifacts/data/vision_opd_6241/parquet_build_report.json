@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "data_root": "/root/autodl-tmp/data/vision_opd_6241",
+  "manifest_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241",
+  "output_dir": "/root/autodl-tmp/data/vision_opd_6241",
+  "total_rows": 6241,
+  "outputs": {
+    "train": {
+      "path": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+      "rows": 6241,
+      "byte_size": 1280746,
+      "sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e"
+    }
+  },
+  "checks": {
+    "expected_split_counts": true,
+    "required_manifest_fields": true,
+    "portable_relative_manifest_paths": true,
+    "all_image_paths_readable": true,
+    "no_sample_group_or_image_overlap": true,
+    "parquet_readback_schema_and_rows": true
+  }
+}
