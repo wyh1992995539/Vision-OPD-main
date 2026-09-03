@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-09-03T07:52:50Z",
+  "dataset": "yuanqianhao/Vision-OPD-6K",
+  "source_revision": "eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4",
+  "raw_download_root": "/root/autodl-tmp/data/vision_opd_6241/raw",
+  "disposition": {
+    "status": "RECORDED_WITH_UNKNOWN_HISTORICAL_METHOD",
+    "archive_payload_state": "NOT_PRESENT_LOCALLY",
+    "archive_payloads_expected": 7,
+    "archive_payloads_found_under_data_root": 0,
+    "archive_payloads_found_under_autodl_tmp": 0,
+    "download_metadata_sidecars_retained": 7,
+    "historical_method": "UNKNOWN_FROM_AVAILABLE_FILESYSTEM_EVIDENCE",
+    "assistant_action_in_this_task": "NO_ARCHIVE_DELETE_OR_MOVE_PERFORMED",
+    "note": "The archive payloads were already absent when this record was created. Available evidence does not establish whether they were deleted after confirmation or moved elsewhere before becoming absent locally."
+  },
+  "pre_disposition_verification": {
+    "status": "PASS",
+    "archive_identity_count": 7,
+    "evidence": "artifacts/runs/E-D10-6K-DATA-001/data_gate_summary.json",
+    "identity_fields": [
+      "byte_size",
+      "sha256"
+    ]
+  },
+  "retained_outputs": {
+    "source_metadata": "/root/autodl-tmp/data/vision_opd_6241/raw/train.jsonl",
+    "source_metadata_present": true,
+    "student_image_directory": "/root/autodl-tmp/data/vision_opd_6241/images",
+    "student_images_present": 6241,
+    "teacher_image_directory": "/root/autodl-tmp/data/vision_opd_6241/teacher_images",
+    "teacher_images_present": 6241,
+    "train_parquet": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+    "train_parquet_present": true
+  },
+  "recoverability": {
+    "status": "REDOWNLOADABLE_FROM_FROZEN_REVISION",
+    "source": "yuanqianhao/Vision-OPD-6K",
+    "revision": "eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4",
+    "expected_archive_identity_source": "configs/project_6241.yaml",
+    "download_metadata_retained_under": "/root/autodl-tmp/data/vision_opd_6241/raw/.cache/huggingface/download"
+  }
+}

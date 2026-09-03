@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-09-03T07:52:50Z",
+  "scope": "post-validation and post-archive-payload disposition",
+  "data_disk": {
+    "path": "/root/autodl-tmp",
+    "total_bytes": 322122547200,
+    "used_bytes": 66048278528,
+    "free_bytes": 256074268672,
+    "free_gib": 238.4877471923828,
+    "use_percent": 21
+  },
+  "system_disk": {
+    "path": "/",
+    "total_bytes": 32212254720,
+    "used_bytes": 19315122176,
+    "free_bytes": 12897132544,
+    "free_gib": 12.011390686035156,
+    "use_percent": 60
+  },
+  "dataset_root": {
+    "path": "/root/autodl-tmp/data/vision_opd_6241",
+    "byte_size": 31328416134,
+    "size_gib": 29.176861172541976,
+    "student_images": 6241,
+    "teacher_images": 6241,
+    "train_parquet": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet"
+  },
+  "storage_gate": {
+    "hard_minimum_free_gib": 120,
+    "recommended_free_gib": 130,
+    "hard_minimum_pass": true,
+    "recommended_free_pass": true,
+    "status": "PASS"
+  },
+  "archive_disposition_evidence": "artifacts/runs/E-D10-6K-DATA-001/archive_disposition.json",
+  "cache_environment_contract": {
+    "activation_script": "scripts/activate_vision_opd_6241.sh",
+    "HF_HOME": "/root/autodl-tmp/hf_cache",
+    "HUGGINGFACE_HUB_CACHE": "/root/autodl-tmp/hf_cache/hub",
+    "HF_DATASETS_CACHE": "/root/autodl-tmp/hf_cache/datasets",
+    "TORCH_HOME": "/root/autodl-tmp/torch_cache",
+    "PIP_CACHE_DIR": "/root/autodl-tmp/pip_cache",
+    "XDG_CACHE_HOME": "/root/autodl-tmp/xdg_cache",
+    "TMPDIR": "/root/autodl-tmp/tmp"
+  },
+  "git_status_short_at_capture": [
+    " M configs/project_6241.yaml"
+  ]
+}

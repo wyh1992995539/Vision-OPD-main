@@ -6,7 +6,7 @@ project:
   scope_amendment: docs/amendments/full_train_6241_scope_amendment.md
   plan: docs/vision_opd_21_day_plan.md
   seed: 42
-  status: data_gate_not_completed
+  status: data_gate_completed
 
 reproducibility:
   master_seed: 42

@@ -87,5 +87,11 @@
       "XDG_CACHE_HOME": "/root/autodl-tmp/xdg_cache",
       "TMPDIR": "/root/autodl-tmp/tmp"
     }
+  },
+  "post_validation_evidence": {
+    "archive_disposition": "artifacts/runs/E-D10-6K-DATA-001/archive_disposition.json",
+    "archive_disposition_status": "RECORDED_WITH_UNKNOWN_HISTORICAL_METHOD",
+    "final_storage_snapshot": "artifacts/runs/E-D10-6K-DATA-001/final_storage_snapshot.json",
+    "final_storage_gate_status": "PASS"
   }
 }
