@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "semantic_alignment_checked": false,
-  "semantic_alignment_note": "Full-image/crop/question/answer meaning requires manual QA.",
+  "semantic_alignment_checked": true,
+  "semantic_alignment_note": "Project owner attested that the approximately 10 stratified newly added samples were manually reviewed with no semantic alignment errors; this evidence update did not independently recheck the samples.",
   "manifest_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241",
   "subset_root": "/root/autodl-tmp/data/vision_opd_6241",
   "record_count": 6241,
@@ -12,5 +12,10 @@
   "images_checked": 12482,
   "issue_count": 0,
   "issue_counts": {},
-  "issues": []
+  "issues": [],
+  "semantic_alignment_check_type": "MANUAL_USER_ATTESTATION",
+  "semantic_alignment_scope": "approximately_10_stratified_samples_from_5025_new_records",
+  "semantic_alignment_result": "PASS",
+  "semantic_alignment_independently_rechecked_during_update": false,
+  "semantic_alignment_attested_at_utc": "2026-09-03T08:45:09.169530+00:00"
 }

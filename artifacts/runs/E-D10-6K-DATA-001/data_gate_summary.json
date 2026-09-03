@@ -90,8 +90,11 @@
   },
   "post_validation_evidence": {
     "archive_disposition": "artifacts/runs/E-D10-6K-DATA-001/archive_disposition.json",
-    "archive_disposition_status": "RECORDED_WITH_UNKNOWN_HISTORICAL_METHOD",
+    "archive_disposition_status": "CONFIRMED_DELETED_AFTER_VALIDATION",
     "final_storage_snapshot": "artifacts/runs/E-D10-6K-DATA-001/final_storage_snapshot.json",
-    "final_storage_gate_status": "PASS"
+    "final_storage_gate_status": "PASS",
+    "manual_semantic_review": "artifacts/data/vision_opd_6241/vision_opd_6241_data_qa.json",
+    "manual_semantic_review_status": "USER_ATTESTED_PASS",
+    "evidence_updated_at_utc": "2026-09-03T08:45:09.169530+00:00"
   }
 }

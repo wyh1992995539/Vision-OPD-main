@@ -5,15 +5,21 @@
   "source_revision": "eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4",
   "raw_download_root": "/root/autodl-tmp/data/vision_opd_6241/raw",
   "disposition": {
-    "status": "RECORDED_WITH_UNKNOWN_HISTORICAL_METHOD",
-    "archive_payload_state": "NOT_PRESENT_LOCALLY",
+    "status": "CONFIRMED_DELETED_AFTER_VALIDATION",
+    "archive_payload_state": "DELETED",
     "archive_payloads_expected": 7,
     "archive_payloads_found_under_data_root": 0,
     "archive_payloads_found_under_autodl_tmp": 0,
     "download_metadata_sidecars_retained": 7,
-    "historical_method": "UNKNOWN_FROM_AVAILABLE_FILESYSTEM_EVIDENCE",
-    "assistant_action_in_this_task": "NO_ARCHIVE_DELETE_OR_MOVE_PERFORMED",
-    "note": "The archive payloads were already absent when this record was created. Available evidence does not establish whether they were deleted after confirmation or moved elsewhere before becoming absent locally."
+    "historical_method": "RM_F_AFTER_EXPLICIT_USER_REQUEST",
+    "assistant_action_in_this_task": "NO_ARCHIVE_DELETE_OR_MOVE_PERFORMED_DURING_EVIDENCE_UPDATE",
+    "note": "Seven verified raw image archive payloads were permanently deleted with rm -f after the project owner explicitly requested deletion. No archive transfer was performed; frozen revision, expected sizes, SHA256 values, download metadata, extracted images, source metadata, and Parquet remain available.",
+    "deleted_at_utc": "2026-09-03T06:55:10.296Z",
+    "user_confirmation": true,
+    "user_request_observed_at_utc": "2026-09-03T06:54:00.656Z",
+    "user_request_summary": "Delete the first-priority Vision-OPD 6241 raw archives.",
+    "delete_command_exit_code": 0,
+    "deleted_payload_bytes": 31283220139
   },
   "pre_disposition_verification": {
     "status": "PASS",
@@ -40,5 +46,6 @@
     "revision": "eb5c1c2e7b9a7b6a619efe4161c7369c71bf8af4",
     "expected_archive_identity_source": "configs/project_6241.yaml",
     "download_metadata_retained_under": "/root/autodl-tmp/data/vision_opd_6241/raw/.cache/huggingface/download"
-  }
+  },
+  "evidence_updated_at_utc": "2026-09-03T08:45:09.169530+00:00"
 }
