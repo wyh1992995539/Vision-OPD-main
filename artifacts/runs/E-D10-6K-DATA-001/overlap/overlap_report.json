@@ -1,0 +1,130 @@
+{
+  "audit_execution_status": "PASS",
+  "benchmark_profile": {
+    "duplicate_sample_uid_count": 0,
+    "empty_question_count": 0,
+    "image_reference_count": 3381,
+    "missing_image_reference_count": 0,
+    "sample_count": 2536,
+    "samples_without_images": 0,
+    "unique_sample_uids": 2536
+  },
+  "candidate_pair_count": 22,
+  "confirmed_overlap_pair_count": 21,
+  "decision_status": "confirmed_overlap",
+  "dismissed_pair_count": 1,
+  "fingerprint_error_count": 0,
+  "fingerprint_errors": [],
+  "generated_at_utc": "2026-09-04T07:50:49.749463+00:00",
+  "input_gate_checks": {
+    "benchmark_profile_quality_passes": true,
+    "benchmark_sample_counts_match": true,
+    "benchmark_sha256_matches": true,
+    "fingerprint_errors_zero": true,
+    "project_profile_quality_passes": true,
+    "project_sample_count_matches": true,
+    "project_split_sha256_matches": true,
+    "selected_benchmarks_complete": true,
+    "source_benchmark_config_sha256_matches": true
+  },
+  "per_benchmark": {
+    "mmstar": {
+      "benchmark_sample_count": 1500,
+      "candidate_pair_count": 0,
+      "confirmed_impacted_benchmark_samples": 0,
+      "confirmed_impacted_rate": 0.0,
+      "confirmed_overlap_pair_count": 0,
+      "dismissed_pair_count": 0,
+      "exact_image_pair_count": 0,
+      "exact_question_pair_count": 0,
+      "suspected_perceptual_pair_count": 0,
+      "unresolved_pair_count": 0
+    },
+    "vstar": {
+      "benchmark_sample_count": 191,
+      "candidate_pair_count": 21,
+      "confirmed_impacted_benchmark_samples": 21,
+      "confirmed_impacted_rate": 0.1099476439790576,
+      "confirmed_overlap_pair_count": 21,
+      "dismissed_pair_count": 0,
+      "exact_image_pair_count": 0,
+      "exact_question_pair_count": 0,
+      "suspected_perceptual_pair_count": 21,
+      "unresolved_pair_count": 0
+    },
+    "zoombench": {
+      "benchmark_sample_count": 845,
+      "candidate_pair_count": 1,
+      "confirmed_impacted_benchmark_samples": 0,
+      "confirmed_impacted_rate": 0.0,
+      "confirmed_overlap_pair_count": 0,
+      "dismissed_pair_count": 1,
+      "exact_image_pair_count": 0,
+      "exact_question_pair_count": 1,
+      "suspected_perceptual_pair_count": 0,
+      "unresolved_pair_count": 0
+    }
+  },
+  "phash": {
+    "algorithm": "dct_phash",
+    "bits": 64,
+    "exif_transpose": true,
+    "hash_size": 8,
+    "suspected_max_hamming_distance": 5
+  },
+  "project_profile": {
+    "duplicate_sample_uid_count": 0,
+    "empty_question_count": 0,
+    "image_reference_count": 12482,
+    "missing_image_reference_count": 0,
+    "sample_count": 6241,
+    "samples_without_images": 0,
+    "unique_sample_uids": 6241
+  },
+  "provenance": {
+    "audit_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_overlap_6241.yaml",
+      "sha256": "eaed60af8fed4be266bd0171868388ca0c5341c5991927c9f0ae608ab6069d19"
+    },
+    "benchmark_converted_inputs": {
+      "mmstar": {
+        "path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/mmstar/mmstar.json",
+        "sample_count": 1500,
+        "sha256": "944ca440cc2be630df665612a9b0ddca9433c3903c775fda10dacbc766a12fed"
+      },
+      "vstar": {
+        "path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/vstar.json",
+        "sample_count": 191,
+        "sha256": "336a1e1a32f0b34e4e9e41b3dcc95ea87ff69fe3dcec16c99d4b16f4e967dfd5"
+      },
+      "zoombench": {
+        "path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/zoombench/zoombench.json",
+        "sample_count": 845,
+        "sha256": "31ba5d76c6b282266a62549f419e76fcbd1e513f0ccf2a11caa4584948c9449b"
+      }
+    },
+    "project_splits": [
+      {
+        "path": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+        "sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e"
+      }
+    ],
+    "selected_benchmarks": [
+      "zoombench",
+      "mmstar",
+      "vstar"
+    ],
+    "source_benchmark_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+      "sha256": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903"
+    }
+  },
+  "reporting_policy": {
+    "forbid_claiming_fully_independent_test_when_confirmed_or_unresolved": true,
+    "preserve_official_test_samples": true,
+    "report_deduplicated_diagnostic_separately": true,
+    "report_official_full_score": true
+  },
+  "schema_version": 1,
+  "unresolved_pair_count": 0
+}

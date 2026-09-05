@@ -1,3 +1,5 @@
+import copy
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -5,7 +7,9 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 from scripts.generate_cached_prefix import (
+    collect_audit_hashes,
     encode_cached_response,
+    enforce_response_token_limit,
     extract_train_sample,
     smoke_paths,
     validate_cached_protocol,
@@ -23,6 +27,42 @@ class FakeTokenizer:
 
 
 class CachedPrefixContractTest(unittest.TestCase):
+    @staticmethod
+    def sha256(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def make_audit_fixture(self, root):
+        model = root / "model"
+        model.mkdir()
+        weight = model / "model.safetensors"
+        weight.write_bytes(b"frozen-model-weights")
+        manifest = root / "base_model_sha256.txt"
+        manifest.write_text(
+            f"{self.sha256(weight)}  {weight.as_posix()}\n", encoding="utf-8"
+        )
+        template = root / "template.jinja"
+        template.write_text("{{ messages }}\n", encoding="utf-8")
+        input_parquet = root / "train.parquet"
+        input_parquet.write_bytes(b"frozen-parquet")
+        config = {
+            "experiment": {
+                "base_model_path": model.as_posix(),
+                "base_model_sha256_file": manifest.as_posix(),
+                "base_model_sha256_file_sha256": self.sha256(manifest),
+            },
+            "shared": {
+                "chat_template": {
+                    "file": template.as_posix(),
+                    "sha256": self.sha256(template),
+                }
+            },
+            "cached_prefix": {
+                "input_parquet": input_parquet.as_posix(),
+                "input_parquet_sha256": self.sha256(input_parquet),
+            },
+        }
+        return config, model, manifest, template, input_parquet, weight
+
     def make_row(self, split="train"):
         return {
             "prompt": [{"role": "user", "content": "<image>\nQuestion?"}],
@@ -77,6 +117,20 @@ class CachedPrefixContractTest(unittest.TestCase):
         token_ids, appended = encode_cached_response(tokenizer, "A", "length", True)
         self.assertEqual(token_ids, [ord("A")])
         self.assertFalse(appended)
+    def test_caps_reencoded_ids_at_frozen_response_limit(self):
+        token_ids, eos_appended, trimmed = enforce_response_token_limit(
+            [1, 2, 99], True, 2
+        )
+        self.assertEqual(token_ids, [1, 2])
+        self.assertFalse(eos_appended)
+        self.assertTrue(trimmed)
+
+    def test_validation_rejects_ids_above_frozen_response_limit(self):
+        bad = self.make_record("one")
+        bad["response_token_ids"] = [1] * 257
+        with self.assertRaisesRegex(ValueError, "overlength_token_ids"):
+            validate_cached_records([bad], ["one"], max_response_tokens=256)
+
 
     def make_record(self, sample_id):
         return {
@@ -96,7 +150,9 @@ class CachedPrefixContractTest(unittest.TestCase):
         truncated = self.make_record("one")
         truncated["finish_reason"] = "length"
         truncated["response_token_ids"] = [1] * 256
-        report = validate_cached_records([truncated], ["one"])
+        report = validate_cached_records(
+            [truncated], ["one"], max_response_tokens=256
+        )
         self.assertEqual(report["status"], "PASS")
         self.assertEqual(report["truncated_responses"], 1)
         self.assertEqual(
@@ -137,6 +193,53 @@ class CachedPrefixContractTest(unittest.TestCase):
             self.assertEqual(final_report["status"], "PASS")
             self.assertEqual(pq.read_table(output).num_rows, 1)
             self.assertIn(final_report["output_sha256"], hash_path.read_text())
+
+    def test_collects_and_validates_all_frozen_input_hashes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config, _model, manifest, template, input_parquet, _weight = (
+                self.make_audit_fixture(root)
+            )
+            audit = collect_audit_hashes(config, root)
+            self.assertEqual(audit["input_parquet_sha256"], self.sha256(input_parquet))
+            self.assertEqual(audit["chat_template_sha256"], self.sha256(template))
+            self.assertEqual(
+                audit["base_model_sha256_manifest_sha256"], self.sha256(manifest)
+            )
+            self.assertEqual(audit["base_model_sha256_manifest_entries"], 1)
+            self.assertEqual(audit["base_model_sha256_validation"], "PASS")
+
+    def test_rejects_each_frozen_audit_hash_mismatch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config, *_paths = self.make_audit_fixture(root)
+            cases = (
+                (("cached_prefix", "input_parquet_sha256"), "input_parquet"),
+                (("shared", "chat_template", "sha256"), "chat_template"),
+                (
+                    ("experiment", "base_model_sha256_file_sha256"),
+                    "base_model_sha256_file",
+                ),
+            )
+            for keys, message in cases:
+                with self.subTest(field=".".join(keys)):
+                    changed = copy.deepcopy(config)
+                    target = changed
+                    for key in keys[:-1]:
+                        target = target[key]
+                    target[keys[-1]] = "0" * 64
+                    with self.assertRaisesRegex(ValueError, message):
+                        collect_audit_hashes(changed, root)
+
+    def test_rejects_tampered_base_model_file_from_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config, _model, _manifest, _template, _input, weight = (
+                self.make_audit_fixture(root)
+            )
+            weight.write_bytes(b"tampered-model-weights")
+            with self.assertRaisesRegex(ValueError, "Base model file SHA256 mismatch"):
+                collect_audit_hashes(config, root)
 
 
 if __name__ == "__main__":

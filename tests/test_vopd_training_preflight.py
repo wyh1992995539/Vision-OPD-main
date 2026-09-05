@@ -99,6 +99,74 @@ class VopdTrainingPreflightTest(unittest.TestCase):
             self.assertEqual(summary["training_contract"]["total_optimizer_steps"], 1)
             self.assertEqual(len(summary["sample_ids"]), 8)
 
+    def test_enforces_explicit_reference_offload_resource_contract(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config_path = self.make_fixture(root)
+            config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+            config["resources"]["reference_parameter_offload_required"] = True
+            config_path.write_text(yaml.safe_dump(config), encoding="utf-8")
+            summary = validate_config(config_path, root)
+            self.assertEqual(summary["status"], "FAIL")
+            self.assertFalse(
+                summary["checks"]["reference_parameter_offload_matches_resource_contract"]
+            )
+
+            config["actor"]["reference_parameter_offload"] = True
+            config_path.write_text(yaml.safe_dump(config), encoding="utf-8")
+            summary = validate_config(config_path, root)
+            self.assertEqual(summary["status"], "PASS", summary["errors"])
+
+    def test_actor_offload_requires_explicit_boolean_contract(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config_path = self.make_fixture(root)
+            config = yaml.safe_load(config_path.read_text())
+            config["actor"]["parameter_offload"] = True
+            config["actor"]["optimizer_offload"] = True
+            config_path.write_text(yaml.safe_dump(config))
+            summary = validate_config(config_path, root)
+            self.assertFalse(summary["checks"]["actor_parameter_offload_matches_resource_contract"])
+            self.assertFalse(summary["checks"]["actor_optimizer_offload_matches_resource_contract"])
+            config["resources"].update(actor_parameter_offload_required=True, optimizer_offload_required=True)
+            config_path.write_text(yaml.safe_dump(config))
+            self.assertEqual(validate_config(config_path, root)["status"], "PASS")
+            config["resources"]["actor_parameter_offload_required"] = "true"
+            config_path.write_text(yaml.safe_dump(config))
+            self.assertEqual(validate_config(config_path, root)["status"], "FAIL")
+
+    def test_memory_profile_rejects_capture_memory_or_offload_drift(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config_path = self.make_fixture(root)
+            config = yaml.safe_load(config_path.read_text())
+            config["actor"].update(parameter_offload=True, optimizer_offload=True, reference_parameter_offload=True)
+            config["resources"].update(
+                memory_profile="offload_3way_graph4_v1", actor_parameter_offload_required=True,
+                optimizer_offload_required=True, reference_parameter_offload_required=True,
+                prelaunch_cgroup_minimum_bytes=192 * 1024**3,
+            )
+            config["rollout"].update(gpu_memory_utilization=0.40, engine_kwargs={
+                "vllm": {"compilation_config": {"cudagraph_capture_sizes": [1, 2, 4, 8]}}
+            })
+            config_path.write_text(yaml.safe_dump(config))
+            self.assertEqual(validate_config(config_path, root)["status"], "PASS")
+            import copy
+            cases = [
+                ("actor", "optimizer_offload", False),
+                ("rollout", "gpu_memory_utilization", 0.45),
+                ("resources", "prelaunch_cgroup_minimum_bytes", 128 * 1024**3),
+                ("rollout", "cudagraph_capture_sizes", [1, 2, 4, 8]),
+                ("rollout", "engine_kwargs", {"vllm": {"compilation_config": {}}}),
+            ]
+            for section, key, value in cases:
+                with self.subTest(section=section, key=key):
+                    modified = copy.deepcopy(config)
+                    modified[section][key] = value
+                    config_path.write_text(yaml.safe_dump(modified))
+                    summary = validate_config(config_path, root)
+                    self.assertFalse(summary["checks"]["three_way_offload_memory_profile"])
+
     def test_rejects_manifest_with_wrong_seed(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -118,6 +186,21 @@ class VopdTrainingPreflightTest(unittest.TestCase):
         self.assertNotIn("trainer.group_name=E-D7-001", text)
         self.assertNotIn("trainer.save_freq=-1", text)
         self.assertIn('trainer.total_training_steps="$TOTAL_OPTIMIZER_STEPS"', text)
+        self.assertIn('actor_rollout_ref.actor.optim.lr_warmup_steps="$LR_WARMUP_STEPS"', text)
+        self.assertIn('actor_rollout_ref.actor.clip_ratio_high="$CLIP_RATIO_HIGH"', text)
+        self.assertIn('actor_rollout_ref.rollout.temperature="$ROLLOUT_TEMPERATURE"', text)
+        self.assertIn('actor_rollout_ref.rollout.top_p="$ROLLOUT_TOP_P"', text)
+        self.assertIn('actor_rollout_ref.rollout.top_k="$ROLLOUT_TOP_K"', text)
+        self.assertIn('actor_rollout_ref.rollout.ignore_eos="$ROLLOUT_IGNORE_EOS"', text)
+        self.assertIn(
+            '+actor_rollout_ref.rollout.engine_kwargs.vllm.compilation_config.pass_config.fuse_allreduce_rms="$VLLM_FUSE_ALLREDUCE_RMS"',
+            text,
+        )
+        self.assertIn(
+            '+actor_rollout_ref.rollout.engine_kwargs.vllm.kernel_config.enable_flashinfer_autotune="$VLLM_ENABLE_FLASHINFER_AUTOTUNE"',
+            text,
+        )
+        self.assertIn('actor_rollout_ref.actor.self_distillation.max_reprompt_len="$MAX_REPROMPT_LENGTH"', text)
 
 
 if __name__ == "__main__":

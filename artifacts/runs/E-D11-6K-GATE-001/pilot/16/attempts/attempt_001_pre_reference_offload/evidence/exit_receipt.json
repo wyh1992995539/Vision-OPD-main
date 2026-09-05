@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "stage": "16",
+  "guard_exit_code": 40,
+  "guard_summary": {
+    "schema_version": 1,
+    "finished_at_utc": "2026-09-04T15:55:24.066851+00:00",
+    "status": "FAIL",
+    "return_code": -15,
+    "latest_step": 1,
+    "trigger": {
+      "timestamp_utc": "2026-09-04T15:55:24.063242+00:00",
+      "latest_step": 1,
+      "issues": [
+        {
+          "rule": "gpu_memory_pressure",
+          "detail": "threshold=0.95",
+          "immediate": false
+        }
+      ]
+    },
+    "termination": {
+      "term_sent_at_utc": "2026-09-04T15:55:24.064043+00:00",
+      "kill_sent_at_utc": null
+    },
+    "checkpoint": null
+  },
+  "postflight_status": null,
+  "stage_gate_pass": false
+}

@@ -21,7 +21,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.monitor_vopd_training import (
-    load_policy, monitor_process, query_gpus, read_cgroup,
+    cgroup_has_minimum_capacity, load_policy, monitor_process, query_gpus, read_cgroup,
     terminate_process_group, utc_now, write_json,
 )
 from scripts.vopd_training_preflight import validate_config
@@ -61,6 +61,16 @@ def static_preflight(config_path: Path, policy_path: Path) -> dict[str, Any]:
     except (OSError, json.JSONDecodeError) as exc:
         gate_error = repr(exc)
     config_hash = sha256_file(config_path)
+    total_steps = int(config["training"]["total_optimizer_steps"])
+    save_frequency = int(config["training"]["save_frequency"])
+    scheduled_save_steps = (
+        list(range(save_frequency, total_steps, save_frequency))
+        if save_frequency > 0
+        else []
+    )
+    # verl always saves is_last_step, including when save_freq=-1.
+    if not scheduled_save_steps or scheduled_save_steps[-1] != total_steps:
+        scheduled_save_steps.append(total_steps)
     checks = {
         "experiment_identity": config.get("experiment", {}).get("id")
         == policy.get("experiment_id") == "E-D12-6K-VOPD-001",
@@ -72,6 +82,12 @@ def static_preflight(config_path: Path, policy_path: Path) -> dict[str, Any]:
         "day11_overlap_complete": gate is not None and gate.get("overlap_status") == "PASS",
         "day11_cached_prefix_pass": gate is not None and gate.get("cached_prefix_status") == "PASS",
         "day11_pilot_pass": gate is not None and gate.get("pilot_status") == "PASS",
+        "checkpoint_schedule_matches_policy": scheduled_save_steps
+        == [int(step) for step in policy.get("checkpoint", {}).get("allowed_save_steps", [])],
+        "checkpoint_final_step_matches_training": int(
+            policy.get("checkpoint", {}).get("expected_final_step", -1)
+        )
+        == total_steps,
     }
     return {
         "schema_version": 1,
@@ -85,6 +101,12 @@ def static_preflight(config_path: Path, policy_path: Path) -> dict[str, Any]:
         "day11_gate": str(gate_path),
         "day11_gate_error": gate_error,
         "training_preflight": base,
+        "checkpoint_schedule": {
+            "save_frequency": save_frequency,
+            "scheduled_save_steps": scheduled_save_steps,
+            "policy_allowed_save_steps": policy.get("checkpoint", {}).get("allowed_save_steps", []),
+            "expected_final_step": policy.get("checkpoint", {}).get("expected_final_step"),
+        },
     }
 
 
@@ -121,6 +143,10 @@ def main() -> int:
     projected = args.current_autodl_cost_cny + float(policy["budget"]["conservative_reservation_cny"])
     disk = shutil.disk_usage(output_dir)
     collisions = [str(path) for name in ("logs", "rollouts", "checkpoints") for path in (output_dir / name).rglob("*") if path.is_file()]
+    cgroup = read_cgroup(os.getpid())
+    cgroup_capacity_pass = cgroup_has_minimum_capacity(
+        cgroup, int(policy["memory"]["prelaunch_cgroup_minimum_bytes"])
+    )
     live_checks = {
         "static_preflight_pass": result["status"] == "PASS",
         "billing_fresh": -300 <= age <= int(policy["budget"]["billing_observation_max_age_seconds"]),
@@ -128,12 +154,14 @@ def main() -> int:
         "storage_pass": disk.free >= int(policy["disk"]["prelaunch_required_bytes"]),
         "no_output_collision": not collisions,
         "expected_gpu_count": len(query_gpus()) == int(config["resources"]["gpus_per_node"]),
-        "cgroup_readable": bool(read_cgroup(os.getpid()).get("supported")),
+        "cgroup_readable": bool(cgroup.get("supported")),
+        "cgroup_capacity_pass": cgroup_capacity_pass,
         "git_clean": not subprocess.run(["git", "status", "--porcelain"], cwd=PROJECT_ROOT, check=True, capture_output=True, text=True).stdout.strip(),
     }
     result["live_checks"] = live_checks
     result["billing"] = {"observed_at_utc": observed.isoformat(), "age_seconds": age, "projected_total_cny": projected}
     result["disk_free_bytes"] = disk.free
+    result["cgroup"] = cgroup
     result["collisions"] = collisions
     result["status"] = "PASS" if all(live_checks.values()) else "FAIL"
     write_json(preflight_dir / "live_launch_gate.json", result)

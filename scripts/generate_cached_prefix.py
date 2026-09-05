@@ -14,6 +14,7 @@ import hashlib
 import json
 import mimetypes
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -62,6 +63,146 @@ def sha256_json(value: Any) -> str:
         value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+
+
+def resolve_repository_path(path: str | Path, repository_root: Path) -> Path:
+    candidate = Path(path).expanduser()
+    if not candidate.is_absolute():
+        candidate = repository_root / candidate
+    return candidate.resolve()
+
+
+def _validate_expected_sha256(label: str, expected: Any, actual: str) -> None:
+    if expected is None:
+        return
+    normalized = str(expected).strip().lower()
+    if not SHA256_PATTERN.fullmatch(normalized):
+        raise ValueError(f"{label} expected SHA256 must be 64 lowercase hex characters")
+    if normalized != actual:
+        raise ValueError(
+            f"{label} SHA256 mismatch: expected {normalized}, found {actual}"
+        )
+
+
+def verify_sha256_manifest(
+    manifest_path: Path, model_path: Path, repository_root: Path
+) -> int:
+    """Verify every file in a GNU sha256sum-style Base-model manifest."""
+
+    if not manifest_path.is_file():
+        raise FileNotFoundError(f"Base model SHA256 manifest not found: {manifest_path}")
+    if not model_path.is_dir():
+        raise FileNotFoundError(f"Base model directory not found: {model_path}")
+
+    model_root = model_path.resolve()
+    seen: set[Path] = set()
+    entries = 0
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        for line_number, raw_line in enumerate(handle, start=1):
+            line = raw_line.strip()
+            if not line:
+                continue
+            fields = line.split(maxsplit=1)
+            if len(fields) != 2 or not SHA256_PATTERN.fullmatch(fields[0].lower()):
+                raise ValueError(
+                    f"{manifest_path}:{line_number}: invalid SHA256 manifest entry"
+                )
+            expected, raw_path = fields
+            if raw_path.startswith("*"):
+                raw_path = raw_path[1:]
+            candidate = resolve_repository_path(raw_path, repository_root)
+            try:
+                candidate.relative_to(model_root)
+            except ValueError as exc:
+                raise ValueError(
+                    f"{manifest_path}:{line_number}: manifest path is outside Base model "
+                    f"directory: {candidate}"
+                ) from exc
+            if candidate in seen:
+                raise ValueError(
+                    f"{manifest_path}:{line_number}: duplicate manifest path: {candidate}"
+                )
+            if not candidate.is_file():
+                raise FileNotFoundError(f"Base model manifest file not found: {candidate}")
+            actual = sha256_file(candidate)
+            if actual != expected.lower():
+                raise ValueError(
+                    f"Base model file SHA256 mismatch for {candidate}: "
+                    f"expected {expected.lower()}, found {actual}"
+                )
+            seen.add(candidate)
+            entries += 1
+
+    if entries == 0:
+        raise ValueError(f"Base model SHA256 manifest is empty: {manifest_path}")
+    return entries
+
+
+def collect_audit_hashes(
+    config: dict[str, Any], repository_root: Path
+) -> dict[str, Any]:
+    """Hash and validate all frozen inputs before any generation request."""
+
+    experiment = config.get("experiment")
+    shared = config.get("shared")
+    cached = config.get("cached_prefix")
+    if (
+        not isinstance(experiment, dict)
+        or not isinstance(shared, dict)
+        or not isinstance(cached, dict)
+    ):
+        raise ValueError(
+            "config must contain experiment, shared, and cached_prefix mappings"
+        )
+    chat_template = shared.get("chat_template")
+    if not isinstance(chat_template, dict):
+        raise ValueError("shared.chat_template must be a mapping")
+
+    model_path = resolve_repository_path(experiment["base_model_path"], repository_root)
+    manifest_path = resolve_repository_path(
+        experiment["base_model_sha256_file"], repository_root
+    )
+    input_path = resolve_repository_path(cached["input_parquet"], repository_root)
+    template_path = resolve_repository_path(chat_template["file"], repository_root)
+    for label, path in (
+        ("cached prefix input Parquet", input_path),
+        ("chat template", template_path),
+    ):
+        if not path.is_file():
+            raise FileNotFoundError(f"{label} not found: {path}")
+
+    input_sha256 = sha256_file(input_path)
+    template_sha256 = sha256_file(template_path)
+    manifest_sha256 = sha256_file(manifest_path)
+    _validate_expected_sha256(
+        "cached_prefix.input_parquet",
+        cached.get("input_parquet_sha256"),
+        input_sha256,
+    )
+    _validate_expected_sha256(
+        "shared.chat_template.file",
+        chat_template.get("sha256"),
+        template_sha256,
+    )
+    _validate_expected_sha256(
+        "experiment.base_model_sha256_file",
+        experiment.get("base_model_sha256_file_sha256"),
+        manifest_sha256,
+    )
+    manifest_entries = verify_sha256_manifest(
+        manifest_path, model_path, repository_root
+    )
+    return {
+        "input_parquet_sha256": input_sha256,
+        "chat_template_sha256": template_sha256,
+        "base_model_sha256_manifest": manifest_path.as_posix(),
+        "base_model_sha256_manifest_sha256": manifest_sha256,
+        "base_model_sha256_manifest_entries": manifest_entries,
+        "base_model_sha256_validation": "PASS",
+    }
 
 
 def image_to_data_uri(path: Path) -> str:
@@ -165,19 +306,37 @@ def encode_cached_response(
     return token_ids, eos_appended
 
 
+def enforce_response_token_limit(
+    token_ids: list[int], eos_appended: bool, max_response_tokens: int
+) -> tuple[list[int], bool, bool]:
+    if max_response_tokens <= 0:
+        raise ValueError("max_response_tokens must be positive")
+    if len(token_ids) <= max_response_tokens:
+        return token_ids, eos_appended, False
+    limited = token_ids[:max_response_tokens]
+    # An EOS appended after text re-encoding is always the last token and may
+    # itself be the token removed by the frozen response-length cap.
+    return limited, False, True
+
+
 def validate_cached_records(
-    records: Iterable[dict[str, Any]], expected_sample_ids: Iterable[str]
+    records: Iterable[dict[str, Any]], expected_sample_ids: Iterable[str],
+    max_response_tokens: int | None = None,
 ) -> dict[str, Any]:
     materialized = list(records)
     expected_ids = list(expected_sample_ids)
     expected_set = set(expected_ids)
     if len(expected_set) != len(expected_ids):
         raise ValueError("expected sample IDs contain duplicates")
+    if max_response_tokens is not None and max_response_tokens <= 0:
+        raise ValueError("max_response_tokens must be positive")
 
     actual_ids: list[str] = []
     empty_responses = 0
     inference_errors = 0
     empty_token_ids = 0
+    overlength_token_ids = 0
+    retokenized_overlength = 0
     truncated = 0
     for index, record in enumerate(materialized):
         sample_id = str(record.get("sample_id", "")).strip()
@@ -191,8 +350,12 @@ def validate_cached_records(
         token_ids = record.get("response_token_ids")
         if not isinstance(token_ids, list) or not token_ids:
             empty_token_ids += 1
+        elif max_response_tokens is not None and len(token_ids) > max_response_tokens:
+            overlength_token_ids += 1
         if record.get("finish_reason") == "length":
             truncated += 1
+        if record.get("response_ids_truncated_after_retokenization") is True:
+            retokenized_overlength += 1
 
     actual_set = set(actual_ids)
     duplicates = len(actual_ids) - len(actual_set)
@@ -205,6 +368,7 @@ def validate_cached_records(
         and not extra
         and not empty_responses
         and not inference_errors
+        and not overlength_token_ids
         and not empty_token_ids
         else "FAIL"
     )
@@ -219,6 +383,9 @@ def validate_cached_records(
         "empty_responses": empty_responses,
         "inference_errors": inference_errors,
         "empty_token_ids": empty_token_ids,
+        "max_response_tokens": max_response_tokens,
+        "overlength_token_ids": overlength_token_ids,
+        "retokenized_overlength_responses": retokenized_overlength,
         "truncated_responses": truncated,
         "truncation_policy": "preserve_at_frozen_max_new_tokens",
     }
@@ -304,10 +471,12 @@ def run(args: argparse.Namespace) -> None:
     except ImportError as exc:
         raise RuntimeError("openai and transformers are required for generation") from exc
 
+    repository_root = Path(__file__).resolve().parents[1]
     config = load_yaml(args.config.resolve())
     cached, generation = validate_cached_protocol(config)
+    audit_hashes = collect_audit_hashes(config, repository_root)
     expected_count = int(cached["expected_samples"])
-    train_path = Path(cached["input_parquet"])
+    train_path = resolve_repository_path(cached["input_parquet"], repository_root)
     samples = load_train_samples(train_path, expected_count)
 
     if args.limit is not None:
@@ -338,10 +507,13 @@ def run(args: argparse.Namespace) -> None:
         raise ValueError("checkpoint contains duplicate sample_id values")
     completed = set(completed_ids)
 
-    model_path = Path(config["experiment"]["base_model_path"])
+    model_path = resolve_repository_path(
+        config["experiment"]["base_model_path"], repository_root
+    )
     tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
     client = OpenAI(api_key=args.api_key, base_url=args.api_base, timeout=3600)
     keep_eos = bool(config["shared"]["output"]["keep_eos_token"])
+    max_response_tokens = int(generation["max_new_tokens"])
     generation_hash = sha256_json(generation)
     records = list(existing_records)
 
@@ -390,6 +562,9 @@ def run(args: argparse.Namespace) -> None:
         response_ids, eos_appended = encode_cached_response(
             tokenizer, raw_text, finish_reason, keep_eos
         )
+        response_ids, eos_appended, response_ids_trimmed = enforce_response_token_limit(
+            response_ids, eos_appended, max_response_tokens
+        )
         records.append(
             {
                 "sample_id": sample["sample_id"],
@@ -405,6 +580,7 @@ def run(args: argparse.Namespace) -> None:
                 "inference_error": inference_error,
                 "eos_appended_after_retokenization": eos_appended,
                 "token_ids_source": "base_tokenizer_reencoded_openai_response_text",
+                "response_ids_truncated_after_retokenization": response_ids_trimmed,
                 "generation_config_sha256": generation_hash,
                 "model_id": args.model_id,
                 "model_path": str(model_path),
@@ -421,12 +597,15 @@ def run(args: argparse.Namespace) -> None:
     requested_set = set(requested_ids)
     selected = [record for record in records if record.get("sample_id") in requested_set]
     selected.sort(key=lambda record: int(record["dataset_index"]))
-    report = validate_cached_records(selected, requested_ids)
+    report = validate_cached_records(
+        selected, requested_ids, max_response_tokens=max_response_tokens
+    )
     report.update(
         {
             "experiment_id": config["experiment"]["id"],
             "model_id": args.model_id,
             "input_parquet": train_path.as_posix(),
+            **audit_hashes,
             "generation_config_sha256": generation_hash,
             "token_ids_source": "base_tokenizer_reencoded_openai_response_text",
             "is_smoke": len(samples) != expected_count,

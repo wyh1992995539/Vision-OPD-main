@@ -1,0 +1,697 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Train-6241 与外部 Benchmark 重叠审计",
+    "description": "Vision-OPD 6,241 条训练数据与 paper-aligned R3 Benchmark 的全量重叠审计。",
+    "generatedAt": "2026-09-04T07:50:49.749463+00:00",
+    "cards": [
+      {
+        "id": "confirmed_card",
+        "description": "复核确认属于同一视觉样本的训练—Benchmark 配对数。",
+        "dataset": "headline",
+        "sourceId": "overlap_result",
+        "metrics": [
+          {
+            "label": "确认重叠",
+            "field": "confirmed",
+            "format": "number"
+          }
+        ]
+      },
+      {
+        "id": "unresolved_card",
+        "description": "完成证据复核后仍未作出结论的候选配对数。",
+        "dataset": "headline",
+        "sourceId": "overlap_result",
+        "metrics": [
+          {
+            "label": "未决候选",
+            "field": "unresolved",
+            "format": "number"
+          }
+        ]
+      },
+      {
+        "id": "input_gate_card",
+        "description": "输入哈希、样本数、唯一性、完整性和指纹错误检查。",
+        "dataset": "headline",
+        "sourceId": "overlap_result",
+        "metrics": [
+          {
+            "label": "输入 Gate 通过",
+            "field": "input_gates_passed",
+            "format": "number"
+          }
+        ]
+      }
+    ],
+    "charts": [
+      {
+        "id": "candidate_outcomes_chart",
+        "title": "Overlap 候选复核结果",
+        "subtitle": "train-6241 对全部 R3 Benchmark；单位为候选配对数",
+        "intent": "comparison",
+        "question": "确认和排除的 overlap 候选集中在哪些 Benchmark？",
+        "rationale": "分组条形图直接比较三个 Benchmark 的确认与排除数量。",
+        "type": "bar",
+        "dataset": "benchmark_summary",
+        "sourceId": "overlap_result",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "benchmark",
+            "type": "nominal",
+            "label": "Benchmark"
+          },
+          "y": {
+            "fields": [
+              "confirmed",
+              "dismissed"
+            ],
+            "type": "quantitative",
+            "aggregate": "none",
+            "label": "候选配对数"
+          },
+          "tooltip": [
+            {
+              "field": "samples",
+              "type": "quantitative",
+              "label": "官方样本数"
+            },
+            {
+              "field": "confirmed_impacted_rate",
+              "type": "quantitative",
+              "label": "确认影响率",
+              "format": "percent"
+            }
+          ]
+        },
+        "series": [
+          {
+            "field": "confirmed",
+            "label": "确认重叠",
+            "color": "blue"
+          },
+          {
+            "field": "dismissed",
+            "label": "排除",
+            "color": "orange"
+          }
+        ],
+        "palette": {
+          "kind": "categorical",
+          "name": "blue-orange"
+        },
+        "legend": {
+          "position": "bottom",
+          "sort": "spec"
+        },
+        "labels": {
+          "values": "all"
+        },
+        "settings": {
+          "groupMode": "grouped",
+          "showValues": true,
+          "sort": "none"
+        },
+        "surface": {
+          "surface": "export",
+          "showControls": false,
+          "viewMode": "both"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "benchmark_table",
+        "title": "按 Benchmark 汇总",
+        "subtitle": "官方完整分母；确认影响率以官方样本数为分母",
+        "dataset": "benchmark_summary",
+        "sourceId": "overlap_result",
+        "defaultSort": {
+          "field": "confirmed",
+          "direction": "desc"
+        },
+        "density": "spacious",
+        "columns": [
+          {
+            "field": "benchmark",
+            "label": "Benchmark",
+            "type": "text"
+          },
+          {
+            "field": "samples",
+            "label": "官方样本",
+            "format": "number"
+          },
+          {
+            "field": "candidate_pairs",
+            "label": "候选",
+            "format": "number"
+          },
+          {
+            "field": "confirmed",
+            "label": "确认重叠",
+            "format": "number"
+          },
+          {
+            "field": "dismissed",
+            "label": "排除",
+            "format": "number"
+          },
+          {
+            "field": "unresolved",
+            "label": "未决",
+            "format": "number"
+          },
+          {
+            "field": "confirmed_impacted_rate",
+            "label": "确认影响率",
+            "format": "percent"
+          }
+        ]
+      },
+      {
+        "id": "candidate_table",
+        "title": "22 个候选的复核明细",
+        "subtitle": "完整候选清单；像素指标仅适用于 pHash 图像候选",
+        "dataset": "candidate_details",
+        "sourceId": "review_evidence",
+        "defaultSort": {
+          "field": "benchmark",
+          "direction": "asc"
+        },
+        "density": "dense",
+        "columns": [
+          {
+            "field": "candidate_id",
+            "label": "候选 ID",
+            "type": "text"
+          },
+          {
+            "field": "benchmark",
+            "label": "Benchmark",
+            "type": "text"
+          },
+          {
+            "field": "project_sample_uid",
+            "label": "训练 sample",
+            "type": "text"
+          },
+          {
+            "field": "benchmark_sample_uid",
+            "label": "Benchmark sample",
+            "type": "text"
+          },
+          {
+            "field": "match_type",
+            "label": "命中类型",
+            "type": "text"
+          },
+          {
+            "field": "phash_distance",
+            "label": "pHash 距离",
+            "format": "number"
+          },
+          {
+            "field": "pixel_correlation_256",
+            "label": "像素相关",
+            "format": "number"
+          },
+          {
+            "field": "rgb_mae_256",
+            "label": "RGB MAE",
+            "format": "number"
+          },
+          {
+            "field": "review_status",
+            "label": "复核结论",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "overlap_result",
+        "label": "Train-6241 overlap audit result",
+        "path": "artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_report.json",
+        "query": {
+          "engine": "local_python",
+          "language": "python",
+          "description": "Full train-6241 versus frozen paper-aligned R3 benchmark overlap audit.",
+          "executed_at": "2026-09-04T07:50:49.749463+00:00",
+          "tables_used": [
+            "data/vision_opd_6241/train_6241.parquet",
+            "benchmark_data/paper_aligned/converted/zoombench/zoombench.json",
+            "benchmark_data/paper_aligned/converted/mmstar/mmstar.json",
+            "benchmark_data/paper_aligned/converted/vstar/vstar.json"
+          ],
+          "filters": [
+            "all 6,241 training samples",
+            "all 845 ZoomBench, 1,500 MMStar, and 191 V* Bench samples",
+            "Student full images and Teacher crop images included"
+          ],
+          "metric_definitions": [
+            "Confirmed impacted rate = unique confirmed benchmark samples / official benchmark sample count",
+            "Candidate = exact SHA256, normalized exact question, or 64-bit DCT pHash distance <= 5"
+          ]
+        }
+      },
+      {
+        "id": "review_evidence",
+        "label": "Candidate review evidence",
+        "path": "artifacts/runs/E-D10-6K-DATA-001/overlap/candidate_review_evidence.json",
+        "query": {
+          "engine": "local_python",
+          "language": "python",
+          "description": "Pixel-equivalence follow-up for 22 overlap candidates.",
+          "executed_at": "2026-09-04T07:50:14.412500Z",
+          "tables_used": [
+            "artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_candidates.jsonl"
+          ],
+          "metric_definitions": [
+            "V* confirmation: same dimensions, 256px grayscale correlation >= 0.995, and RGB MAE <= 1.0",
+            "ZoomBench dismissal: question-only match with dissimilar images and different reference answers"
+          ]
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Train-6241 与外部 Benchmark 重叠审计"
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "sourceId": "overlap_result",
+        "body": "## 技术结论\n\n**全量计算和输入 Gate 均通过，但 V* Bench 并非完全独立。** 6,241 条训练样本与 2,536 条外部 Benchmark 全量比对后，确认 21 个 V* 图像重叠，排除 1 个 ZoomBench 通用题干碰撞，未决为 0。训练数据不删除；后续必须保留官方完整分数，并把 overlap 分层或去重结果仅作为次级诊断。"
+      },
+      {
+        "id": "metrics",
+        "type": "metric-strip",
+        "cardIds": [
+          "confirmed_card",
+          "unresolved_card",
+          "input_gate_card"
+        ]
+      },
+      {
+        "id": "concentration",
+        "type": "markdown",
+        "sourceId": "overlap_result",
+        "body": "## 确认重叠全部集中在 V* Bench\n\nV* 的 21/191 个官方样本受确认重叠影响（10.99%）；ZoomBench 的唯一候选被排除，MMStar 没有候选。这会影响“完全独立外部评测”的表述，但不要求删除官方样本。"
+      },
+      {
+        "id": "outcome_chart",
+        "type": "chart",
+        "chartId": "candidate_outcomes_chart"
+      },
+      {
+        "id": "benchmark_exact",
+        "type": "markdown",
+        "body": "## 三套 Benchmark 的精确审计结果\n\n下表保留官方分母、候选数量和最终复核状态，便于直接核验。"
+      },
+      {
+        "id": "benchmark_table_block",
+        "type": "table",
+        "tableId": "benchmark_table"
+      },
+      {
+        "id": "scope",
+        "type": "markdown",
+        "sourceId": "overlap_result",
+        "body": "## 范围和度量定义\n\n范围包含全部 train-6241、Student full 图和 Teacher crop 图；外部集合固定为 ZoomBench 845、MMStar 1,500、V* Bench 191。候选由文件 SHA256 完全一致、NFKC/casefold/空白归一后的问题完全一致，或 64-bit DCT pHash 汉明距离不超过 5 触发。"
+      },
+      {
+        "id": "method",
+        "type": "markdown",
+        "sourceId": "review_evidence",
+        "body": "## 21 个 V* 候选具有重编码等价证据\n\n21 对 V* 图像尺寸逐对相同，256px 灰度像素相关系数为 0.9963–0.99998，RGB MAE 为 0.017–0.497，因此判为同一视觉样本的不同编码。ZoomBench 候选仅问题文本相同；其图像 pHash 距离为 32/36、像素相关接近 0，且参考答案不同，因此排除。"
+      },
+      {
+        "id": "candidate_table_block",
+        "type": "table",
+        "tableId": "candidate_table"
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "sourceId": "review_evidence",
+        "body": "## 限制与稳健性\n\n复核身份明确记录为 codex_assisted_pixel_equivalence_review，尚无项目负责人签字；不过确认项同时满足相同尺寸、极高像素相关、极低 RGB 差异和冻结 pHash 阈值，证据置信度高。该审计识别视觉/题干重叠，不证明训练标签与 Benchmark 答案完全一致。"
+      },
+      {
+        "id": "next_steps",
+        "type": "markdown",
+        "sourceId": "overlap_result",
+        "body": "## 后续处理必须保留官方分数\n\n1. 不删除任何训练样本或官方 Benchmark 样本。\n2. V* 主结果继续使用官方 191 分母。\n3. 另报 overlap 与 non-overlap 分层诊断，去重指标只能标为次级分析。\n4. Day11 总门禁记录为“审计完成且存在确认重叠”，不得写成 no overlap。"
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## 待确认事项\n\n项目负责人是否要求对 22 条复核决策追加人工签字？这不会改变像素证据，但会决定最终门禁中 reviewer 的治理口径。"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-09-04T07:50:49.749463+00:00",
+    "status": "ready",
+    "datasets": {
+      "headline": [
+        {
+          "confirmed": 21,
+          "unresolved": 0,
+          "input_gates_passed": 9
+        }
+      ],
+      "benchmark_summary": [
+        {
+          "benchmark": "MMStar",
+          "benchmark_key": "mmstar",
+          "samples": 1500,
+          "candidate_pairs": 0,
+          "confirmed": 0,
+          "dismissed": 0,
+          "unresolved": 0,
+          "confirmed_impacted_rate": 0.0
+        },
+        {
+          "benchmark": "V* Bench",
+          "benchmark_key": "vstar",
+          "samples": 191,
+          "candidate_pairs": 21,
+          "confirmed": 21,
+          "dismissed": 0,
+          "unresolved": 0,
+          "confirmed_impacted_rate": 0.1099476439790576
+        },
+        {
+          "benchmark": "ZoomBench",
+          "benchmark_key": "zoombench",
+          "samples": 845,
+          "candidate_pairs": 1,
+          "confirmed": 0,
+          "dismissed": 1,
+          "unresolved": 0,
+          "confirmed_impacted_rate": 0.0
+        }
+      ],
+      "candidate_details": [
+        {
+          "candidate_id": "overlap_a98f42da63b390d26340",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_054aed2864f40ce92534a778",
+          "benchmark_sample_uid": "vstar:source_id:113",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999324,
+          "rgb_mae_256": 0.241,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_90ae5896b99c14a5221c",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_08650c6918de7960c093e962",
+          "benchmark_sample_uid": "vstar:source_id:161",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999915,
+          "rgb_mae_256": 0.119,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_db4e995802162b96c6c1",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_0a8396bb055ce32aef9e2385",
+          "benchmark_sample_uid": "vstar:source_id:71",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 2,
+          "pixel_correlation_256": 0.997017,
+          "rgb_mae_256": 0.273,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_3ef1d0c071cde906e834",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_1d0a3c9b694ffa8a8ac4342e",
+          "benchmark_sample_uid": "vstar:source_id:149",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.99988,
+          "rgb_mae_256": 0.095,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_e53987a1f0524c46886a",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_2fd39bfd3b2100bc67564085",
+          "benchmark_sample_uid": "vstar:source_id:24",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.99679,
+          "rgb_mae_256": 0.438,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_bec6208038fc0a4754c1",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_32babc0b2fda8dade142d25e",
+          "benchmark_sample_uid": "vstar:source_id:8",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999976,
+          "rgb_mae_256": 0.019,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_e4a7867af994c84ca80a",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_370fd05975c5e2da746d91d5",
+          "benchmark_sample_uid": "vstar:source_id:83",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999958,
+          "rgb_mae_256": 0.069,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_5b746826dbb8aacdcc15",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_53d3acfebd233bd0f39812a5",
+          "benchmark_sample_uid": "vstar:source_id:167",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 2,
+          "pixel_correlation_256": 0.999621,
+          "rgb_mae_256": 0.055,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_83a7173b93a349076b90",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_5a74fb7570815fb11cf10389",
+          "benchmark_sample_uid": "vstar:source_id:129",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.998022,
+          "rgb_mae_256": 0.497,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_99e6b6e050ca2bf94216",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_725d6760b9e91fd78ee77e58",
+          "benchmark_sample_uid": "vstar:source_id:59",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.9996,
+          "rgb_mae_256": 0.041,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_1cf2d522ffb443692880",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_7ae0fa0fbe521356d3b69b4b",
+          "benchmark_sample_uid": "vstar:source_id:54",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999909,
+          "rgb_mae_256": 0.07,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_cbfd5060ed38d526feef",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_83ec924de4e74940557f31e5",
+          "benchmark_sample_uid": "vstar:source_id:101",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.996313,
+          "rgb_mae_256": 0.296,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_bf4b9e6c0ae6aa956a96",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_957fb03b18444929ae193786",
+          "benchmark_sample_uid": "vstar:source_id:131",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999921,
+          "rgb_mae_256": 0.017,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_57673f6b9380bc3f8d12",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_9fbd01ddcb0d3760e7849c9d",
+          "benchmark_sample_uid": "vstar:source_id:114",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999855,
+          "rgb_mae_256": 0.092,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_fe13c86e37f251cc8534",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_b102869d6af5f78e66260f62",
+          "benchmark_sample_uid": "vstar:source_id:170",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999729,
+          "rgb_mae_256": 0.046,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_7742d16740c91964512b",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_b973d99df36038fab8ee7a8f",
+          "benchmark_sample_uid": "vstar:source_id:68",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999808,
+          "rgb_mae_256": 0.127,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_33a79d98a981e9e01d92",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_e99e7cf6b568a173cabe602b",
+          "benchmark_sample_uid": "vstar:source_id:180",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999522,
+          "rgb_mae_256": 0.364,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_94a81957b9b994505f90",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_ed67651c075de9f65f9cb793",
+          "benchmark_sample_uid": "vstar:source_id:15",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.998971,
+          "rgb_mae_256": 0.414,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_de59d8f180b44185e83d",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_f6e13b74e439f109569ca911",
+          "benchmark_sample_uid": "vstar:source_id:60",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999971,
+          "rgb_mae_256": 0.027,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_232fcb169500ad08eba9",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_f8feb633eab0005d17b0d8ed",
+          "benchmark_sample_uid": "vstar:source_id:22",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 0,
+          "pixel_correlation_256": 0.999951,
+          "rgb_mae_256": 0.082,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_65f240872b05f170d67b",
+          "benchmark": "vstar",
+          "project_sample_uid": "vopd_f94625bc83b2c8ec932d011f",
+          "benchmark_sample_uid": "vstar:source_id:163",
+          "match_type": "suspected_perceptual_match",
+          "phash_distance": 4,
+          "pixel_correlation_256": 0.999132,
+          "rgb_mae_256": 0.126,
+          "review_status": "confirmed_overlap"
+        },
+        {
+          "candidate_id": "overlap_42a4624dabc87a7368a5",
+          "benchmark": "zoombench",
+          "project_sample_uid": "vopd_08ac50c235b302132032efd0",
+          "benchmark_sample_uid": "zoombench:source_id:fcef1ce2a4d57e7b159b21fde85e679e",
+          "match_type": "exact_question_match",
+          "phash_distance": null,
+          "pixel_correlation_256": null,
+          "rgb_mae_256": null,
+          "review_status": "dismissed"
+        }
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {
+      "id": "overlap_result",
+      "label": "Train-6241 overlap audit result",
+      "path": "artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_report.json",
+      "query": {
+        "engine": "local_python",
+        "language": "python",
+        "description": "Full train-6241 versus frozen paper-aligned R3 benchmark overlap audit.",
+        "executed_at": "2026-09-04T07:50:49.749463+00:00",
+        "tables_used": [
+          "data/vision_opd_6241/train_6241.parquet",
+          "benchmark_data/paper_aligned/converted/zoombench/zoombench.json",
+          "benchmark_data/paper_aligned/converted/mmstar/mmstar.json",
+          "benchmark_data/paper_aligned/converted/vstar/vstar.json"
+        ],
+        "filters": [
+          "all 6,241 training samples",
+          "all 845 ZoomBench, 1,500 MMStar, and 191 V* Bench samples",
+          "Student full images and Teacher crop images included"
+        ],
+        "metric_definitions": [
+          "Confirmed impacted rate = unique confirmed benchmark samples / official benchmark sample count",
+          "Candidate = exact SHA256, normalized exact question, or 64-bit DCT pHash distance <= 5"
+        ]
+      }
+    },
+    {
+      "id": "review_evidence",
+      "label": "Candidate review evidence",
+      "path": "artifacts/runs/E-D10-6K-DATA-001/overlap/candidate_review_evidence.json",
+      "query": {
+        "engine": "local_python",
+        "language": "python",
+        "description": "Pixel-equivalence follow-up for 22 overlap candidates.",
+        "executed_at": "2026-09-04T07:50:14.412500Z",
+        "tables_used": [
+          "artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_candidates.jsonl"
+        ],
+        "metric_definitions": [
+          "V* confirmation: same dimensions, 256px grayscale correlation >= 0.995, and RGB MAE <= 1.0",
+          "ZoomBench dismissal: question-only match with dissimilar images and different reference answers"
+        ]
+      }
+    }
+  ]
+}

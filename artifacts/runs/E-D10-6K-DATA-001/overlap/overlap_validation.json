@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "validation_id": "E-D11-6K-OVERLAP-VALIDATION-001",
+  "generated_at_utc": "2026-09-04T07:50:49.749463+00:00",
+  "status": "PASS_WITH_CONFIRMED_OVERLAP",
+  "checks": {
+    "audit_execution_pass": true,
+    "all_input_gates_pass": true,
+    "project_rows_and_unique_ids_match": true,
+    "benchmark_rows_and_unique_ids_match": true,
+    "all_image_references_present": true,
+    "fingerprint_errors_zero": true,
+    "candidate_count_reconciles": true,
+    "review_decisions_cover_every_candidate": true,
+    "review_statuses_reconcile": true,
+    "per_benchmark_counts_reconcile": true
+  },
+  "failed_checks": [],
+  "result": {
+    "project_samples": 6241,
+    "benchmark_samples": 2536,
+    "project_image_references": 12482,
+    "benchmark_image_references": 3381,
+    "unique_images_fingerprinted": 15863,
+    "candidate_pairs": 22,
+    "confirmed_overlap_pairs": 21,
+    "dismissed_pairs": 1,
+    "unresolved_pairs": 0,
+    "confirmed_project_sample_rate": 0.0033648453773433744,
+    "confirmed_benchmark_sample_rate": 0.008280757097791799,
+    "vstar_confirmed_impacted_rate": 0.1099476439790576
+  },
+  "interpretation": {
+    "severity": "high_for_claims_of_fully_independent_vstar_evaluation",
+    "confidence": "high",
+    "training_action": "retain_all_train_rows",
+    "evaluation_action": "preserve official full-set scores and report overlap-stratified or deduplicated diagnostics separately",
+    "human_project_owner_signoff": false
+  }
+}

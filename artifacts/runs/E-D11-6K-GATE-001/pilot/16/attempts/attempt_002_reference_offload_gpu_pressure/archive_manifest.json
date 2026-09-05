@@ -1,0 +1,221 @@
+{
+  "archived_at_utc": "2026-09-05T10:28:30.867601+00:00",
+  "reason": "Pilot-16 attempt 2 stopped by GPU memory guard; preserve before resource revision",
+  "files": [
+    {
+      "path": "active_pilot_live_launch_gate.json",
+      "bytes": 10792,
+      "sha256": "83cc9b81f23f82a17eebf90d2a5f6704736472f0d3f83aa4654e45a62cf2c0bf"
+    },
+    {
+      "path": "active_run_invocation.json",
+      "bytes": 3081,
+      "sha256": "345acf6b35cb110838dcba02281a8b5ef7b9b3aab50eacb8bc557d5b935cd379"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "bytes": 6255521792,
+      "sha256": "ac7ee257d9000efc00131689f92f505721392b23bfd85938621c624738852ff8"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "bytes": 6199828480,
+      "sha256": "5fd67fed725fbdd78355fcb77c7260285303d0c084153c94b92a5503592220bc"
+    },
+    {
+      "path": "evidence/exit_receipt.json",
+      "bytes": 708,
+      "sha256": "233b97eb41720bf7d14613d1ec3a87de5e6fcc9f6f9d2a5886af0b923dc0ff60"
+    },
+    {
+      "path": "evidence/guard_events.jsonl",
+      "bytes": 193,
+      "sha256": "99f3922532677f1d324e5330cda75a8fc42ada763a4b8eab415e110e4c30339e"
+    },
+    {
+      "path": "evidence/guard_summary.json",
+      "bytes": 519,
+      "sha256": "c54e08198efdec81f197d6a5b90e7915d1e2bd5aa799722274d0ab25a66769e3"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "bytes": 230693,
+      "sha256": "05dd6afd0ce34886dfccd35bf565cafca1f06e29dcedfa3a878369578fc5d19e"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "bytes": 519973,
+      "sha256": "e02288a45be4a9f63829816932b3006c9f769c8947b5948d119851bf6f06a72e"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "bytes": 254117,
+      "sha256": "39f500e76e84ffa717dbcba8ccc796ecb2d0b97cf19d67f325f28c247f3b08aa"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "bytes": 111909,
+      "sha256": "848a60e237d6ea3b8939e5d34f3f0ffcf42891240c37325ae365751a1c011a70"
+    },
+    {
+      "path": "evidence/runtime_metrics.jsonl",
+      "bytes": 368,
+      "sha256": "b51bb460780445dfd0166716ece40e8184127554edb24f14ecb11ab539b9397f"
+    },
+    {
+      "path": "evidence/telemetry/cgroup_memory.jsonl",
+      "bytes": 21259,
+      "sha256": "3ca7d63fc3d41b63fc2bdf422974cc17c5e6339b112eaf4e826193cb50f951e3"
+    },
+    {
+      "path": "evidence/telemetry/disk.jsonl",
+      "bytes": 9039,
+      "sha256": "94d3182b1da660980b8e967a14767dac2ac7fe80a32d7275f1d4eee69048f23f"
+    },
+    {
+      "path": "evidence/telemetry/gpu.jsonl",
+      "bytes": 31963,
+      "sha256": "67856baaad06da15a835c189bfe1b26fbc6ebf3c8b4637f86bd00dca51081a9b"
+    },
+    {
+      "path": "evidence/telemetry/process_rss.jsonl",
+      "bytes": 430540,
+      "sha256": "24ac27948d7dad131ec9e91c1dc2af59f86a627b814951382bb7cf4810889932"
+    },
+    {
+      "path": "logs/train.log",
+      "bytes": 120275,
+      "sha256": "4d50a285ef00ccfb83406a15898fc97c256922f078c115db9488e0583875c33f"
+    },
+    {
+      "path": "preflight/pilot_guard_preflight.json",
+      "bytes": 7973,
+      "sha256": "84c0b000070f007cb67cfdccd59987a12d596c62e30ca500c0cd69ad3dac2d45"
+    },
+    {
+      "path": "preflight/pilot_live_launch_gate.json",
+      "bytes": 10792,
+      "sha256": "83cc9b81f23f82a17eebf90d2a5f6704736472f0d3f83aa4654e45a62cf2c0bf"
+    },
+    {
+      "path": "preflight/preflight_summary.json",
+      "bytes": 3191,
+      "sha256": "3a11d5e05f381efca731e9adefe1cc158eee898d4938bb35d75e23c18cbaf8c0"
+    },
+    {
+      "path": "preflight/run_invocation.json",
+      "bytes": 3081,
+      "sha256": "345acf6b35cb110838dcba02281a8b5ef7b9b3aab50eacb8bc557d5b935cd379"
+    },
+    {
+      "path": "preflight/selection.json",
+      "bytes": 9992,
+      "sha256": "4d7b4889e773114e46fadec976345555cafbc31eff9c1c25741ff9f2763ca6a1"
+    },
+    {
+      "path": "rollouts/1.jsonl",
+      "bytes": 7067,
+      "sha256": "05fc5eaf134a3893b976613d40d96de306ceaf0897994292aac4f8debccb2fca"
+    },
+    {
+      "path": "rollouts/2.jsonl",
+      "bytes": 5013,
+      "sha256": "98fe884eb549816428c86b1b754f7b7f993bbb341e42dc4c11301caa2ee05092"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/drop_last/drop_last_audit.json",
+      "bytes": 3116,
+      "sha256": "2f11cd4a42a90c9d34259e5d54bce14b57e3f61fc425b67225b0828a926212fb"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/drop_last/drop_last_audit.md",
+      "bytes": 1711,
+      "sha256": "e499d4eece1550f5e5a19706cf8fea743efb903df6dd920eab2581333d65ec0a"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/drop_last/sha256.txt",
+      "bytes": 172,
+      "sha256": "7ff4a408e31715a64cd8ccfa96324fd03199342eef0fb310c7f94f07d1c0fc3d"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/prompt_length/resource_only_config_amendment.json",
+      "bytes": 2243,
+      "sha256": "a50d35e8eb573cf8ea757fe6d78bc4a122257ed3327bdbddbf59af2c6fc145bb"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+      "bytes": 13695,
+      "sha256": "2e67b56318816e1cc94d8d51d24507aa807d49bdb97a8789274164a991651f4e"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate.md",
+      "bytes": 1350,
+      "sha256": "c6ca13205406a78e50e18d383e68784ad65ed57551d56604e2aac580e58e0e19"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate_sha256.txt",
+      "bytes": 296,
+      "sha256": "808851d23fbb09f8daac04d703c97ec859bfbe5248298576fa8e0d30e21226d7"
+    },
+    {
+      "path": "snapshot/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json",
+      "bytes": 4936,
+      "sha256": "8ca94df3dee0f14ebc41ebfc1d41989dc055c11d9fcfb1e96ef07af451135ed4"
+    },
+    {
+      "path": "snapshot/configs/vopd_6241.yaml",
+      "bytes": 2752,
+      "sha256": "9b929e8fc93abd72c713a03316556ab3eaa228c4783f5432c2b28f313d571b21"
+    },
+    {
+      "path": "snapshot/configs/vopd_6241_abort_policy.yaml",
+      "bytes": 2360,
+      "sha256": "88ff8794517e5374b5917b1a55a040b03238b0beea0edaca36dd45b7ec7ece2f"
+    },
+    {
+      "path": "snapshot/configs/vopd_6241_pilot_16.yaml",
+      "bytes": 2700,
+      "sha256": "9a0d8bfed5774926f0001f34f3d378b44fdf462ac09fcc6be56cd734b98cf5eb"
+    },
+    {
+      "path": "snapshot/configs/vopd_6241_pilot_64.yaml",
+      "bytes": 2798,
+      "sha256": "fe7af5a7c1050faf4654ea7b6d36b2bc189ddb1d7394219aedb2173b2cc1703a"
+    },
+    {
+      "path": "snapshot/configs/vopd_6241_pilot_abort_policy.yaml",
+      "bytes": 2915,
+      "sha256": "fee527a35b89332dd7eebdec9372c648a67a49dc604e284e8f7563e1d7ab1e0c"
+    },
+    {
+      "path": "snapshot/scripts/audit_vopd_6241_pilot.py",
+      "bytes": 17481,
+      "sha256": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3"
+    },
+    {
+      "path": "snapshot/scripts/build_day11_static_gate.py",
+      "bytes": 16790,
+      "sha256": "bf029344a00deaea1f52c5ec7f5f9dda4134101c2c2dedaeefcc38067db8e380"
+    },
+    {
+      "path": "snapshot/scripts/monitor_vopd_training.py",
+      "bytes": 24154,
+      "sha256": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644"
+    },
+    {
+      "path": "snapshot/scripts/run_vopd_2gpu.sh",
+      "bytes": 15835,
+      "sha256": "90afcba215d98a4b7ce6f6eb84c1799bf3cdeb31dc65538754c1d97c17eeab50"
+    },
+    {
+      "path": "snapshot/scripts/run_vopd_6241_pilot_guarded.py",
+      "bytes": 12207,
+      "sha256": "cbf8ac5ffec5e13b6f31ecd3a5b67105e2201c4931b425490cb5d63864fffd72"
+    },
+    {
+      "path": "snapshot/scripts/vopd_training_preflight.py",
+      "bytes": 16113,
+      "sha256": "349f569568014bd8b5ddf48be1f946bfdfd550ff9d4f6654e0e55bf55d224f88"
+    }
+  ]
+}

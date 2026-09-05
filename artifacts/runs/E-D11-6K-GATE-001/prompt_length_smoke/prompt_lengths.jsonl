@@ -1,0 +1,2 @@
+{"row_index": 0, "sample_id": "vopd_98bc46652fdf248e2fac66a7", "view": "student", "image_column": "images", "text_tokens": 72, "image_tokens": 2914, "total_tokens": 2986, "overlength": false}
+{"row_index": 0, "sample_id": "vopd_98bc46652fdf248e2fac66a7", "view": "teacher", "image_column": "bbox_images", "text_tokens": 72, "image_tokens": 65, "total_tokens": 137, "overlength": false}

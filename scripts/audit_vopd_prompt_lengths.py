@@ -27,6 +27,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--views", nargs="+", choices=sorted(VIEW_TO_COLUMN), default=sorted(VIEW_TO_COLUMN))
     parser.add_argument("--limit", type=int, default=None, help="Process only the first N rows for a smoke check.")
     parser.add_argument("--progress-every", type=int, default=25)
+    parser.add_argument(
+        "--parquet-batch-size",
+        type=int,
+        default=8,
+        help="Rows converted to Python at once; keep small in memory-constrained cgroups.",
+    )
     return parser.parse_args()
 
 
@@ -239,16 +245,26 @@ def main() -> int:
     output_dir = resolve(project_root, args.output_dir or f"{cfg['paths']['output_dir']}/preflight")
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    table = pq.read_table(train_file)
-    rows = table.to_pylist()
-    row_count = len(rows)
+    parquet_file = pq.ParquetFile(train_file)
+    row_count = parquet_file.metadata.num_rows
     expected_rows = int(cfg["data"]["expected_train_rows"])
+    if args.parquet_batch_size <= 0:
+        raise ValueError("--parquet-batch-size must be positive")
     if args.limit is not None:
         if args.limit <= 0:
             raise ValueError("--limit must be positive")
-        rows_to_process = rows[: args.limit]
+        rows_to_process = min(row_count, args.limit)
     else:
-        rows_to_process = rows
+        rows_to_process = row_count
+
+    def iter_rows():
+        emitted = 0
+        for batch in parquet_file.iter_batches(batch_size=args.parquet_batch_size):
+            for row in batch.to_pylist():
+                if emitted >= rows_to_process:
+                    return
+                yield row
+                emitted += 1
 
     processor = AutoProcessor.from_pretrained(str(model_path), trust_remote_code=True, local_files_only=True)
     processor.chat_template = chat_template.read_text(encoding="utf-8")
@@ -260,7 +276,7 @@ def main() -> int:
     partial_path = output_dir / "prompt_lengths.partial.jsonl"
 
     with partial_path.open("w", encoding="utf-8") as output:
-        for row_index, row in enumerate(rows_to_process):
+        for row_index, row in enumerate(iter_rows()):
             sid = sample_id(row, row_index)
             for view in args.views:
                 try:
@@ -287,9 +303,9 @@ def main() -> int:
                         {"row_index": row_index, "sample_id": sid, "view": view, "error": repr(exc)}
                     )
             completed = row_index + 1
-            if args.progress_every > 0 and (completed % args.progress_every == 0 or completed == len(rows_to_process)):
+            if args.progress_every > 0 and (completed % args.progress_every == 0 or completed == rows_to_process):
                 elapsed = time.monotonic() - started
-                print(f"processed_rows={completed}/{len(rows_to_process)} elapsed_seconds={elapsed:.1f}", flush=True)
+                print(f"processed_rows={completed}/{rows_to_process} elapsed_seconds={elapsed:.1f}", flush=True)
 
     final_records_path = output_dir / "prompt_lengths.jsonl"
     partial_path.replace(final_records_path)
@@ -327,4 +343,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

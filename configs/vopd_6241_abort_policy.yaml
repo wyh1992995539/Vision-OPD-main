@@ -8,12 +8,14 @@ telemetry:
   log_heartbeat_timeout_seconds: 900
 
 runtime:
-  max_wall_time_hours: 16
+  max_wall_time_hours: 38
   terminate_grace_seconds: 60
 
 memory:
   gpu_used_ratio_abort: 0.95
   cgroup_used_ratio_abort: 0.95
+  # Three-way offload needs additional host RAM above the observed 100 GiB peak.
+  prelaunch_cgroup_minimum_bytes: 206158430208
   consecutive_samples: 3
 
 disk:
@@ -27,27 +29,38 @@ disk:
   soft_floor_consecutive_samples: 2
 
 budget:
-  conservative_reservation_cny: 120.64
+  hourly_dual_gpu_rate_cny: 11.96
+  planning_status: pending_1024_token_pilot
+  historical_256_token_planning_hours: 5.68
+  historical_256_token_planning_cny: 67.88
+  historical_256_token_conservative_hours: 10.09
+  historical_256_token_conservative_cny: 120.64
+  conservative_reservation_cny: 454.48
+  conservative_reservation_basis: 38_hour_abort_ceiling_times_11.96_cny
+  require_pilot_reestimate_before_day12: true
   project_hard_limit_cny: 2000
   billing_observation_max_age_seconds: 900
 
 metrics:
   teacher_ema_nonpositive_consecutive_steps: 2
   student_delta_nonpositive_consecutive_steps: 2
+  student_update_required_only_when_lr_positive: true
   generation_error_consecutive_steps: 3
 
 coverage:
-  expected_unique_source_seen: 6241
-  expected_effective_train_samples: 6241
-  expected_padding_rows: 7
-  expected_dropped_rows: 0
-  receipt: artifacts/runs/E-D12-6K-VOPD-001/evidence/full_coverage_receipt.json
+  mode: native_drop_last
+  source_rows: 6241
+  expected_unique_source_seen: 6240
+  expected_effective_train_samples: 6240
+  expected_padding_rows: 0
+  expected_dropped_rows: 1
+  receipt: null
 
 checkpoint:
   allowed_save_steps:
     - 390
-    - 781
-  expected_final_step: 781
+    - 780
+  expected_final_step: 780
   marker: latest_checkpointed_iteration.txt
   required_relative_files:
     - actor/extra_state_world_size_2_rank_0.pt

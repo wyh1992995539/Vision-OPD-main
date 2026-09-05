@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T10:33:25.054110+00:00",
+  "status": "STATIC_VERIFIED_PENDING_GPU_PILOT",
+  "gpu_used": false,
+  "formal_training_authorized": false,
+  "failed_attempt": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure",
+    "manifest_sha256": "0c22ab6ec106ef5d1ba94262b7067e11707a51b118b6c630b8ee24b3ff736f5a",
+    "exit_code": 40,
+    "completed_steps": 1,
+    "observed_gpu_peak_percent": [
+      95.567,
+      92.938
+    ],
+    "stage_attribution": "Not directly instrumented; allocator and rollout/optimizer overlap remain a hypothesis."
+  },
+  "changes_from_attempt_2": [
+    {
+      "path": "actor.optimizer_offload",
+      "before": false,
+      "after": true,
+      "prompt_affecting": false
+    },
+    {
+      "path": "actor.parameter_offload",
+      "before": false,
+      "after": true,
+      "prompt_affecting": false
+    },
+    {
+      "path": "resources.actor_parameter_offload_required",
+      "before": null,
+      "after": true,
+      "prompt_affecting": false
+    },
+    {
+      "path": "resources.memory_profile",
+      "before": null,
+      "after": "offload_3way_graph4_v1",
+      "prompt_affecting": false
+    },
+    {
+      "path": "resources.optimizer_offload_required",
+      "before": null,
+      "after": true,
+      "prompt_affecting": false
+    },
+    {
+      "path": "resources.prelaunch_cgroup_minimum_bytes",
+      "before": null,
+      "after": 206158430208,
+      "prompt_affecting": false
+    },
+    {
+      "path": "rollout.engine_kwargs.vllm.compilation_config.cudagraph_capture_sizes",
+      "before": null,
+      "after": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "prompt_affecting": false
+    },
+    {
+      "path": "rollout.gpu_memory_utilization",
+      "before": 0.45,
+      "after": 0.4,
+      "prompt_affecting": false
+    }
+  ],
+  "verification": {
+    "pytest": "47 passed, 14 subtests passed",
+    "shell_syntax": "PASS",
+    "prompt_resource_amendment": "PASS",
+    "gpu_runtime": "NOT_RUN",
+    "pilot16_guarded_cpu_preflight": "PASS",
+    "pilot64_guarded_cpu_preflight": "EXPECTED_FAIL_STAGE_PREREQUISITE_ONLY",
+    "pilot_shell_preflights": "PASS_16_AND_64",
+    "pilot16_output_collisions": 0,
+    "static_gate": "PASS_PENDING_GPU_PILOT"
+  },
+  "modified_inputs": {
+    "vopd_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "sha256": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f"
+    },
+    "abort_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "sha256": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3"
+    },
+    "pilot_abort_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_abort_policy.yaml",
+      "sha256": "15893f25385cc5596cf85020782db6721a1e215259a412653177e850d3c61059"
+    },
+    "runtime_guard_script": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/monitor_vopd_training.py",
+      "sha256": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644"
+    },
+    "pilot_postflight_script": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/audit_vopd_6241_pilot.py",
+      "sha256": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3"
+    },
+    "training_launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_2gpu.sh",
+      "sha256": "cebc263e9bb193b9d4956480c48dd8dca99ab844152d5de1d85340d1be59f6d9"
+    },
+    "training_preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_training_preflight.py",
+      "sha256": "1eeb50984f319975503030666c08653e98b93c25c39668f03685dbf4c80d56dc"
+    },
+    "pilot_guarded_launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_6241_pilot_guarded.py",
+      "sha256": "c31a9fc49e261eddabd4123308f6f1c41f43bf49f39cf0fed68db0fc631cddaf"
+    },
+    "static_gate_builder": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/build_day11_static_gate.py",
+      "sha256": "5d7d8e56839e19083976b7f6722c10fec5727be256ce9b506423e8d99076023d"
+    },
+    "vllm_adapter": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/workers/rollout/vllm_rollout/vllm_async_server.py",
+      "sha256": "d2d0f0d062275bb2799f25418f4089d335c2e6d466bd6cdd075aac10e3dbecde"
+    }
+  },
+  "adapter_fix": {
+    "reason": "Local vLLM adapter overwrote explicit 9216 with model ceiling 262144. Preserve explicit value; fallback only when unset.",
+    "before_snapshot": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/vllm_adapter_before_resource_revision.py",
+      "sha256": "7a9a0b3e116cc3a89bcd7d954d54dcf53ccb61ede2a879ec9f00adb5420126f8"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "amendment_id": "E-D11-6K-PROMPT-RESOURCE-AMENDMENT-001",
+  "generated_at_utc": "2026-09-04T16:21:11.958834Z",
+  "status": "PASS_RESOURCE_ONLY_CHANGE",
+  "reason": "Pilot-16 attempt 1 reached 95.42% GPU memory on GPU 1; enable frozen Reference parameter offload without changing prompt construction.",
+  "prior_audit": {
+    "summary_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/prompt_length/prompt_length_summary.json",
+    "summary_sha256": "065e40442b76f3384bd42d73e09f71c51a5477cbf6b55e470fa64635235ec0e2",
+    "records_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/prompt_length/prompt_lengths.jsonl",
+    "records_sha256": "363dcd4244bc2664170d6411c1371a52c276d6f5d24cb5d266ad702161e033ee",
+    "audited_config_sha256": "06127d43b45e9e00aece19ef15c6b9195c362394dffc8d789e7bf1bf937e2871"
+  },
+  "revised_config": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+    "sha256": "9b929e8fc93abd72c713a03316556ab3eaa228c4783f5432c2b28f313d571b21"
+  },
+  "semantic_changes": [
+    {
+      "path": "actor.reference_parameter_offload",
+      "before": false,
+      "after": true,
+      "prompt_affecting": false
+    },
+    {
+      "path": "resources.reference_parameter_offload_required",
+      "before": null,
+      "after": true,
+      "prompt_affecting": false
+    }
+  ],
+  "prompt_contract": {
+    "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "train_file": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+    "train_file_sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "chat_template": "chat_templates/perception_chat_template_qwen35.jinja",
+    "chat_template_sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
+    "image_key": "images",
+    "teacher_image_key": "bbox_images",
+    "max_prompt_length": 8192,
+    "truncation": "error"
+  },
+  "verification": {
+    "reconstructed_prior_config_sha256_matches_audit": true,
+    "prompt_affecting_change_count": 0,
+    "full_prompt_records_reused": 12482,
+    "failed_refresh_exit_code": 137,
+    "failed_refresh_reason": "current cgroup memory.max is 2 GiB; prior completed audit remains intact"
+  }
+}

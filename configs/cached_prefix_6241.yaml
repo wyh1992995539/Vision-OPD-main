@@ -1,9 +1,17 @@
 schema_version: 1
 
+paper_alignment:
+  source_pdf: docs/Vision-OPD.pdf
+  source_pdf_sha256: 67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b
+  profile: paper_core_resource_scaled_2gpu
+  max_on_policy_generation_length: 1024
+  note: Cached Prefix keeps the same response budget as the online branch.
+
 experiment:
   id: E-D11-6K-CACHED-GEN-001
   base_model_path: /root/autodl-tmp/models/Qwen3.5-4B
   base_model_sha256_file: artifacts/runs/E-D4-001/base_model_sha256.txt
+  base_model_sha256_file_sha256: 91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9
   seed: 42
 
 serving:
@@ -11,7 +19,7 @@ serving:
   tensor_parallel_size: 2
   distributed_executor_backend: mp
   dtype: bfloat16
-  max_model_len: 8192
+  max_model_len: 9216
   max_num_seqs: 8
   gpu_memory_utilization: 0.80
   limit_mm_per_prompt:
@@ -26,6 +34,7 @@ shared:
     - reward_model.ground_truth
   chat_template:
     file: chat_templates/perception_chat_template_qwen35.jinja
+    sha256: d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db
     add_generation_prompt: true
     enable_thinking: false
     record_template_sha256: true
@@ -39,6 +48,7 @@ shared:
 
 cached_prefix:
   input_parquet: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+  input_parquet_sha256: 142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e
   expected_samples: 6241
   output_parquet: /root/autodl-tmp/data/vision_opd_6241/cached_prefix_base_6241.parquet
   report_file: artifacts/runs/E-D11-6K-GATE-001/cached_prefix/report.json
@@ -49,6 +59,6 @@ cached_prefix:
     temperature: 1.0
     top_p: 1.0
     top_k: -1
-    max_new_tokens: 256
+    max_new_tokens: 1024
     seed: 42
     stop: tokenizer_eos_only

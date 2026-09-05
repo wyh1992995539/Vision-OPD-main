@@ -10,6 +10,7 @@ import json
 import re
 import unicodedata
 from collections import defaultdict
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from functools import lru_cache
 from datetime import datetime, timezone
@@ -277,18 +278,42 @@ def _write_cache(path: Path, cache: dict[str, dict[str, Any]]) -> None:
     temporary.replace(path)
 
 
+def _compute_image_fingerprint(
+    task: tuple[str, bool, bool],
+) -> tuple[str, dict[str, Any] | None, dict[str, str] | None]:
+    raw_path, enable_sha256, enable_phash = task
+    path = Path(raw_path)
+    try:
+        if not path.is_file():
+            return raw_path, None, {"path": raw_path, "error": "missing_file"}
+        stat = path.stat()
+        value: dict[str, Any] = {
+            "size": stat.st_size,
+            "mtime_ns": stat.st_mtime_ns,
+        }
+        if enable_sha256:
+            value["sha256"] = sha256_file(path)
+        if enable_phash:
+            value["phash_hex"] = f"{phash64(path):016x}"
+        return raw_path, value, None
+    except (OSError, SyntaxError, ValueError) as exc:
+        return raw_path, None, {"path": raw_path, "error": f"{type(exc).__name__}: {exc}"}
+
+
 def fingerprint_images(
     refs: list[ImageRef],
     *,
     cache_path: Path,
     enable_sha256: bool,
     enable_phash: bool,
+    workers: int = 1,
 ) -> tuple[dict[str, dict[str, Any]], list[dict[str, str]]]:
     cache = _load_cache(cache_path)
     fingerprints: dict[str, dict[str, Any]] = {}
     errors: list[dict[str, str]] = []
     unique_paths = sorted({ref.path for ref in refs})
-    for index, raw_path in enumerate(unique_paths, start=1):
+    pending: list[tuple[str, bool, bool]] = []
+    for raw_path in unique_paths:
         path = Path(raw_path)
         if not path.is_file():
             errors.append({"path": raw_path, "error": "missing_file"})
@@ -304,22 +329,33 @@ def fingerprint_images(
         if valid_cache:
             fingerprints[raw_path] = cached
         else:
-            try:
-                value = {
-                    "size": stat.st_size,
-                    "mtime_ns": stat.st_mtime_ns,
-                }
-                if enable_sha256:
-                    value["sha256"] = sha256_file(path)
-                if enable_phash:
-                    value["phash_hex"] = f"{phash64(path):016x}"
+            pending.append((raw_path, enable_sha256, enable_phash))
+
+    print(
+        f"Reused {len(fingerprints)}/{len(unique_paths)} cached image fingerprints; "
+        f"computing {len(pending)} with {max(1, workers)} worker(s)",
+        flush=True,
+    )
+    executor = ProcessPoolExecutor(max_workers=max(1, workers)) if workers > 1 else None
+    results = (
+        executor.map(_compute_image_fingerprint, pending, chunksize=1)
+        if executor is not None
+        else map(_compute_image_fingerprint, pending)
+    )
+    try:
+        for pending_index, (raw_path, value, error) in enumerate(results, start=1):
+            if error is not None:
+                errors.append(error)
+            elif value is not None:
                 fingerprints[raw_path] = value
                 cache[raw_path] = value
-            except (OSError, SyntaxError, ValueError) as exc:
-                errors.append({"path": raw_path, "error": f"{type(exc).__name__}: {exc}"})
-        if index % 100 == 0 or index == len(unique_paths):
-            _write_cache(cache_path, cache)
-            print(f"Fingerprinted {index}/{len(unique_paths)} unique images", flush=True)
+            if pending_index % 100 == 0 or pending_index == len(pending):
+                _write_cache(cache_path, cache)
+                completed = len(fingerprints) + len(errors)
+                print(f"Fingerprinted {completed}/{len(unique_paths)} unique images", flush=True)
+    finally:
+        if executor is not None:
+            executor.shutdown(wait=True, cancel_futures=True)
     _write_cache(cache_path, cache)
     return fingerprints, errors
 
@@ -639,6 +675,8 @@ def write_outputs(
     lines = [
         "# Vision-OPD Benchmark Overlap Audit",
         "",
+        f"**Audit execution:** `{report.get('audit_execution_status', 'NOT_RECORDED')}`",
+        "",
         f"**Decision status:** `{report['decision_status']}`",
         "",
         "## Technical summary",
@@ -646,6 +684,7 @@ def write_outputs(
         f"- Project samples: {report['project_profile']['sample_count']}; benchmark samples: {report['benchmark_profile']['sample_count']}.",
         f"- Candidate sample pairs: {report['candidate_pair_count']}; confirmed: {report['confirmed_overlap_pair_count']}; dismissed: {report['dismissed_pair_count']}; unresolved: {report['unresolved_pair_count']}.",
         f"- Fingerprint/data errors: {report['fingerprint_error_count']}.",
+        f"- Input/data gate checks: {sum(report.get('input_gate_checks', {}).values())}/{len(report.get('input_gate_checks', {}))} passed.",
         "",
         "## Results by benchmark",
         "",
@@ -725,6 +764,25 @@ def run_audit(
         selected,
         normalization=normalization,
     )
+    project_inputs = []
+    for raw_path in audit_cfg["project_splits"]:
+        path = Path(raw_path).resolve()
+        project_inputs.append({"path": str(path), "sha256": sha256_file(path)})
+    benchmark_inputs = {}
+    for name in selected:
+        path = data_root / "converted" / name / f"{name}.json"
+        rows = json.loads(path.read_text(encoding="utf-8"))
+        benchmark_inputs[name] = {
+            "path": str(path),
+            "sha256": sha256_file(path),
+            "sample_count": len(rows),
+        }
+    source_benchmark = config.get("protocol", {}).get("source_benchmark_config")
+    source_benchmark_evidence = None
+    if source_benchmark:
+        source_path = Path(source_benchmark["path"])
+        source_path = source_path if source_path.is_absolute() else (repo_root / source_path).resolve()
+        source_benchmark_evidence = {"path": str(source_path), "sha256": sha256_file(source_path)}
     all_refs = [
         image
         for sample in project_samples + benchmark_samples
@@ -735,6 +793,7 @@ def run_audit(
         cache_path=output_dir / "image_fingerprint_cache.json",
         enable_sha256=bool(checks["file_sha256"].get("enabled", True)),
         enable_phash=bool(checks["perceptual_hash"].get("enabled", True)),
+        workers=int(audit_cfg.get("fingerprint_workers", 1)),
     )
     candidates = detect_candidates(
         project_samples,
@@ -753,9 +812,81 @@ def run_audit(
         fingerprint_errors,
         phash_threshold=int(checks["perceptual_hash"]["suspected_max_hamming_distance"]),
     )
+    expected_project_count = audit_cfg.get("expected_project_sample_count")
+    expected_project_hashes = audit_cfg.get("expected_project_split_sha256", {})
+    expected_benchmark_counts = audit_cfg.get("expected_benchmark_sample_counts", {})
+    expected_benchmark_hashes = audit_cfg.get("expected_benchmark_sha256", {})
+    project_hashes_match = all(
+        not expected_project_hashes
+        or expected_project_hashes.get(item["path"]) == item["sha256"]
+        for item in project_inputs
+    ) and (not expected_project_hashes or len(expected_project_hashes) == len(project_inputs))
+    benchmark_counts_match = (
+        all(
+            name in expected_benchmark_counts
+            and int(expected_benchmark_counts[name]) == benchmark_inputs[name]["sample_count"]
+            for name in selected
+        )
+        if expected_benchmark_counts
+        else True
+    )
+    benchmark_hashes_match = (
+        all(
+            name in expected_benchmark_hashes
+            and expected_benchmark_hashes[name] == benchmark_inputs[name]["sha256"]
+            for name in selected
+        )
+        if expected_benchmark_hashes
+        else True
+    )
+    source_hash_matches = (
+        source_benchmark_evidence is not None
+        and source_benchmark_evidence["sha256"] == source_benchmark["sha256"]
+        if source_benchmark
+        else True
+    )
+    profile_fields = (
+        "duplicate_sample_uid_count",
+        "empty_question_count",
+        "samples_without_images",
+        "missing_image_reference_count",
+    )
+    input_gate_checks = {
+        "project_sample_count_matches": (
+            expected_project_count is None
+            or report["project_profile"]["sample_count"] == int(expected_project_count)
+        ),
+        "project_split_sha256_matches": project_hashes_match,
+        "selected_benchmarks_complete": (
+            not audit_cfg.get("require_all_benchmarks", False)
+            or set(selected) == set(BENCHMARKS)
+        ),
+        "benchmark_sample_counts_match": benchmark_counts_match,
+        "benchmark_sha256_matches": benchmark_hashes_match,
+        "source_benchmark_config_sha256_matches": source_hash_matches,
+        "project_profile_quality_passes": all(
+            report["project_profile"][field] == 0 for field in profile_fields
+        ),
+        "benchmark_profile_quality_passes": all(
+            report["benchmark_profile"][field] == 0 for field in profile_fields
+        ),
+        "fingerprint_errors_zero": report["fingerprint_error_count"] == 0,
+    }
+    report["audit_execution_status"] = "PASS" if all(input_gate_checks.values()) else "FAIL"
+    report["input_gate_checks"] = input_gate_checks
+    report["provenance"] = {
+        "audit_config": {"path": str(config_path), "sha256": sha256_file(config_path)},
+        "source_benchmark_config": source_benchmark_evidence,
+        "project_splits": project_inputs,
+        "benchmark_converted_inputs": benchmark_inputs,
+        "selected_benchmarks": selected,
+    }
+    if report["audit_execution_status"] != "PASS":
+        report["decision_status"] = "blocked_data_quality"
     write_outputs(output_dir, report, candidates)
     print(
-        f"Overlap audit: status={report['decision_status']} "
+        f"Overlap audit: execution={report['audit_execution_status']} "
+        f"status={report['decision_status']} "
         f"candidates={report['candidate_pair_count']} output={output_dir}",
         flush=True,
     )

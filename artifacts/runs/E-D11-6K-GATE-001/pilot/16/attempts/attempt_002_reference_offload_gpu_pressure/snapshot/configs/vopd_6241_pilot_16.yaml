@@ -1,0 +1,112 @@
+schema_version: 1
+status: ready_for_gpu_pilot
+
+paper_alignment:
+  source_pdf: docs/Vision-OPD.pdf
+  profile: paper_core_resource_scaled_2gpu_pilot
+  required_max_response_length: 1024
+
+experiment:
+  id: E-D11-6K-VOPD-PILOT-016
+  name: vision-opd-qwen35-4b-6241-pilot-16
+  group_name: E-D11-6K-VOPD-PILOT
+  prefix_source: online
+  seed: 42
+
+paths:
+  model: /root/autodl-tmp/models/Qwen3.5-4B
+  train_file: /root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_16.parquet
+  selection_manifest: artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/selection.json
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  output_dir: artifacts/runs/E-D11-6K-GATE-001/pilot/16
+
+data:
+  expected_train_rows: 16
+  train_batch_size: 8
+  image_key: images
+  teacher_image_key: bbox_images
+  max_prompt_length: 8192
+  max_response_length: 1024
+  truncation: error
+  shuffle: false
+  dataloader_num_workers: 0
+  tail_policy: native_drop_last
+
+actor:
+  learning_rate: 2.0e-6
+  lr_warmup_steps: 10
+  ppo_mini_batch_size: 8
+  clip_ratio_low: 0.2
+  clip_ratio_high: 0.3
+  use_dynamic_batch_size: true
+  gradient_checkpointing: true
+  parameter_offload: false
+  optimizer_offload: false
+  reference_parameter_offload: true
+  max_token_length_per_gpu: 9216
+
+rollout:
+  n: 1
+  temperature: 1.0
+  top_p: 1.0
+  top_k: -1
+  ignore_eos: false
+  tensor_model_parallel_size: 1
+  gpu_memory_utilization: 0.45
+  log_prob_micro_batch_size_per_gpu: 1
+  agent_num_workers: 2
+  engine_kwargs:
+    vllm:
+      compilation_config:
+        pass_config:
+          fuse_allreduce_rms: false
+      kernel_config:
+        enable_flashinfer_autotune: false
+
+self_distillation:
+  loss_mode: vopd
+  top_k: 100
+  alpha: 0.5
+  teacher_always_on: true
+  teacher_model_source: legacy
+  teacher_regularization: ema
+  teacher_update_rate: 0.05
+  max_reprompt_length: 10240
+  dont_reprompt_on_self_success: true
+  include_environment_feedback: false
+  importance_sampling_clip: 2.0
+
+resources:
+  nodes: 1
+  gpus_per_node: 2
+  reference_parameter_offload_required: true
+
+training:
+  source_samples: 16
+  expected_samples: 16
+  padded_samples: 16
+  padding_rows: 0
+  dropped_rows: 0
+  total_optimizer_steps: 2
+  total_epochs: 1
+  require_full_epoch: true
+  save_frequency: -1
+  test_frequency: -1
+  max_actor_ckpt_to_keep: 1
+  resume_mode: disable
+
+pilot:
+  stage: 16
+  purpose: mechanism_and_memory_gate
+  may_start_formal_training: false
+  next_stage_on_pass: configs/vopd_6241_pilot_64.yaml
+  required_runtime_evidence:
+    - online_rollout
+    - crop_teacher_forward
+    - finite_jsd_loss
+    - student_backward
+    - teacher_direct_gradient_absent
+    - ema_update_positive
+    - per_gpu_memory_telemetry
+    - final_checkpoint
+

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "observation_id": "E-D11-6K-PILOT-BILLING-20260904T135641Z",
+  "recorded_at_utc": "2026-09-04T13:56:41Z",
+  "source": "user_reported_autodl_console_cumulative_charge",
+  "current_autodl_cumulative_charge_cny": 211.36,
+  "gpu_available_at_recording": false,
+  "launch_validity": {
+    "status": "RECORDED_NOT_VALID_FOR_LAUNCH",
+    "policy_max_age_seconds": 900,
+    "nominal_expires_at_utc": "2026-09-04T14:11:41Z",
+    "reason": "No GPU was available. Refresh the cumulative charge and UTC timestamp immediately before --run."
+  },
+  "budget": {
+    "project_hard_limit_cny": 2000.0,
+    "remaining_before_new_work_cny": 1788.64,
+    "pilot_16": {
+      "maximum_incremental_reservation_cny": 47.84,
+      "projected_total_cny": 259.2,
+      "budget_pass_at_observation": true
+    },
+    "pilot_64": {
+      "maximum_incremental_reservation_cny": 95.68,
+      "projected_total_cny": 307.04,
+      "budget_pass_at_observation": true
+    },
+    "pilot_16_then_64": {
+      "maximum_combined_incremental_reservation_cny": 143.52,
+      "projected_total_cny": 354.88,
+      "budget_pass_at_observation": true
+    }
+  },
+  "formal_training_authorized": false,
+  "notes": [
+    "This is a point-in-time user-reported platform value, not a repository-derived billing total.",
+    "This record is historical evidence only and must not be reused as a live --run billing timestamp."
+  ]
+}

@@ -13,7 +13,7 @@
 >
 > 单卡计费 R3 修订（2026-08-27）：R3 已成为 Base、Vision-OPD、Cached Prefix、GRPO 的唯一现行外部 Benchmark 标准。唯一可执行配置为 `configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml`；除被测 checkpoint 与独立输出目录外不得改变任何评测条件。机器可读 amendment 见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/paper_alignment_r3_single_gpu_cost_amendment.yaml`，后续治理同步见 `artifacts/runs/E-PAPER-BASEJUDGE-001/preflight/benchmark_governance_sync_amendment.yaml`，规范见 `docs/benchmark_protocol.md`。
 >
-> 6K 全量训练修订（2026-09-02）：Day 1～9 的正文、结果、失败记录、哈希和 `E-D10-001` 1024 条正式训练前 Gate 全部保留，不回写、不删除。`E-D10-001` 尚未执行，其 1024 条配置只作为已审计的历史准入证据，不再作为现行正式训练入口。现行主线使用冻结 revision 下全部 6,241 条源元数据训练，不再划分 train/eval/test/retention/QA holdout；既有 eval-128、retention-64 仅保留为 Day 1～9 历史证据，不用于新模型选优或能力结论。global batch 8 时采用“1 条真实尾样本 + 7 条零权重补齐行”的末批覆盖机制，目标为 781 个 optimizer steps、有效训练覆盖 6,241/6,241，禁止训练器以 `drop_last=True` 静默丢掉最后 1 条。数据盘上限为 300GB；复用已冻结元数据和 Schema，只要求全量自动图片 QA、服务器 Parquet、全量 Processor 长度审计和异常/最长样本人工复核，不重新做 30 条完整人工 QA。现行 Day 10～21 见本文“主动执行排期”；旧 Day 10～30 内容仅作历史审计，禁止照旧执行。
+> 6K 数据训练修订（2026-09-04）：Day 1～9 的正文、结果、失败记录、哈希和 `E-D10-001` 1024 条正式训练前 Gate 全部保留，不回写、不删除。`E-D10-001` 尚未执行，其 1024 条配置只作为已审计的历史准入证据，不再作为现行正式训练入口。现行主线读取冻结 revision 下全部 6,241 条源元数据，不再划分 train/eval/test/retention/QA holdout；既有 eval-128、retention-64 仅保留为 Day 1～9 历史证据，不用于新模型选优或能力结论。按负责人决定取消零权重尾批补齐，沿用 verl 原生 `drop_last=True`：global batch 8、1 epoch 时为 780 个 optimizer steps、有效训练 6,240 条、丢弃打乱后末尾 1 条。数据盘上限为 300GB；复用已冻结元数据和 Schema，只要求全量自动图片 QA、服务器 Parquet、全量 Processor 长度审计和异常/最长样本人工复核，不重新做 30 条完整人工 QA。现行 Day 10～21 见本文“主动执行排期”；旧 Day 10～30 内容仅作历史审计，禁止照旧执行。
 
 ## 1. 最终目标
 
@@ -42,7 +42,7 @@
 - 论文作者发布的官方 Vision-OPD-4B 只可作为可选参考行，不能替代本项目 Base，也不能冒充本人训练结果。
 - 外部 Benchmark 只用于冻结后的最终模型和一次 Base 基线，不用于反复挑 checkpoint 或调超参数。
 - Vision-OPD 与 Cached Prefix 使用同一 6,241 条全量训练数据。GRPO 也必须以同一 6,241 条为正式训练输入；若任一记录无法可靠规则判分，GRPO 正式训练 Gate 记为 BLOCKED，不得静默筛成小子集后冒充“完整 6.2K GRPO”。
-- 本项目恢复了 Vision-OPD-6K 源数据规模，但仍使用双卡、batch 8、rollout n=1、response 256 等受控配置；不得写成“完整复现论文原始 8 卡训练配置或论文数值”。
+- 本项目恢复了 Vision-OPD-6K 源数据规模，并将论文核心 response 上限恢复为 1024；仍使用双卡、batch 8、rollout n=1 等资源缩放配置，不得写成“完整复现论文原始 8 卡训练配置或论文数值”。
 
 当前执行状态（2026-09-02 同步）：
 
@@ -128,10 +128,10 @@ Day 1 从“冻结项目、数据和评测协议”开始。工作区现有个�
 |---|---|
 | epoch | 1 |
 | global batch | 8 |
-| 预计 optimizer steps | 781（780 个完整 batch + 1 个受掩码尾 batch） |
+| 预计 optimizer steps | 780（6241 条源数据，原生 drop-last 后有效 6240 条） |
 | rollout n | 1 |
 | max prompt length | Day 7 用实际 Processor 统计 P99/max；根据 Day 4 已见 4,212～6,511 Token 输入，起始候选为 8192，禁止继续默认 4096 |
-| max response length | 256 |
+| max response length | 1024（论文核心设置；双卡 Pilot 必须先验证显存、吞吐和预算） |
 | learning rate | 2e-6 |
 | Top-K | 100 |
 | JSD alpha/beta | 0.5 |
@@ -615,23 +615,24 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 6241 行 Parquet 可完整加载，Schema、顺序、sample ID 和 SHA256 已冻结。
 - 下载/解压完成后重新记录磁盘；若可用空间低于 120GiB，停止后续训练并先归档压缩包、缓存或已验证的历史大分片。
 
-### Day 11：全量长度、overlap、尾批覆盖、Cached-6241 与正式训练 Gate
+### Day 11：全量长度、overlap、drop-last、Cached-6241 与正式训练 Gate
 
-目标：关闭 1024 抽样无法覆盖的 6K 长尾风险，解决 6,241 条在 batch 8 下的尾样本丢弃问题，并为两个 6,241 条分支生成可执行的配置、缓存、预算和守护策略。
+目标：关闭 1024 抽样无法覆盖的 6K 长尾风险，显式冻结 6,241 条在 batch 8 下的原生 drop-last 行为，并为两个 6K 分支生成可执行的配置、缓存、预算和守护策略。
 
 任务：
 
 1. 使用训练时相同的 Processor、Chat Template 和图像预处理，对 train-6241 统计 text/image/total prompt Token 的 P50/P95/P99/max、Processor error 和 over-8192 数量。
 2. `truncation=error` 保持不变；若存在 over-8192 或 Processor 失败，不得删除或换成留出样本。修复数据/路径/Processor 或事前提高长度上限，直到 6,241/6,241 可处理，并更新全部哈希。
 3. 对 train-6241 与 ZoomBench、MMStar、V* Bench 重新执行文件 SHA256、标准化问题文本和 64-bit pHash overlap；旧 train-1024 overlap 只能作历史参考。V* R3 主结果仍固定官方 191 分母；根据新 overlap 报告产生的分层/去重统计仅为同一批预测上的次级诊断，不替换 R3 主结果。
-4. 实现并测试全量覆盖 sampler：前 780 批各 8 条真实记录，最后一批为 1 条真实尾样本 + 7 条确定性补齐行；补齐行 `sample_weight=0`，且权重贯穿 rollout、JSD/GRPO loss、metric 和 coverage receipt。禁止只把 `drop_last=False` 当成完成，必须证明两卡和 loss 路径接受尾批合同。
-5. 保存 `unique_source_seen=6241`、`effective_train_samples=6241`、`padding_rows=7`、`dropped_rows=0`；单测覆盖打乱前后、恢复点后和两卡分片，不允许补齐行产生梯度或污染均值。
-6. 使用冻结原始 Qwen3.5-4B Base 和 Day 4 同一生成协议，为 6,241 条训练样本生成 Cached Prefix；保留所有达到 256-token 上限的记录，不重采样。
+4. 禁用全覆盖补齐，沿用训练器原生 `drop_last=True`；冻结 `source_rows=6241`、`effective_train_samples=6240`、`padding_rows=0`、`dropped_rows=1` 和 780 steps。
+5. `shuffle=true`、seed 42 保持不变；预检必须记录丢弃计数，并明确丢弃的是打乱序列末条而非保证为 Parquet 物理末行。全覆盖 sampler 代码和旧测试只保留为未启用能力，不作为当前准入条件。
+6. 使用冻结原始 Qwen3.5-4B Base 和论文对齐的 1024-token 生成上限，为 6,241 条训练样本生成 Cached Prefix；保留所有达到 1024-token 上限的记录，不重采样。Day 4 的 256-token Cached Prefix 仅为历史证据。
 7. 验证 cached records=6241、unique IDs=6241、missing/extra/duplicate/error/empty=0，保存截断数量、生成配置哈希、Base 身份和 Parquet SHA256；provenance 固定为 `base_tokenizer_reencoded_openai_response_text`。
-8. 新建 `configs/vopd_6241.yaml`：global batch 8、781 steps、1 epoch、seed 42、online prefix、8192/256、Top-K 100、alpha 0.5、EMA 0.05、workers=0、从 Base 冷启动。
-9. 以 Day 8 step 数据计算 781-step 新预算：均值约 5.68 双卡小时（约 67.88 元），保守约 10.09 小时（约 120.64 元）；实测 Pilot 后重算，不作为 SLA。
-10. 新建 6K abort policy：运行时间上限、逐卡显存、进程树 RSS、cgroup、磁盘、心跳、Student/Teacher/EMA、generation abort、覆盖计数和最终 `global_step_781` 校验。保存策略允许 step 390 恢复点和最终 step 781，`max_actor_ckpt_to_keep=1`；正式启动前磁盘取 `max(120GiB, 2 × 最新实测 checkpoint + 5GiB)`，建议可用 ≥130GiB。
-11. 从新增记录及 prompt 长度尾部选择 16～64 条真实 Pilot，验证 online rollout、Crop Teacher、JSD、Student backward、Teacher 无直接梯度、EMA 和受掩码尾批；Pilot 不能冒充正式训练或能力结果。
+8. 新建 `configs/vopd_6241.yaml`：global batch 8、780 steps、1 epoch、seed 42、原生 drop-last、online prefix、8192/1024、Top-K 100、alpha 0.5、EMA 0.05、workers=0、从 Base 冷启动；显式冻结 temperature 1.0、top-p 1.0、sampling top-k -1、warmup 10 和 clip 0.2/0.3。
+   当前选定并继续执行缩规模双卡方案；同时显式传入作者入口的 vLLM `fuse_allreduce_rms=false` 与 `enable_flashinfer_autotune=false`。Pilot-16 首次实测 GPU 1 峰值达到 95.42% 并被 guard 中止，因此仅开启冻结 Reference 参数 offload；Actor/optimizer offload 仍关闭，0.45 rollout fraction 与 95% 运行期中止线不变；启动前 cgroup 内存下限设为 128 GiB。另保存 `configs/vopd_6241_algorithm_aligned_2gpu.reference.yaml` 作为不可启动参考：batch/PPO mini batch 96、rollout n=8、65 steps、三类 offload 开启，只有独立 Pilot 和明确切换授权后才可采用。
+9. 旧 Day 8 的 256-token 外推（均值约 5.68 双卡小时/67.88 元，保守约 10.09 小时/120.64 元）只作为历史下界，不得直接用于 1024-token 正式预算。Pilot 前按 38 小时硬中止上限预留 454.48 元；实测 1024-token Pilot 后重算规划值和保守值。
+10. 新建 6K abort policy：运行时间上限、逐卡显存、进程树 RSS、cgroup、磁盘、心跳、Student/Teacher/EMA、generation abort、drop-last 计数和最终 `global_step_780` 校验。保存周期设为 390，只允许 step 390 恢复点和最终 step 780；`max_actor_ckpt_to_keep=1`；正式启动前磁盘取 `max(120GiB, 2 × 最新实测 checkpoint + 5GiB)`，建议可用 ≥130GiB。
+11. 从新增记录及 prompt 长度尾部选择 16～64 条真实 Pilot，验证 online rollout、Crop Teacher、JSD、Student backward、Teacher 无直接梯度和 EMA；Pilot 不能冒充正式训练或能力结果。
 
 产物：
 
@@ -641,29 +642,29 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - `/root/autodl-tmp/data/vision_opd_6241/cached_prefix_base_6241.parquet`
 - `configs/vopd_6241.yaml`
 - `configs/vopd_6241_abort_policy.yaml`
-- `tests/test_full_coverage_sampler.py`
+- `tests/test_project_6241_config.py`
 - `artifacts/runs/E-D11-6K-GATE-001/preflight.md`
 - `artifacts/runs/E-D11-6K-GATE-001/pilot/`
 
 验收：
 
 - over-8192=0、Processor error=0、silent truncation=0；任何失败都不得通过丢弃样本解决。
-- sampler receipt 为有效覆盖 6241/6241、padding 7、dropped 0，且零权重补齐行不更新模型、不计入均值。
+- drop-last 合同为源数据 6241、有效训练 6240、padding 0、dropped 1、总步数 780。
 - Cached Prefix 6241/6241 完整，哈希和 Base 身份可核验。
 - 新 overlap 报告完成，任何重叠保留并如实解释，不静默删除外部官方样本。
 - 新 6K config、budget、storage、guarded launcher、Pilot 和 checkpoint 后置检查全部 PASS，才进入 Day 12。
 
-### Day 12：Vision-OPD 6241 全量正式训练
+### Day 12：Vision-OPD 6K 正式训练
 
 目标：完成 `E-D12-6K-VOPD-001`，不再执行旧 `E-D10-001` 1024 正式训练。
 
 任务：
 
-1. 从冻结原始 Base 冷启动，使用 train-6241、online Student prefix、Teacher crop、781 steps、全量覆盖 sampler 和新 guarded launcher。
+1. 从冻结原始 Base 冷启动，使用 train-6241、online Student prefix、Teacher crop、780 steps、原生 drop-last 和新 guarded launcher。
 2. 启动前刷新 AutoDL 累计费用和观测时间；配置哈希、数据哈希、Git、两张 GPU、cgroup、输出冲突和磁盘任一 Gate 失败均不启动。
 3. 观察最初 3 个 optimizer steps，核对 sample ID、在线 response、Teacher crop、有限 loss、Student delta、Teacher gradient/optimizer delta=0、EMA、prompt/response、GPU/RSS/cgroup/磁盘。
 4. 正常后允许守护器无人值守；不要求每小时人工查看，但所有自动中止、信号和恢复事件必须落盘。
-5. step 390 保存滚动恢复点；最终 step 781 成功后验证 marker、13 个必需文件和非空分片，最终写入成功 receipt。
+5. step 390 保存唯一的周期恢复点；最终 step 780 成功后验证 marker、13 个必需文件和非空分片，最终写入成功 receipt。
 6. 若触发 NaN、Teacher 直接梯度、Student/EMA 连续不更新、OOM、遥测失败、磁盘、心跳或墙钟上限，先保留证据，再按明确恢复命令决定是否恢复；禁止无记录反复试参。
 
 产物：
@@ -671,11 +672,11 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - `artifacts/runs/E-D12-6K-VOPD-001/logs/train.log`
 - `artifacts/runs/E-D12-6K-VOPD-001/evidence/telemetry/`
 - `runtime_metrics.jsonl`、`guard_events.jsonl`、`guard_summary.json`、`exit_receipt.json`
-- `checkpoints/global_step_781/`
+- `checkpoints/global_step_780/`
 
 验收：
 
-- 781/781 steps 完成，`unique_source_seen=6241`、`effective_train_samples=6241`、`padding_rows=7`、`dropped_rows=0`，退出码和 receipt 表示成功。
+- 780/780 steps 完成，`source_rows=6241`、`effective_train_samples=6240`、`padding_rows=0`、`dropped_rows=1`，退出码和预检合同表示成功。
 - Student/Teacher/EMA 合同通过，无未解释 NaN/OOM/数据错误。
 - checkpoint 完整可审计；仅有启动脚本或中间 step 不得写成“完成 6K 训练”。
 
@@ -685,14 +686,14 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 任务：
 
-1. 对 `global_step_781` 做文件清单和 SHA256；显式传入实际路径完成 FSDP merge，不能使用 `merge_checkpoint.sh` 的旧默认路径。
+1. 对 `global_step_780` 做文件清单和 SHA256；显式传入实际路径完成 FSDP merge，不能使用 `merge_checkpoint.sh` 的旧默认路径。
 2. 在新进程加载 merged Student，固定 5 条推理必须 5/5 非空、0 inference error。
-3. 冻结 Vision-OPD checkpoint、配置、全量覆盖 receipt 和 SHA256；不运行历史 eval-128/retention-64，本日仍不打开外部结果。
+3. 冻结 Vision-OPD checkpoint、配置、drop-last 合同和 SHA256；不运行历史 eval-128/retention-64，本日仍不打开外部结果。
 4. 实现 `prefix_source: online|cached`；默认 online 行为不变，cached 按 sample ID 加载 6,241 条缓存并完全绕过 online rollout generation，Teacher 仍看 crop，Student 仍看 full image。
 5. 比较 Base 身份、Processor、Chat Template、图像输入、sampling、EOS/stop、prompt IDs、decode→encode、response mask、padding、数据顺序、batch、steps、loss 和 EMA。
 6. 全部非 prefix-source 契约一致时记 `STRICT_PREFIX_SOURCE_ABLATION=PASS`；否则记 `IMPLEMENTATION_ABLATION` 并列出额外差异，禁止强称单变量。
-7. 使用新增样本、prompt 长尾和受掩码尾批完成 64～128 条 Cached 稳定性训练，保存、冷加载 5 条，并按实测重新估算 6241 正式耗时和费用。
-8. Vision-OPD merged 模型、加载、哈希和覆盖 receipt 通过后，归档或经确认清理不再需要的大型 FSDP optimizer/actor 分片，为 Cached 正式训练恢复 ≥130GiB 建议余量；不得删除唯一可加载模型。
+7. 使用新增样本和 prompt 长尾完成 64～128 条 Cached 稳定性训练，保存、冷加载 5 条，并按实测重新估算 6K 正式耗时和费用。
+8. Vision-OPD merged 模型、加载、哈希和 drop-last 合同通过后，归档或经确认清理不再需要的大型 FSDP optimizer/actor 分片，为 Cached 正式训练恢复 ≥130GiB 建议余量；不得删除唯一可加载模型。
 
 产物：
 
@@ -705,7 +706,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 验收：
 
-- Vision-OPD checkpoint 可独立加载，哈希与 6241/6241 覆盖 receipt 完整；不存在基于内部留出集的重选。
+- Vision-OPD checkpoint 可独立加载，哈希与 6241→6240 drop-last 合同完整；不存在基于内部留出集的重选。
 - Cached 默认/分支、sample ID、无在线 generation、Student/Teacher/EMA 和 checkpoint Gate 通过。
 - 消融名称已按证据冻结；Cached 正式配置与 Vision-OPD 的差异清单完整。
 
@@ -716,9 +717,9 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 任务：
 
 1. 从同一原始 Base 冷启动，不继承 Vision-OPD checkpoint。
-2. 使用同一 train-6241、全量覆盖 sampler、seed、batch、781 steps、LR、长度、Top-K、JSD、EMA 和保存/守护策略；只允许冻结差异表中的 cached prefix 项。
+2. 使用同一 train-6241、原生 drop-last、seed、batch、780 steps、LR、长度、Top-K、JSD、EMA 和保存/守护策略；只允许冻结差异表中的 cached prefix 项。
 3. 前 3 步确认 cache SHA256、sample ID、没有 online rollout、有限 loss、Student 更新、Teacher 无直接梯度和 EMA 更新。
-4. 运行期保存遥测、中止、恢复、费用、数据覆盖和滚动 checkpoint；正常结束后验证 `global_step_781` 和完整 receipt。
+4. 运行期保存遥测、中止、恢复、费用、drop-last 计数和滚动 checkpoint；正常结束后验证 `global_step_780`。
 
 产物：
 
@@ -727,7 +728,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 验收：
 
-- 781/781 steps 完成，有效覆盖 6241/6241、padding 7、dropped 0，最终 checkpoint 完整。
+- 780/780 steps 完成，有效训练 6240/6241、padding 0、dropped 1，最终 checkpoint 完整。
 - 配置 diff 没有未申报变量；若存在则更新为实现消融并保留差异，不能丢弃结果。
 
 ### Day 15：Cached 定版与三组统一 R3 外部评测
@@ -763,12 +764,12 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 1. 实现/运行 `eval/build_badcases.py`，人工分析 12～20 条代表样本：Vision-OPD 修正/退化、Cached 优/劣、Benchmark 冲突、overlap 和评测规则不确定。
 2. 完成 Base/Vision-OPD/Cached 总体、类别、corrected/regressed、invalid、长度、训练时间、GPU 小时、费用和实现工作量主表。
 3. 更新 `docs/final_report.md`、README、`docs/interview_qa.md` 和证据索引；每个数字能回溯到 prediction、训练日志或机器报告。
-4. 明确项目是“Vision-OPD-6K 冻结数据 6241 条全量双卡受控训练”，不是官方 8 卡、batch 96、rollout n=8、response 1024 的完整训练配置复现。
+4. 明确项目是“Vision-OPD-6K 冻结数据 6241 条、论文核心算法参数对齐的双卡受控训练”，response 1024 与论文一致，但不是官方 8 卡、batch 96、rollout n=8 的完整资源配置复现。
 5. 运行测试、Markdown/Git 检查，归档模型、配置、命令、环境、日志、哈希和成本；提交并打主项目里程碑 tag。
 
 主项目简历模板（必须按真实结果填数）：
 
-> 基于 Qwen3.5-4B 与双卡 RTX PRO 6000，使用 Vision-OPD-6K 冻结数据全部 6,241 条完成在线 Student Prefix/Crop EMA Teacher 的 Vision-OPD 训练及 Base Cached Prefix 对照；以 ZoomBench、MMStar、V* Bench R3 作为独立外部评测，保存逐样本结果、Bad Case、全量覆盖、资源和成本证据。
+> 基于 Qwen3.5-4B 与双卡 RTX PRO 6000，读取 Vision-OPD-6K 冻结数据 6,241 条，按原生 drop-last 有效训练 6,240 条，完成在线 Student Prefix/Crop EMA Teacher 的 Vision-OPD 训练及 Base Cached Prefix 对照；以 ZoomBench、MMStar、V* Bench R3 作为独立外部评测，保存逐样本结果、Bad Case、资源和成本证据。
 
 验收：
 
@@ -786,8 +787,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 2. 为多选、数字和短答案实现确定性 normalization/Reward；若存在无法可靠规则评分的答案类型，先补充明确且可单测的判分规则，不部署额外 Reward Model。
 3. 对 6,241 条逐条输出 `reward_route`、规范化 gold、可判分状态和原因；冻结前必须 `scorable=6241`、`unscorable=0`、`ambiguous=0`，否则正式 GRPO Gate 为 BLOCKED。
 4. Reward 测试覆盖正确、错误、格式变体、歧义、空输出、异常答案和每一种 `reward_route`；人工复核全部异常与每类至少 10 条。
-5. 冻结 `configs/grpo_6241.yaml`、`scripts/run_grpo_2gpu.sh`、全量覆盖 sampler、guarded launcher、日志/rollout/metrics/checkpoint 路径。
-6. 初始候选：rollout n=4、response 128、global prompt batch 8、1 epoch、两张 GPU、781 个 prompt batches；最后一批的 7 条补齐 prompt 必须为零权重且不计入 Reward/advantage/loss 均值。正式墙钟与预算由 Pilot 重算。
+5. 冻结 `configs/grpo_6241.yaml`、`scripts/run_grpo_2gpu.sh`、原生 drop-last、guarded launcher、日志/rollout/metrics/checkpoint 路径。
+6. 初始候选：rollout n=4、response 128、global prompt batch 8、1 epoch、两张 GPU、780 个 prompt batches；6241 条源数据打乱后丢弃末尾 1 条。正式墙钟与预算由 Pilot 重算。
 
 产物：
 
@@ -812,7 +813,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 2. 检查同一 prompt 的 group responses、Reward 分布、relative advantage、actor loss、KL、entropy、response length 和 actor 参数更新。
 3. 人工检查至少 20 条 rollout，重点查看高 Reward 是否真实正确、是否只靠格式/长度钻规则漏洞。
 4. 32 prompt 通过后扩到 64 prompt 稳定性，保存并冷加载 checkpoint。
-5. 根据实测吞吐、显存和 Reward 有效率冻结 6241 条正式训练的 781 steps、墙钟、费用、中止条件和 checkpoint 策略；外部 Benchmark 不用于 Pilot 决策，Pilot 不得改变全量数据口径。
+5. 根据实测吞吐、显存和 Reward 有效率冻结 6241 条源数据、6240 条有效训练的 780 steps、墙钟、费用、中止条件和 checkpoint 策略；外部 Benchmark 不用于 Pilot 决策，Pilot 不得改变 drop-last 口径。
 
 产物：
 
@@ -832,10 +833,10 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 任务：
 
-1. 仅在 Day 17 的 `scorable=6241/6241` 与 Day 18 Pilot 全部 PASS 后，使用 train-6241、781 prompt batches、rollout n=4、全量覆盖 sampler、冻结 Reward 和 guarded launcher；不得从 Vision-OPD 或 Cached checkpoint 初始化。
+1. 仅在 Day 17 的 `scorable=6241/6241` 与 Day 18 Pilot 全部 PASS 后，使用 train-6241、780 prompt batches、rollout n=4、原生 drop-last、冻结 Reward 和 guarded launcher；不得从 Vision-OPD 或 Cached checkpoint 初始化。
 2. 前 3 步核对 prompt grouping、group response、Reward、relative advantage、actor update、KL、entropy、长度、GPU/RSS/cgroup/磁盘。
 3. 运行期自动监控 Reward collapse、全同优势、KL/长度异常、OOM、心跳、磁盘和 checkpoint；抽查高 Reward 输出。
-4. 正常完成后验证最终 checkpoint、receipt、日志、rollouts、Reward 记录和费用；coverage receipt 必须为 unique prompts 6241、effective prompts 6241、padding 7、dropped 0。
+4. 正常完成后验证最终 checkpoint、日志、rollouts、Reward 记录和费用；训练合同必须为 source prompts 6241、effective prompts 6240、padding 0、dropped 1。
 
 产物：
 
@@ -844,7 +845,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 验收：
 
-- 781/781 prompt batches 完成，有效覆盖 6241/6241，checkpoint 完整且可恢复/合并。
+- 780/780 prompt batches 完成，有效训练 6240/6241，checkpoint 完整且可恢复/合并。
 - Reward 上升不伴随明显长度爆炸、格式投机或未经记录的 Reward 规则变化。
 
 ### Day 20：GRPO 合并、定版与 R3 外部评测
@@ -877,12 +878,12 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 最终简历模板（必须按真实结果改写）：
 
-> 围绕 Qwen3.5-4B 搭建多模态后训练实验矩阵，在相同 6,241 条冻结数据上完成 Vision-OPD 在线自蒸馏、Cached Prefix 对照及可验证 Reward GRPO；实现双卡全量覆盖训练、固定 Base Judge、逐样本外部评测、Bad Case 和成本审计，并分析不同监督密度与轨迹机制的效果及工程权衡。
+> 围绕 Qwen3.5-4B 搭建多模态后训练实验矩阵，在相同 6,241 条冻结源数据上按统一 drop-last 口径完成 Vision-OPD 在线自蒸馏、Cached Prefix 对照及可验证 Reward GRPO；实现固定 Base Judge、逐样本外部评测、Bad Case 和成本审计，并分析不同监督密度与轨迹机制的效果及工程权衡。
 
 验收：
 
 - GRPO 有真实 Reward、relative advantage、policy-gradient、checkpoint 和统一评测证据。
-- 四组表明确三条训练分支的有效数据覆盖均为 6241/6241，并列出其他不可控差异；所有结论、失败和简历数字可追溯。
+- 四组表明确三条训练分支均读取 6241 条源数据、有效训练 6240 条、丢弃 1 条，并列出其他不可控差异；所有结论、失败和简历数字可追溯。
 - 总费用不超过 2000 元；若 GRPO 正式训练未通过 Gate，则保留真实 32/64 Pilot，并明确写为机制与工程验证。
 
 ## 6A. 已废止的 Day 10～30 历史排期（仅审计，禁止执行）
@@ -1335,7 +1336,7 @@ Day 20 不得写：
 不得为了“训练方法数量”牺牲主线闭环。发生阻塞时按以下顺序降级：
 
 1. 保住 Vanilla、Vision-OPD、Cached Prefix 与统一评测。
-2. 6K 数据自动 QA、Parquet、长度、6241/6241 覆盖或正式训练前磁盘 Gate 未通过时停止；不得跳过 Gate，也不得退回 6,240、6,048 或其他子集口径冒充完整训练。
+2. 6K 数据自动 QA、Parquet、长度、6241→6240 drop-last 合同或正式训练前磁盘 Gate 未通过时停止；不得跳过 Gate，也不得把其他未申报子集冒充当前训练口径。
 3. 300GB 空间不足时先转移已验证压缩包、缓存和可归档历史大分片；任何唯一 checkpoint 必须在 merge、冷加载、SHA256 和必要备份通过后才能清理。
 4. 外部 Benchmark 费用超出 Day 5 预算时，先保留 ZoomBench、MMStar，再延后 V* Bench；不得只保留分数更好看的集合。
 5. 外部主评测需要 Judge 时，必须使用 `E-PAPER-BASEJUDGE-001` 冻结的原始 Qwen3.5-4B Base、官方 Judge Prompt 和统一参数；Judge 失败按错并保留逐样本错误，不得临时换 Judge 或让训练后模型自评。
@@ -1354,9 +1355,9 @@ Day 20 不得写：
 - [x] 论文对齐 `E-PAPER-BASEJUDGE-001` amendment 已冻结，明确固定 Base Judge 替代 GPT-OSS-120B。
 - [x] `E-PAPER-BASEJUDGE-001/base` 在 ZoomBench full、MMStar、V* 191 上的逐样本预测、Judge 记录与汇总完整；`validation.json` 为 PASS。
 - [ ] Vision-OPD 真实链路包含在线生成、Crop Teacher、Top-K JSD、Student backward、EMA。
-- [ ] Vision-OPD 有效覆盖 6241/6241、padding 7、dropped 0，checkpoint 可加载并完成三项外部评测。
+- [ ] Vision-OPD 读取 6241、有效训练 6240、padding 0、dropped 1，checkpoint 可加载并完成三项外部评测。
 - [ ] Cached Prefix 契约完成判定；若非 prefix 项全部一致则标记严格消融，否则明确降级为实现消融并列出额外差异。
-- [ ] Cached Prefix 6241/6241 完整，Cached 有效覆盖 6241/6241、padding 7、dropped 0，checkpoint 可加载并完成三项外部评测。
+- [ ] Cached Prefix 6241/6241 完整；Cached 读取 6241、有效训练 6240、padding 0、dropped 1，checkpoint 可加载并完成三项外部评测。
 - [ ] 有逐样本 paired comparison 和 12～20 条 Bad Case。
 - [ ] 每个实验有 config、命令、commit、日志、费用和哈希。
 - [ ] README、最终报告、面试问答和简历 bullet 已完成。
@@ -1366,8 +1367,8 @@ Day 20 不得写：
 - [ ] GRPO 使用完整 6241 条，逐条 Reward 路由审计为 scorable=6241、unscorable=0、ambiguous=0。
 - [ ] Reward 单元测试覆盖正例、负例、格式变体和歧义例。
 - [ ] GRPO Pilot 证明 group rollout、relative advantage 和 actor update。
-- [ ] GRPO 有效覆盖 6241/6241、padding 7、dropped 0，checkpoint 可加载并完成三项外部评测。
+- [ ] GRPO 读取 6241、有效训练 6240、padding 0、dropped 1，checkpoint 可加载并完成三项外部评测。
 - [ ] Base、Vision-OPD、Cached、GRPO 四组方法均使用 `E-PAPER-BASEJUDGE-001`，且固定原始 Base Judge，不让训练后模型自评。
-- [ ] 四组表显式列出 Vision-OPD/Cached/GRPO 的 6241/6241 有效覆盖，以及轨迹数、response length、监督和优化过程差异。
+- [ ] 四组表显式列出 Vision-OPD/Cached/GRPO 的 6241→6240 drop-last 口径，以及轨迹数、response length、监督和优化过程差异。
 - [ ] 总费用不超过 2000 元，或对超支原因有事前批准和完整记录。
 - [ ] 项目边界、失败结果和未复现内容均如实写明。

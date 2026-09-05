@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-03T19:20:11Z",
+  "experiment_id": "E-D12-6K-VOPD-001",
+  "status": "STATIC_FROZEN_PENDING_DAY11_PILOT",
+  "gpu_used": false,
+  "profile": "paper_core_resource_scaled_2gpu",
+  "selected_profile": {
+    "path": "configs/vopd_6241.yaml",
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "selected": true
+  },
+  "reference_profile": {
+    "path": "configs/vopd_6241_algorithm_aligned_2gpu.reference.yaml",
+    "sha256": "3bd1eb35c5704950445f86a5c10c22b9d826028e3c0021a136b496b85192256c",
+    "status": "reference_only_not_selected"
+  },
+  "sources": {
+    "paper": {
+      "path": "docs/Vision-OPD.pdf",
+      "sha256": "67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b",
+      "relevant_sections": ["4.1", "4.3", "Tables 3-6"]
+    },
+    "official_launcher": {
+      "path": "scripts/run_vision_opd.sh",
+      "sha256": "fb135a4660f05414c3f8e4efed0a9adce7db4459db666d9734a8fb68a4a08d0f"
+    }
+  },
+  "paper_core": {
+    "model": "Qwen3.5-4B",
+    "train_rows": 6241,
+    "epochs": 1,
+    "max_response_length": 1024,
+    "jsd_beta": 0.5,
+    "distillation_top_k": 100,
+    "teacher_regularization": "ema",
+    "teacher_update_rate": 0.05,
+    "non_thinking": true
+  },
+  "resource_scaled_contract": {
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "source_rows": 6241,
+    "optimizer_steps": 780,
+    "effective_samples": 6240,
+    "padding_rows": 0,
+    "dropped_rows": 1,
+    "tail_policy": "native_drop_last",
+    "max_prompt_length": 8192,
+    "max_sequence_length": 9216
+  },
+  "checkpoint_contract": {
+    "save_frequency": 390,
+    "scheduled_save_steps": [390, 780],
+    "expected_final_step": 780,
+    "max_actor_ckpt_to_keep": 1,
+    "rationale": "one periodic recovery checkpoint plus verl final checkpoint; step 780 satisfies both periodic and final conditions but is saved once"
+  },
+  "vllm_engine": {
+    "fuse_allreduce_rms": false,
+    "enable_flashinfer_autotune": false,
+    "alignment": "MATCHES_OFFICIAL_LAUNCHER"
+  },
+  "budget": {
+    "status": "PENDING_1024_TOKEN_PILOT",
+    "hourly_dual_gpu_rate_cny": 11.96,
+    "historical_256_token_planning_hours": 5.68,
+    "historical_256_token_planning_cny": 67.88,
+    "historical_256_token_conservative_hours": 10.09,
+    "historical_256_token_conservative_cny": 120.64,
+    "max_wall_time_hours": 38,
+    "temporary_conservative_reservation_cny": 454.48
+  },
+  "hashes": {
+    "vopd_config": "06127d43b45e9e00aece19ef15c6b9195c362394dffc8d789e7bf1bf937e2871",
+    "cached_prefix_config": "80f0d1779d62d8a30d0caa34727bf3d4660578772182040f4efcb6139fd7c7bc",
+    "abort_policy": "2e1551b08366fc95a76cc3a35a2cb80eeb0becb9431ed17933d9d4e0f1ab28a5",
+    "train_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e"
+  },
+  "verification": {
+    "shell_syntax": "PASS",
+    "pytest": "PASS",
+    "pytest_passed": 25,
+    "pytest_subtests_passed": 5,
+    "train_rows": 6241,
+    "missing_image_paths": 0,
+    "paper_alignment_checks": "PASS",
+    "official_vllm_engine_switches": "PASS",
+    "drop_last_contract": "PASS_6241_TO_6240",
+    "full_preflight": "EXPECTED_FAIL_CONFIG_BLOCKED_ONLY"
+  },
+  "remaining_gates": [
+    "train_6241_prompt_length_audit",
+    "two_gpu_1024_response_pilot",
+    "pilot_budget_reestimate",
+    "cached_prefix_6241",
+    "overlap",
+    "day11_aggregate_preflight"
+  ]
+}

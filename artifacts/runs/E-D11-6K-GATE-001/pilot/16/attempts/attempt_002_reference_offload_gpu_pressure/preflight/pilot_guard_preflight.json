@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T07:40:59.417465+00:00",
+  "stage": "16",
+  "experiment_id": "E-D11-6K-VOPD-PILOT-016",
+  "status": "PASS",
+  "gpu_used": false,
+  "checks": {
+    "policy_stage_known": true,
+    "static_gate_pass_pending_pilot": true,
+    "training_preflight_pass": true,
+    "experiment_id_matches_policy": true,
+    "output_dir_matches_policy": true,
+    "row_contract_matches": true,
+    "step_contract_matches": true,
+    "frozen_1024_token_two_gpu_profile": true,
+    "stage_prerequisite_pass": true
+  },
+  "failed_checks": [],
+  "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_16.yaml",
+  "config_sha256": "9a0d8bfed5774926f0001f34f3d378b44fdf462ac09fcc6be56cd734b98cf5eb",
+  "policy": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_abort_policy.yaml",
+  "policy_sha256": "fee527a35b89332dd7eebdec9372c648a67a49dc604e284e8f7563e1d7ab1e0c",
+  "effective_policy": {
+    "schema_version": 1,
+    "policy_id": "E-D11-6K-VOPD-PILOT-GUARD-001",
+    "telemetry": {
+      "sample_interval_seconds": 5,
+      "max_consecutive_collection_failures": 3,
+      "startup_grace_seconds": 1200,
+      "log_heartbeat_timeout_seconds": 600
+    },
+    "runtime": {
+      "max_wall_time_hours": 4,
+      "terminate_grace_seconds": 60
+    },
+    "memory": {
+      "prelaunch_gpu_used_ratio_max": 0.1,
+      "gpu_used_ratio_abort": 0.95,
+      "cgroup_used_ratio_abort": 0.95,
+      "prelaunch_cgroup_minimum_bytes": 137438953472,
+      "consecutive_samples": 3
+    },
+    "disk": {
+      "checkpoint_estimate_bytes": 57034960981,
+      "reserve_bytes": 5368709120,
+      "formula_required_bytes": 119438631082,
+      "minimum_free_bytes": 128849018880,
+      "prelaunch_required_bytes": 128849018880,
+      "runtime_soft_floor_bytes": 62403670101,
+      "runtime_hard_floor_bytes": 5368709120,
+      "soft_floor_consecutive_samples": 2
+    },
+    "budget": {
+      "hourly_dual_gpu_rate_cny": 11.96,
+      "project_hard_limit_cny": 2000,
+      "billing_observation_max_age_seconds": 900
+    },
+    "metrics": {
+      "teacher_ema_nonpositive_consecutive_steps": 2,
+      "student_delta_nonpositive_consecutive_steps": 2,
+      "student_update_required_only_when_lr_positive": true,
+      "generation_error_consecutive_steps": 2
+    },
+    "checkpoint": {
+      "expected_final_step": 2,
+      "marker": "latest_checkpointed_iteration.txt",
+      "required_relative_files": [
+        "actor/extra_state_world_size_2_rank_0.pt",
+        "actor/extra_state_world_size_2_rank_1.pt",
+        "actor/fsdp_config.json",
+        "actor/huggingface/chat_template.jinja",
+        "actor/huggingface/config.json",
+        "actor/huggingface/processor_config.json",
+        "actor/huggingface/tokenizer.json",
+        "actor/huggingface/tokenizer_config.json",
+        "actor/model_world_size_2_rank_0.pt",
+        "actor/model_world_size_2_rank_1.pt",
+        "actor/optim_world_size_2_rank_0.pt",
+        "actor/optim_world_size_2_rank_1.pt",
+        "data.pt"
+      ]
+    },
+    "pilot": {
+      "static_gate": "artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+      "required_static_gate_status": "PASS_PENDING_GPU_PILOT",
+      "forbid_listening_port_8000": true,
+      "postflight_script": "scripts/audit_vopd_6241_pilot.py",
+      "stage_contracts": {
+        "16": {
+          "experiment_id": "E-D11-6K-VOPD-PILOT-016",
+          "config": "configs/vopd_6241_pilot_16.yaml",
+          "output_dir": "artifacts/runs/E-D11-6K-GATE-001/pilot/16",
+          "expected_rows": 16,
+          "expected_optimizer_steps": 2,
+          "max_wall_time_hours": 4,
+          "max_incremental_cost_cny": 47.84,
+          "prerequisite_postflight": null,
+          "require_cold_reload": false
+        },
+        "64": {
+          "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+          "config": "configs/vopd_6241_pilot_64.yaml",
+          "output_dir": "artifacts/runs/E-D11-6K-GATE-001/pilot/64",
+          "expected_rows": 64,
+          "expected_optimizer_steps": 8,
+          "max_wall_time_hours": 8,
+          "max_incremental_cost_cny": 95.68,
+          "prerequisite_postflight": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+          "require_cold_reload": true
+        }
+      }
+    },
+    "experiment_id": "E-D11-6K-VOPD-PILOT-016"
+  },
+  "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16",
+  "static_gate": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+  "static_gate_error": null,
+  "prerequisite_postflight": null,
+  "training_preflight": {
+    "schema_version": 1,
+    "experiment_id": "E-D11-6K-VOPD-PILOT-016",
+    "status": "PASS",
+    "gpu_used": false,
+    "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_16.yaml",
+    "config_sha256": "9a0d8bfed5774926f0001f34f3d378b44fdf462ac09fcc6be56cd734b98cf5eb",
+    "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "train_file": "/root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_16.parquet",
+    "train_file_sha256": "444d4bb5ac8c08d626a08d743ab0cf4d52388613ea2bcffb3c183c98eefff3ae",
+    "train_rows": 16,
+    "sample_ids": [
+      "vopd_76c2bf57e0fd90a6df9939ba",
+      "vopd_7148687ee336db18fa503063",
+      "vopd_769ef84ed0c692700a0f7fd2",
+      "vopd_95c3c884461af1173af5c7a4",
+      "vopd_638745362e8ff75fd4cd3e22",
+      "vopd_f80be44c11dcb14129f48f72",
+      "vopd_b62f4f8695ad2f5f319e4377",
+      "vopd_3401596504737bc975b24d7a",
+      "vopd_588cf623e2005698a00dddb7",
+      "vopd_59043be279fcc40beca98bb0",
+      "vopd_31010954d48fdc8236f7856b",
+      "vopd_122d62326b2576d3645a27df",
+      "vopd_2988b0566f05894a443bfc03",
+      "vopd_64838325e2c63e0dd44b9c3b",
+      "vopd_76a892896675f251218078fe",
+      "vopd_a498008e1066dd5696187953"
+    ],
+    "parquet_columns": [
+      "data_source",
+      "prompt",
+      "images",
+      "bbox_images",
+      "ability",
+      "reward_model",
+      "extra_info"
+    ],
+    "chat_template": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+    "selection_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/selection.json",
+    "training_contract": {
+      "expected_samples": 16,
+      "padded_samples": 16,
+      "padding_rows": 0,
+      "dropped_rows": 0,
+      "full_coverage_padding": false,
+      "tail_policy": "native_drop_last",
+      "total_optimizer_steps": 2,
+      "total_epochs": 1,
+      "require_full_epoch": true,
+      "train_batch_size": 8,
+      "shuffle": false,
+      "save_frequency": -1,
+      "test_frequency": -1
+    },
+    "checks": {
+      "config_not_explicitly_blocked": true,
+      "prefix_source_online": true,
+      "seed_is_42": true,
+      "two_gpus": true,
+      "global_batch_is_8": true,
+      "rollout_n_is_1": true,
+      "positive_optimizer_steps": true,
+      "sample_budget_matches_steps": true,
+      "sample_budget_within_dataset": true,
+      "full_epoch_contract": true,
+      "full_coverage_contract": true,
+      "native_drop_last_contract": true,
+      "prompt_limit_is_8192": true,
+      "response_limit_matches_frozen_contract": true,
+      "truncation_is_error": true,
+      "teacher_uses_bbox_images": true,
+      "actor_parameter_offload_disabled": true,
+      "actor_optimizer_offload_disabled": true,
+      "reference_parameter_offload_matches_resource_contract": true,
+      "rollout_gpu_memory_utilization_safe_start": true,
+      "paper_jsd_beta_is_0_5": true,
+      "paper_distillation_top_k_is_100": true,
+      "paper_teacher_ema_rate_is_0_05": true,
+      "paper_epoch_is_1": true,
+      "paper_rollout_sampling_is_frozen": true,
+      "official_lr_and_warmup_match": true,
+      "official_clip_contract_matches": true,
+      "official_max_reprompt_length_matches": true,
+      "official_vllm_engine_switches_match": true,
+      "sequence_token_budget_matches": true
+    },
+    "missing_image_paths": [],
+    "errors": []
+  }
+}

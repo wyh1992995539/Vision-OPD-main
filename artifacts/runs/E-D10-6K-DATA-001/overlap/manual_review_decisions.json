@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "decisions": [
+    {
+      "candidate_id": "overlap_a98f42da63b390d26340",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999324; rgb_mae_256=0.241. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_90ae5896b99c14a5221c",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999915; rgb_mae_256=0.119. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_db4e995802162b96c6c1",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=2; pixel_correlation_256=0.997017; rgb_mae_256=0.273. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_3ef1d0c071cde906e834",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999880; rgb_mae_256=0.095. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_e53987a1f0524c46886a",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.996790; rgb_mae_256=0.438. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_bec6208038fc0a4754c1",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999976; rgb_mae_256=0.019. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_e4a7867af994c84ca80a",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999958; rgb_mae_256=0.069. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_5b746826dbb8aacdcc15",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=2; pixel_correlation_256=0.999621; rgb_mae_256=0.055. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_83a7173b93a349076b90",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.998022; rgb_mae_256=0.497. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_99e6b6e050ca2bf94216",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999600; rgb_mae_256=0.041. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_1cf2d522ffb443692880",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999909; rgb_mae_256=0.070. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_cbfd5060ed38d526feef",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.996313; rgb_mae_256=0.296. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_bf4b9e6c0ae6aa956a96",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999921; rgb_mae_256=0.017. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_57673f6b9380bc3f8d12",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999855; rgb_mae_256=0.092. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_fe13c86e37f251cc8534",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999729; rgb_mae_256=0.046. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_7742d16740c91964512b",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999808; rgb_mae_256=0.127. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_33a79d98a981e9e01d92",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999522; rgb_mae_256=0.364. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_94a81957b9b994505f90",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.998971; rgb_mae_256=0.414. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_de59d8f180b44185e83d",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999971; rgb_mae_256=0.027. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_232fcb169500ad08eba9",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=0; pixel_correlation_256=0.999951; rgb_mae_256=0.082. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_65f240872b05f170d67b",
+      "review_status": "confirmed_overlap",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Evidence review: same_dimensions=True; pHash_distance=4; pixel_correlation_256=0.999132; rgb_mae_256=0.126. The images are visually equivalent re-encodings.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    },
+    {
+      "candidate_id": "overlap_42a4624dabc87a7368a5",
+      "review_status": "dismissed",
+      "reviewer": "codex_assisted_pixel_equivalence_review",
+      "review_note": "Exact normalized question only; full/crop image pHash distances are 32/36, pixel correlations are -0.051708/0.085409, dimensions differ, and reference answers differ. This is a generic question-template collision, not sample overlap.",
+      "reviewed_at_utc": "2026-09-04T07:50:14.412500Z"
+    }
+  ]
+}

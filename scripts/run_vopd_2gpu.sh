@@ -76,6 +76,7 @@ export PROJECT_ROOT
 export CONFIG_FILE
 
 eval "$(python - "$CONFIG_FILE" "$PROJECT_ROOT" <<'PY'
+import json
 import shlex
 import sys
 from pathlib import Path
@@ -115,7 +116,10 @@ values = {
     "FULL_COVERAGE_EXPECTED_PADDING": config["data"].get("full_coverage_padding", {}).get("expected_padding_rows", 0),
     "FULL_COVERAGE_RECEIPT": resolve(config["data"].get("full_coverage_padding", {}).get("receipt_path", config["paths"]["output_dir"] + "/evidence/full_coverage_receipt.json")),
     "LR": config["actor"]["learning_rate"],
+    "LR_WARMUP_STEPS": config["actor"].get("lr_warmup_steps", -1),
     "PPO_MINI_BATCH_SIZE": config["actor"]["ppo_mini_batch_size"],
+    "CLIP_RATIO_LOW": config["actor"].get("clip_ratio_low", 0.2),
+    "CLIP_RATIO_HIGH": config["actor"].get("clip_ratio_high", 0.2),
     "USE_DYNAMIC_BSZ": config["actor"]["use_dynamic_batch_size"],
     "GRADIENT_CHECKPOINTING": config["actor"]["gradient_checkpointing"],
     "PPO_MAX_TOKEN_LEN_PER_GPU": config["actor"]["max_token_length_per_gpu"],
@@ -123,16 +127,24 @@ values = {
     "ACTOR_OPTIMIZER_OFFLOAD": config["actor"]["optimizer_offload"],
     "REF_PARAM_OFFLOAD": config["actor"]["reference_parameter_offload"],
     "ROLLOUT_N": config["rollout"]["n"],
+    "ROLLOUT_TEMPERATURE": config["rollout"].get("temperature", 1.0),
+    "ROLLOUT_TOP_P": config["rollout"].get("top_p", 1.0),
+    "ROLLOUT_TOP_K": config["rollout"].get("top_k", -1),
+    "ROLLOUT_IGNORE_EOS": config["rollout"].get("ignore_eos", False),
     "ROLLOUT_TP_SIZE": config["rollout"]["tensor_model_parallel_size"],
     "ROLLOUT_GPU_MEMORY_UTILIZATION": config["rollout"]["gpu_memory_utilization"],
     "ROLLOUT_LOGPROB_MICRO_BATCH_SIZE": config["rollout"]["log_prob_micro_batch_size_per_gpu"],
     "ROLLOUT_AGENT_NUM_WORKERS": config["rollout"]["agent_num_workers"],
+    "VLLM_CUDAGRAPH_CAPTURE_SIZES": json.dumps(config["rollout"].get("engine_kwargs", {}).get("vllm", {}).get("compilation_config", {}).get("cudagraph_capture_sizes"), separators=(",", ":")),
+    "VLLM_FUSE_ALLREDUCE_RMS": config["rollout"].get("engine_kwargs", {}).get("vllm", {}).get("compilation_config", {}).get("pass_config", {}).get("fuse_allreduce_rms", False),
+    "VLLM_ENABLE_FLASHINFER_AUTOTUNE": config["rollout"].get("engine_kwargs", {}).get("vllm", {}).get("kernel_config", {}).get("enable_flashinfer_autotune", False),
     "TOP_K": config["self_distillation"]["top_k"],
     "ALPHA": config["self_distillation"]["alpha"],
     "TEACHER_ALWAYS_ON": config["self_distillation"]["teacher_always_on"],
     "TEACHER_MODEL_SOURCE": config["self_distillation"]["teacher_model_source"],
     "TEACHER_REGULARIZATION": config["self_distillation"]["teacher_regularization"],
     "TEACHER_UPDATE_RATE": config["self_distillation"]["teacher_update_rate"],
+    "MAX_REPROMPT_LENGTH": config["self_distillation"].get("max_reprompt_length", 10240),
     "DONT_REPROMPT": config["self_distillation"]["dont_reprompt_on_self_success"],
     "INCLUDE_ENVIRONMENT_FEEDBACK": config["self_distillation"]["include_environment_feedback"],
     "IMPORTANCE_SAMPLING_CLIP": config["self_distillation"]["importance_sampling_clip"],
@@ -264,7 +276,10 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.model.enable_gradient_checkpointing="$GRADIENT_CHECKPOINTING" \
     actor_rollout_ref.actor.data_loader_seed="$SEED" \
     actor_rollout_ref.actor.optim.lr="$LR" \
+    actor_rollout_ref.actor.optim.lr_warmup_steps="$LR_WARMUP_STEPS" \
     actor_rollout_ref.actor.ppo_mini_batch_size="$PPO_MINI_BATCH_SIZE" \
+    actor_rollout_ref.actor.clip_ratio_low="$CLIP_RATIO_LOW" \
+    actor_rollout_ref.actor.clip_ratio_high="$CLIP_RATIO_HIGH" \
     actor_rollout_ref.actor.use_dynamic_bsz="$USE_DYNAMIC_BSZ" \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu="$PPO_MAX_TOKEN_LEN_PER_GPU" \
     actor_rollout_ref.actor.fsdp_config.param_offload="$ACTOR_PARAM_OFFLOAD" \
@@ -278,18 +293,26 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.actor.self_distillation.teacher_model_source="$TEACHER_MODEL_SOURCE" \
     actor_rollout_ref.actor.self_distillation.teacher_regularization="$TEACHER_REGULARIZATION" \
     actor_rollout_ref.actor.self_distillation.teacher_update_rate="$TEACHER_UPDATE_RATE" \
+    actor_rollout_ref.actor.self_distillation.max_reprompt_len="$MAX_REPROMPT_LENGTH" \
     actor_rollout_ref.actor.self_distillation.teacher_image_key="$TEACHER_IMAGE_KEY" \
     actor_rollout_ref.actor.self_distillation.dont_reprompt_on_self_success="$DONT_REPROMPT" \
     actor_rollout_ref.actor.self_distillation.include_environment_feedback="$INCLUDE_ENVIRONMENT_FEEDBACK" \
     actor_rollout_ref.actor.self_distillation.is_clip="$IMPORTANCE_SAMPLING_CLIP" \
     actor_rollout_ref.actor.self_distillation.log_prob_dump_dir="${OUTPUT_DIR}/evidence/log_probs" \
     actor_rollout_ref.rollout.n="$ROLLOUT_N" \
+    actor_rollout_ref.rollout.temperature="$ROLLOUT_TEMPERATURE" \
+    actor_rollout_ref.rollout.top_p="$ROLLOUT_TOP_P" \
+    actor_rollout_ref.rollout.top_k="$ROLLOUT_TOP_K" \
+    actor_rollout_ref.rollout.ignore_eos="$ROLLOUT_IGNORE_EOS" \
     actor_rollout_ref.rollout.name=vllm \
     actor_rollout_ref.rollout.tensor_model_parallel_size="$ROLLOUT_TP_SIZE" \
     actor_rollout_ref.rollout.gpu_memory_utilization="$ROLLOUT_GPU_MEMORY_UTILIZATION" \
     actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu="$ROLLOUT_LOGPROB_MICRO_BATCH_SIZE" \
     actor_rollout_ref.rollout.max_num_batched_tokens="$MAX_MODEL_LEN" \
     actor_rollout_ref.rollout.max_model_len="$MAX_MODEL_LEN" \
+    +actor_rollout_ref.rollout.engine_kwargs.vllm.compilation_config.cudagraph_capture_sizes="$VLLM_CUDAGRAPH_CAPTURE_SIZES" \
+    +actor_rollout_ref.rollout.engine_kwargs.vllm.compilation_config.pass_config.fuse_allreduce_rms="$VLLM_FUSE_ALLREDUCE_RMS" \
+    +actor_rollout_ref.rollout.engine_kwargs.vllm.kernel_config.enable_flashinfer_autotune="$VLLM_ENABLE_FLASHINFER_AUTOTUNE" \
     actor_rollout_ref.rollout.response_length="$MAX_RESPONSE_LENGTH" \
     actor_rollout_ref.rollout.calculate_log_probs=True \
     actor_rollout_ref.rollout.agent.num_workers="$ROLLOUT_AGENT_NUM_WORKERS" \

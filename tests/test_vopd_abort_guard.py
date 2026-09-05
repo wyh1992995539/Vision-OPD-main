@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 
 from scripts.monitor_vopd_training import (
     RuleEvaluator,
+    cgroup_has_minimum_capacity,
     load_policy,
     parse_training_metric_line,
     replay,
@@ -16,6 +17,7 @@ from scripts.monitor_vopd_training import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = PROJECT_ROOT / "configs/vopd_abort_policy.yaml"
+POLICY_6241_PATH = PROJECT_ROOT / "configs/vopd_6241_abort_policy.yaml"
 
 
 def healthy_metric(step=1, **overrides):
@@ -96,6 +98,45 @@ class VopdAbortGuardTest(unittest.TestCase):
         issues = evaluator.evaluate_metric(healthy_metric(2, student_optimizer_delta=0.0))
         self.assertIn("student_optimizer_not_updating", {item["rule"] for item in issues})
 
+    def test_6241_warmup_lr_zero_does_not_count_as_student_failure(self):
+        policy = load_policy(POLICY_6241_PATH)
+        evaluator = RuleEvaluator(policy)
+        for step in (1, 2):
+            issues = evaluator.evaluate_metric(
+                healthy_metric(step, learning_rate=0.0, student_optimizer_delta=0.0)
+            )
+            self.assertNotIn(
+                "student_optimizer_not_updating", {item["rule"] for item in issues}
+            )
+
+        self.assertEqual(
+            evaluator.evaluate_metric(
+                healthy_metric(3, learning_rate=2e-7, student_optimizer_delta=0.0)
+            ),
+            [],
+        )
+        issues = evaluator.evaluate_metric(
+            healthy_metric(4, learning_rate=4e-7, student_optimizer_delta=0.0)
+        )
+        self.assertIn(
+            "student_optimizer_not_updating", {item["rule"] for item in issues}
+        )
+
+    def test_6241_warmup_guard_requires_finite_nonnegative_lr(self):
+        policy = load_policy(POLICY_6241_PATH)
+        for value, expected in (
+            (None, "learning_rate_missing_or_invalid"),
+            ("bad", "learning_rate_missing_or_invalid"),
+            (float("nan"), "nonfinite_metric"),
+            (-1e-7, "invalid_learning_rate"),
+        ):
+            with self.subTest(value=value):
+                issues = RuleEvaluator(policy).evaluate_metric(
+                    healthy_metric(learning_rate=value)
+                )
+                issue = next(item for item in issues if item["rule"] == expected)
+                self.assertTrue(issue["immediate"])
+
     def test_three_consecutive_generation_errors_abort_and_reset(self):
         evaluator = RuleEvaluator(self.policy)
         evaluator.evaluate_metric(healthy_metric(1, aborted_ratio=0.2))
@@ -116,6 +157,25 @@ class VopdAbortGuardTest(unittest.TestCase):
                 self.assertEqual(evaluator.evaluate_telemetry(telemetry(self.policy, **kwargs)), [])
                 issues = evaluator.evaluate_telemetry(telemetry(self.policy, **kwargs))
                 self.assertIn(expected, {item["rule"] for item in issues})
+
+    def test_cgroup_prelaunch_capacity_gate(self):
+        required = 128 * 1024**3
+        self.assertTrue(
+            cgroup_has_minimum_capacity(
+                {"supported": True, "memory_max_bytes": required}, required
+            )
+        )
+        self.assertTrue(
+            cgroup_has_minimum_capacity(
+                {"supported": True, "memory_max_bytes": "max"}, required
+            )
+        )
+        self.assertFalse(
+            cgroup_has_minimum_capacity(
+                {"supported": True, "memory_max_bytes": 2 * 1024**3}, required
+            )
+        )
+        self.assertFalse(cgroup_has_minimum_capacity({"supported": False}, required))
 
     def test_cgroup_oom_increment_is_immediate(self):
         evaluator = RuleEvaluator(self.policy)

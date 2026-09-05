@@ -119,9 +119,10 @@ training_contract:
   active_test_rows: 0
   active_retention_rows: 0
   global_batch_size: 8
-  optimizer_steps: 781
-  effective_train_samples: 6241
-  padding_rows: 7
-  dropped_rows: 0
+  optimizer_steps: 780
+  effective_train_samples: 6240
+  padding_rows: 0
+  dropped_rows: 1
   padding_sample_weight: 0
-  require_full_coverage_sampler: true
+  require_full_coverage_sampler: false
+  tail_policy: native_drop_last

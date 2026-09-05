@@ -1,0 +1,472 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-09-04T07:50:14.412500Z",
+  "reviewer": "codex_assisted_pixel_equivalence_review",
+  "decision_basis": {
+    "vstar_confirm_rule": "same dimensions AND 256px grayscale pixel correlation >= 0.995 AND RGB MAE <= 1.0, in addition to frozen pHash threshold",
+    "zoombench_dismiss_basis": "question-only collision with dissimilar full/crop images and different answers",
+    "human_project_owner_signoff": false
+  },
+  "candidate_count": 22,
+  "evidence": [
+    {
+      "candidate_id": "overlap_a98f42da63b390d26340",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_054aed2864f40ce92534a778",
+      "benchmark_sample_uid": "vstar:source_id:113",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/59966aaadbf28da317a50ee6a7997d66.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/113.jpg",
+      "project_size": [
+        2667,
+        1500
+      ],
+      "benchmark_size": [
+        2667,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999324,
+      "rgb_mae_256": 0.241,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_90ae5896b99c14a5221c",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_08650c6918de7960c093e962",
+      "benchmark_sample_uid": "vstar:source_id:161",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/9fe981bdc6cccd78338ddc90f2dad144.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/161.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999915,
+      "rgb_mae_256": 0.119,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_db4e995802162b96c6c1",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_0a8396bb055ce32aef9e2385",
+      "benchmark_sample_uid": "vstar:source_id:71",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/a76d3704b3decbd49ad4579518190b7d.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/71.jpg",
+      "project_size": [
+        1500,
+        2250
+      ],
+      "benchmark_size": [
+        1500,
+        2250
+      ],
+      "phash_distance": 2,
+      "pixel_correlation_256": 0.997017,
+      "rgb_mae_256": 0.273,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_3ef1d0c071cde906e834",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_1d0a3c9b694ffa8a8ac4342e",
+      "benchmark_sample_uid": "vstar:source_id:149",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/f69ecb06291d605fcfb307f020fec090.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/149.jpg",
+      "project_size": [
+        2230,
+        1500
+      ],
+      "benchmark_size": [
+        2230,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.99988,
+      "rgb_mae_256": 0.095,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_e53987a1f0524c46886a",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_2fd39bfd3b2100bc67564085",
+      "benchmark_sample_uid": "vstar:source_id:24",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/49bc01a8c66ea01b4ecf3cf7cea7775d.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/24.jpg",
+      "project_size": [
+        2248,
+        1500
+      ],
+      "benchmark_size": [
+        2248,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.99679,
+      "rgb_mae_256": 0.438,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_bec6208038fc0a4754c1",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_32babc0b2fda8dade142d25e",
+      "benchmark_sample_uid": "vstar:source_id:8",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/35b49dd802355bb67c326c6a3c0f6ad7.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/8.jpg",
+      "project_size": [
+        2500,
+        1500
+      ],
+      "benchmark_size": [
+        2500,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999976,
+      "rgb_mae_256": 0.019,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_e4a7867af994c84ca80a",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_370fd05975c5e2da746d91d5",
+      "benchmark_sample_uid": "vstar:source_id:83",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/c1a062c01b5962af1eeb5797b58107ec.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/83.jpg",
+      "project_size": [
+        2505,
+        1500
+      ],
+      "benchmark_size": [
+        2505,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999958,
+      "rgb_mae_256": 0.069,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_5b746826dbb8aacdcc15",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_53d3acfebd233bd0f39812a5",
+      "benchmark_sample_uid": "vstar:source_id:167",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/8afe2596dde1275bffbd1a4674cc5319.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/167.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 2,
+      "pixel_correlation_256": 0.999621,
+      "rgb_mae_256": 0.055,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_83a7173b93a349076b90",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_5a74fb7570815fb11cf10389",
+      "benchmark_sample_uid": "vstar:source_id:129",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/98829220f7daacb1dfa0610138a46e4f.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/129.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.998022,
+      "rgb_mae_256": 0.497,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_99e6b6e050ca2bf94216",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_725d6760b9e91fd78ee77e58",
+      "benchmark_sample_uid": "vstar:source_id:59",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/df688e359c2cd50b8e16652417df3562.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/59.jpg",
+      "project_size": [
+        2249,
+        1500
+      ],
+      "benchmark_size": [
+        2249,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.9996,
+      "rgb_mae_256": 0.041,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_1cf2d522ffb443692880",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_7ae0fa0fbe521356d3b69b4b",
+      "benchmark_sample_uid": "vstar:source_id:54",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/8fd735f4f6e6d6053990eadc687358c5.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/54.jpg",
+      "project_size": [
+        2249,
+        1500
+      ],
+      "benchmark_size": [
+        2249,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999909,
+      "rgb_mae_256": 0.07,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_cbfd5060ed38d526feef",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_83ec924de4e74940557f31e5",
+      "benchmark_sample_uid": "vstar:source_id:101",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/ba68cd1df28900b607d8ae349110a0dc.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/101.jpg",
+      "project_size": [
+        3267,
+        1500
+      ],
+      "benchmark_size": [
+        3267,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.996313,
+      "rgb_mae_256": 0.296,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_bf4b9e6c0ae6aa956a96",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_957fb03b18444929ae193786",
+      "benchmark_sample_uid": "vstar:source_id:131",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/f703343baf1b0a0fa6e4639e439b3a88.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/131.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999921,
+      "rgb_mae_256": 0.017,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_57673f6b9380bc3f8d12",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_9fbd01ddcb0d3760e7849c9d",
+      "benchmark_sample_uid": "vstar:source_id:114",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/2cf8618afd2b3c5ddd8ecfc297213650.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/114.jpg",
+      "project_size": [
+        3302,
+        1500
+      ],
+      "benchmark_size": [
+        3302,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999855,
+      "rgb_mae_256": 0.092,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_fe13c86e37f251cc8534",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_b102869d6af5f78e66260f62",
+      "benchmark_sample_uid": "vstar:source_id:170",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/27e6b1a2e718fc3ea6f4aebba31e99e4.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/170.jpg",
+      "project_size": [
+        2248,
+        1500
+      ],
+      "benchmark_size": [
+        2248,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999729,
+      "rgb_mae_256": 0.046,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_7742d16740c91964512b",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_b973d99df36038fab8ee7a8f",
+      "benchmark_sample_uid": "vstar:source_id:68",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/5c4cd6868aa02d8dbbab9ddc5a0abce3.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/68.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999808,
+      "rgb_mae_256": 0.127,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_33a79d98a981e9e01d92",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_e99e7cf6b568a173cabe602b",
+      "benchmark_sample_uid": "vstar:source_id:180",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/cfcb4bf417a51f977d520abe92ee9a58.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/180.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999522,
+      "rgb_mae_256": 0.364,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_94a81957b9b994505f90",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_ed67651c075de9f65f9cb793",
+      "benchmark_sample_uid": "vstar:source_id:15",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/e00d3914bbed3b75ca096868d12461a1.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/15.jpg",
+      "project_size": [
+        2249,
+        1500
+      ],
+      "benchmark_size": [
+        2249,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.998971,
+      "rgb_mae_256": 0.414,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_de59d8f180b44185e83d",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_f6e13b74e439f109569ca911",
+      "benchmark_sample_uid": "vstar:source_id:60",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/a273bfa52dd6ea197b4c7f761549b3a8.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/60.jpg",
+      "project_size": [
+        2265,
+        1500
+      ],
+      "benchmark_size": [
+        2265,
+        1500
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999971,
+      "rgb_mae_256": 0.027,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_232fcb169500ad08eba9",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_f8feb633eab0005d17b0d8ed",
+      "benchmark_sample_uid": "vstar:source_id:22",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/9737b33bb1a948d3eaad251dc9a8b6a2.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/22.jpg",
+      "project_size": [
+        1500,
+        2246
+      ],
+      "benchmark_size": [
+        1500,
+        2246
+      ],
+      "phash_distance": 0,
+      "pixel_correlation_256": 0.999951,
+      "rgb_mae_256": 0.082,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_65f240872b05f170d67b",
+      "benchmark": "vstar",
+      "project_sample_uid": "vopd_f94625bc83b2c8ec932d011f",
+      "benchmark_sample_uid": "vstar:source_id:163",
+      "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/788abc9dea2b83fa4f6c144ae440c3dc.png",
+      "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/vstar/images/163.jpg",
+      "project_size": [
+        2250,
+        1500
+      ],
+      "benchmark_size": [
+        2250,
+        1500
+      ],
+      "phash_distance": 4,
+      "pixel_correlation_256": 0.999132,
+      "rgb_mae_256": 0.126,
+      "recommended_status": "confirmed_overlap"
+    },
+    {
+      "candidate_id": "overlap_42a4624dabc87a7368a5",
+      "benchmark": "zoombench",
+      "project_sample_uid": "vopd_08ac50c235b302132032efd0",
+      "benchmark_sample_uid": "zoombench:source_id:fcef1ce2a4d57e7b159b21fde85e679e",
+      "comparisons": [
+        {
+          "project_path": "/root/autodl-tmp/data/vision_opd_6241/images/45e4988219007b9966a211cb8b87cd61.png",
+          "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/zoombench/images/full/fcef1ce2a4d57e7b159b21fde85e679e.jpg",
+          "project_size": [
+            2669,
+            1500
+          ],
+          "benchmark_size": [
+            1500,
+            2000
+          ],
+          "phash_distance": 32,
+          "pixel_correlation_256": -0.051708,
+          "rgb_mae_256": 74.037
+        },
+        {
+          "project_path": "/root/autodl-tmp/data/vision_opd_6241/teacher_images/002891_45e4988219007b9966a211cb8b87cd61.png",
+          "benchmark_path": "/root/autodl-tmp/benchmark_data/paper_aligned/converted/zoombench/images/full/fcef1ce2a4d57e7b159b21fde85e679e.jpg",
+          "project_size": [
+            64,
+            186
+          ],
+          "benchmark_size": [
+            1500,
+            2000
+          ],
+          "phash_distance": 36,
+          "pixel_correlation_256": 0.085409,
+          "rgb_mae_256": 87.486
+        }
+      ],
+      "recommended_status": "dismissed"
+    }
+  ]
+}

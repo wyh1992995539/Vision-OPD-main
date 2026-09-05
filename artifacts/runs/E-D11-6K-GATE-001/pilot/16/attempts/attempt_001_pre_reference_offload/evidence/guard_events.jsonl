@@ -1,0 +1,1 @@
+{"event": "abort_triggered", "timestamp_utc": "2026-09-04T15:55:24.063242+00:00", "latest_step": 1, "issues": [{"rule": "gpu_memory_pressure", "detail": "threshold=0.95", "immediate": false}]}

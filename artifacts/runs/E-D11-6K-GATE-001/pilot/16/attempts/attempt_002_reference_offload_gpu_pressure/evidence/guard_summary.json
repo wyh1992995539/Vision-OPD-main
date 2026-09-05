@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "finished_at_utc": "2026-09-05T07:47:18.863408+00:00",
+  "status": "FAIL",
+  "return_code": -15,
+  "latest_step": 1,
+  "trigger": {
+    "timestamp_utc": "2026-09-05T07:47:18.860745+00:00",
+    "latest_step": 1,
+    "issues": [
+      {
+        "rule": "gpu_memory_pressure",
+        "detail": "threshold=0.95",
+        "immediate": false
+      }
+    ]
+  },
+  "termination": {
+    "term_sent_at_utc": "2026-09-05T07:47:18.861493+00:00",
+    "kill_sent_at_utc": null
+  },
+  "checkpoint": null
+}

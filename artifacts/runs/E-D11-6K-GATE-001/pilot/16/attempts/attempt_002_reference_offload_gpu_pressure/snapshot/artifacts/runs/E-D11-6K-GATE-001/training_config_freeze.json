@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T07:15:35.265275+00:00",
+  "experiment_id": "E-D12-6K-VOPD-001",
+  "status": "STATIC_FROZEN_PENDING_DAY11_PILOT",
+  "gpu_used": false,
+  "profile": "paper_core_resource_scaled_2gpu",
+  "selected_profile": {
+    "path": "configs/vopd_6241.yaml",
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "actor_parameter_offload": false,
+    "optimizer_offload": false,
+    "reference_parameter_offload": true,
+    "selected": true
+  },
+  "reference_profile": {
+    "path": "configs/vopd_6241_algorithm_aligned_2gpu.reference.yaml",
+    "sha256": "3bd1eb35c5704950445f86a5c10c22b9d826028e3c0021a136b496b85192256c",
+    "status": "reference_only_not_selected"
+  },
+  "sources": {
+    "paper": {
+      "path": "docs/Vision-OPD.pdf",
+      "sha256": "67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b",
+      "relevant_sections": [
+        "4.1",
+        "4.3",
+        "Tables 3-6"
+      ]
+    },
+    "official_launcher": {
+      "path": "scripts/run_vision_opd.sh",
+      "sha256": "fb135a4660f05414c3f8e4efed0a9adce7db4459db666d9734a8fb68a4a08d0f"
+    }
+  },
+  "paper_core": {
+    "model": "Qwen3.5-4B",
+    "train_rows": 6241,
+    "epochs": 1,
+    "max_response_length": 1024,
+    "jsd_beta": 0.5,
+    "distillation_top_k": 100,
+    "teacher_regularization": "ema",
+    "teacher_update_rate": 0.05,
+    "non_thinking": true
+  },
+  "resource_scaled_contract": {
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "source_rows": 6241,
+    "optimizer_steps": 780,
+    "effective_samples": 6240,
+    "padding_rows": 0,
+    "dropped_rows": 1,
+    "tail_policy": "native_drop_last",
+    "max_prompt_length": 8192,
+    "max_sequence_length": 9216,
+    "reference_parameter_offload_required": true,
+    "prelaunch_cgroup_minimum_bytes": 137438953472
+  },
+  "checkpoint_contract": {
+    "save_frequency": 390,
+    "scheduled_save_steps": [
+      390,
+      780
+    ],
+    "expected_final_step": 780,
+    "max_actor_ckpt_to_keep": 1,
+    "rationale": "one periodic recovery checkpoint plus verl final checkpoint; step 780 satisfies both periodic and final conditions but is saved once"
+  },
+  "vllm_engine": {
+    "fuse_allreduce_rms": false,
+    "enable_flashinfer_autotune": false,
+    "alignment": "MATCHES_OFFICIAL_LAUNCHER"
+  },
+  "budget": {
+    "status": "PENDING_1024_TOKEN_PILOT",
+    "hourly_dual_gpu_rate_cny": 11.96,
+    "historical_256_token_planning_hours": 5.68,
+    "historical_256_token_planning_cny": 67.88,
+    "historical_256_token_conservative_hours": 10.09,
+    "historical_256_token_conservative_cny": 120.64,
+    "max_wall_time_hours": 38,
+    "temporary_conservative_reservation_cny": 454.48
+  },
+  "hashes": {
+    "vopd_config": "9b929e8fc93abd72c713a03316556ab3eaa228c4783f5432c2b28f313d571b21",
+    "cached_prefix_config": "495290e23af3e6a3232772aedab753152d7bd0bf42551a5d710bbe53e8af671f",
+    "abort_policy": "88ff8794517e5374b5917b1a55a040b03238b0beea0edaca36dd45b7ec7ece2f",
+    "cached_prefix_input_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "cached_prefix_chat_template": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
+    "base_model_sha256_manifest": "91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9",
+    "train_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "pilot_abort_policy": "fee527a35b89332dd7eebdec9372c648a67a49dc604e284e8f7563e1d7ab1e0c",
+    "runtime_guard_script": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644",
+    "pilot_postflight_script": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3"
+  },
+  "verification": {
+    "shell_syntax": "PASS",
+    "pytest": "PASS",
+    "pytest_passed": 25,
+    "pytest_subtests_passed": 5,
+    "train_rows": 6241,
+    "missing_image_paths": 0,
+    "paper_alignment_checks": "PASS",
+    "resource_revision": "REFERENCE_PARAMETER_OFFLOAD_ENABLED_AFTER_PILOT16_GPU1_PEAK_95.42_PERCENT",
+    "official_vllm_engine_switches": "PASS",
+    "drop_last_contract": "PASS_6241_TO_6240",
+    "full_preflight": "EXPECTED_FAIL_CONFIG_BLOCKED_ONLY",
+    "warmup_aware_runtime_and_postflight_tests": "PASS_27_TESTS_9_SUBTESTS"
+  },
+  "remaining_gates": [
+    "train_6241_prompt_length_audit",
+    "two_gpu_1024_response_pilot",
+    "pilot_budget_reestimate",
+    "cached_prefix_6241",
+    "overlap",
+    "day11_aggregate_preflight"
+  ],
+  "warmup_aware_audit_contract": {
+    "lr_metric": "actor/lr",
+    "lr_warmup_steps": 10,
+    "zero_lr_student_delta_rule": "nonnegative",
+    "positive_lr_student_delta_rule": "strictly_positive",
+    "zero_lr_allowed_only_within_warmup": true,
+    "pilot_requires_positive_lr_step": true,
+    "teacher_contract_relaxed_during_warmup": false,
+    "runtime_nonupdate_abort_consecutive_positive_lr_steps": 2
+  }
+}

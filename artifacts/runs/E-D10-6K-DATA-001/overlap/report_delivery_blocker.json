@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "delivery_mode": "html",
+  "status": "BLOCKED",
+  "reason": "node_runtime_unavailable",
+  "attempted_builder": "/root/.codex/plugins/cache/openai-curated-remote/data-analytics/0.2.10-13ceeea1f599/skills/build-report/scripts/deliver_portable_artifact.mjs",
+  "error": "node: command not found",
+  "canonical_artifact_available": "report_artifact.json",
+  "fallback_report_available": "overlap_report.md"
+}

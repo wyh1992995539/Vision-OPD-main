@@ -1,0 +1,57 @@
+schema_version: 1
+
+protocol:
+  id: E-D11-6K-OVERLAP-001
+  status: frozen_for_execution
+  scope: train_6241_vs_paper_aligned_r3_benchmarks
+  source_benchmark_config:
+    path: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+    sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+  reporting_note: >-
+    Official full-set scores remain primary. Confirmed or unresolved overlap is
+    retained and reported; any deduplicated result is diagnostic only.
+
+overlap_audit:
+  project_splits:
+    - /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+  expected_project_sample_count: 6241
+  expected_project_split_sha256:
+    /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet: 142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e
+  include_project_full_images: true
+  include_project_crop_images: true
+  require_all_benchmarks: true
+  fingerprint_workers: 16
+  expected_benchmark_sample_counts:
+    zoombench: 845
+    mmstar: 1500
+    vstar: 191
+  expected_benchmark_sha256:
+    zoombench: 31ba5d76c6b282266a62549f419e76fcbd1e513f0ccf2a11caa4584948c9449b
+    mmstar: 944ca440cc2be630df665612a9b0ddca9433c3903c775fda10dacbc766a12fed
+    vstar: 336a1e1a32f0b34e4e9e41b3dcc95ea87ff69fe3dcec16c99d4b16f4e967dfd5
+  checks:
+    file_sha256:
+      enabled: true
+      classification: exact_image_match
+    normalized_question:
+      enabled: true
+      unicode_normalization: NFKC
+      casefold: true
+      collapse_whitespace: true
+    perceptual_hash:
+      enabled: true
+      algorithm: dct_phash
+      hash_size: 8
+      suspected_max_hamming_distance: 5
+      classification: suspected_perceptual_match
+      require_manual_confirmation: true
+  on_overlap:
+    preserve_official_test_samples: true
+    report_official_full_score: true
+    report_deduplicated_diagnostic_separately: true
+    forbid_claiming_fully_independent_test: true
+
+paths:
+  data_root: /root/autodl-tmp/benchmark_data/paper_aligned
+  run_root: artifacts/runs/E-D10-6K-DATA-001
+  overlap_dir: artifacts/runs/E-D10-6K-DATA-001/overlap

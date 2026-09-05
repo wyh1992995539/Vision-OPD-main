@@ -1,0 +1,65 @@
+schema_version: 1
+status: reference_only_not_selected
+profile: algorithm_aligned_resource_adapted_2gpu
+selected_runtime_config: configs/vopd_6241.yaml
+purpose: >-
+  Reference profile that preserves the author's algorithm-scale batch and rollout
+  settings on two GPUs. It is not authorized for launch and does not replace the
+  selected batch-8, rollout-n-1 runtime configuration.
+
+data:
+  source_rows: 6241
+  train_batch_size: 96
+  tail_policy: native_drop_last
+  effective_samples: 6240
+  dropped_rows: 1
+  total_optimizer_steps: 65
+  total_epochs: 1
+  max_prompt_length: 8192
+  max_response_length: 1024
+
+algorithm:
+  ppo_mini_batch_size: 96
+  rollout_n: 8
+  learning_rate: 2.0e-6
+  lr_warmup_steps: 10
+  clip_ratio_low: 0.2
+  clip_ratio_high: 0.3
+  distillation_top_k: 100
+  jsd_beta: 0.5
+  teacher_regularization: ema
+  teacher_update_rate: 0.05
+
+two_gpu_resource_adaptation:
+  gpus_per_node: 2
+  tensor_model_parallel_size: 1
+  rollout_agent_workers: 2
+  dataloader_workers: 0
+  log_prob_micro_batch_size_per_gpu: 1
+  dynamic_batch_size: true
+  gradient_checkpointing: true
+  actor_parameter_offload: true
+  optimizer_offload: true
+  reference_parameter_offload: true
+  rollout_gpu_memory_fraction_start: 0.45
+  rollout_gpu_memory_fraction_pilot_candidates: [0.45, 0.50, 0.55, 0.60, 0.70]
+
+vllm_engine:
+  fuse_allreduce_rms: false
+  enable_flashinfer_autotune: false
+
+checkpoint:
+  strict_author_entry:
+    save_frequency: -1
+    scheduled_save_steps: [65]
+  recommended_two_gpu_recovery:
+    save_frequency: 33
+    scheduled_save_steps: [33, 65]
+    max_actor_ckpt_to_keep: 1
+
+activation_requirements:
+  - separate_1024_token_batch96_rollout8_pilot
+  - no_gpu_or_cgroup_oom
+  - finite_student_teacher_jsd_metrics
+  - measured_wall_time_and_budget_refreeze
+  - explicit_user_selection_of_this_profile
