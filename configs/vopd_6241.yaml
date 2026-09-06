@@ -1,30 +1,23 @@
 schema_version: 1
-status: blocked_until_day11_gate_passes
-
+status: ready_after_day11_gate
 paper_alignment:
   source_pdf: docs/Vision-OPD.pdf
   source_pdf_sha256: 67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b
   official_launcher: scripts/run_vision_opd.sh
   profile: paper_core_resource_scaled_2gpu
   required_max_response_length: 1024
-  pending_gates:
-    - train_6241_prompt_length_audit
-    - two_gpu_1024_response_pilot
-    - pilot_budget_reestimate
-
+  pending_gates: []
 experiment:
   id: E-D12-6K-VOPD-001
   name: vision-opd-qwen35-4b-drop-last-6241
   group_name: E-D12-6K-VOPD-001
   prefix_source: online
   seed: 42
-
 paths:
   model: /root/autodl-tmp/models/Qwen3.5-4B
   train_file: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
   chat_template: chat_templates/perception_chat_template_qwen35.jinja
   output_dir: artifacts/runs/E-D12-6K-VOPD-001
-
 data:
   expected_train_rows: 6241
   train_batch_size: 8
@@ -36,9 +29,8 @@ data:
   shuffle: true
   dataloader_num_workers: 0
   tail_policy: native_drop_last
-
 actor:
-  learning_rate: 2.0e-6
+  learning_rate: 2.0e-06
   lr_warmup_steps: 10
   ppo_mini_batch_size: 8
   clip_ratio_low: 0.2
@@ -47,11 +39,10 @@ actor:
   gradient_checkpointing: true
   parameter_offload: true
   optimizer_offload: true
-  # Pilot-16 attempt 2 hit 95.57% GPU memory; use all three offloads.
-  # Validate actual peak and throughput again before formal training.
+  defer_optimizer_state_load: true
+  memory_profile_dir: artifacts/runs/E-D12-6K-VOPD-001/evidence/memory_stages
   reference_parameter_offload: true
   max_token_length_per_gpu: 9216
-
 rollout:
   n: 1
   temperature: 1.0
@@ -59,18 +50,21 @@ rollout:
   top_k: -1
   ignore_eos: false
   tensor_model_parallel_size: 1
-  gpu_memory_utilization: 0.40
+  gpu_memory_utilization: 0.4
   log_prob_micro_batch_size_per_gpu: 1
   agent_num_workers: 2
   engine_kwargs:
     vllm:
       compilation_config:
-        cudagraph_capture_sizes: [1, 2, 4, 8]
+        cudagraph_capture_sizes:
+        - 1
+        - 2
+        - 4
+        - 8
         pass_config:
           fuse_allreduce_rms: false
       kernel_config:
         enable_flashinfer_autotune: false
-
 self_distillation:
   loss_mode: vopd
   top_k: 100
@@ -83,16 +77,14 @@ self_distillation:
   dont_reprompt_on_self_success: true
   include_environment_feedback: false
   importance_sampling_clip: 2.0
-
 resources:
   nodes: 1
   gpus_per_node: 2
-  memory_profile: offload_3way_graph4_v1
+  memory_profile: offload_3way_graph4_deferred_formal_v1
   actor_parameter_offload_required: true
   optimizer_offload_required: true
   reference_parameter_offload_required: true
-  prelaunch_cgroup_minimum_bytes: 206158430208
-
+  prelaunch_cgroup_minimum_bytes: 257698037760
 training:
   source_samples: 6241
   expected_samples: 6240
@@ -102,9 +94,15 @@ training:
   total_optimizer_steps: 780
   total_epochs: 1
   require_full_epoch: false
-  # Native verl uses drop_last=True. With 780 total steps, 390 triggers
-  # one periodic recovery point and the final step is saved exactly once.
   save_frequency: 390
   test_frequency: -1
   max_actor_ckpt_to_keep: 1
   resume_mode: disable
+promotion:
+  receipt: artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/promotion_receipt.json
+  source_candidate: configs/vopd_6241_candidate.yaml
+  source_candidate_gate_freeze: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json
+  validated_workload: natural_eos_128x16
+  validated_steps: 16
+  normal_eos_validated: true
+  formal_training_authorized: true

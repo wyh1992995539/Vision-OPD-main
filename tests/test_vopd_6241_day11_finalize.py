@@ -66,14 +66,22 @@ def test_repository_aggregate_binds_evidence_and_reports_real_blockers():
         cpu_capacity_bytes=2 * GIB,
         generated_at="2026-09-05T00:00:00+00:00",
     )
-    assert all(result["evidence_checks"].values()), result["evidence_checks"]
-    assert result["runtime_checks"]["pilot_runtime_capacity_met_reviewed_224_gib"]
-    assert not result["runtime_checks"]["disk_free_meets_formal_120_gib"]
+    assert result['evidence_checks']['latest_diagnostic_evidence_integrity']
+    assert result['evidence_checks']['candidate_gate_freeze_current']
+    assert result['evidence_checks']['candidate_validation_pass_and_bound']
+    assert result['evidence_checks']['validated_candidate_source_current']
+    assert result['evidence_checks']['candidate_budget_refrozen_and_below_project_cap']
+    assert len(result['gate_implementation']) == 7
+    assert all(len(digest) == 64 for digest in result['gate_implementation'].values())
+    assert result['checks']['formal_cpu_floor_matches_reviewed_240_gib']
+    assert result["runtime_checks"]["pilot_runtime_capacity_met_reviewed_240_gib"]
+    assert not result["runtime_checks"]["disk_free_meets_refrozen_formal_floor"]
     assert result["runtime_snapshot"]["pilot_runtime_cpu_capacity_gib"] == 240
     assert result["runtime_snapshot"]["builder_process_cpu_capacity_gib"] == 2
     assert result["runtime_snapshot"]["builder_process_capacity_is_launch_evidence"] is False
+    assert result['status'] == 'BLOCKED_RUNTIME_RESOURCES'
     assert result["formal_training_authorized"] is False
-    assert any('disk space is below' in item['risk'] for item in result['risks'])
+    assert any('free disk is below' in item['risk'] for item in result['risks'])
 
 
 def test_expanded_disk_removes_stale_disk_blocker_but_does_not_release_training():
@@ -82,8 +90,10 @@ def test_expanded_disk_removes_stale_disk_blocker_but_does_not_release_training(
         disk_free_bytes=422 * GIB,
         cpu_capacity_bytes=2 * GIB,
     )
-    assert result['runtime_checks']['disk_free_meets_formal_120_gib']
-    assert not any('disk space is below' in item['risk'] for item in result['risks'])
+    assert result['runtime_checks']['disk_free_meets_refrozen_formal_floor']
+    assert not any('free disk is below' in item['risk'] for item in result['risks'])
     assert not any('Free enough disk' in item for item in result['next_actions'])
-    assert result['status'] == 'BLOCKED_ADDITIONAL_RESOURCE_VALIDATION'
-    assert result['formal_training_authorized'] is False
+    assert result['status'] == 'PASS'
+    assert result['ready_to_unblock_formal_config'] is True
+    assert result['blocking_gates'] == []
+    assert result['formal_training_authorized'] is True

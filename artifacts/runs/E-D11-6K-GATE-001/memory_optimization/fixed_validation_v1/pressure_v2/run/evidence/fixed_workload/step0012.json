@@ -1,0 +1,29 @@
+{
+  "rows": 8,
+  "tensor_hashes": {
+    "input_ids": "483b894ee2e57026ef92902ac7ce707fc1062f9ea4126cfc9df9ae63f2185829",
+    "responses": "8b6218c536852345093f684382b3a028ab0d7e4d1970d80a9c7c07c706fddb6e",
+    "response_mask": "c2a48dd2782955ba937f9f6905b6235ead1d4849aafe82fd96dc6e910e66665f",
+    "attention_mask": "981844916516bbb1c9498b02bed02ea2001ea021c07c6ef168fa5dff2df6ffac",
+    "position_ids": "65af4c58577856abe336d69b7eef4a25abfef98d1a789490bb047381ea92933c",
+    "teacher_input_ids": "f74a476c17007c38a8145752986a0a044351c281c38294adc305686c932ba413",
+    "teacher_attention_mask": "fa1417813a5d8bb55c1cbab87109dc30e709ceedf40b20be76c60c75c1816a7c",
+    "teacher_position_ids": "798cc745646339918fd8ce94bc94083ac35ea96bc0801c7ee040978a0a126e53",
+    "teacher_response_start_idx": "f733e575c34ba68c46287223f9f3a06afb9961fb8258b910efd334ca0576c0ed",
+    "old_log_probs": "5c885b225ce16e4f264710a1b8186a10119c8b9d16c51a194b6899ec40f656f2",
+    "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+  },
+  "response_lengths": [
+    1024,
+    1024,
+    1024,
+    1024,
+    1024,
+    1024,
+    1024,
+    1024
+  ],
+  "response_width": 1024,
+  "step": 12,
+  "mode": "observe"
+}

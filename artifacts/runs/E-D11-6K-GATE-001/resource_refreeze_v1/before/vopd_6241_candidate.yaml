@@ -1,0 +1,123 @@
+schema_version: 1
+status: blocked_pending_formal_candidate_validation
+
+paper_alignment:
+  source_pdf: docs/Vision-OPD.pdf
+  source_pdf_sha256: 67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b
+  official_launcher: scripts/run_vision_opd.sh
+  profile: paper_core_resource_scaled_2gpu
+  required_max_response_length: 1024
+  pending_gates:
+    - final_candidate_natural_generation_validation
+    - candidate_checkpoint_validation
+    - formal_cpu_and_disk_refreeze
+    - candidate_budget_reestimate
+    - final_candidate_source_binding
+
+experiment:
+  id: E-D12-6K-VOPD-001
+  name: vision-opd-qwen35-4b-drop-last-6241
+  group_name: E-D12-6K-VOPD-001
+  prefix_source: online
+  seed: 42
+
+paths:
+  model: /root/autodl-tmp/models/Qwen3.5-4B
+  train_file: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  output_dir: artifacts/runs/E-D12-6K-VOPD-001
+
+data:
+  expected_train_rows: 6241
+  train_batch_size: 8
+  image_key: images
+  teacher_image_key: bbox_images
+  max_prompt_length: 8192
+  max_response_length: 1024
+  truncation: error
+  shuffle: true
+  dataloader_num_workers: 0
+  tail_policy: native_drop_last
+
+actor:
+  learning_rate: 2.0e-6
+  lr_warmup_steps: 10
+  ppo_mini_batch_size: 8
+  clip_ratio_low: 0.2
+  clip_ratio_high: 0.3
+  use_dynamic_batch_size: true
+  gradient_checkpointing: true
+  parameter_offload: true
+  optimizer_offload: true
+  defer_optimizer_state_load: true
+  memory_profile_dir: artifacts/runs/E-D12-6K-VOPD-001/evidence/memory_stages
+  # Pilot-16 attempt 2 hit 95.57% GPU memory; use all three offloads.
+  # Validate actual peak and throughput again before formal training.
+  reference_parameter_offload: true
+  max_token_length_per_gpu: 9216
+
+rollout:
+  n: 1
+  temperature: 1.0
+  top_p: 1.0
+  top_k: -1
+  ignore_eos: false
+  tensor_model_parallel_size: 1
+  gpu_memory_utilization: 0.40
+  log_prob_micro_batch_size_per_gpu: 1
+  agent_num_workers: 2
+  engine_kwargs:
+    vllm:
+      compilation_config:
+        cudagraph_capture_sizes: [1, 2, 4, 8]
+        pass_config:
+          fuse_allreduce_rms: false
+      kernel_config:
+        enable_flashinfer_autotune: false
+
+self_distillation:
+  loss_mode: vopd
+  top_k: 100
+  alpha: 0.5
+  teacher_always_on: true
+  teacher_model_source: legacy
+  teacher_regularization: ema
+  teacher_update_rate: 0.05
+  max_reprompt_length: 10240
+  dont_reprompt_on_self_success: true
+  include_environment_feedback: false
+  importance_sampling_clip: 2.0
+
+resources:
+  nodes: 1
+  gpus_per_node: 2
+  memory_profile: offload_3way_graph4_deferred_candidate_v1
+  actor_parameter_offload_required: true
+  optimizer_offload_required: true
+  reference_parameter_offload_required: true
+  # Inherited placeholder, NOT a newly approved floor; refreeze before launch.
+  prelaunch_cgroup_minimum_bytes: 206158430208
+
+training:
+  source_samples: 6241
+  expected_samples: 6240
+  padded_samples: 6240
+  padding_rows: 0
+  dropped_rows: 1
+  total_optimizer_steps: 780
+  total_epochs: 1
+  require_full_epoch: false
+  # Native verl uses drop_last=True. With 780 total steps, 390 triggers
+  # one periodic recovery point and the final step is saved exactly once.
+  save_frequency: 390
+  test_frequency: -1
+  max_actor_ckpt_to_keep: 1
+  resume_mode: disable
+
+candidate:
+  base_config: configs/vopd_6241.yaml
+  diagnostic_evidence: artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/manifest.json
+  formal_training_authorized: false
+  resource_floor_refreeze_required: true
+  natural_generation_validation_required: true
+  note: CPU-prepared candidate only; keep normal EOS, no fixed replay or forced-length hook.

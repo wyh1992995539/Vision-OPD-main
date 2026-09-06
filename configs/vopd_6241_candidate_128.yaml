@@ -1,0 +1,128 @@
+schema_version: 1
+status: ready_for_guarded_gpu_validation
+
+paper_alignment:
+  source_pdf: docs/Vision-OPD.pdf
+  source_pdf_sha256: 67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b
+  official_launcher: scripts/run_vision_opd.sh
+  profile: paper_core_resource_scaled_2gpu_candidate_natural_validation
+  required_max_response_length: 1024
+  pending_gates:
+    - candidate_gpu_run
+    - candidate_postflight_pass
+    - candidate_checkpoint_validation
+    - candidate_budget_reestimate
+
+experiment:
+  id: E-D11-6K-VOPD-CANDIDATE-128
+  name: vision-opd-formal-candidate-natural-generation-128x16
+  group_name: E-D11-6K-VOPD-CANDIDATE
+  prefix_source: online
+  seed: 42
+
+paths:
+  model: /root/autodl-tmp/models/Qwen3.5-4B
+  train_file: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/data/train_128.parquet
+  selection_manifest: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/data/selection.json
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  output_dir: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run
+
+data:
+  expected_train_rows: 128
+  train_batch_size: 8
+  image_key: images
+  teacher_image_key: bbox_images
+  max_prompt_length: 8192
+  max_response_length: 1024
+  truncation: error
+  # The selection manifest fixes both membership and order for this validation.
+  shuffle: false
+  dataloader_num_workers: 0
+  tail_policy: native_drop_last
+
+actor:
+  learning_rate: 2.0e-6
+  lr_warmup_steps: 10
+  ppo_mini_batch_size: 8
+  clip_ratio_low: 0.2
+  clip_ratio_high: 0.3
+  use_dynamic_batch_size: true
+  gradient_checkpointing: true
+  parameter_offload: true
+  optimizer_offload: true
+  defer_optimizer_state_load: true
+  memory_profile_dir: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run/evidence/memory_stages
+  reference_parameter_offload: true
+  max_token_length_per_gpu: 9216
+
+rollout:
+  n: 1
+  temperature: 1.0
+  top_p: 1.0
+  top_k: -1
+  # Natural generation: EOS remains active. No forced-length diagnostic hook.
+  ignore_eos: false
+  tensor_model_parallel_size: 1
+  gpu_memory_utilization: 0.40
+  log_prob_micro_batch_size_per_gpu: 1
+  agent_num_workers: 2
+  engine_kwargs:
+    vllm:
+      compilation_config:
+        cudagraph_capture_sizes: [1, 2, 4, 8]
+        pass_config:
+          fuse_allreduce_rms: false
+      kernel_config:
+        enable_flashinfer_autotune: false
+
+self_distillation:
+  loss_mode: vopd
+  top_k: 100
+  alpha: 0.5
+  teacher_always_on: true
+  teacher_model_source: legacy
+  teacher_regularization: ema
+  teacher_update_rate: 0.05
+  max_reprompt_length: 10240
+  dont_reprompt_on_self_success: true
+  include_environment_feedback: false
+  importance_sampling_clip: 2.0
+
+resources:
+  nodes: 1
+  gpus_per_node: 2
+  memory_profile: offload_3way_graph4_deferred_validation_v1
+  actor_parameter_offload_required: true
+  optimizer_offload_required: true
+  reference_parameter_offload_required: true
+  # Evidence-bound 240 GiB floor; recheck actual launch cgroup capacity.
+  prelaunch_cgroup_minimum_bytes: 257698037760
+
+training:
+  source_samples: 128
+  expected_samples: 128
+  padded_samples: 128
+  padding_rows: 0
+  dropped_rows: 0
+  total_optimizer_steps: 16
+  total_epochs: 1
+  require_full_epoch: true
+  save_frequency: -1
+  test_frequency: -1
+  max_actor_ckpt_to_keep: 1
+  resume_mode: disable
+
+validation:
+  kind: formal_candidate_natural_generation
+  source_candidate: configs/vopd_6241_candidate.yaml
+  formal_training_authorized: false
+  gpu_validation_completed: false
+  guarded_launcher: scripts/run_vopd_6241_candidate_128_guarded.py
+  abort_policy: configs/vopd_6241_candidate_128_abort_policy.yaml
+  postflight_script: scripts/audit_vopd_6241_candidate_128.py
+  normal_eos_required: true
+  forced_min_response_tokens: null
+  required_actual_steps: 16
+  required_post_warmup_steps: 6
+  final_checkpoint_required: true
+  note: Validation-only config; passing it does not authorize the 6,241-row formal run.

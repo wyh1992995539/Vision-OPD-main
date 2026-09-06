@@ -1,0 +1,22 @@
+{
+  "status": "PASS_FIRST_BATCH_LENGTH",
+  "step": 1,
+  "contract": {
+    "expected_rows": 8,
+    "minimum_tokens": 1000,
+    "maximum_tokens": 1024
+  },
+  "checked_before": "balance_ref_logprob_actor_update",
+  "response_lengths": [
+    1024,
+    1024,
+    1024,
+    1024,
+    1024,
+    1024,
+    1024,
+    1024
+  ],
+  "response_width": 1024,
+  "errors": []
+}

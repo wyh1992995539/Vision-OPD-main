@@ -14,8 +14,8 @@ runtime:
 memory:
   gpu_used_ratio_abort: 0.98
   cgroup_used_ratio_abort: 0.95
-  # Three-way offload needs additional host RAM above the observed 100 GiB peak.
-  prelaunch_cgroup_minimum_bytes: 206158430208
+  # Six successful runs used 240 GiB; maximum observed CPU peak was 189.79 GiB.
+  prelaunch_cgroup_minimum_bytes: 257698037760
   consecutive_samples: 3
 
 disk:

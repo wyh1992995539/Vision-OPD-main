@@ -36,10 +36,16 @@ outputs/
 logs/
 wandb/
 tensorboard/
+tensorboard_log/
 hf_cache/
 torch_cache/
 pip_cache/
 tmp/
+
+# Reproducible source snapshots embedded in run artifacts. The canonical
+# sources live in the repository; keeping copied runtimes would stage
+# thousands of duplicate files for every validation run.
+artifacts/runs/**/runtime/
 
 # Large model/checkpoint formats
 *.safetensors

@@ -500,6 +500,7 @@ class vLLMHttpServer:
         )
         sampling_params["logprobs"] = 0 if sampling_params.pop("logprobs", False) else None
         sampling_params.setdefault("repetition_penalty", self.config.get("repetition_penalty", 1.0))
+        sampling_params.setdefault("ignore_eos", self.config.get("ignore_eos", False))
         existing_bad_words = sampling_params.pop("bad_words", None) or []
         sampling_params["bad_words"] = list(dict.fromkeys([*existing_bad_words, *VISION_SPECIAL_TOKENS]))
         sampling_params = SamplingParams(max_tokens=max_tokens, **sampling_params)

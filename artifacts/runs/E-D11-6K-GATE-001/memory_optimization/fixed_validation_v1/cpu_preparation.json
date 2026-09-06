@@ -1,0 +1,30 @@
+{
+  "status": "PASS_CPU_PREPARATION_PENDING_GPU",
+  "formal_training_authorized": false,
+  "stages": {
+    "capture": {
+      "cpu_static": "PASS",
+      "gpu_run_started": false,
+      "launch_dependency": "live_resource_and_billing_gate"
+    },
+    "fixed_baseline": {
+      "cpu_static": "PASS",
+      "gpu_run_started": false,
+      "launch_dependency": "sealed_capture_bundle"
+    },
+    "fixed_deferred": {
+      "cpu_static": "PASS",
+      "gpu_run_started": false,
+      "launch_dependency": "sealed_capture_bundle"
+    },
+    "pressure": {
+      "cpu_static": "PASS",
+      "gpu_run_started": false,
+      "launch_dependency": "live_resource_and_billing_gate"
+    }
+  },
+  "source_bound_runtime_isolated": true,
+  "replay_is_offline_actor_diagnostic_not_on_policy_training": true,
+  "projected_checkpoint_bytes": 228139843924,
+  "reserve_for_each_launch_bytes": 128849018880
+}

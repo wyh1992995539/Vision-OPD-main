@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "MANUALLY_STOPPED_INVALID_PRESSURE_WORKLOAD",
+  "record_observed_at_utc": "2026-09-06T07:31:55Z",
+  "reason": "ignore_eos is true in the resolved rollout config but is not forwarded by AgentLoopWorker sampling_params or defaulted by the async vLLM server before SamplingParams construction",
+  "first_step_actual_response_tokens_min": 4,
+  "first_step_actual_response_tokens_max": 255,
+  "observed_rank_records": 6,
+  "observed_rank_records_steps": [1, 2, 3],
+  "long_response_pressure_established": false,
+  "guard_latest_logged_step": 2,
+  "verified_training_process_group": 2577,
+  "action": "SIGTERM to verified pressure training process group; guard left running",
+  "training_return_code": -15,
+  "guard_exit_code": 40,
+  "guard_finished_at_utc": "2026-09-06T07:31:29.947892+00:00",
+  "cgroup_oom_count": 0,
+  "cgroup_oom_kill_count": 0,
+  "gpu_used_mib_after_stop": [0, 0],
+  "postflight_handling": "Guard exit receipt preserved with null postflight_status; a separate explicit post-stop invocation subsequently produced FAIL_VALIDATION in postflight.json",
+  "formal_training_authorized": false,
+  "runtime_sources_modified": false,
+  "next_required_work": [
+    "Repair ignore_eos forwarding in a new source-bound pressure attempt, not this archived runtime",
+    "Add CPU integration coverage of config-to-SamplingParams propagation and an early actual-length gate",
+    "Rerun pressure with fresh billing and live resource checks; require post-warmup actual long-response coverage"
+  ]
+}

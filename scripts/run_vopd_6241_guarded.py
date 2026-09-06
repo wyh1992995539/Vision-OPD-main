@@ -25,7 +25,9 @@ from scripts.monitor_vopd_training import (
     terminate_process_group, utc_now, write_json,
 )
 from scripts.vopd_training_preflight import validate_config
+from scripts.promote_vopd_6241_candidate import verify_receipt as verify_promotion_receipt
 
+PROMOTION_RELATIVE = Path("artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/promotion_receipt.json")
 GATE_RELATIVE = Path("artifacts/runs/E-D11-6K-GATE-001/preflight.json")
 
 
@@ -35,6 +37,23 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+def source_mapping_current(mapping: dict[str, Any]) -> bool:
+    if not mapping:
+        return False
+    for entry in mapping.values():
+        path = Path(str(entry.get("path", "")))
+        if not path.is_file() or entry.get("sha256") != sha256_file(path):
+            return False
+    return True
+
+
+def implementation_mapping_current(mapping: dict[str, str]) -> bool:
+    return bool(mapping) and all(
+        Path(path).is_file() and sha256_file(Path(path)) == digest
+        for path, digest in mapping.items()
+    )
+
 
 
 def resolve(value: str | Path) -> Path:
@@ -60,7 +79,18 @@ def static_preflight(config_path: Path, policy_path: Path) -> dict[str, Any]:
         gate = json.loads(gate_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         gate_error = repr(exc)
+    promotion_path = PROJECT_ROOT / PROMOTION_RELATIVE
+    promotion = None
+    promotion_error = None
+    try:
+        promotion = json.loads(promotion_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        promotion_error = repr(exc)
+    promotion_valid = verify_promotion_receipt(
+        promotion_path, formal_path=config_path,
+    )
     config_hash = sha256_file(config_path)
+    policy_hash = sha256_file(policy_path)
     total_steps = int(config["training"]["total_optimizer_steps"])
     save_frequency = int(config["training"]["save_frequency"])
     scheduled_save_steps = (
@@ -76,19 +106,48 @@ def static_preflight(config_path: Path, policy_path: Path) -> dict[str, Any]:
         == policy.get("experiment_id") == "E-D12-6K-VOPD-001",
         "config_status_ready": config.get("status") == "ready_after_day11_gate",
         "training_preflight_pass": base["status"] == "PASS",
-        "day11_gate_pass": gate is not None and gate.get("status") == "PASS",
-        "day11_config_hash_matches": gate is not None and gate.get("config_sha256") == config_hash,
-        "day11_prompt_length_pass": gate is not None and gate.get("prompt_length_status") == "PASS",
-        "day11_overlap_complete": gate is not None and gate.get("overlap_status") == "PASS",
-        "day11_cached_prefix_pass": gate is not None and gate.get("cached_prefix_status") == "PASS",
-        "day11_pilot_pass": gate is not None and gate.get("pilot_status") == "PASS",
+        "promotion_receipt_valid": promotion_valid,
+        "day11_gate_pass_and_authorized": gate is not None and gate.get("status") == "PASS"
+        and gate.get("formal_training_authorized") is True,
+        "day11_gate_has_no_blockers": gate is not None and gate.get("blocking_gates") == [],
+        "day11_gate_checks_pass": gate is not None and all(gate.get("checks", {}).values()),
+        "day11_gate_sources_current": gate is not None
+        and source_mapping_current(gate.get("sources", {})),
+        "day11_gate_implementation_current": gate is not None
+        and implementation_mapping_current(gate.get("gate_implementation", {})),
+        "day11_config_hash_matches": (
+            gate is not None
+            and gate.get("sources", {}).get("formal_config", {}).get("sha256") == config_hash
+        ),
+        "day11_policy_hash_matches": (
+            gate is not None
+            and gate.get("sources", {}).get("formal_policy", {}).get("sha256") == policy_hash
+        ),
+        "day11_promotion_hash_matches": (
+            gate is not None and promotion is not None
+            and gate.get("sources", {}).get("promotion_receipt", {}).get("sha256")
+            == sha256_file(promotion_path)
+        ),
+        "receipt_config_hash_matches": (
+            promotion is not None
+            and promotion.get("promoted_formal_config", {}).get("sha256") == config_hash
+        ),
+        "receipt_policy_hash_matches": (
+            promotion is not None
+            and promotion.get("sources", {}).get("formal_policy", {}).get("sha256") == policy_hash
+        ),
+        "candidate_validation_bound": gate is not None
+        and gate.get("checks", {}).get("formal_candidate_validation_bound") is True,
+        "candidate_budget_pass": gate is not None
+        and gate.get("budget", {}).get("project_cap", {}).get("budget_pass") is True,
+        "candidate_disk_floor_pass": gate is not None and gate.get("disk", {}).get("status") == "PASS",
         "checkpoint_schedule_matches_policy": scheduled_save_steps
         == [int(step) for step in policy.get("checkpoint", {}).get("allowed_save_steps", [])],
         "checkpoint_final_step_matches_training": int(
             policy.get("checkpoint", {}).get("expected_final_step", -1)
-        )
-        == total_steps,
+        ) == total_steps,
     }
+
     return {
         "schema_version": 1,
         "generated_at_utc": utc_now(),
@@ -97,10 +156,18 @@ def static_preflight(config_path: Path, policy_path: Path) -> dict[str, Any]:
         "config": str(config_path),
         "config_sha256": config_hash,
         "policy": str(policy_path),
-        "policy_sha256": sha256_file(policy_path),
+        "policy_sha256": policy_hash,
         "day11_gate": str(gate_path),
         "day11_gate_error": gate_error,
         "training_preflight": base,
+        "promotion_receipt": str(promotion_path),
+        "promotion_receipt_error": promotion_error,
+        "budget_reservation_cny": (
+            gate.get("budget", {}).get("selected", {}).get("reservation_incremental_cost_cny")
+            if gate is not None else None
+        ),
+        "disk_required_bytes": gate.get("disk", {}).get("refrozen_prelaunch_required_bytes")
+        if gate is not None else None,
         "checkpoint_schedule": {
             "save_frequency": save_frequency,
             "scheduled_save_steps": scheduled_save_steps,
@@ -140,7 +207,15 @@ def main() -> int:
         parser.error("--run requires fresh billing amount and timestamp")
     observed = parse_time(args.billing_observed_at_utc)
     age = (dt.datetime.now(dt.timezone.utc) - observed).total_seconds()
-    projected = args.current_autodl_cost_cny + float(policy["budget"]["conservative_reservation_cny"])
+    if result["status"] != "PASS":
+        write_json(preflight_dir / "live_launch_gate.json", result)
+        print(json.dumps(result, ensure_ascii=False, indent=2), file=sys.stderr)
+        print("No GPU training started.", file=sys.stderr)
+        return 41
+
+    reservation = float(result["budget_reservation_cny"])
+    required_disk = int(result["disk_required_bytes"])
+    projected = args.current_autodl_cost_cny + reservation
     disk = shutil.disk_usage(output_dir)
     collisions = [str(path) for name in ("logs", "rollouts", "checkpoints") for path in (output_dir / name).rglob("*") if path.is_file()]
     cgroup = read_cgroup(os.getpid())
@@ -151,7 +226,7 @@ def main() -> int:
         "static_preflight_pass": result["status"] == "PASS",
         "billing_fresh": -300 <= age <= int(policy["budget"]["billing_observation_max_age_seconds"]),
         "budget_below_hard_limit": projected <= float(policy["budget"]["project_hard_limit_cny"]),
-        "storage_pass": disk.free >= int(policy["disk"]["prelaunch_required_bytes"]),
+        "storage_pass": disk.free >= required_disk,
         "no_output_collision": not collisions,
         "expected_gpu_count": len(query_gpus()) == int(config["resources"]["gpus_per_node"]),
         "cgroup_readable": bool(cgroup.get("supported")),
@@ -159,7 +234,13 @@ def main() -> int:
         "git_clean": not subprocess.run(["git", "status", "--porcelain"], cwd=PROJECT_ROOT, check=True, capture_output=True, text=True).stdout.strip(),
     }
     result["live_checks"] = live_checks
-    result["billing"] = {"observed_at_utc": observed.isoformat(), "age_seconds": age, "projected_total_cny": projected}
+    result["billing"] = {
+        "observed_at_utc": observed.isoformat(),
+        "age_seconds": age,
+        "reservation_incremental_cost_cny": reservation,
+        "projected_total_cny": projected,
+    }
+    result["live_disk_required_bytes"] = required_disk
     result["disk_free_bytes"] = disk.free
     result["cgroup"] = cgroup
     result["collisions"] = collisions

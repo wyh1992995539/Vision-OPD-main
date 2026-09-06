@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build nested, auditable 16/64-row Pilot subsets for the 6,241-row run."""
+"""Build nested, auditable 16/64/128-row Pilot and candidate-validation subsets for the 6,241-row run."""
 
 from __future__ import annotations
 
@@ -285,7 +285,7 @@ def parse_args() -> argparse.Namespace:
         "--prompt-lengths", type=Path,
         default=root / "artifacts/runs/E-D11-6K-GATE-001/prompt_length/prompt_lengths.jsonl",
     )
-    parser.add_argument("--count", type=int, choices=(16, 64), required=True)
+    parser.add_argument("--count", type=int, choices=(16, 64, 128), required=True)
     parser.add_argument("--experiment-id", required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)

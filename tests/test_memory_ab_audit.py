@@ -49,6 +49,40 @@ def test_complete_stage_traces_summarize_actual_phase_intervals(tmp_path, varian
     assert len(result['forward_shapes']) == 32
 
 
+def test_allocator_bookkeeping_above_physical_capacity_is_retained(tmp_path):
+    traces(tmp_path)
+    path = tmp_path / 'rank0.pid100.jsonl'
+    rows = [json.loads(s) for s in path.read_text().splitlines()]
+    # Actual baseline rank 1 backward/after values, not fabricated physical usage.
+    rows[7].update(allocated_bytes=55397718528, reserved_bytes=104851308544,
+                   interval_peak_allocated_bytes=90471943680,
+                   interval_peak_reserved_bytes=104851308544)
+    for row in rows:
+        row.update(device_total_bytes=101975851008, device_free_bytes=24014815232)
+    path.write_text(''.join(json.dumps(r) + '\n' for r in rows))
+    result = stage_summary(tmp_path, 8, 'deferred')
+    counters = result['allocator_accounting']
+    assert counters['reserved_above_device_total_count'] == 1
+    assert counters['first_reserved_above_device_total']['reserved_bytes'] == 104851308544
+    assert counters['physical_capacity_constraint_applied'] is False
+
+
+@pytest.mark.parametrize('change', [
+    {'allocated_bytes': 21}, {'allocated_bytes': -1}, {'reserved_bytes': True},
+    {'interval_peak_allocated_bytes': 9}, {'interval_peak_reserved_bytes': 19},
+    {'interval_peak_allocated_bytes': 26}, {'device_free_bytes': 201},
+    {'device_free_bytes': -1}, {'device_total_bytes': 0}, {'device_total_bytes': 201},
+])
+def test_accounting_revision_keeps_same_domain_invariants(tmp_path, change):
+    traces(tmp_path)
+    path = tmp_path / 'rank0.pid100.jsonl'
+    rows = [json.loads(s) for s in path.read_text().splitlines()]
+    rows[1].update(change)
+    path.write_text(''.join(json.dumps(r) + '\n' for r in rows))
+    with pytest.raises(ValueError):
+        stage_summary(tmp_path, 8, 'deferred')
+
+
 @pytest.mark.parametrize('failure', ['rank', 'truncated', 'chain', 'nan', 'shape', 'step', 'pid', 'timing_order'])
 def test_incomplete_or_malformed_stage_evidence_fails(tmp_path, failure):
     traces(tmp_path)
@@ -173,7 +207,8 @@ def audit_fixture(tmp_path, monkeypatch):
     pp = tmp_path / 'policy.yaml'
     pp.write_text(yaml.safe_dump(policy))
     effective, _ = load_pilot_policy(pp, '64')
-    manifest = {'source_hashes': {'test': 'hash'}}
+    from scripts.vopd_memory_experiment import SOURCE_PATHS
+    manifest = {'source_hashes': {p: sha256_file(ROOT / p) for p in SOURCE_PATHS}}
     manifest_path.write_text(json.dumps(manifest))
     monkeypatch.setattr(module, 'memory_overrides', lambda *args: ['expected'])
     (output / 'preflight').mkdir(parents=True)
@@ -206,6 +241,61 @@ def test_dedicated_audit_passes_without_reload_and_keeps_formal_blocked(audit_fi
     assert report['cold_reload_required'] is False
     assert report['formal_training_authorized'] is False
     assert report['coverage']['post_warmup_steps'] == 0
+
+
+@pytest.mark.parametrize('failure', [None, 'archive', 'runtime', 'manifest'])
+def test_offline_reaudit_validates_original_binding_without_rewriting_it(audit_fixture, monkeypatch, failure):
+    import scripts.audit_vopd_memory_ab as module
+    from scripts.vopd_memory_experiment import SOURCE_PATHS, memory_overrides, expected_overrides, sha
+    pp, output, _ = audit_fixture
+    monkeypatch.setattr(module, 'memory_overrides', memory_overrides)
+    policy, contract = module.load_pilot_policy(pp, '64')
+    manifest_path = pp.parent / 'manifest.json'
+    archive = pp.parent / 'before'
+    source = 'scripts/audit_vopd_memory_ab.py'
+    archived = archive / source
+    archived.parent.mkdir(parents=True)
+    archived.write_text('launch-time audit')
+    manifest = dict(variant='deferred', formal_training_authorized=False, effective_policy=policy,
+                    config_sha256=sha(Path(contract['config'])),
+                    source_hashes={s: sha(ROOT/s) for s in SOURCE_PATHS},
+                    overrides=expected_overrides('deferred', output))
+    manifest['source_hashes'][source] = sha(archived)
+    if failure == 'runtime':
+        manifest['source_hashes'][SOURCE_PATHS[0]] = 'changed'
+    manifest_path.write_text(json.dumps(manifest))
+    live_path = output / 'preflight/pilot_live_launch_gate.json'
+    live = json.loads(live_path.read_text())
+    live['memory_experiment_manifest'] = manifest if failure != 'manifest' else {}
+    live_path.write_text(json.dumps(live))
+    invocation = output / 'preflight/run_invocation.json'
+    inv = json.loads(invocation.read_text())
+    inv['hydra_overrides'] = manifest['overrides']
+    invocation.write_text(json.dumps(inv))
+    original = output / 'evidence/postflight.json'
+    original.write_text('{"status":"FAIL_MEMORY_AB_RUN"}')
+    protected = {p: p.read_bytes() for p in (original, manifest_path, live_path, invocation, pp)}
+    if failure == 'archive':
+        archived.write_text('tampered')
+    assert module.audit_memory(pp)['stage_gate_pass'] is False  # strict default
+    result = module.audit_memory(pp, audit_source_snapshot=archive)
+    assert result['stage_gate_pass'] is (failure is None), result['errors']
+    if failure is None:
+        assert result['audit_provenance']['offline_reaudit'] is True
+        assert source in result['audit_provenance']['source_revisions']
+    assert all(p.read_bytes() == before for p, before in protected.items())
+
+
+def test_cli_refuses_to_overwrite_original_audit(audit_fixture, monkeypatch):
+    import scripts.audit_vopd_memory_ab as module
+    pp, output, _ = audit_fixture
+    original = output / 'evidence/postflight.json'
+    original.write_text('original failure evidence')
+    monkeypatch.setattr(module, 'memory_overrides', lambda *args, **kwargs: ['expected'])
+    monkeypatch.setattr('sys.argv', ['audit', '--policy', str(pp)])
+    with pytest.raises(ValueError, match='Refusing to overwrite'):
+        module.main()
+    assert original.read_text() == 'original failure evidence'
 
 
 @pytest.mark.parametrize('failure', ['training', 'override', 'launch_binding', 'empty_telemetry', 'oom'])

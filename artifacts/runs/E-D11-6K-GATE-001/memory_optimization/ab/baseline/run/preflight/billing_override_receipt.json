@@ -1,0 +1,16 @@
+{
+  "status": "REJECTED_NOT_APPLIED",
+  "exception_applied": false,
+  "training_started": false,
+  "approval_review": "Automatic review rejected widening billing freshness with a historical amount; awaiting a fresh user-reported billing observation under the original 900-second policy.",
+  "authorization": "User previously instructed 不要管费用了，启动便是; current request 已开启，资源复核＋启动 baseline A/B.",
+  "scope": "Baseline launch only: widen billing freshness from 900 to 604800 seconds; retain current technical guards and 2000 CNY configured cap.",
+  "historical_billing_source": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/billing_override_receipt.json",
+  "historical_cost_cny": 225.0,
+  "historical_observed_at_utc": "2026-09-05T07:40:58+00:00",
+  "is_current_billing_observation": false,
+  "actual_current_cumulative_cost_verified": false,
+  "policy": "artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/policy.yaml",
+  "previous_policy_and_manifest": "artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/preflight/before_billing_exception",
+  "formal_training_authorized": false
+}

@@ -1,0 +1,256 @@
+{
+  "status": "SEALED_CAPTURE",
+  "batches": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0001.pt",
+      "sha256": "e86e4e27e87ac9507bf65f54f1f70ef829b447886d0880a8b497d0c387ccc42b",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "eaeb18e00e6e473d057395d10cbe5dcacf7469399963fb90a74ded4a5f2b5f73",
+        "responses": "259b5c70978f74b34d629f7616f183cf0f9ad0aeb3fb5294809e736336b09d4e",
+        "response_mask": "b736c8b72fc423ad4dc93f0c2fb0d2270058089cc5146c8dd29f5b6344f22bdd",
+        "attention_mask": "261b298e3b2b55acd546ad1cc4f1a7590e17a13596f02cba35eb7d0aaac62e31",
+        "position_ids": "286a681c00e73c4947dee003107cd6990f9a03ce596e383b8a8d53d33e230490",
+        "teacher_input_ids": "a76dd30236e5133c5486360d50cae3c08b8aadc8df3a0f7c8cc42741705ae878",
+        "teacher_attention_mask": "f2a162bccb3a7ed69df9b579f9ddd0fd2f3ef88d015e8250886978597412fec7",
+        "teacher_position_ids": "d6b295832b68362b7d3172e9a2b273c14a873245bb1347288a3e210d620f1f4b",
+        "teacher_response_start_idx": "1c2a041f75e1cc41b4f38d4dfb62f531a279ec834f83cfd0a046cb58482f5c6a",
+        "old_log_probs": "e633edbeece0d133aab64fe27cda3bd6458675d3011a9e55487d0e5f90199dbe",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        255,
+        129,
+        155,
+        125,
+        118,
+        74,
+        4,
+        60
+      ],
+      "response_width": 1024,
+      "step": 1,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0002.pt",
+      "sha256": "2dd58bae9a6704df81b64228e4e1f458c90946e10a384eda5c86538738feada2",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "4b46a001dd886bad3976f3d20b3696ece456e5a9d8fba5b93785dbad81c3a7de",
+        "responses": "76d2c742c98a301c51cc7d9c0d7348b479631128e806d9bbfe67f402ad524a99",
+        "response_mask": "db4c0812016173ef0d81e3c22253dc9edfb830f34f7f47e1bcb84879f464d4be",
+        "attention_mask": "7dba1e0e79b1add2ddf1e4a17a0e07fb87b8e979f596bbeea97e43104ce086cd",
+        "position_ids": "9523b53270498bf1eeb293b66b75b76bdab346c38d725cc389f2b8ab0cf0e97f",
+        "teacher_input_ids": "25371bdabb7ab4974480b0015d23fe3bcab12ef2b5e6d9d01f1e021e778c4c42",
+        "teacher_attention_mask": "834d1f295159d5bab351cb5210689b027b19a22960ecfa254945bc49b49b053a",
+        "teacher_position_ids": "070453332a441826cd7da15c1b34c862dca3e8c3e3363cd25c03a253e617fa2d",
+        "teacher_response_start_idx": "f3109afdde9c68dce0d1f0c3f043d50667e955993667752f70ecdd899ac02263",
+        "old_log_probs": "4dec6be3baa152ee550463b9653ff49d2e6e6941b8949bee348e62b4c55ff736",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        109,
+        4,
+        4,
+        143,
+        5,
+        92,
+        135,
+        67
+      ],
+      "response_width": 1024,
+      "step": 2,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0003.pt",
+      "sha256": "c6b648115827264f497762239bd578fd02a034905724c58ceb5ee166e9288bf8",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "6a6da3ecb21f64a688b94d4ed578dfd59c5b5e175023ae07d4c95e5a46b8033b",
+        "responses": "4789208579072d20fc635bc490a64e4240d480f364565cd84a1283956fa153c0",
+        "response_mask": "d8167bdd9d98cfd898794ff0d68d04ac55bc0c89e76b90c860443d08cfdb6f50",
+        "attention_mask": "2b04fdce5d75bf81d867a49fa10b3eb74ce8767aff7449ec23d4ca01ae21529f",
+        "position_ids": "3c54733a31d97fb2dae66a35977935ebd53fb37a8d06951f266971723ee045d8",
+        "teacher_input_ids": "7998fdbd8394146a814076f918adde53764ce60bd35a49c04441e416cb27d5dd",
+        "teacher_attention_mask": "2d79fd28576d2a44418c25b16b4b709a799a830d01a3aeda55f7f6192e6679eb",
+        "teacher_position_ids": "d5adb9f311f4600691d57e9fe7752cc648c006eee41ebd14572329f9ebdd5ca2",
+        "teacher_response_start_idx": "f9ee0a6ffd24ed8edc3285d3c76791bd09ffd98482fb26698f70fa3268214c21",
+        "old_log_probs": "6637ebdbc2ddf2247ae95d09da64d76ae4f7739ed367a2609c28f85186050feb",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        4,
+        4,
+        103,
+        46,
+        115,
+        61,
+        5,
+        205
+      ],
+      "response_width": 1024,
+      "step": 3,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0004.pt",
+      "sha256": "e0e636b4ad8ae46ba423eccfdada7b23c322fc2edf48c647dc879201cb1e9b53",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "d612a4a0a65097c0d3613cdd8d1dbf4ed3b65a896e280b354589a87110b03caf",
+        "responses": "6f7bff6c6503463a75f38f5e21ddc6adb9509d83b8d0e7555da3899f410e822d",
+        "response_mask": "2cbc4804e7926de29840d290a2e48b00c39067970258873c335314c50baac95c",
+        "attention_mask": "d8bd09b76eab431ee4d9803fb1025deca02372eb59e306df85ea28f0beb6c0e1",
+        "position_ids": "7c394d563c4bae495d0e7439d2166f4818195437fc15610af6db75a95045be08",
+        "teacher_input_ids": "7f168bf17c12dfda2dec6ab2852908326a92f38f55240568c4d7a2d29f56e9aa",
+        "teacher_attention_mask": "bec2939f50b1dff38a2c2d13b07e71892416f4ee7172bace96824779f0edc631",
+        "teacher_position_ids": "c39c74e3d1f0abb4cfe34cb031591998cfeb38bd2d292760c2a77411e3a0521b",
+        "teacher_response_start_idx": "c787a530da2af988fa5cbbb659111b08ede3cf4215c084cd75b03dec4a224c61",
+        "old_log_probs": "5b040d8f0f676ea460f8d1e59aca9a892c3ab502edda43c4baaeb28224e8b11a",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        4,
+        5,
+        100,
+        6,
+        76,
+        743,
+        2,
+        134
+      ],
+      "response_width": 1024,
+      "step": 4,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0005.pt",
+      "sha256": "93595b0ef4e8bcf1271fd006f5fc0bc8c6361d9522f16948c766415692b684b0",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "6aa3010676c52fa0134b864b511f126e8c09e398f5982908f573113d4b742921",
+        "responses": "5897f79518b0af9e96f076fa1e5e896cc62fca69ed2a1f339f29ed36f2b72c70",
+        "response_mask": "367ee59f328807251cedef81f055430695f99fec9d52bd04ab74066e45ae48a2",
+        "attention_mask": "eb666381ee6908dee82fb7454eb8e4651524c7a19ecc0932db21c253d227188b",
+        "position_ids": "6aab6287d2673b7156a1253b55720606bd0b7052a57360a650d90441586f180a",
+        "teacher_input_ids": "e625216c81de60681aa2f899ea73637fad256b839be920c342d7e8045af319a8",
+        "teacher_attention_mask": "e3468ddcb8c00fd6c7043c81323c6d30e976afa6bf5e447609bc2debff019f9c",
+        "teacher_position_ids": "219bf3e1cef2287816d15c7485fcfdfa5a50f7f709cbca92a3c414acddabed8b",
+        "teacher_response_start_idx": "3dbf67a50594b2d235fb542891fd089266d0966f408fcc64578417a78a604aed",
+        "old_log_probs": "5298e4cf828b3ce3e3a9afdae4c2aa078039aae060b83e086ac3aa81e600238a",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        4,
+        74,
+        87,
+        363,
+        5,
+        102,
+        52,
+        4
+      ],
+      "response_width": 1024,
+      "step": 5,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0006.pt",
+      "sha256": "3cc4030b1300569002b47a2a9502a057efa57ec29e062903d427762204ff008d",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "d1521ea40cc0b72f7bd3a03aa3af24cc33a3f833d0a4c10deb6cb260e349e351",
+        "responses": "135e5d3673f3bf735566a1d85c79c16a2cc3a460ea58bfaf2897117ac4b558c3",
+        "response_mask": "7b5e21e9125b0f37e78a7aa8a2fac71da4652e5fe3ea3942c9caec466f0ed4b9",
+        "attention_mask": "d9f17033d822d2871ca065dfa71ca58dbb67e6221337cf9546adc30d65560309",
+        "position_ids": "89e9991a81c7adb82a198c5d218d2fbe23f8035c733de26166db55d3cd240afb",
+        "teacher_input_ids": "76a1161304364c25c1e018d9ad6091072a4a963405e1c0417dd373ed8b01dede",
+        "teacher_attention_mask": "9f5e223ec438cdaab86a9d6cf6d37a2a59af9c6b9cd55ce3fe28cf81b8cdd772",
+        "teacher_position_ids": "38f792b7f38f3311aad05c693e45d6b6b4d01a3121d691eab80dad610d8b58d3",
+        "teacher_response_start_idx": "f9f310ffe1527b48ea3c982491953120206c5decd8907abb11a4c49263b321c8",
+        "old_log_probs": "7a6d2b8230dadacc4aa7347e486450b323cf27790f928978c8c0b6aab20945da",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        6,
+        4,
+        118,
+        77,
+        57,
+        734,
+        52,
+        397
+      ],
+      "response_width": 1024,
+      "step": 6,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0007.pt",
+      "sha256": "c3b722c170801d2e856328513701aebc83cb23d628ea6fdbe8416a308b3631bc",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "8d80c35d2a711c9408a08b3c4051defd2e5a808f261e056dea857b118b3a143d",
+        "responses": "15a532fe85226b15419da387c11f927737d4fd8532d645ac4b8c8a11a71dd4a3",
+        "response_mask": "f9699f215c1ab5ea1151a04ddcca155a08cee01fa8068f6ef3a078a65718873c",
+        "attention_mask": "da1991e1d0be09f6ee030378f0c932827d28d259413d7251e0123050fe1fc8ff",
+        "position_ids": "da90fc8c0c5371db6570b529c908260c60a8428a51b94f20d844bab1e42d793d",
+        "teacher_input_ids": "c5c4c111aade57b0dd3c06b997c6872a31786c1dc413be954b99e6b0ce486a34",
+        "teacher_attention_mask": "9365db1818a63245d566cff90370d94f9b7122993a2374fc5eb43e3a26aa5822",
+        "teacher_position_ids": "48b5f0a7e4af8349dcf4406cad7f9c89fff3270a51f23f64202180cd04de0ff0",
+        "teacher_response_start_idx": "200a8b7009adec10b49d21e88c5052c8d3b6a78d703b736e908c5c066bf9dadc",
+        "old_log_probs": "23f6b690ed97ad1926b48c48b6334c837c6b52f999d8814356e9b3d03175e0c1",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        512,
+        39,
+        24,
+        101,
+        319,
+        182,
+        67,
+        90
+      ],
+      "response_width": 1024,
+      "step": 7,
+      "mode": "capture"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0008.pt",
+      "sha256": "5d12e24e2f083a6cda05f286158ab932a88676088abf3c609439af14f775ac13",
+      "rows": 8,
+      "tensor_hashes": {
+        "input_ids": "2149bb10264cc1b57af722e2f5ace76d6d6af49d072b8bd1ede3d0ca3c3d42ce",
+        "responses": "65ee271afada2e4fc7a297278f63881865a0f45533a2ca638dfdc7130db4b2b4",
+        "response_mask": "2906ab4e8b92cd1377e678437f426bdc79f91fa474ad69b4750e59215e27baaf",
+        "attention_mask": "80cc41a062fa63a7effff9223d9e9988e77f5c264aa6efb506647c800254d542",
+        "position_ids": "9b4e1a84472fa915882ec9b974e94b57046bcee5daf39cdd40ab37733648cdd1",
+        "teacher_input_ids": "a99779af8a54ead5e63e31d1ac33c41e467eaaf34c1889166aec88515ea7e0b2",
+        "teacher_attention_mask": "8f325327f068338c5444f77b80f4cdadd0a7dea88c93654890d8b1f270e293d2",
+        "teacher_position_ids": "80fcda63dc34109225b242cc316a824e391e485ec7712a12f3d2c9bb89dba02c",
+        "teacher_response_start_idx": "8772dc68dff9a10d27531746b1e7a061c37669a0a36dbb1f3e07041bca68629d",
+        "old_log_probs": "9a67b272a80ec04964c4197ca20b393de64b2792ca645c53264203f4cc5ad021",
+        "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+      },
+      "response_lengths": [
+        4,
+        97,
+        54,
+        68,
+        55,
+        121,
+        194,
+        93
+      ],
+      "response_width": 1024,
+      "step": 8,
+      "mode": "capture"
+    }
+  ],
+  "capture_manifest_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/manifest.json",
+  "capture_manifest_sha256": "f8a22baeedc56f5c62f16938b67c4ff2e8172f285c13d999b56a12c181f27a38",
+  "formal_training_authorized": false
+}

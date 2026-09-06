@@ -1,0 +1,239 @@
+{
+  "status": "FAIL_VALIDATION",
+  "stage_gate_pass": false,
+  "formal_training_authorized": false,
+  "errors": [
+    "Training/mechanism/checkpoint audit failed"
+  ],
+  "training_audit": {
+    "schema_version": 1,
+    "stage": "64",
+    "experiment_id": "E-D11-VAL-PRESSURE",
+    "status": "FAIL",
+    "training_gate_pass": false,
+    "stage_gate_pass": false,
+    "formal_training_authorized": false,
+    "checks": {
+      "checkpoint_io_revision_matches": true,
+      "guard_pass": false,
+      "training_preflight_pass": true,
+      "run_invocation_matches": true,
+      "no_duplicate_metric_steps": true,
+      "no_traceback_or_oom": true,
+      "log_prob_evidence_complete": false,
+      "checkpoint_complete": false,
+      "telemetry_complete_two_gpus": true,
+      "exact_contiguous_steps": false,
+      "required_metrics_present_and_finite": true,
+      "jsd_loss_finite": true,
+      "learning_rate_nonnegative": true,
+      "zero_lr_only_within_warmup": true,
+      "positive_learning_rate_observed": true,
+      "student_update_matches_learning_rate": true,
+      "teacher_optimizer_unchanged": true,
+      "teacher_direct_gradient_absent": true,
+      "teacher_ema_updated_each_step": true,
+      "crop_teacher_active_each_step": true,
+      "generation_errors_zero": true,
+      "prompt_truncation_zero": true,
+      "response_within_frozen_limit": true
+    },
+    "failed_checks": [
+      "checkpoint_complete",
+      "exact_contiguous_steps",
+      "guard_pass",
+      "log_prob_evidence_complete"
+    ],
+    "signals": {
+      "duplicate_metric_steps": 0,
+      "traceback_count": 0,
+      "cuda_oom_count": 0,
+      "out_of_memory_error_count": 0,
+      "dataloader_worker_killed_count": 0,
+      "checkpoint_save_failure_count": 0
+    },
+    "observed_steps": 3,
+    "expected_steps": 16,
+    "steps": [
+      {
+        "step": 1,
+        "loss": 0.007769451316562481,
+        "grad_norm": 1.1898412704467773,
+        "learning_rate": 0.0,
+        "student_optimizer_delta": 0.0,
+        "teacher_optimizer_delta": 0.0,
+        "teacher_grad_non_none_count": 0.0,
+        "teacher_ema_delta": 2.384185791015625e-07,
+        "ema_update_applied": 1.0,
+        "aborted_ratio": 0.0,
+        "raw_metric_count": 109,
+        "step_seconds": 78.50945259816945,
+        "generation_seconds": 29.728272025007755,
+        "checkpoint_save_seconds": null,
+        "prompt_max_tokens": 7880.0,
+        "prompt_clip_ratio": 0.0,
+        "response_mean_tokens": 115.0,
+        "response_max_tokens": 255.0,
+        "response_clip_ratio": 0.0,
+        "teacher_always_on_fraction": 1.0,
+        "teacher_image_swap_fraction": 1.0
+      },
+      {
+        "step": 2,
+        "loss": 0.012654688473048736,
+        "grad_norm": 1.4045565128326416,
+        "learning_rate": 2e-07,
+        "student_optimizer_delta": 2.384185791015625e-07,
+        "teacher_optimizer_delta": 0.0,
+        "teacher_grad_non_none_count": 0.0,
+        "teacher_ema_delta": 2.384185791015625e-07,
+        "ema_update_applied": 1.0,
+        "aborted_ratio": 0.0,
+        "raw_metric_count": 109,
+        "step_seconds": 37.14182676235214,
+        "generation_seconds": 12.865252616815269,
+        "checkpoint_save_seconds": null,
+        "prompt_max_tokens": 7318.0,
+        "prompt_clip_ratio": 0.0,
+        "response_mean_tokens": 71.625,
+        "response_max_tokens": 143.0,
+        "response_clip_ratio": 0.0,
+        "teacher_always_on_fraction": 1.0,
+        "teacher_image_swap_fraction": 1.0
+      },
+      {
+        "step": 3,
+        "loss": 0.012056982275680639,
+        "grad_norm": 3.323326587677002,
+        "learning_rate": 4e-07,
+        "student_optimizer_delta": 4.76837158203125e-07,
+        "teacher_optimizer_delta": 0.0,
+        "teacher_grad_non_none_count": 0.0,
+        "teacher_ema_delta": 1.1920928955078125e-07,
+        "ema_update_applied": 1.0,
+        "aborted_ratio": 0.0,
+        "raw_metric_count": 109,
+        "step_seconds": 34.973601976875216,
+        "generation_seconds": 11.89217989705503,
+        "checkpoint_save_seconds": null,
+        "prompt_max_tokens": 7032.0,
+        "prompt_clip_ratio": 0.0,
+        "response_mean_tokens": 73.375,
+        "response_max_tokens": 168.0,
+        "response_clip_ratio": 0.0,
+        "teacher_always_on_fraction": 1.0,
+        "teacher_image_swap_fraction": 1.0
+      }
+    ],
+    "warmup_contract": {
+      "lr_warmup_steps": 10,
+      "zero_lr_steps": [
+        1
+      ],
+      "positive_lr_steps": [
+        2,
+        3
+      ],
+      "student_update_rule": "delta>=0 when lr=0; delta>0 when lr>0"
+    },
+    "checkpoint": {
+      "status": "FAIL",
+      "expected_step": 16,
+      "marker_value": null,
+      "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/checkpoints/global_step_16",
+      "checks": {
+        "marker_exists": false,
+        "marker_matches_expected_step": false,
+        "step_directory_exists": false,
+        "required_files_present": false,
+        "required_files_nonempty": true
+      },
+      "missing_files": [
+        "actor/extra_state_world_size_2_rank_0.pt",
+        "actor/extra_state_world_size_2_rank_1.pt",
+        "actor/fsdp_config.json",
+        "actor/huggingface/chat_template.jinja",
+        "actor/huggingface/config.json",
+        "actor/huggingface/processor_config.json",
+        "actor/huggingface/tokenizer.json",
+        "actor/huggingface/tokenizer_config.json",
+        "actor/model_world_size_2_rank_0.pt",
+        "actor/model_world_size_2_rank_1.pt",
+        "actor/optim_world_size_2_rank_0.pt",
+        "actor/optim_world_size_2_rank_1.pt",
+        "data.pt"
+      ],
+      "empty_files": []
+    },
+    "telemetry": {
+      "status": "PASS",
+      "paths": {
+        "gpu": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/evidence/telemetry/gpu.jsonl",
+        "process_rss": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/evidence/telemetry/process_rss.jsonl",
+        "cgroup": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/evidence/telemetry/cgroup_memory.jsonl",
+        "disk": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/evidence/telemetry/disk.jsonl"
+      },
+      "row_counts": {
+        "gpu": 60,
+        "process_rss": 60,
+        "cgroup": 60,
+        "disk": 60
+      },
+      "gpu_ids": [
+        0,
+        1
+      ],
+      "peak_by_gpu": {
+        "0": {
+          "memory_used_bytes": 84181778432,
+          "memory_total_bytes": 102641958912,
+          "used_ratio": 0.8201497645244006
+        },
+        "1": {
+          "memory_used_bytes": 78878081024,
+          "memory_total_bytes": 102641958912,
+          "used_ratio": 0.7684779388478552
+        }
+      },
+      "max_observed_elapsed_seconds": 302.36163537204266,
+      "errors": []
+    },
+    "log_prob_file_count": 6,
+    "checkpoint_io_contract": {
+      "strategy": "fsdp_sequential_shards_fsync_fadvise_v1",
+      "flush_reclaim": true,
+      "source_hashes": {
+        "verl/utils/checkpoint/fsdp_checkpoint_manager.py": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+        "verl/utils/checkpoint/shard_io.py": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+        "verl/trainer/config/config.py": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+        "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67"
+      }
+    },
+    "reload_required": false,
+    "reload_report": null,
+    "reload": null,
+    "projection_780": null,
+    "inputs": {
+      "train_log": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/logs/train.log",
+        "sha256": "4ca28fe577e5734c5a9e17c6b090e91cbb67609442908d2bc32e448d6a7406ce"
+      },
+      "guard_summary": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/evidence/guard_summary.json",
+        "sha256": "89fe6814f708da2896313fe51dc7fff914801e7d9639e0d80f341f3b9740045a"
+      },
+      "run_invocation": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/preflight/run_invocation.json",
+        "sha256": "685095e0186445af4f6f525f99ffbb58f6ba6fa0c4d2f2513bba1c885f0b1f50"
+      },
+      "preflight": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/run/preflight/preflight_summary.json",
+        "sha256": "7f5223038394f3b34c666b7e292ff63d746e4df5266070304e61476e953d8a6f"
+      },
+      "selection_manifest": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure/selection.json",
+        "sha256": "61412d3728811f643d5e234d9a592f44ef87738529ea8efeabadef276d878978"
+      }
+    }
+  }
+}

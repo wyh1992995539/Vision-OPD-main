@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "promotion_id": "E-D11-6K-FORMAL-PROMOTION-001",
+  "generated_at_utc": "2026-09-06T14:44:39.860342+00:00",
+  "status": "PASS_FORMAL_CONFIG_PROMOTED",
+  "artifact_status": "COMPLETE",
+  "formal_training_authorized": true,
+  "training_started": false,
+  "checks": {
+    "pre_promotion_gate_ready": true,
+    "only_release_gate_was_pending": true,
+    "candidate_freeze_pass_and_current": true,
+    "candidate_hash_matches_validation": true,
+    "candidate_checkpoint_bound": true,
+    "cpu_freeze_verified_before_promotion": true,
+    "formal_config_exactly_derived_from_candidate": true,
+    "normal_eos_preserved": true,
+    "deferred_optimizer_load_preserved": true,
+    "drop_last_6241_to_6240_preserved": true,
+    "formal_policy_cpu_floor_matches": true
+  },
+  "source_candidate": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate.yaml",
+    "sha256": "1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152"
+  },
+  "promoted_formal_config": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+    "sha256": "0f6aafcf922b88d9dbc7b1cf4e1f656d4f980addca1b95a8772b38614e1c5864",
+    "status": "ready_after_day11_gate"
+  },
+  "candidate_gate_freeze": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json",
+    "sha256": "c77c4edf06cbbd459d3346060ba599e73a5b0fa65fd13de698d1e1ce8dea0061"
+  },
+  "pre_promotion_gate": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/pre_promotion_gate.json",
+    "sha256": "2d1970ca879d5aa90c93d75980361e9a1defc78b8daf854d42951dfdea30099b"
+  },
+  "budget": {
+    "status": "PASS_BUDGET_REFROZEN_FROM_NATURAL_CANDIDATE",
+    "currency": "CNY",
+    "target_optimizer_steps": 780,
+    "checkpoint_count": 2,
+    "hourly_dual_gpu_rate_cny": 11.96,
+    "startup_seconds_estimate": 157.32013376569375,
+    "first_step_seconds": 77.14776990516111,
+    "candidate_checkpoint_seconds": 103.36121888831258,
+    "steady_step_sample_count": 15,
+    "steady_step_source": "candidate steps 2-16 under natural EOS",
+    "formula": "startup + first_step + 779 * steady_step + 2 * checkpoint_save",
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 31.41991167003289,
+        "projected_total_seconds": 24917.3015324031,
+        "projected_dual_gpu_hours": 6.92147264788975,
+        "projected_cost_cny": 82.78081286876142
+      },
+      "mean": {
+        "steady_step_seconds": 31.98359120407452,
+        "projected_total_seconds": 25356.40788942153,
+        "projected_dual_gpu_hours": 7.043446635950425,
+        "projected_cost_cny": 84.23962176596709
+      },
+      "conservative_max": {
+        "steady_step_seconds": 36.74672123696655,
+        "projected_total_seconds": 29066.886185044423,
+        "projected_dual_gpu_hours": 8.074135051401228,
+        "projected_cost_cny": 96.5666552147587
+      }
+    },
+    "selected": {
+      "planning_scenario": "mean",
+      "planning_hours": 7.043446635950425,
+      "planning_incremental_cost_cny": 84.23962176596709,
+      "reservation_scenario": "conservative_max",
+      "reservation_hours": 8.074135051401228,
+      "reservation_incremental_cost_cny": 96.5666552147587,
+      "hard_abort_ceiling_hours": 38.0,
+      "hard_abort_ceiling_incremental_cost_cny": 454.48
+    },
+    "project_cap": {
+      "hard_limit_cny": 2000.0,
+      "historical_pre_candidate_cumulative_cny": 340.0,
+      "historical_observation_at_utc": "2026-09-06T13:20:45+00:00",
+      "candidate_runtime_cost_estimate_cny": 2.7161923799496144,
+      "estimated_post_candidate_cumulative_cny": 342.71619237994963,
+      "estimated_plus_reservation_cny": 439.2828475947083,
+      "estimated_plus_hard_abort_ceiling_cny": 797.1961923799497,
+      "budget_pass": true,
+      "launch_value_fresh": false,
+      "launch_requirement": "Refresh cumulative AutoDL charge and UTC time immediately before formal --run."
+    }
+  },
+  "disk": {
+    "status": "PASS",
+    "checks": {
+      "measured_payload_covered_by_checkpoint_budget": true,
+      "measured_apparent_two_copy_peak_below_rounded_floor": true,
+      "projected_noncheckpoint_evidence_covered_by_reserve": true,
+      "policy_formula_field_consistent": true,
+      "policy_floor_covers_recomputed_formula": true,
+      "current_disk_meets_refrozen_floor": true
+    },
+    "checkpoint_payload_bytes": 57034957461,
+    "checkpoint_apparent_bytes": 57034961759,
+    "configured_checkpoint_estimate_bytes": 57034960981,
+    "checkpoint_budget_bytes": 57034960981,
+    "checkpoint_copies_at_write_peak": 2,
+    "reserve_bytes": 5368709120,
+    "candidate_noncheckpoint_observed_bytes": 9688246,
+    "formal_noncheckpoint_projected_bytes": 472301993,
+    "formula_required_bytes": 119438631082,
+    "policy_rounded_floor_bytes": 128849018880,
+    "refrozen_prelaunch_required_bytes": 128849018880,
+    "snapshot_free_bytes": 159546654720,
+    "snapshot_headroom_bytes": 30697635840,
+    "formula": "max(policy_floor, 2 * checkpoint_budget + reserve)"
+  },
+  "sources": {
+    "candidate": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate.yaml",
+      "sha256": "1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152"
+    },
+    "candidate_gate_freeze": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json",
+      "sha256": "c77c4edf06cbbd459d3346060ba599e73a5b0fa65fd13de698d1e1ce8dea0061"
+    },
+    "cpu_freeze": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/cpu_freeze.json",
+      "sha256": "b7334c901f98cbb428d299e7392b314cb32cbef472054d872068af27f22d55c3"
+    },
+    "formal_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "sha256": "2b56d6e314b69da3cc0e94f666a67ea46e7be0535af7d4bd1599de636a6163d1"
+    },
+    "pre_promotion_gate": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/pre_promotion_gate.json",
+      "sha256": "2d1970ca879d5aa90c93d75980361e9a1defc78b8daf854d42951dfdea30099b"
+    },
+    "previous_formal_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/previous_vopd_6241.yaml",
+      "sha256": "a60a94d46c016145f4897504da9fa4ccc7697c06a193fe4c1cc502dc22e313d7"
+    },
+    "promotion_builder": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/promote_vopd_6241_candidate.py",
+      "sha256": "5d55adeadbeb802842aeea5adb582a03f2ee32f9daa95e9cb724efb7bd9febda"
+    },
+    "formal_launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_6241_guarded.py",
+      "sha256": "9670346a4e6aeb13425c7c1c32ced818e238abd5f9a5613fd8d17ae34201a378"
+    },
+    "aggregate_gate_builder": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/finalize_day11_candidate_gate.py",
+      "sha256": "0888e1653fb9ebab96614d4a4231abc31f4b79361beb15e0bf56a8f126d63f4b"
+    },
+    "aggregate_gate_entrypoint": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/finalize_day11_preflight.py",
+      "sha256": "c1ce7f31ab011890d325c582c3f4661a47621717b4810a45b69a74a68d821f8f"
+    },
+    "training_preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_training_preflight.py",
+      "sha256": "53c8cec7256ccba4bd5d45f03b69f768beac145ecd9329e4304655063b220125"
+    },
+    "training_shell": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_2gpu.sh",
+      "sha256": "b32c6113580f0b4ea15d9cafac3a0f2cc71e82b0fa9efb42782041b43f9cd46e"
+    }
+  },
+  "limits": [
+    "Promotion authorizes only the static formal configuration; it does not start training.",
+    "The guarded launcher must freshly verify billing, disk, cgroup, GPUs, Git and output collisions.",
+    "Any change to the candidate, formal config, policy, Gate, launcher or bound source invalidates this receipt.",
+    "Formal training starts from the frozen Base; the candidate checkpoint is validation evidence, not a resume source."
+  ]
+}

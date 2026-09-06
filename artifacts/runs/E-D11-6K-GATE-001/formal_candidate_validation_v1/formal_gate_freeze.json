@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "freeze_id": "E-D11-6K-CANDIDATE-GATE-FREEZE-001",
+  "generated_at_utc": "2026-09-06T13:48:26.381252+00:00",
+  "status": "PASS_CANDIDATE_GATE_FREEZE",
+  "artifact_status": "COMPLETE",
+  "formal_training_authorized": false,
+  "candidate_validation": {
+    "status": "PASS_CANDIDATE_VALIDATION",
+    "training_gate_pass": true,
+    "validation_gate_pass": true,
+    "normal_eos_observed": true,
+    "observed_steps": 16,
+    "post_warmup_steps": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "maximum_response_tokens": 471.0,
+    "response_limit_tokens": 1024,
+    "gpu_peak_ratio": 0.8914360436012954,
+    "cpu_peak_ratio": 0.7618722120920817,
+    "checkpoint_pass": true,
+    "validated_candidate_sha256": "1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152"
+  },
+  "disk": {
+    "status": "PASS",
+    "checks": {
+      "measured_payload_covered_by_checkpoint_budget": true,
+      "measured_apparent_two_copy_peak_below_rounded_floor": true,
+      "projected_noncheckpoint_evidence_covered_by_reserve": true,
+      "policy_formula_field_consistent": true,
+      "policy_floor_covers_recomputed_formula": true,
+      "current_disk_meets_refrozen_floor": true
+    },
+    "checkpoint_payload_bytes": 57034957461,
+    "checkpoint_apparent_bytes": 57034961759,
+    "configured_checkpoint_estimate_bytes": 57034960981,
+    "checkpoint_budget_bytes": 57034960981,
+    "checkpoint_copies_at_write_peak": 2,
+    "reserve_bytes": 5368709120,
+    "candidate_noncheckpoint_observed_bytes": 9688246,
+    "formal_noncheckpoint_projected_bytes": 472301993,
+    "formula_required_bytes": 119438631082,
+    "policy_rounded_floor_bytes": 128849018880,
+    "refrozen_prelaunch_required_bytes": 128849018880,
+    "snapshot_free_bytes": 159546654720,
+    "snapshot_headroom_bytes": 30697635840,
+    "formula": "max(policy_floor, 2 * checkpoint_budget + reserve)"
+  },
+  "budget": {
+    "status": "PASS_BUDGET_REFROZEN_FROM_NATURAL_CANDIDATE",
+    "currency": "CNY",
+    "target_optimizer_steps": 780,
+    "checkpoint_count": 2,
+    "hourly_dual_gpu_rate_cny": 11.96,
+    "startup_seconds_estimate": 157.32013376569375,
+    "first_step_seconds": 77.14776990516111,
+    "candidate_checkpoint_seconds": 103.36121888831258,
+    "steady_step_sample_count": 15,
+    "steady_step_source": "candidate steps 2-16 under natural EOS",
+    "formula": "startup + first_step + 779 * steady_step + 2 * checkpoint_save",
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 31.41991167003289,
+        "projected_total_seconds": 24917.3015324031,
+        "projected_dual_gpu_hours": 6.92147264788975,
+        "projected_cost_cny": 82.78081286876142
+      },
+      "mean": {
+        "steady_step_seconds": 31.98359120407452,
+        "projected_total_seconds": 25356.40788942153,
+        "projected_dual_gpu_hours": 7.043446635950425,
+        "projected_cost_cny": 84.23962176596709
+      },
+      "conservative_max": {
+        "steady_step_seconds": 36.74672123696655,
+        "projected_total_seconds": 29066.886185044423,
+        "projected_dual_gpu_hours": 8.074135051401228,
+        "projected_cost_cny": 96.5666552147587
+      }
+    },
+    "selected": {
+      "planning_scenario": "mean",
+      "planning_hours": 7.043446635950425,
+      "planning_incremental_cost_cny": 84.23962176596709,
+      "reservation_scenario": "conservative_max",
+      "reservation_hours": 8.074135051401228,
+      "reservation_incremental_cost_cny": 96.5666552147587,
+      "hard_abort_ceiling_hours": 38.0,
+      "hard_abort_ceiling_incremental_cost_cny": 454.48
+    },
+    "project_cap": {
+      "hard_limit_cny": 2000.0,
+      "historical_pre_candidate_cumulative_cny": 340.0,
+      "historical_observation_at_utc": "2026-09-06T13:20:45+00:00",
+      "candidate_runtime_cost_estimate_cny": 2.7161923799496144,
+      "estimated_post_candidate_cumulative_cny": 342.71619237994963,
+      "estimated_plus_reservation_cny": 439.2828475947083,
+      "estimated_plus_hard_abort_ceiling_cny": 797.1961923799497,
+      "budget_pass": true,
+      "launch_value_fresh": false,
+      "launch_requirement": "Refresh cumulative AutoDL charge and UTC time immediately before formal --run."
+    }
+  },
+  "input_paths": {
+    "candidate_postflight": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run/evidence/postflight.json",
+    "candidate_validation_policy": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate_128_abort_policy.yaml",
+    "formal_candidate_config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate.yaml",
+    "formal_abort_policy": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml"
+  },
+  "sources": {
+    "candidate_postflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run/evidence/postflight.json",
+      "sha256": "275ab2b3b0841265c460ac49cfb62e88c386b1bfb22f875ca19f56fcf57843fc"
+    },
+    "candidate_validation_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate_128_abort_policy.yaml",
+      "sha256": "ff80d76f334e64918f6a67a8be0d86dd25ca28b189b48e6d99d9e25fae2f04c2"
+    },
+    "formal_candidate_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate.yaml",
+      "sha256": "1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152"
+    },
+    "formal_abort_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "sha256": "2b56d6e314b69da3cc0e94f666a67ea46e7be0535af7d4bd1599de636a6163d1"
+    },
+    "candidate_live_launch_gate": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run/preflight/live_launch_gate.json",
+      "sha256": "412e279b4bef3078b2d80f5d94ac3830a00b8e64a0c450eadd5aa9ae8c70f3d0"
+    },
+    "freeze_builder": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/freeze_formal_candidate_resources.py",
+      "sha256": "a0b9efaee6b8fa8d3e3119b13d201d68ed4898c21d8e3d7e2488e0f1ae3adb47"
+    }
+  },
+  "limits": [
+    "The 340 CNY observation predates the candidate run and is not reusable as formal-launch billing evidence.",
+    "The candidate runtime cost is a rate-based estimate, not a provider invoice.",
+    "The 120 GiB disk floor is a launch floor; the guarded launcher must recheck actual free bytes.",
+    "This freeze validates the candidate Gate input but does not promote a formal config or authorize training."
+  ]
+}

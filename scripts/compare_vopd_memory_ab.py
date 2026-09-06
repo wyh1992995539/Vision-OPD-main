@@ -1,20 +1,115 @@
 #!/usr/bin/env python3
 """Compare fresh A/B audits without promoting a diagnostic run to formal training."""
 import argparse
+import copy
 import json
 from pathlib import Path
 import sys
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from scripts.audit_vopd_memory_ab import audit_memory
+from scripts.audit_vopd_memory_ab import audit_memory, comparable_config
 from scripts.monitor_vopd_training import utc_now, write_json
-from scripts.run_vopd_6241_pilot_guarded import resolve, sha256_file
-from scripts.vopd_memory_experiment import BASE
+from scripts.run_vopd_6241_pilot_guarded import resolve, sha256_file, load_pilot_policy, static_preflight
+from scripts.vopd_memory_experiment import BASE, ROOT, SOURCE_PATHS, OFFLINE_AUDIT_SOURCES
 
 # Predeclared engineering criterion, not a paper hyperparameter or a statistical claim.
 MIN_REDUCTION_BYTES = 512 * 1024**2
+
+
+def source_compatibility(baseline, deferred):
+    """Accept audit-only revisions only with complete, freshly verifiable provenance.
+
+    The CLI always re-audits raw runs. This helper additionally rejects stale or
+    incomplete source receipts instead of merely deleting audit keys from equality.
+    """
+    result = dict(compatible=False, mode='REJECTED', differing_sources=[], errors=[])
+    try:
+        b, d = baseline['source_hashes'], deferred['source_hashes']
+        if b == d:
+            result.update(compatible=True, mode='EXACT_LAUNCH_SOURCES')
+            return result
+        if set(b) != set(SOURCE_PATHS) or set(d) != set(SOURCE_PATHS):
+            raise ValueError('Incomplete launch source coverage')
+        differences = sorted(k for k in b if b[k] != d[k])
+        result['differing_sources'] = differences
+        if not set(differences) <= OFFLINE_AUDIT_SOURCES:
+            raise ValueError('Training/collector/launcher source differs')
+        current = {p: sha256_file(ROOT / p) for p in SOURCE_PATHS}
+        for report in (baseline, deferred):
+            launched = report['source_hashes']
+            provenance = report['audit_provenance']
+            if (provenance['evaluated_source_hashes'] != current
+                    or provenance['training_source_hashes_unchanged'] is not True
+                    or provenance['original_launch_manifest_preserved'] is not True):
+                raise ValueError('Stale evaluator or unverified launch provenance')
+            revised = {k for k in launched if launched[k] != current[k]}
+            receipts = provenance['source_revisions']
+            if (not revised <= OFFLINE_AUDIT_SOURCES or set(receipts) != revised
+                    or (revised and provenance['offline_reaudit'] is not True)):
+                raise ValueError('Missing or excessive audit revision receipts')
+            for key in revised:
+                entry = receipts[key]
+                if not (entry['launch_sha256'] == entry['archived_sha256'] == launched[key]
+                        == sha256_file(Path(entry['archived_path']))
+                        and entry['audit_sha256'] == current[key]):
+                    raise ValueError(f'Invalid archived audit source: {key}')
+        result.update(compatible=True, mode='VERIFIED_AUDIT_ONLY_REVISION', evaluated_source_hashes=current)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        result['errors'].append(str(exc))
+    return result
+
+
+def comparable_policy(policy):
+    result = copy.deepcopy(policy)
+    result.pop('experiment_id', None)  # load_pilot_policy injects the selected stage identity
+    result.pop('memory_experiment', None)
+    for stage in result['pilot']['stage_contracts'].values():
+        for field in ('experiment_id', 'config', 'output_dir'):
+            stage.pop(field, None)
+    return result
+
+
+def check_preparation(baseline_policy, deferred_policy, snapshot):
+    """CPU-only readiness of the pairing, not live resources or optimization success."""
+    result = dict(schema_version=1, generated_at_utc=utc_now(), status='FAIL_COMPARISON_PREPARATION',
+                  formal_training_authorized=False, optimization_validated=False, training_started=False,
+                  live_gpu_validation_pending=True, checks={}, errors=[])
+    try:
+        baseline = audit_memory(baseline_policy, audit_source_snapshot=snapshot)
+        result['baseline_audit'] = baseline
+        result['checks']['baseline_evidence_pass'] = baseline['stage_gate_pass']
+        if not baseline['stage_gate_pass']:
+            return result
+        bp, _ = load_pilot_policy(baseline_policy, '64')
+        dp, contract = load_pilot_policy(deferred_policy, '64')
+        static = static_preflight(deferred_policy, '64')
+        result['deferred_static_preflight'] = static
+        result['checks']['deferred_static_pass'] = static['status'] == 'PASS'
+        result['checks']['deferred_not_started'] = not resolve(contract['output_dir']).exists()
+        result['checks']['deferred_variant'] = dp['memory_experiment']['variant'] == 'deferred'
+        cfg = yaml.safe_load(resolve(contract['config']).read_text())
+        manifest = json.loads(Path(dp['memory_experiment']['manifest']).read_text())
+        candidate = dict(source_hashes=manifest['source_hashes'], audit_provenance=dict(
+            offline_reaudit=False, source_revisions={},
+            evaluated_source_hashes={p: sha256_file(ROOT / p) for p in SOURCE_PATHS},
+            training_source_hashes_unchanged=static['status'] == 'PASS', original_launch_manifest_preserved=True))
+        compatibility = source_compatibility(baseline, candidate)
+        result['source_compatibility'] = compatibility
+        result['checks']['source_compatible'] = compatibility['compatible']
+        result['checks']['algorithm_config_match'] = baseline['comparison_config'] == comparable_config(cfg)
+        result['checks']['guard_policy_match'] = comparable_policy(bp) == comparable_policy(dp)
+        selection = json.loads(resolve(cfg['paths']['selection_manifest']).read_text())
+        result['checks']['train_bytes_match'] = baseline['train_sha256'] == sha256_file(resolve(cfg['paths']['train_file'])) == selection['output']['sha256']
+        result['checks']['sample_order_match'] = baseline['sample_ids'] == [s['sample_id'] for s in selection['samples']]
+        result['deferred_manifest'] = dict(path=dp['memory_experiment']['manifest'], sha256=sha256_file(Path(dp['memory_experiment']['manifest'])))
+        if all(result['checks'].values()):
+            result['status'] = 'PASS_COMPARISON_PREPARATION'
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        result['errors'].append(str(exc))
+    return result
 
 
 def compare_reports(baseline, deferred):
@@ -32,9 +127,11 @@ def compare_reports(baseline, deferred):
         return result
     b, d = baseline, deferred
     checks = result['checks']
-    for key in ('comparison_config', 'source_hashes', 'train_sha256', 'sample_ids', 'hardware',
+    for key in ('comparison_config', 'train_sha256', 'sample_ids', 'hardware',
                 'cpu_capacity_bytes', 'gpu_abort_ratio', 'cpu_abort_ratio'):
         checks[key + '_match'] = b[key] == d[key]
+    result['source_compatibility'] = source_compatibility(b, d)
+    checks['source_hashes_match_or_verified_audit_revision'] = result['source_compatibility']['compatible']
     checks['variant_order'] = b['variant'] == 'baseline' and d['variant'] == 'deferred'
     checks['sequential_run_windows'] = b['run_end_unix'] < d['run_start_unix']
     if not all(checks.values()):
@@ -79,11 +176,21 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--baseline-policy', type=Path, default=BASE / 'ab/baseline/policy.yaml')
     parser.add_argument('--deferred-policy', type=Path, default=BASE / 'ab/deferred/policy.yaml')
+    parser.add_argument('--baseline-audit-source-snapshot', type=Path,
+                        help='Explicit launch-time audit archive for historical baseline re-audit')
+    parser.add_argument('--preflight-only', action='store_true', help='CPU-only planned pairing checks; no training')
     parser.add_argument('--output', type=Path, default=BASE / 'ab/comparison.json')
     args = parser.parse_args()
     # Re-read raw evidence; a stale manually edited PASS report is never sufficient.
-    result = compare_reports(audit_memory(resolve(args.baseline_policy)), audit_memory(resolve(args.deferred_policy)))
+    if args.preflight_only:
+        result = check_preparation(resolve(args.baseline_policy), resolve(args.deferred_policy), args.baseline_audit_source_snapshot)
+    else:
+        baseline = audit_memory(resolve(args.baseline_policy), audit_source_snapshot=args.baseline_audit_source_snapshot)
+        # Candidate must pass current-source binding; no offline exception on launch/candidate.
+        result = compare_reports(baseline, audit_memory(resolve(args.deferred_policy)))
     path = resolve(args.output)
+    if any(p.exists() for p in (path, path.with_suffix('.md'), path.with_suffix('.sha256'))):
+        raise FileExistsError('Refusing to overwrite comparison evidence; choose a new --output')
     write_json(path, result)
     md = path.with_suffix('.md')
     lines = [f"# Memory A/B comparison\n\nStatus: `{result['status']}`", '\nFormal training authorized: `false`',
@@ -99,7 +206,7 @@ def main():
     md.write_text('\n'.join(lines) + '\n')
     path.with_suffix('.sha256').write_text(''.join(f'{sha256_file(p)}  {p}\n' for p in (path, md)))
     print(f"MEMORY_AB_COMPARISON={result['status']}\nOUTPUT={path}")
-    return 0 if result['optimization_validated'] else 2 if result['status'] == 'WAITING_FOR_RUNS' else 1
+    return 0 if result['optimization_validated'] or result['status'] == 'PASS_COMPARISON_PREPARATION' else 2 if result['status'] == 'WAITING_FOR_RUNS' else 1
 
 
 if __name__ == '__main__':

@@ -1,0 +1,7 @@
+{
+  "status": "HISTORICAL_EVIDENCE_ONLY_LARGE_SHARDS_RETIRED",
+  "resumable": false,
+  "recoverable": false,
+  "receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/disk_cleanup_receipt.json",
+  "receipt_sha256": "c0d21f7ee47e82b43b8ca1b798019dda2165b214d2ff6292b19de5a6e84e93a3"
+}

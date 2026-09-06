@@ -125,6 +125,8 @@ values = {
     "PPO_MAX_TOKEN_LEN_PER_GPU": config["actor"]["max_token_length_per_gpu"],
     "ACTOR_PARAM_OFFLOAD": config["actor"]["parameter_offload"],
     "ACTOR_OPTIMIZER_OFFLOAD": config["actor"]["optimizer_offload"],
+    "ACTOR_DEFER_OPTIMIZER_STATE_LOAD": config["actor"].get("defer_optimizer_state_load", False),
+    "ACTOR_MEMORY_PROFILE_DIR": resolve(config["actor"]["memory_profile_dir"]) if config["actor"].get("memory_profile_dir") else None,
     "REF_PARAM_OFFLOAD": config["actor"]["reference_parameter_offload"],
     "ROLLOUT_N": config["rollout"]["n"],
     "ROLLOUT_TEMPERATURE": config["rollout"].get("temperature", 1.0),
@@ -286,6 +288,8 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu="$PPO_MAX_TOKEN_LEN_PER_GPU" \
     actor_rollout_ref.actor.fsdp_config.param_offload="$ACTOR_PARAM_OFFLOAD" \
     actor_rollout_ref.actor.fsdp_config.optimizer_offload="$ACTOR_OPTIMIZER_OFFLOAD" \
+    ++actor_rollout_ref.actor.defer_optimizer_state_load="$ACTOR_DEFER_OPTIMIZER_STATE_LOAD" \
+    ++actor_rollout_ref.actor.memory_profile_dir="$ACTOR_MEMORY_PROFILE_DIR" \
     ++actor_rollout_ref.actor.checkpoint.fsdp_flush_reclaim=true \
     actor_rollout_ref.actor.policy_loss.loss_mode=vopd \
     actor_rollout_ref.actor.calculate_entropy=False \

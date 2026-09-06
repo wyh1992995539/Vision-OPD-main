@@ -1,0 +1,70 @@
+{
+  "step": 2,
+  "rank": 0,
+  "microbatches": [
+    {
+      "rows": 1,
+      "tensor_hashes": {
+        "input_ids": "02e1580872be1c58d79951cfb304bd8b85c826353d73034ce816af2600d38770",
+        "responses": "262887373e51c09694fa7bf3c47d1a8ee28effbfa925fa959a398c5f0519005f",
+        "response_mask": "5176a4a2f8906d362904c45b81de8c32a03c39c39b60ea9b2a9f86e80d0d71fb",
+        "attention_mask": "495f8dfebfec6e0e0830127355ca583446b7def00512c5f0f7acc1cba8400451",
+        "position_ids": "d991b3169dd77273c25549cc1be4a88c929121df7e2ecdef3727b7e7d857ffde",
+        "teacher_input_ids": "15a22eab169dd6079824e169986d5d158652e3d04bdb13ef1c846cc3f3000e18",
+        "teacher_attention_mask": "585c728346c8b2f59e88fd7b9b880ddc761ef7fec71254e4740940d82e6f7b06",
+        "teacher_position_ids": "a6841f9f213fdf3d0594eab4509cbf009d9f7304472396dce0e7a3fd37c62085",
+        "teacher_response_start_idx": "3f45d7eb0545456e7608c6f6946c8728b056feef2e7d75b0f48fd59b06e196fa",
+        "old_log_probs": "1f470d61d73922266181eece687477fc4f1218443d806a2a11ad0c2c688e7ee5",
+        "self_distillation_mask": "57d32ef8620f835944ae267b432cd7cc6f2d9c486fc3cf099a24ac4b95c03f44"
+      },
+      "response_lengths": [
+        4
+      ],
+      "response_width": 1024,
+      "multimodal_sha256": "bed70515a8258fb83102aa3150499d93e16c033e7dacc10727d5199ba02b1b47"
+    },
+    {
+      "rows": 1,
+      "tensor_hashes": {
+        "input_ids": "755b582764998e650e749cfb88856b3a45f36a80231f41e3a385b90d38eb3c55",
+        "responses": "5f7755535658c873dcc3d3a2b8269cd90c218d4c37833b70aa445c354fbf78c4",
+        "response_mask": "5176a4a2f8906d362904c45b81de8c32a03c39c39b60ea9b2a9f86e80d0d71fb",
+        "attention_mask": "54061b6a875812c1ef9cc67d1a7a40c6aac49b60bf775b4e483ceaf3101c1573",
+        "position_ids": "5ffc8b1f36bbb99f7f942d1cf8a90b827bf70980f7d12813c1dd4a52eff9feb0",
+        "teacher_input_ids": "95882e78251584b96e4ff3d9c1d8cf783337ac4798a14e626dfdabdfa2b65e2d",
+        "teacher_attention_mask": "12b6c067d6a51b33b2b5931d52f2592c223218c83dc6af1e6ae583e76f4622bd",
+        "teacher_position_ids": "66a42242546cf75678613f88634f81d5572230c9edf8a52de12054590dff9a84",
+        "teacher_response_start_idx": "be33e56e81f8358fab4b65e1c301c584a2ddceec29edfd57fe6bf75062b0c00e",
+        "old_log_probs": "aead216bd06b61d6effce96381f3387c8b43b4d6278bd1879587ffce2bae9c26",
+        "self_distillation_mask": "57d32ef8620f835944ae267b432cd7cc6f2d9c486fc3cf099a24ac4b95c03f44"
+      },
+      "response_lengths": [
+        4
+      ],
+      "response_width": 1024,
+      "multimodal_sha256": "147abd69220046f1bd9fb4b1c0544951909282c6f225c0bf0c2a6cf7cdedebd3"
+    },
+    {
+      "rows": 2,
+      "tensor_hashes": {
+        "input_ids": "31579fa205e7401e00c3ba143159863591f410b40a06959fe6370f25d7630ffc",
+        "responses": "dd6b05fbd93ca6d472f2ccc92f98926e597ac4e419bbb708f4bd863cb4164715",
+        "response_mask": "201cf3006870cedb4a28c668bae8685d725ba934c69c0963b0f3be9f4213e4e4",
+        "attention_mask": "cd2d3915e189b7780fd85fb74658ad3dd27c62d49215d3e2f94ae2be70adef04",
+        "position_ids": "7211d23ad0dcaa821e38542716a56156bbb0ab4fff0dd48f9b3ba53fa3905fc9",
+        "teacher_input_ids": "a77b2ed0781e7885d37f1eff7953e1cefd936e26337df120a954eb86dec1262e",
+        "teacher_attention_mask": "f633965196ef82dd3b19b325b4248b4bf258c6a6990145fd7bf2d53534902de5",
+        "teacher_position_ids": "09a3145507d20c88caddb740a49c3afdfcead29fb4bba4c7c2c1a8caea4a44a2",
+        "teacher_response_start_idx": "c7baa899601c966b72e59cfbe71b96b41e325057bc060d3ab8f095ddce2a6f61",
+        "old_log_probs": "51c436fe212e7f71010d30415e60a610fe1f707b2d3cef2c42639ffe69b113b1",
+        "self_distillation_mask": "f53db8179fb6189856f7e4511f833f3713e2a352de96b26541af36f4e9c5b172"
+      },
+      "response_lengths": [
+        109,
+        143
+      ],
+      "response_width": 1024,
+      "multimodal_sha256": "6a8e24930a22175eba43aded3aa32b7ffc7ab6eff93a08a38fe3c7eb6f0489b4"
+    }
+  ]
+}

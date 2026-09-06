@@ -1,0 +1,153 @@
+{
+  "status": "PASS_CPU_FLOOR_FROZEN",
+  "formal_training_authorized": false,
+  "gpu_used": false,
+  "review": {
+    "runs": [
+      {
+        "run": "pilot/16",
+        "peak_bytes": 190472830976,
+        "peak_gib": 177.3916473388672,
+        "capacity_bytes": 257698037760,
+        "samples": 73,
+        "oom_delta": 0,
+        "oom_kill_delta": 0
+      },
+      {
+        "run": "pilot/64",
+        "peak_bytes": 192857767936,
+        "peak_gib": 179.61279296875,
+        "capacity_bytes": 257698037760,
+        "samples": 121,
+        "oom_delta": 0,
+        "oom_kill_delta": 0
+      },
+      {
+        "run": "memory_optimization/fixed_validation_v1/capture/run",
+        "peak_bytes": 202520489984,
+        "peak_gib": 188.6119041442871,
+        "capacity_bytes": 257698037760,
+        "samples": 120,
+        "oom_delta": 0,
+        "oom_kill_delta": 0
+      },
+      {
+        "run": "memory_optimization/fixed_validation_v1/fixed_baseline/run",
+        "peak_bytes": 203597152256,
+        "peak_gib": 189.6146240234375,
+        "capacity_bytes": 257698037760,
+        "samples": 117,
+        "oom_delta": 0,
+        "oom_kill_delta": 0
+      },
+      {
+        "run": "memory_optimization/fixed_validation_v1/fixed_deferred/run",
+        "peak_bytes": 203781881856,
+        "peak_gib": 189.7866668701172,
+        "capacity_bytes": 257698037760,
+        "samples": 116,
+        "oom_delta": 0,
+        "oom_kill_delta": 0
+      },
+      {
+        "run": "memory_optimization/fixed_validation_v1/pressure_v2/run",
+        "peak_bytes": 196716650496,
+        "peak_gib": 183.20665740966797,
+        "capacity_bytes": 257698037760,
+        "samples": 194,
+        "oom_delta": 0,
+        "oom_kill_delta": 0
+      }
+    ],
+    "maximum_peak_bytes": 203781881856,
+    "maximum_peak_gib": 189.7866668701172,
+    "minimum_bytes": 257698037760,
+    "minimum_gib": 240,
+    "abort_ratio": 0.95,
+    "abort_threshold_gib": 228,
+    "headroom_to_capacity_gib": 50.21333312988281,
+    "headroom_to_abort_gib": 38.21333312988281,
+    "basis": "Freeze the actual successful 240 GiB capacity; do not claim 224/220 GiB is validated.",
+    "latest_pressure_is_not_only_peak_source": true
+  },
+  "changes": [
+    {
+      "name": "vopd_6241.yaml",
+      "before_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/before/vopd_6241.yaml",
+      "before_sha256": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
+      "after_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "after_sha256": "a60a94d46c016145f4897504da9fa4ccc7697c06a193fe4c1cc502dc22e313d7"
+    },
+    {
+      "name": "vopd_6241_candidate.yaml",
+      "before_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/before/vopd_6241_candidate.yaml",
+      "before_sha256": "4c628a97a6fd81783080071443f4e5c282dc7d86d0c91c7a5593da68e9521867",
+      "after_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate.yaml",
+      "after_sha256": "1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152"
+    },
+    {
+      "name": "vopd_6241_abort_policy.yaml",
+      "before_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/before/vopd_6241_abort_policy.yaml",
+      "before_sha256": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8",
+      "after_path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "after_sha256": "2b56d6e314b69da3cc0e94f666a67ea46e7be0535af7d4bd1599de636a6163d1"
+    }
+  ],
+  "sources": {
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json": "cafb469e341c3a365a7e4df03e37cf08a9c30fe545a6e2a6badcb5a3dbd17cde",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/logs/train.log": "ce18174f29d57a74a0ead82bef8748ffbbf33a37da48f2efe93f35e4b8673732",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/guard_summary.json": "faec6fb110050588af343e7c0ca094889766b41095bbd63789bcb228505f8208",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/run_invocation.json": "9491999e1ab5e13ebffbc01ee96728dccaf75e1d14cc1b0c64728ad33455b9bc",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/preflight_summary.json": "221ed670b3d8de6207628b444940af2594423983111481fa89811ae5ca3a02d6",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/selection.json": "4d7b4889e773114e46fadec976345555cafbc31eff9c1c25741ff9f2763ca6a1",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/cgroup_memory.jsonl": "f51aa437500bf651f7b25146493e86904111e41a60608a65ab73143a01ea2065",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/postflight.json": "393934f14ad788a90e5626080ba833f6a599e4ee75defffe1bf295d1dc046811",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/logs/train.log": "d6cdf146c79b1116f2d572b86121400166451151c14434ef5d7025f104efc534",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/guard_summary.json": "530618c6192c825c38c6707517243835ccb6d293ba03ee94a012b96310ca6419",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/run_invocation.json": "6de9a660259dad168b651bd7c18dbb0bcca6ca7cf67f2f85042070943402e7ad",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/preflight_summary.json": "c1ab0a784139f44961680b63a8a95525a8de86c221163227f61c4b88a3554e1f",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/cgroup_memory.jsonl": "5fa946100b3ed758600a4f371c4b1ab10421de40df4d56913adb062ca7a5d870",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/postflight.json": "78ee887c1fd78124cef6d5fd23a7d96b622f2f3b1ac6e5cf51f9c4628947127d",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/logs/train.log": "66480cd03b304200828bb92b852be3f58f63a7e0d3386e6ac30f6d841d241911",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/guard_summary.json": "1bace3375d563461b26f328627612536ac2bddfd3e25ee4d1c213b5d59f5da64",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/preflight/run_invocation.json": "c0234b059ebd8e784c641e4d7b322a04789aa271bd1750e7a9aa9e267a83bcbd",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/preflight/preflight_summary.json": "239f46a4390f4ba8db29cc4beb39dcb7a3dceaa249d6f68a0e2a89a942e3164f",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/selection.json": "387cc288a7964911dfa692a3648bf4aa9481c206377ec5dc8fd6788c15216c65",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/telemetry/cgroup_memory.jsonl": "8d10631bfcbec642f89cfe65d1263d43de08feb62ce8af8e1a2981039d58d92f",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/evidence/postflight.json": "32645aa684ba2d53e81bbf9b9fb40ade773e69ffa49f5c6718570c85d8f8869d",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/logs/train.log": "6c254f25c20206080bf9dbe2e8057a832a1c8400809d351abe629471a6945e92",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/evidence/guard_summary.json": "fa2261189b99142db41aea2828c1a3b3a11036a0d6a803b763e14e8f06f25498",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/preflight/run_invocation.json": "a1dbcdf75cb317bb5a07986e2168a571093d599ad920d23d24116b95c2db1734",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/preflight/preflight_summary.json": "2486f3916871a7aebb5fb9de9c88e06ef10c38be91e200f205b81898fd892da8",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/selection.json": "06101cf1d42675390e9474dab66c4c253806d57c817f133b8d6e81a08663e742",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/evidence/telemetry/cgroup_memory.jsonl": "244061e8098ec09ea966aea644fd422ee26291cbb8a2e141b760556a421528d7",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/evidence/postflight.json": "90eddf68bd8d6ca1e58fe0cae06ffcdea42b5dcc3179315026d8f2bbb7c169e8",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/logs/train.log": "82fe2050657b3603de1de17c049915102caa0f2639a7eb1864d45081e44db92b",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/evidence/guard_summary.json": "a8897aadec9410af2e90d406301cac08e701bdda84dd74e89c2a6a7642517e46",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/preflight/run_invocation.json": "492c9e8b523795d6f9bab93c0acc6a3b48985e15551839c581de618ae595476a",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/preflight/preflight_summary.json": "d421803df56279b9cbc9123a2b9a6b5e2db43ca4300f0cef07e810c8eec33c84",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/selection.json": "9e471c296943e1bdd3adfb9de014a1f0468f32b3203c07bb6690195ab2993276",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/evidence/telemetry/cgroup_memory.jsonl": "82a12b7543ac6fd46ac6d944b4f3f9fade2e4989c656b2487db1e1553d166491",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/evidence/postflight.json": "0b3fb970b3ed118bedc131da1b7195719ef44e53ca6b534b3db9db436e5eda31",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/logs/train.log": "cffdf3ff820ffd7f4f6ade8fc6728e074536e6da2aaf28b991f2a277dbc7d99f",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/evidence/guard_summary.json": "94614baa21b452f938b18e2f6a37c4f90f3dba95481b75acf03cb876e7a93bcf",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/preflight/run_invocation.json": "6f34fb81e500e83065d0abd1ad85c8e5cbb10ccc1881f541791779e9db71c76a",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/preflight/preflight_summary.json": "d58947e1e842b19aa3cf2d350b288b1dc30610a29c29147df4b4b986551dbd73",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/selection.json": "61412d3728811f643d5e234d9a592f44ef87738529ea8efeabadef276d878978",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/evidence/telemetry/cgroup_memory.jsonl": "442dbe32a3e448fd1eba77eece1f3b12361b367e75709f5809817d4e218694de",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/before/vopd_6241.yaml": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
+    "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml": "a60a94d46c016145f4897504da9fa4ccc7697c06a193fe4c1cc502dc22e313d7",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/before/vopd_6241_candidate.yaml": "4c628a97a6fd81783080071443f4e5c282dc7d86d0c91c7a5593da68e9521867",
+    "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_candidate.yaml": "1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/before/vopd_6241_abort_policy.yaml": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8",
+    "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml": "2b56d6e314b69da3cc0e94f666a67ea46e7be0535af7d4bd1599de636a6163d1",
+    "/root/autodl-tmp/Vision-OPD-main/scripts/freeze_formal_cpu.py": "85ce70c8fcc0768ebe36cd616cf6bfa8a67717cd78ce75ab0aea74cb7a6f5637"
+  },
+  "current_cpu_capacity_is_launch_evidence": false,
+  "limits": [
+    "Historical quota is not current quota; guarded launch must freshly read its own cgroup.",
+    "GPU safety, disk, final-candidate validation and budget are separate gates.",
+    "Historical static/config/budget freezes are preserved; changed source bindings need final refresh."
+  ]
+}

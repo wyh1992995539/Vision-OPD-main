@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "finished_at_utc": "2026-09-06T07:31:29.947892+00:00",
+  "status": "FAIL",
+  "return_code": -15,
+  "latest_step": 2,
+  "trigger": null,
+  "termination": null,
+  "checkpoint": null
+}

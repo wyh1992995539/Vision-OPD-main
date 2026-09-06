@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "stage": "64",
+  "guard_exit_code": 0,
+  "guard_summary": {
+    "schema_version": 1,
+    "finished_at_utc": "2026-09-06T08:22:12.585389+00:00",
+    "status": "PASS",
+    "return_code": 0,
+    "latest_step": 15,
+    "trigger": null,
+    "termination": null,
+    "checkpoint": {
+      "status": "PASS",
+      "expected_step": 16,
+      "marker_value": "16",
+      "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/checkpoints/global_step_16",
+      "checks": {
+        "marker_exists": true,
+        "marker_matches_expected_step": true,
+        "step_directory_exists": true,
+        "required_files_present": true,
+        "required_files_nonempty": true
+      },
+      "missing_files": [],
+      "empty_files": []
+    }
+  },
+  "postflight_status": "PASS_PRESSURE_DIAGNOSTIC",
+  "stage_gate_pass": true
+}

@@ -1,0 +1,31 @@
+{
+  "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload/step0001.pt",
+  "sha256": "e86e4e27e87ac9507bf65f54f1f70ef829b447886d0880a8b497d0c387ccc42b",
+  "rows": 8,
+  "tensor_hashes": {
+    "input_ids": "eaeb18e00e6e473d057395d10cbe5dcacf7469399963fb90a74ded4a5f2b5f73",
+    "responses": "259b5c70978f74b34d629f7616f183cf0f9ad0aeb3fb5294809e736336b09d4e",
+    "response_mask": "b736c8b72fc423ad4dc93f0c2fb0d2270058089cc5146c8dd29f5b6344f22bdd",
+    "attention_mask": "261b298e3b2b55acd546ad1cc4f1a7590e17a13596f02cba35eb7d0aaac62e31",
+    "position_ids": "286a681c00e73c4947dee003107cd6990f9a03ce596e383b8a8d53d33e230490",
+    "teacher_input_ids": "a76dd30236e5133c5486360d50cae3c08b8aadc8df3a0f7c8cc42741705ae878",
+    "teacher_attention_mask": "f2a162bccb3a7ed69df9b579f9ddd0fd2f3ef88d015e8250886978597412fec7",
+    "teacher_position_ids": "d6b295832b68362b7d3172e9a2b273c14a873245bb1347288a3e210d620f1f4b",
+    "teacher_response_start_idx": "1c2a041f75e1cc41b4f38d4dfb62f531a279ec834f83cfd0a046cb58482f5c6a",
+    "old_log_probs": "e633edbeece0d133aab64fe27cda3bd6458675d3011a9e55487d0e5f90199dbe",
+    "self_distillation_mask": "bfd1c1e2f6cab2be412744038f7e20b0470dc7dc45417884a4402e1b153faecd"
+  },
+  "response_lengths": [
+    255,
+    129,
+    155,
+    125,
+    118,
+    74,
+    4,
+    60
+  ],
+  "response_width": 1024,
+  "step": 1,
+  "mode": "replay"
+}

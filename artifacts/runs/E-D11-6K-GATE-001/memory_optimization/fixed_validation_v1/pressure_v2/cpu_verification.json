@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "PASS_CPU_REPAIR_PENDING_GPU",
+  "verified_at_utc": "2026-09-06T07:57:05Z",
+  "supersedes_status_only": "cpu_preparation.json: PASS_STATIC_PREPARATION_PENDING_CPU_TESTS_AND_GPU",
+  "manifest_sha256": "f86e1376f0ed9179c1fc3c2198d778d9da56ba39491796dc5816004bd92b9b73",
+  "bound_file_count": 549,
+  "all_bound_files_unchanged": true,
+  "historical_runtime_bindings_unchanged": ["capture", "fixed_baseline", "fixed_deferred", "pressure"],
+  "tested_helpers_match_runtime_copies": true,
+  "static_guard_status": "PASS",
+  "static_guard_generated_at_utc": "2026-09-06T07:57:05.127241+00:00",
+  "targeted_tests": {
+    "passed": 25,
+    "report": "cpu_tests_expanded_memory.xml",
+    "sha256": "c31cf9e4663d2a5a8e8728eb9e7d08687b1647acc9faa8b8ed3d0038a3881518"
+  },
+  "regression_tests": {
+    "passed": 177,
+    "subtests_passed": 8,
+    "warnings": 2,
+    "report": "cpu_regression.xml",
+    "sha256": "5e1132c6f7c3e07a319cf796290eebfff23e9f45b83246181a80ba660a445821"
+  },
+  "targeted_test_source": {
+    "path": "tests/test_pressure_repair.py",
+    "sha256": "8a3f0b2d14fc4342ade540f923fb4ac06f8725ec73b8be1aaef773c0b46ae0c8"
+  },
+  "test_scope": "Real YAML mapping, agent/single-turn/manager/server method bodies and installed vLLM SamplingParams; Ray transport, tokenizer and engine generation are mocked. No real GPU decoding or memory pressure tested.",
+  "first_batch_contract": {"expected_rows": 8, "minimum_tokens": 1000, "maximum_tokens": 1024},
+  "first_batch_gate_location": "after generation and sample weighting, before token balancing, ref/logprob and actor update",
+  "gpu_run_started": false,
+  "formal_training_authorized": false,
+  "resource_observation": {
+    "cpu_memory_quota_bytes": 128849018880,
+    "gpu_count": 1,
+    "gpu_memory_used_mib": [0],
+    "disk_free_gib_approx": 149,
+    "pressure_training_ready": false,
+    "required_gpu_count": 2,
+    "required_cpu_memory_quota_bytes": 240518168576
+  },
+  "earlier_cpu_test_interruptions": {
+    "quota_bytes": 2147483648,
+    "exit_code": 137,
+    "cgroup_oom_counter_increment_observed": false,
+    "cause": "SIGKILL confirmed; insufficient memory headroom suspected but kernel/platform kill origin unconfirmed"
+  }
+}

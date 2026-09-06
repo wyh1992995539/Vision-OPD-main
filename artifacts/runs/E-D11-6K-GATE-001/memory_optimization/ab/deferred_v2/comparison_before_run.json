@@ -1,0 +1,1617 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-06T05:38:13.293897+00:00",
+  "status": "WAITING_FOR_RUNS",
+  "formal_training_authorized": false,
+  "optimization_validated": false,
+  "criteria": {
+    "minimum_worst_device_reduction_bytes": 536870912,
+    "no_per_device_peak_regression": true,
+    "workload_must_match": true
+  },
+  "checks": {},
+  "runs": {
+    "baseline": {
+      "schema_version": 1,
+      "generated_at_utc": "2026-09-06T05:38:13.224366+00:00",
+      "status": "PASS_MEMORY_AB_RUN",
+      "training_gate_pass": true,
+      "stage_gate_pass": true,
+      "formal_training_authorized": false,
+      "cold_reload_required": false,
+      "cold_reload_validated": false,
+      "optimization_validated": false,
+      "errors": [],
+      "variant": "baseline",
+      "experiment_id": "E-D11-MEM-BASELINE",
+      "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run",
+      "training_audit": {
+        "schema_version": 1,
+        "stage": "64",
+        "experiment_id": "E-D11-MEM-BASELINE",
+        "status": "PASS",
+        "training_gate_pass": true,
+        "stage_gate_pass": true,
+        "formal_training_authorized": false,
+        "checks": {
+          "checkpoint_io_revision_matches": true,
+          "guard_pass": true,
+          "training_preflight_pass": true,
+          "run_invocation_matches": true,
+          "no_duplicate_metric_steps": true,
+          "no_traceback_or_oom": true,
+          "log_prob_evidence_complete": true,
+          "checkpoint_complete": true,
+          "telemetry_complete_two_gpus": true,
+          "exact_contiguous_steps": true,
+          "required_metrics_present_and_finite": true,
+          "jsd_loss_finite": true,
+          "learning_rate_nonnegative": true,
+          "zero_lr_only_within_warmup": true,
+          "positive_learning_rate_observed": true,
+          "student_update_matches_learning_rate": true,
+          "teacher_optimizer_unchanged": true,
+          "teacher_direct_gradient_absent": true,
+          "teacher_ema_updated_each_step": true,
+          "crop_teacher_active_each_step": true,
+          "generation_errors_zero": true,
+          "prompt_truncation_zero": true,
+          "response_within_frozen_limit": true
+        },
+        "failed_checks": [],
+        "signals": {
+          "duplicate_metric_steps": 0,
+          "traceback_count": 0,
+          "cuda_oom_count": 0,
+          "out_of_memory_error_count": 0,
+          "dataloader_worker_killed_count": 0,
+          "checkpoint_save_failure_count": 0
+        },
+        "observed_steps": 8,
+        "expected_steps": 8,
+        "steps": [
+          {
+            "step": 1,
+            "loss": 0.007769451316562481,
+            "grad_norm": 1.1935397386550903,
+            "learning_rate": 0.0,
+            "student_optimizer_delta": 0.0,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 2.384185791015625e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 78.18256721831858,
+            "generation_seconds": 30.90434587467462,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 7880.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 115.0,
+            "response_max_tokens": 255.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 2,
+            "loss": 0.01293701332724595,
+            "grad_norm": 1.4461891651153564,
+            "learning_rate": 2e-07,
+            "student_optimizer_delta": 2.384185791015625e-07,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 2.384185791015625e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 36.13378067314625,
+            "generation_seconds": 13.332072135061026,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 7318.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 69.875,
+            "response_max_tokens": 143.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 3,
+            "loss": 0.0102463133589481,
+            "grad_norm": 1.482047438621521,
+            "learning_rate": 4e-07,
+            "student_optimizer_delta": 4.76837158203125e-07,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 1.1920928955078125e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 34.14517828077078,
+            "generation_seconds": 12.399938991758972,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 7032.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 91.25,
+            "response_max_tokens": 229.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 4,
+            "loss": 0.007973103318363428,
+            "grad_norm": 1.9624969959259033,
+            "learning_rate": 6e-07,
+            "student_optimizer_delta": 6.007030606269836e-07,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 1.1920928955078125e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 33.45791005901992,
+            "generation_seconds": 12.170330110937357,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 6700.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 55.625,
+            "response_max_tokens": 184.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 5,
+            "loss": 0.014849597777356394,
+            "grad_norm": 2.015709638595581,
+            "learning_rate": 8e-07,
+            "student_optimizer_delta": 7.897615432739258e-07,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 1.1920928955078125e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 35.77869638102129,
+            "generation_seconds": 15.417545707896352,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 6047.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 87.625,
+            "response_max_tokens": 485.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 6,
+            "loss": 0.014782392856432125,
+            "grad_norm": 1.500664234161377,
+            "learning_rate": 1e-06,
+            "student_optimizer_delta": 9.82079654932022e-07,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 1.364387571811676e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 36.16077643819153,
+            "generation_seconds": 16.412449039053172,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 5949.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 128.875,
+            "response_max_tokens": 629.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 7,
+            "loss": 0.014760792255401611,
+            "grad_norm": 1.5622972249984741,
+            "learning_rate": 1.2e-06,
+            "student_optimizer_delta": 1.1594966053962708e-06,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 2.384185791015625e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 109,
+            "step_seconds": 33.71272973297164,
+            "generation_seconds": 11.976311447564512,
+            "checkpoint_save_seconds": null,
+            "prompt_max_tokens": 5907.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 97.625,
+            "response_max_tokens": 189.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          },
+          {
+            "step": 8,
+            "loss": 0.009175513521768153,
+            "grad_norm": 1.6089987754821777,
+            "learning_rate": 1.4e-06,
+            "student_optimizer_delta": 1.2791715562343597e-06,
+            "teacher_optimizer_delta": 0.0,
+            "teacher_grad_non_none_count": 0.0,
+            "teacher_ema_delta": 2.384185791015625e-07,
+            "ema_update_applied": 1.0,
+            "aborted_ratio": 0.0,
+            "raw_metric_count": 110,
+            "step_seconds": 35.09834588505328,
+            "generation_seconds": 15.100933646783233,
+            "checkpoint_save_seconds": 106.13924496527761,
+            "prompt_max_tokens": 5727.0,
+            "prompt_clip_ratio": 0.0,
+            "response_mean_tokens": 96.5,
+            "response_max_tokens": 225.0,
+            "response_clip_ratio": 0.0,
+            "teacher_always_on_fraction": 1.0,
+            "teacher_image_swap_fraction": 1.0
+          }
+        ],
+        "warmup_contract": {
+          "lr_warmup_steps": 10,
+          "zero_lr_steps": [
+            1
+          ],
+          "positive_lr_steps": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "student_update_rule": "delta>=0 when lr=0; delta>0 when lr>0"
+        },
+        "checkpoint": {
+          "status": "PASS",
+          "expected_step": 8,
+          "marker_value": "8",
+          "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8",
+          "checks": {
+            "marker_exists": true,
+            "marker_matches_expected_step": true,
+            "step_directory_exists": true,
+            "required_files_present": true,
+            "required_files_nonempty": true
+          },
+          "missing_files": [],
+          "empty_files": []
+        },
+        "telemetry": {
+          "status": "PASS",
+          "paths": {
+            "gpu": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/gpu.jsonl",
+            "process_rss": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/process_rss.jsonl",
+            "cgroup": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/cgroup_memory.jsonl",
+            "disk": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/disk.jsonl"
+          },
+          "row_counts": {
+            "gpu": 114,
+            "process_rss": 114,
+            "cgroup": 114,
+            "disk": 114
+          },
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "peak_by_gpu": {
+            "0": {
+              "memory_used_bytes": 101346967552,
+              "memory_total_bytes": 102641958912,
+              "used_ratio": 0.9873834114846711
+            },
+            "1": {
+              "memory_used_bytes": 100893982720,
+              "memory_total_bytes": 102641958912,
+              "used_ratio": 0.9829701594695925
+            }
+          },
+          "max_observed_elapsed_seconds": 583.6076179682277,
+          "errors": []
+        },
+        "log_prob_file_count": 16,
+        "checkpoint_io_contract": {
+          "strategy": "fsdp_sequential_shards_fsync_fadvise_v1",
+          "flush_reclaim": true,
+          "source_hashes": {
+            "verl/utils/checkpoint/fsdp_checkpoint_manager.py": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+            "verl/utils/checkpoint/shard_io.py": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+            "verl/trainer/config/config.py": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+            "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67"
+          }
+        },
+        "reload_required": false,
+        "reload_report": null,
+        "reload": null,
+        "inputs": {
+          "train_log": {
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/logs/train.log",
+            "sha256": "cacbbc7a015b67960b19c54f90fa94c88ac29542c95bc5bc8143ac208e073075"
+          },
+          "guard_summary": {
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/guard_summary.json",
+            "sha256": "4ec5e9583a4291b4da5a9ba3dc6bea225108089694eb32dc9ca8ec425eff20ee"
+          },
+          "run_invocation": {
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/preflight/run_invocation.json",
+            "sha256": "82ac47cb2e255aac4c9d5eda43870c984a2cea121d5aa978035c75c4254bc250"
+          },
+          "preflight": {
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/preflight/preflight_summary.json",
+            "sha256": "f5ddd91fd0b54463b73a17d6562ee65c31bcf4d79d6075e6b280024c2051bc39"
+          },
+          "selection_manifest": {
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/selection.json",
+            "sha256": "61c8929ed77a20fdf97cbe5c35f96bcf1015cddd6a9dac3f86e44be069682b32"
+          }
+        }
+      },
+      "audit_provenance": {
+        "offline_reaudit": true,
+        "source_revisions": {
+          "scripts/audit_vopd_memory_ab.py": {
+            "launch_sha256": "21b09045f2a9303e4de9cd3edf041e3096fbefbb18f25ebaa6ec933ce9f36d10",
+            "audit_sha256": "6c58617ad9d077b48e065223c3821682802bc7b35e8ddb03a7df52c73983adce",
+            "archived_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/accounting_revision_20260906/before/scripts/audit_vopd_memory_ab.py",
+            "archived_sha256": "21b09045f2a9303e4de9cd3edf041e3096fbefbb18f25ebaa6ec933ce9f36d10"
+          },
+          "scripts/compare_vopd_memory_ab.py": {
+            "launch_sha256": "702508a8d3018793712a88789701810d7af137c5a3d34314ebfa00062d05b96b",
+            "audit_sha256": "f5d20567a1fe63c8e0141ed141ab23dc71d945cfaa76fc44f129b7cf765ddc86",
+            "archived_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/accounting_revision_20260906/before/scripts/compare_vopd_memory_ab.py",
+            "archived_sha256": "702508a8d3018793712a88789701810d7af137c5a3d34314ebfa00062d05b96b"
+          },
+          "scripts/vopd_memory_experiment.py": {
+            "launch_sha256": "d53518bd05be952ba4d63cb094265c90f68ac77c4c2960ac6ec43631e91286d9",
+            "audit_sha256": "e920c075c28159852583dadbf02c5bea7ee4cc7d878abe6a57ab0c7812cd5ea1",
+            "archived_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/accounting_revision_20260906/before/scripts/vopd_memory_experiment.py",
+            "archived_sha256": "d53518bd05be952ba4d63cb094265c90f68ac77c4c2960ac6ec43631e91286d9"
+          }
+        },
+        "evaluated_source_hashes": {
+          "verl/utils/actor_memory.py": "8f545dbf04f546dac16e6822b907325119756a210ddd71d209683f02316ec3fd",
+          "verl/workers/actor/dp_actor.py": "6b7419667460c9d2e9c8c4a22f3f54c2011a17da217555228f2e9b657a1481f3",
+          "verl/workers/fsdp_workers.py": "58ffc7d7aedc2ddc7b0b2c6b4233788f476775b566eaf2f2eae5272dcc7d6c7d",
+          "verl/workers/config/actor.py": "ceb3cb66cf10491917baa64e6f1a4231bd99601b4eb9177c7c060bd0454ce85f",
+          "verl/utils/fsdp_utils.py": "46bec997373bbbcdac689d27fdbe61f048160f2f339d8f28a2f728fdac6c2fb0",
+          "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+          "scripts/run_vopd_6241_pilot_guarded.py": "2e8d59f7e187d12cb24b7e92a5297b756d02a4a853b60372f2bc4224af2aa427",
+          "scripts/vopd_memory_experiment.py": "e920c075c28159852583dadbf02c5bea7ee4cc7d878abe6a57ab0c7812cd5ea1",
+          "configs/vopd_6241_pilot_64.yaml": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+          "configs/vopd_6241_pilot_abort_policy.yaml": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+          "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe",
+          "scripts/audit_vopd_memory_ab.py": "6c58617ad9d077b48e065223c3821682802bc7b35e8ddb03a7df52c73983adce",
+          "scripts/compare_vopd_memory_ab.py": "f5d20567a1fe63c8e0141ed141ab23dc71d945cfaa76fc44f129b7cf765ddc86",
+          "scripts/audit_vopd_6241_pilot.py": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d",
+          "scripts/monitor_vopd_training.py": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59"
+        },
+        "training_source_hashes_unchanged": true,
+        "original_launch_manifest_preserved": true
+      },
+      "memory_stages": {
+        "ranks": {
+          "0": {
+            "pid": 6948,
+            "completed_steps": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/memory_stages/rank0.pid6948.jsonl",
+            "sha256": "c93a85c5a63c7fad3fcb441b24473e8980c9907a8ea361b41b3adba4e22ac50e"
+          },
+          "1": {
+            "pid": 6949,
+            "completed_steps": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/memory_stages/rank1.pid6949.jsonl",
+            "sha256": "659ec887add1245c5a6448c7922c82a84b10cc025e0813eacb8f7ec772745bdb"
+          }
+        },
+        "phase_peaks": {
+          "0/optimizer_load": {
+            "allocated_bytes": 60666421248,
+            "reserved_bytes": 60890808320,
+            "intervals": 8
+          },
+          "0/student_forward": {
+            "allocated_bytes": 102089157632,
+            "reserved_bytes": 126823170048,
+            "intervals": 19
+          },
+          "0/teacher_forward": {
+            "allocated_bytes": 98935879168,
+            "reserved_bytes": 126823170048,
+            "intervals": 19
+          },
+          "0/backward": {
+            "allocated_bytes": 115467902976,
+            "reserved_bytes": 128167444480,
+            "intervals": 19
+          },
+          "0/optimizer_step": {
+            "allocated_bytes": 83338288128,
+            "reserved_bytes": 128167444480,
+            "intervals": 8
+          },
+          "0/teacher_ema": {
+            "allocated_bytes": 65181219840,
+            "reserved_bytes": 128167444480,
+            "intervals": 8
+          },
+          "1/optimizer_load": {
+            "allocated_bytes": 60670754816,
+            "reserved_bytes": 60888711168,
+            "intervals": 8
+          },
+          "1/student_forward": {
+            "allocated_bytes": 101099340800,
+            "reserved_bytes": 126368088064,
+            "intervals": 19
+          },
+          "1/teacher_forward": {
+            "allocated_bytes": 98729426944,
+            "reserved_bytes": 126368088064,
+            "intervals": 19
+          },
+          "1/backward": {
+            "allocated_bytes": 114148325888,
+            "reserved_bytes": 128211484672,
+            "intervals": 19
+          },
+          "1/optimizer_step": {
+            "allocated_bytes": 83214045696,
+            "reserved_bytes": 127714459648,
+            "intervals": 8
+          },
+          "1/teacher_ema": {
+            "allocated_bytes": 65056977408,
+            "reserved_bytes": 127714459648,
+            "intervals": 8
+          }
+        },
+        "forward_shapes": [
+          [
+            0,
+            1,
+            "student_forward/before",
+            1,
+            9216,
+            6365,
+            1024
+          ],
+          [
+            0,
+            1,
+            "teacher_forward/before",
+            1,
+            3833,
+            2938,
+            1024
+          ],
+          [
+            0,
+            1,
+            "student_forward/before",
+            2,
+            9216,
+            5474,
+            1024
+          ],
+          [
+            0,
+            1,
+            "teacher_forward/before",
+            2,
+            3833,
+            2930,
+            1024
+          ],
+          [
+            0,
+            1,
+            "student_forward/before",
+            1,
+            9216,
+            8035,
+            1024
+          ],
+          [
+            0,
+            1,
+            "teacher_forward/before",
+            1,
+            3833,
+            746,
+            1024
+          ],
+          [
+            0,
+            2,
+            "student_forward/before",
+            1,
+            9216,
+            5910,
+            1024
+          ],
+          [
+            0,
+            2,
+            "teacher_forward/before",
+            1,
+            3533,
+            1752,
+            1024
+          ],
+          [
+            0,
+            2,
+            "student_forward/before",
+            1,
+            9216,
+            6516,
+            1024
+          ],
+          [
+            0,
+            2,
+            "teacher_forward/before",
+            1,
+            3533,
+            337,
+            1024
+          ],
+          [
+            0,
+            2,
+            "student_forward/before",
+            2,
+            9216,
+            3514,
+            1024
+          ],
+          [
+            0,
+            2,
+            "teacher_forward/before",
+            2,
+            3533,
+            2124,
+            1024
+          ],
+          [
+            0,
+            3,
+            "student_forward/before",
+            1,
+            9216,
+            5719,
+            1024
+          ],
+          [
+            0,
+            3,
+            "teacher_forward/before",
+            1,
+            3385,
+            156,
+            1024
+          ],
+          [
+            0,
+            3,
+            "student_forward/before",
+            2,
+            9216,
+            3594,
+            1024
+          ],
+          [
+            0,
+            3,
+            "teacher_forward/before",
+            2,
+            3385,
+            2097,
+            1024
+          ],
+          [
+            0,
+            3,
+            "student_forward/before",
+            1,
+            9216,
+            5767,
+            1024
+          ],
+          [
+            0,
+            3,
+            "teacher_forward/before",
+            1,
+            3385,
+            1032,
+            1024
+          ],
+          [
+            0,
+            4,
+            "student_forward/before",
+            2,
+            9216,
+            6259,
+            1024
+          ],
+          [
+            0,
+            4,
+            "teacher_forward/before",
+            2,
+            3351,
+            1246,
+            1024
+          ],
+          [
+            0,
+            4,
+            "student_forward/before",
+            2,
+            9216,
+            5532,
+            1024
+          ],
+          [
+            0,
+            4,
+            "teacher_forward/before",
+            2,
+            3351,
+            2115,
+            1024
+          ],
+          [
+            0,
+            5,
+            "student_forward/before",
+            2,
+            9216,
+            6133,
+            1024
+          ],
+          [
+            0,
+            5,
+            "teacher_forward/before",
+            2,
+            3321,
+            712,
+            1024
+          ],
+          [
+            0,
+            5,
+            "student_forward/before",
+            2,
+            9216,
+            3989,
+            1024
+          ],
+          [
+            0,
+            5,
+            "teacher_forward/before",
+            2,
+            3321,
+            2302,
+            1024
+          ],
+          [
+            0,
+            6,
+            "student_forward/before",
+            2,
+            9216,
+            5727,
+            1024
+          ],
+          [
+            0,
+            6,
+            "teacher_forward/before",
+            2,
+            3313,
+            2348,
+            1024
+          ],
+          [
+            0,
+            6,
+            "student_forward/before",
+            2,
+            9216,
+            5002,
+            1024
+          ],
+          [
+            0,
+            6,
+            "teacher_forward/before",
+            2,
+            3313,
+            1998,
+            1024
+          ],
+          [
+            0,
+            7,
+            "student_forward/before",
+            2,
+            9216,
+            6009,
+            1024
+          ],
+          [
+            0,
+            7,
+            "teacher_forward/before",
+            2,
+            3284,
+            2197,
+            1024
+          ],
+          [
+            0,
+            7,
+            "student_forward/before",
+            2,
+            9216,
+            4166,
+            1024
+          ],
+          [
+            0,
+            7,
+            "teacher_forward/before",
+            2,
+            3284,
+            2449,
+            1024
+          ],
+          [
+            0,
+            8,
+            "student_forward/before",
+            2,
+            9216,
+            4850,
+            1024
+          ],
+          [
+            0,
+            8,
+            "teacher_forward/before",
+            2,
+            3213,
+            1661,
+            1024
+          ],
+          [
+            0,
+            8,
+            "student_forward/before",
+            2,
+            9216,
+            4872,
+            1024
+          ],
+          [
+            0,
+            8,
+            "teacher_forward/before",
+            2,
+            3213,
+            1889,
+            1024
+          ],
+          [
+            1,
+            1,
+            "student_forward/before",
+            2,
+            9216,
+            4698,
+            1024
+          ],
+          [
+            1,
+            1,
+            "teacher_forward/before",
+            2,
+            3833,
+            2273,
+            1024
+          ],
+          [
+            1,
+            1,
+            "student_forward/before",
+            1,
+            9216,
+            7645,
+            1024
+          ],
+          [
+            1,
+            1,
+            "teacher_forward/before",
+            1,
+            3833,
+            238,
+            1024
+          ],
+          [
+            1,
+            1,
+            "student_forward/before",
+            1,
+            9216,
+            7580,
+            1024
+          ],
+          [
+            1,
+            1,
+            "teacher_forward/before",
+            1,
+            3833,
+            420,
+            1024
+          ],
+          [
+            1,
+            2,
+            "student_forward/before",
+            1,
+            9216,
+            4416,
+            1024
+          ],
+          [
+            1,
+            2,
+            "teacher_forward/before",
+            1,
+            3533,
+            2601,
+            1024
+          ],
+          [
+            1,
+            2,
+            "student_forward/before",
+            1,
+            9216,
+            7453,
+            1024
+          ],
+          [
+            1,
+            2,
+            "teacher_forward/before",
+            1,
+            3533,
+            606,
+            1024
+          ],
+          [
+            1,
+            2,
+            "student_forward/before",
+            2,
+            9216,
+            4041,
+            1024
+          ],
+          [
+            1,
+            2,
+            "teacher_forward/before",
+            2,
+            3533,
+            2064,
+            1024
+          ],
+          [
+            1,
+            3,
+            "student_forward/before",
+            1,
+            9216,
+            4023,
+            1024
+          ],
+          [
+            1,
+            3,
+            "teacher_forward/before",
+            1,
+            3385,
+            2410,
+            1024
+          ],
+          [
+            1,
+            3,
+            "student_forward/before",
+            1,
+            9216,
+            7037,
+            1024
+          ],
+          [
+            1,
+            3,
+            "teacher_forward/before",
+            1,
+            3385,
+            159,
+            1024
+          ],
+          [
+            1,
+            3,
+            "student_forward/before",
+            2,
+            9216,
+            3694,
+            1024
+          ],
+          [
+            1,
+            3,
+            "teacher_forward/before",
+            2,
+            3385,
+            603,
+            1024
+          ],
+          [
+            1,
+            4,
+            "student_forward/before",
+            2,
+            9216,
+            6702,
+            1024
+          ],
+          [
+            1,
+            4,
+            "teacher_forward/before",
+            2,
+            3351,
+            529,
+            1024
+          ],
+          [
+            1,
+            4,
+            "student_forward/before",
+            2,
+            9216,
+            4168,
+            1024
+          ],
+          [
+            1,
+            4,
+            "teacher_forward/before",
+            2,
+            3351,
+            2490,
+            1024
+          ],
+          [
+            1,
+            5,
+            "student_forward/before",
+            2,
+            9216,
+            5347,
+            1024
+          ],
+          [
+            1,
+            5,
+            "teacher_forward/before",
+            2,
+            3321,
+            1962,
+            1024
+          ],
+          [
+            1,
+            5,
+            "student_forward/before",
+            2,
+            9216,
+            5053,
+            1024
+          ],
+          [
+            1,
+            5,
+            "teacher_forward/before",
+            2,
+            3321,
+            1992,
+            1024
+          ],
+          [
+            1,
+            6,
+            "student_forward/before",
+            2,
+            9216,
+            6004,
+            1024
+          ],
+          [
+            1,
+            6,
+            "teacher_forward/before",
+            2,
+            3313,
+            201,
+            1024
+          ],
+          [
+            1,
+            6,
+            "student_forward/before",
+            2,
+            9216,
+            4188,
+            1024
+          ],
+          [
+            1,
+            6,
+            "teacher_forward/before",
+            2,
+            3313,
+            1412,
+            1024
+          ],
+          [
+            1,
+            7,
+            "student_forward/before",
+            2,
+            9216,
+            5793,
+            1024
+          ],
+          [
+            1,
+            7,
+            "teacher_forward/before",
+            2,
+            3284,
+            577,
+            1024
+          ],
+          [
+            1,
+            7,
+            "student_forward/before",
+            2,
+            9216,
+            4925,
+            1024
+          ],
+          [
+            1,
+            7,
+            "teacher_forward/before",
+            2,
+            3284,
+            2032,
+            1024
+          ],
+          [
+            1,
+            8,
+            "student_forward/before",
+            2,
+            9216,
+            5897,
+            1024
+          ],
+          [
+            1,
+            8,
+            "teacher_forward/before",
+            2,
+            3213,
+            422,
+            1024
+          ],
+          [
+            1,
+            8,
+            "student_forward/before",
+            2,
+            9216,
+            4246,
+            1024
+          ],
+          [
+            1,
+            8,
+            "teacher_forward/before",
+            2,
+            3213,
+            2414,
+            1024
+          ]
+        ],
+        "allocator_accounting": {
+          "scope": "process_allocator_bookkeeping_not_physical_residency",
+          "physical_capacity_constraint_applied": false,
+          "reserved_above_device_total_count": 189,
+          "peak_reserved_above_device_total_count": 206,
+          "first_reserved_above_device_total": {
+            "rank": 0,
+            "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/memory_stages/rank0.pid6948.jsonl",
+            "time_unix": 1788671491.3465776,
+            "monotonic_seconds": 2923715.206224633,
+            "pid": 6948,
+            "event": "backward/after",
+            "interval_start": "backward/before",
+            "allocated_bytes": 56132099072,
+            "reserved_bytes": 111002255360,
+            "interval_peak_allocated_bytes": 97476099072,
+            "interval_peak_reserved_bytes": 111002255360,
+            "device_free_bytes": 17863868416,
+            "device_total_bytes": 101975851008,
+            "synchronization_enabled": true,
+            "global_step": 1,
+            "micro_batch_samples": 2,
+            "sequence_width": 3833,
+            "max_unpadded_sequence_tokens": 2930,
+            "response_width": 1024
+          }
+        }
+      },
+      "comparison_config": {
+        "schema_version": 1,
+        "status": "prepared_waiting_for_pilot_16",
+        "paper_alignment": {
+          "source_pdf": "docs/Vision-OPD.pdf",
+          "profile": "paper_core_resource_scaled_2gpu_pilot",
+          "required_max_response_length": 1024
+        },
+        "experiment": {
+          "prefix_source": "online",
+          "seed": 42
+        },
+        "paths": {
+          "model": "/root/autodl-tmp/models/Qwen3.5-4B",
+          "train_file": "/root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_64.parquet",
+          "chat_template": "chat_templates/perception_chat_template_qwen35.jinja"
+        },
+        "data": {
+          "expected_train_rows": 64,
+          "train_batch_size": 8,
+          "image_key": "images",
+          "teacher_image_key": "bbox_images",
+          "max_prompt_length": 8192,
+          "max_response_length": 1024,
+          "truncation": "error",
+          "shuffle": false,
+          "dataloader_num_workers": 0,
+          "tail_policy": "native_drop_last"
+        },
+        "actor": {
+          "learning_rate": 2e-06,
+          "lr_warmup_steps": 10,
+          "ppo_mini_batch_size": 8,
+          "clip_ratio_low": 0.2,
+          "clip_ratio_high": 0.3,
+          "use_dynamic_batch_size": true,
+          "gradient_checkpointing": true,
+          "parameter_offload": true,
+          "optimizer_offload": true,
+          "reference_parameter_offload": true,
+          "max_token_length_per_gpu": 9216
+        },
+        "rollout": {
+          "n": 1,
+          "temperature": 1.0,
+          "top_p": 1.0,
+          "top_k": -1,
+          "ignore_eos": false,
+          "tensor_model_parallel_size": 1,
+          "gpu_memory_utilization": 0.4,
+          "log_prob_micro_batch_size_per_gpu": 1,
+          "agent_num_workers": 2,
+          "engine_kwargs": {
+            "vllm": {
+              "compilation_config": {
+                "cudagraph_capture_sizes": [
+                  1,
+                  2,
+                  4,
+                  8
+                ],
+                "pass_config": {
+                  "fuse_allreduce_rms": false
+                }
+              },
+              "kernel_config": {
+                "enable_flashinfer_autotune": false
+              }
+            }
+          }
+        },
+        "self_distillation": {
+          "loss_mode": "vopd",
+          "top_k": 100,
+          "alpha": 0.5,
+          "teacher_always_on": true,
+          "teacher_model_source": "legacy",
+          "teacher_regularization": "ema",
+          "teacher_update_rate": 0.05,
+          "max_reprompt_length": 10240,
+          "dont_reprompt_on_self_success": true,
+          "include_environment_feedback": false,
+          "importance_sampling_clip": 2.0
+        },
+        "resources": {
+          "nodes": 1,
+          "gpus_per_node": 2,
+          "memory_profile": "offload_3way_graph4_v1",
+          "actor_parameter_offload_required": true,
+          "optimizer_offload_required": true,
+          "reference_parameter_offload_required": true,
+          "prelaunch_cgroup_minimum_bytes": 206158430208
+        },
+        "training": {
+          "source_samples": 64,
+          "expected_samples": 64,
+          "padded_samples": 64,
+          "padding_rows": 0,
+          "dropped_rows": 0,
+          "total_optimizer_steps": 8,
+          "total_epochs": 1,
+          "require_full_epoch": true,
+          "save_frequency": -1,
+          "test_frequency": -1,
+          "max_actor_ckpt_to_keep": 1,
+          "resume_mode": "disable"
+        },
+        "pilot": {
+          "stage": 64,
+          "purpose": "diagnostic_memory_ab_not_formal_safety_signoff",
+          "may_start_formal_training": false,
+          "prerequisite_experiment": "E-D11-6K-VOPD-PILOT-016",
+          "required_runtime_evidence": [
+            "eight_contiguous_optimizer_steps",
+            "finite_losses",
+            "generation_errors_zero",
+            "student_parameter_delta_positive",
+            "teacher_direct_gradient_absent",
+            "ema_update_positive",
+            "per_gpu_peak_memory",
+            "wall_time_projection_for_780_steps",
+            "final_checkpoint_and_reload"
+          ]
+        }
+      },
+      "source_hashes": {
+        "verl/utils/actor_memory.py": "8f545dbf04f546dac16e6822b907325119756a210ddd71d209683f02316ec3fd",
+        "verl/workers/actor/dp_actor.py": "6b7419667460c9d2e9c8c4a22f3f54c2011a17da217555228f2e9b657a1481f3",
+        "verl/workers/fsdp_workers.py": "58ffc7d7aedc2ddc7b0b2c6b4233788f476775b566eaf2f2eae5272dcc7d6c7d",
+        "verl/workers/config/actor.py": "ceb3cb66cf10491917baa64e6f1a4231bd99601b4eb9177c7c060bd0454ce85f",
+        "verl/utils/fsdp_utils.py": "46bec997373bbbcdac689d27fdbe61f048160f2f339d8f28a2f728fdac6c2fb0",
+        "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+        "scripts/run_vopd_6241_pilot_guarded.py": "2e8d59f7e187d12cb24b7e92a5297b756d02a4a853b60372f2bc4224af2aa427",
+        "scripts/vopd_memory_experiment.py": "d53518bd05be952ba4d63cb094265c90f68ac77c4c2960ac6ec43631e91286d9",
+        "configs/vopd_6241_pilot_64.yaml": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+        "configs/vopd_6241_pilot_abort_policy.yaml": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+        "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe",
+        "scripts/audit_vopd_memory_ab.py": "21b09045f2a9303e4de9cd3edf041e3096fbefbb18f25ebaa6ec933ce9f36d10",
+        "scripts/compare_vopd_memory_ab.py": "702508a8d3018793712a88789701810d7af137c5a3d34314ebfa00062d05b96b",
+        "scripts/audit_vopd_6241_pilot.py": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d",
+        "scripts/monitor_vopd_training.py": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59"
+      },
+      "train_sha256": "6748ae359028d33b8e8ee182a000362d48a54d39d7bb18b00e9cc57620e3dc60",
+      "sample_ids": [
+        "vopd_76c2bf57e0fd90a6df9939ba",
+        "vopd_7148687ee336db18fa503063",
+        "vopd_769ef84ed0c692700a0f7fd2",
+        "vopd_95c3c884461af1173af5c7a4",
+        "vopd_638745362e8ff75fd4cd3e22",
+        "vopd_f80be44c11dcb14129f48f72",
+        "vopd_b62f4f8695ad2f5f319e4377",
+        "vopd_3401596504737bc975b24d7a",
+        "vopd_588cf623e2005698a00dddb7",
+        "vopd_59043be279fcc40beca98bb0",
+        "vopd_31010954d48fdc8236f7856b",
+        "vopd_122d62326b2576d3645a27df",
+        "vopd_2988b0566f05894a443bfc03",
+        "vopd_64838325e2c63e0dd44b9c3b",
+        "vopd_76a892896675f251218078fe",
+        "vopd_a498008e1066dd5696187953",
+        "vopd_78f2828c265d5e52341c4ec5",
+        "vopd_b49e8cde81f31150680f6510",
+        "vopd_b569fa895a9c1a998e2b879d",
+        "vopd_69a9fc08a837a93bc5acb1c8",
+        "vopd_017e0d58d5bfa1ebd63f85e5",
+        "vopd_52a72d735ccb86f68a0638d8",
+        "vopd_05dede4c01d81044a432fb8a",
+        "vopd_0450c23762df10182234d368",
+        "vopd_09c70b5a2544970860007ceb",
+        "vopd_5ee142182fa7077e411a0265",
+        "vopd_6b56b9b528267840cbccbfe1",
+        "vopd_06d375e104c2d16a55574774",
+        "vopd_48cb45c3d96d3996c294ee4b",
+        "vopd_9cef3bcf7c8dc0e6778f9344",
+        "vopd_4ba67c457ce71574ed15799e",
+        "vopd_55288c23cc5fb0806be9e953",
+        "vopd_563e5aa0c43dc3bb6444121f",
+        "vopd_020c96d1945f240faf4108a7",
+        "vopd_f6a74501e473ddacc26a2d47",
+        "vopd_1613d81195645f79b38e2a8e",
+        "vopd_3ce69fe20377d64e56a78927",
+        "vopd_8d13917b67ea2146bd2151a9",
+        "vopd_d849511ec51e7529f0b8aefd",
+        "vopd_24290714c38b24d1c8180266",
+        "vopd_67e74c98091c5d4979ca5e1a",
+        "vopd_862c86a7c1e488f7e6d70ab9",
+        "vopd_b4cf4ccba0f5da8e148ebab9",
+        "vopd_4a71611f67fa00d7e579cf02",
+        "vopd_892d1c655d82f61592125b73",
+        "vopd_731e30ea676c83d6b0fb2b81",
+        "vopd_d64fd5a3e9d02ccb0e244bd3",
+        "vopd_feb200e02881031f6a59812a",
+        "vopd_3c4e6dcb7522af5f46d7061e",
+        "vopd_754b2f07c89095142f9d83e1",
+        "vopd_98f2a02ccf2817bd2a179803",
+        "vopd_c2bf014938fd48157b448e63",
+        "vopd_bdb6132aecee80596cfd464e",
+        "vopd_2196b39dabc7df308a70bdbe",
+        "vopd_978dfe96bb996168223088a3",
+        "vopd_c7dd1b360d9616ce9da353a7",
+        "vopd_de1801c2d9e7ee1a29a47f0b",
+        "vopd_fffebc15b043b29b506792d5",
+        "vopd_106bf6ea5389b528e16d6341",
+        "vopd_485e7d7d2bc0f3f2dd90ac23",
+        "vopd_9d32161c7cc8505bae4b1a7d",
+        "vopd_67948a62a826747eec1c51f1",
+        "vopd_d2862b81468dbd54ab6c4df2",
+        "vopd_baa86ca6ad63acb3dbeb27e8"
+      ],
+      "hardware": [
+        [
+          0,
+          "GPU-0c2a92a3-dc28-5c82-05a1-16077ce0ed1b",
+          102641958912
+        ],
+        [
+          1,
+          "GPU-0e2a86f1-3446-9c77-95be-f246b20723b1",
+          102641958912
+        ]
+      ],
+      "cpu_capacity_bytes": 257698037760,
+      "run_start_unix": 1788671283.445069,
+      "run_end_unix": 1788671872.064351,
+      "marker_peak_ratio": 0.9938272319007113,
+      "device_peak_bytes": {
+        "0": 101346967552,
+        "1": 100893982720
+      },
+      "device_peak_ratios": {
+        "0": 0.9873834114846711,
+        "1": 0.9829701594695925
+      },
+      "cpu_peak_bytes": 193537101824,
+      "cpu_peak_ratio": 0.7510227998097737,
+      "gpu_abort_ratio": 0.98,
+      "cpu_abort_ratio": 0.95,
+      "wall_seconds": 583.6076179682277,
+      "step_seconds": [
+        78.18256721831858,
+        36.13378067314625,
+        34.14517828077078,
+        33.45791005901992,
+        35.77869638102129,
+        36.16077643819153,
+        33.71272973297164,
+        35.09834588505328
+      ],
+      "workload": [
+        [
+          1,
+          7880.0,
+          115.0,
+          255.0
+        ],
+        [
+          2,
+          7318.0,
+          69.875,
+          143.0
+        ],
+        [
+          3,
+          7032.0,
+          91.25,
+          229.0
+        ],
+        [
+          4,
+          6700.0,
+          55.625,
+          184.0
+        ],
+        [
+          5,
+          6047.0,
+          87.625,
+          485.0
+        ],
+        [
+          6,
+          5949.0,
+          128.875,
+          629.0
+        ],
+        [
+          7,
+          5907.0,
+          97.625,
+          189.0
+        ],
+        [
+          8,
+          5727.0,
+          96.5,
+          225.0
+        ]
+      ],
+      "coverage": {
+        "post_warmup_steps": 0,
+        "max_response_tokens": 629.0
+      },
+      "inputs": [
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/config.yaml",
+          "sha256": "176f668059663d2224c9ab99d5de9528f4be2bace4c7c3b4ec73bf6d5d24d0ec"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/manifest.json",
+          "sha256": "87627e7311c95eca0fc839bea1dd3740d3058b166c50e69847b96ff8fa80beb1"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/policy.yaml",
+          "sha256": "5a5d73472118e6ff12ab15acf697a53ab4d54121ba22c51e6c3a5cb66b77c2c9"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/guard_summary.json",
+          "sha256": "4ec5e9583a4291b4da5a9ba3dc6bea225108089694eb32dc9ca8ec425eff20ee"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/memory_stages/rank0.pid6948.jsonl",
+          "sha256": "c93a85c5a63c7fad3fcb441b24473e8980c9907a8ea361b41b3adba4e22ac50e"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/memory_stages/rank1.pid6949.jsonl",
+          "sha256": "659ec887add1245c5a6448c7922c82a84b10cc025e0813eacb8f7ec772745bdb"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/cgroup_memory.jsonl",
+          "sha256": "da094b695def6042b4975be58dc9c76e2fd8201c0c110162cab4315c15084891"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/disk.jsonl",
+          "sha256": "ca160aa0a1bca52698cfd02048deccbaabc347df9547cb38063f541444f1dd1e"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/gpu.jsonl",
+          "sha256": "044537e33af03ee515420b6d4faa7638ed0441a63b8a42b8f672d5def5102212"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/evidence/telemetry/process_rss.jsonl",
+          "sha256": "a0934d405599f008fbe9a31b16c079b42a34bf95709c986596d0f7cc3be975b5"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/logs/train.log",
+          "sha256": "cacbbc7a015b67960b19c54f90fa94c88ac29542c95bc5bc8143ac208e073075"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/preflight/pilot_live_launch_gate.json",
+          "sha256": "9147fa24384d9e0518073ca916790799dab4e105467a4378c3ab0be3fbee4dc1"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/preflight/preflight_summary.json",
+          "sha256": "f5ddd91fd0b54463b73a17d6562ee65c31bcf4d79d6075e6b280024c2051bc39"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/preflight/run_invocation.json",
+          "sha256": "82ac47cb2e255aac4c9d5eda43870c984a2cea121d5aa978035c75c4254bc250"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/selection.json",
+          "sha256": "61c8929ed77a20fdf97cbe5c35f96bcf1015cddd6a9dac3f86e44be069682b32"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/accounting_revision_20260906/before/scripts/audit_vopd_memory_ab.py",
+          "sha256": "21b09045f2a9303e4de9cd3edf041e3096fbefbb18f25ebaa6ec933ce9f36d10"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/accounting_revision_20260906/before/scripts/compare_vopd_memory_ab.py",
+          "sha256": "702508a8d3018793712a88789701810d7af137c5a3d34314ebfa00062d05b96b"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/accounting_revision_20260906/before/scripts/vopd_memory_experiment.py",
+          "sha256": "d53518bd05be952ba4d63cb094265c90f68ac77c4c2960ac6ec43631e91286d9"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/scripts/audit_vopd_memory_ab.py",
+          "sha256": "6c58617ad9d077b48e065223c3821682802bc7b35e8ddb03a7df52c73983adce"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_memory_experiment.py",
+          "sha256": "e920c075c28159852583dadbf02c5bea7ee4cc7d878abe6a57ab0c7812cd5ea1"
+        }
+      ],
+      "limitations": [
+        "Sampled whole-device peaks may miss spikes; stage peaks are allocator bookkeeping, not physical resident bytes.",
+        "Allocator counts above device capacity are retained as warnings, not clipped or used for physical headroom.",
+        "Cold reload and formal long-response/post-warmup safety remain separate gates.",
+        "Synchronized profiling affects throughput; no formal budget projection is authorized."
+      ]
+    },
+    "deferred": {
+      "schema_version": 1,
+      "generated_at_utc": "2026-09-06T05:38:13.281778+00:00",
+      "status": "NOT_RUN",
+      "training_gate_pass": false,
+      "stage_gate_pass": false,
+      "formal_training_authorized": false,
+      "cold_reload_required": false,
+      "cold_reload_validated": false,
+      "optimization_validated": false,
+      "errors": [],
+      "variant": "deferred",
+      "experiment_id": "E-D11-MEM-DEFERRED",
+      "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run"
+    }
+  }
+}

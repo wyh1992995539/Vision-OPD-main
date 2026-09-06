@@ -1,5 +1,9 @@
  # Day11：显存优化的 CPU 准备阶段
 
+> 最新进展：修复后的 pressure v2 已完成 128 条、16 步、全部 1024-token 回复及 warmup 后验证。
+> 最新诊断证据现已接入正式汇总 Gate；下面的早期“尚未完成”描述保留为历史记录。
+> 详见 [最新证据与 Gate 决策分层](day11_latest_validation_gate.md)。诊断通过不代表正式候选已放行。
+
 ## 结论与范围
 
 本轮只实施代码、CPU 测试和独立 A/B 静态配置，不启动 GPU，不解锁正式训练。
@@ -69,6 +73,24 @@ GPU 开启后，核实空闲双卡、实时 cgroup 容量与磁盘，再将 `--p
 
 2026-09-06 已接入 [A/B 专用结束审计和两组比较](day11_memory_ab_audit.md)。
 单组诊断成功为 `PASS_MEMORY_AB_RUN`，不再等待 Pilot-64 冷重载。
+
+2026-09-06 baseline 已完成 8/8 步及 checkpoint 保存。原始结束审计因分配器/物理显存
+混用约束失败；修订后的独立离线重审为 `PASS_MEMORY_AB_RUN`，原失败记录保留。
+详见 [计数口径修订与离线重审](day11_memory_ab_audit.md#2026-09-06-分配器计数修订与-baseline-离线重审)。
+NVML 峰值 98.74% / 98.30%，CUDA 同步占用峰值 99.38%，显存余量问题仍在。
+deferred 新源码绑定与跨版本比较 CPU 校验现已完成，当前优化组使用 `ab/deferred_v2/policy.yaml`。
+静态 Gate 为 `PASS`，配对准备为 `PASS_COMPARISON_PREPARATION`；旧 deferred 保留但不再作为启动入口。
+随后 deferred_v2 已完成 8/8 步、checkpoint 保存及 `PASS_MEMORY_AB_RUN` 结束审计，退出码 0。
+正式保存的 [A/B 比较报告](../artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/comparison_after_run.md)
+为 `REVIEW_WORKLOAD_DIFFERENCE`，仍不授权正式训练。
+NVML 峰值由 baseline 的 98.74% / 98.30% 降至 82.01% / 80.86%，但两组生成和微批次负载不同。
+详见 [生成长度复核](../artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/workload_review/workload_review.md)：
+总回复 token 5939 → 5823（-1.95%），最长回复 629 → 389，Student 微批次 38 → 40。
+CPU 复核已完成；同负载归因、近 1024-token 与 warmup 后压力验证尚未完成。
+后续 [固定 actor 负载与压力验证的 CPU 准备](day11_fixed_workload_validation.md) 已完成：
+四个隔离入口静态 PASS，133 项测试及 3 个 subtests 通过，未启动 GPU。
+固定回放需先采集并封存完整原始批次；回放仅固定 actor 更新，不代表整条在线流程固定。
+压力阶段为独立 128 条/16 步、强制长回复诊断，原正式配置和 Gate 保持不变。
 两组完成后运行 `conda run --no-capture-output -n vision-opd python scripts/compare_vopd_memory_ab.py`；
 它分别报告证据有效性、负载可比性和观测显存收益。原 Pilot-64 冷重载和正式放行要求继续保留。
 

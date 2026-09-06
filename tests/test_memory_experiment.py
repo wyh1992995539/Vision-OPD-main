@@ -62,6 +62,42 @@ def test_experiment_checks_source_hash_and_output_binding(tmp_path):
         memory_overrides(policy, config, output)
 
 
+def test_offline_snapshot_never_weakens_launcher_or_training_hash_binding(tmp_path):
+    config = tmp_path / 'config.yaml'
+    config.write_text('experiment:\n  id: E-D11-MEM-DEFERRED\n')
+    output = tmp_path / 'run'
+    path = tmp_path / 'manifest.json'
+    policy = {'memory_experiment': {'manifest': str(path), 'variant': 'deferred'},
+              'pilot': {'postflight_script': 'scripts/audit_vopd_memory_ab.py',
+                        'stage_contracts': {'64': {'require_cold_reload': False}}}}
+    manifest = dict(variant='deferred', formal_training_authorized=False,
+                    effective_policy=policy, config_sha256=sha(config),
+                    source_hashes={p: sha(ROOT/p) for p in SOURCE_PATHS},
+                    overrides=expected_overrides('deferred', output))
+    archive = tmp_path / 'before'
+    source = 'scripts/audit_vopd_memory_ab.py'
+    old = archive / source
+    old.parent.mkdir(parents=True)
+    old.write_text('original audit source')
+    manifest['source_hashes'][source] = sha(old)
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match='source hash changed'):
+        memory_overrides(policy, config, output)  # launch path stays strict
+    assert memory_overrides(policy, config, output, audit_source_snapshot=archive)
+    old.write_text('wrong archive')
+    with pytest.raises(ValueError, match='source hash changed'):
+        memory_overrides(policy, config, output, audit_source_snapshot=archive)
+    old.write_text('original audit source')
+    runtime = SOURCE_PATHS[0]
+    archived_runtime = archive / runtime
+    archived_runtime.parent.mkdir(parents=True)
+    archived_runtime.write_text('old runtime source')
+    manifest['source_hashes'][runtime] = sha(archived_runtime)
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match='source hash changed'):
+        memory_overrides(policy, config, output, audit_source_snapshot=archive)
+
+
 def test_deferred_scaler_call_order_uses_real_actor_method():
     from verl.workers.actor.dp_actor import DataParallelPPOActor
     actor = object.__new__(DataParallelPPOActor)

@@ -1,0 +1,81 @@
+schema_version: 1
+policy_id: E-D11-6K-VOPD-CANDIDATE-128-GUARD-001
+experiment_id: E-D11-6K-VOPD-CANDIDATE-128
+
+telemetry:
+  sample_interval_seconds: 5
+  max_consecutive_collection_failures: 3
+  startup_grace_seconds: 1200
+  log_heartbeat_timeout_seconds: 600
+
+runtime:
+  # Prior 128-row/16-step pressure run completed in about 998 seconds.
+  max_wall_time_hours: 4
+  terminate_grace_seconds: 60
+
+memory:
+  prelaunch_gpu_used_ratio_max: 0.10
+  gpu_used_ratio_abort: 0.98
+  cgroup_used_ratio_abort: 0.95
+  prelaunch_cgroup_minimum_bytes: 257698037760
+  consecutive_samples: 3
+
+disk:
+  checkpoint_estimate_bytes: 57034960981
+  reserve_bytes: 5368709120
+  formula_required_bytes: 119438631082
+  minimum_free_bytes: 128849018880
+  prelaunch_required_bytes: 128849018880
+  runtime_soft_floor_bytes: 62403670101
+  runtime_hard_floor_bytes: 5368709120
+  soft_floor_consecutive_samples: 2
+
+budget:
+  hourly_dual_gpu_rate_cny: 11.96
+  conservative_reservation_cny: 47.84
+  reservation_basis: 4_hour_abort_ceiling_times_11.96_cny
+  project_hard_limit_cny: 2000
+  billing_observation_max_age_seconds: 900
+
+metrics:
+  teacher_ema_nonpositive_consecutive_steps: 2
+  student_delta_nonpositive_consecutive_steps: 2
+  student_update_required_only_when_lr_positive: true
+  generation_error_consecutive_steps: 3
+
+checkpoint:
+  allowed_save_steps: [16]
+  expected_final_step: 16
+  marker: latest_checkpointed_iteration.txt
+  required_relative_files:
+    - actor/extra_state_world_size_2_rank_0.pt
+    - actor/extra_state_world_size_2_rank_1.pt
+    - actor/fsdp_config.json
+    - actor/huggingface/chat_template.jinja
+    - actor/huggingface/config.json
+    - actor/huggingface/processor_config.json
+    - actor/huggingface/tokenizer.json
+    - actor/huggingface/tokenizer_config.json
+    - actor/model_world_size_2_rank_0.pt
+    - actor/model_world_size_2_rank_1.pt
+    - actor/optim_world_size_2_rank_0.pt
+    - actor/optim_world_size_2_rank_1.pt
+    - data.pt
+
+candidate_validation:
+  config: configs/vopd_6241_candidate_128.yaml
+  expected_config_sha256: 3bcd060ee2a640623da45182c4079847d97f96a76bb03671b0e920e70357146a
+  source_candidate: configs/vopd_6241_candidate.yaml
+  expected_source_candidate_sha256: 1008c11583d17dc313add0c9dd4e1547e30f1359294a40d4dd4ea036c79ee152
+  selection_manifest: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/data/selection.json
+  expected_selection_sha256: 1924d4cd3087b6659a517de514d13be3fcfe847518c474bc43dd162cab119326
+  preparation_preflight: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/preparation/preflight.json
+  output_dir: artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run
+  guarded_launcher: scripts/run_vopd_6241_candidate_128_guarded.py
+  postflight_script: scripts/audit_vopd_6241_candidate_128.py
+  expected_rows: 128
+  expected_optimizer_steps: 16
+  required_post_warmup_steps: 6
+  normal_eos_required: true
+  forbid_listening_port_8000: true
+  formal_training_authorized: false

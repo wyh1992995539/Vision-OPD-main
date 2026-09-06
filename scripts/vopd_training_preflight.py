@@ -249,8 +249,17 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
         ),
         "rollout_gpu_memory_utilization_safe_start": float(rollout["gpu_memory_utilization"])
         <= 0.5,
+        "deferred_optimizer_requires_offload": (
+            isinstance(actor.get('defer_optimizer_state_load', False), bool)
+            and (not actor.get('defer_optimizer_state_load', False) or actor['optimizer_offload'] is True)
+        ),
     }
-    if resources.get("memory_profile") == "offload_3way_graph4_v1":
+    if resources.get("memory_profile") in (
+        "offload_3way_graph4_v1",
+        "offload_3way_graph4_deferred_candidate_v1",
+        "offload_3way_graph4_deferred_formal_v1",
+        "offload_3way_graph4_deferred_validation_v1",
+    ):
         checks["three_way_offload_memory_profile"] = (
             all(actor.get(key) is True for key in (
                 "parameter_offload", "optimizer_offload", "reference_parameter_offload"
@@ -258,7 +267,68 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
             and rollout.get("gpu_memory_utilization") == 0.40
             and vllm_engine.get("compilation_config", {}).get("cudagraph_capture_sizes") == [1, 2, 4, 8]
             and rollout.get("cudagraph_capture_sizes") is None
-            and resources.get("prelaunch_cgroup_minimum_bytes") == 192 * 1024**3
+            and resources.get("prelaunch_cgroup_minimum_bytes") in (192 * 1024**3, 240 * 1024**3)
+        )
+    if resources.get('memory_profile') == 'offload_3way_graph4_deferred_candidate_v1':
+        checks['deferred_candidate_execution_contract'] = (
+            actor.get('defer_optimizer_state_load') is True
+            and actor.get('memory_profile_dir') == config['paths']['output_dir'] + '/evidence/memory_stages'
+            and rollout.get('ignore_eos') is False
+            and experiment.get('prefix_source') == 'online'
+            and not config.get('diagnostic_generation')
+            and 'pilot' not in config
+        )
+        # CPU preparation is not final-candidate promotion or launch permission.
+        checks['formal_candidate_promoted'] = False
+    if resources.get('memory_profile') == 'offload_3way_graph4_deferred_formal_v1':
+        promotion = config.get('promotion') or {}
+        checks['deferred_formal_execution_contract'] = (
+            actor.get('defer_optimizer_state_load') is True
+            and actor.get('memory_profile_dir') == config['paths']['output_dir'] + '/evidence/memory_stages'
+            and rollout.get('ignore_eos') is False
+            and experiment.get('prefix_source') == 'online'
+            and not config.get('diagnostic_generation')
+            and 'pilot' not in config
+            and 'candidate' not in config
+        )
+        checks['formal_candidate_promoted'] = (
+            config.get('status') == 'ready_after_day11_gate'
+            and promotion.get('receipt')
+            == 'artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/promotion_receipt.json'
+            and promotion.get('source_candidate') == 'configs/vopd_6241_candidate.yaml'
+            and promotion.get('validated_workload') == 'natural_eos_128x16'
+            and int(promotion.get('validated_steps', -1)) == 16
+            and promotion.get('normal_eos_validated') is True
+            and promotion.get('formal_training_authorized') is True
+        )
+
+    if resources.get('memory_profile') == 'offload_3way_graph4_deferred_validation_v1':
+        validation = config.get('validation') or {}
+        checks['candidate_validation_execution_contract'] = (
+            config.get('status') == 'ready_for_guarded_gpu_validation'
+            and actor.get('defer_optimizer_state_load') is True
+            and actor.get('memory_profile_dir') == config['paths']['output_dir'] + '/evidence/memory_stages'
+            and rollout.get('ignore_eos') is False
+            and experiment.get('prefix_source') == 'online'
+            and not config.get('diagnostic_generation')
+            and 'pilot' not in config
+            and validation.get('kind') == 'formal_candidate_natural_generation'
+            and validation.get('source_candidate') == 'configs/vopd_6241_candidate.yaml'
+            and validation.get('formal_training_authorized') is False
+            and validation.get('normal_eos_required') is True
+            and validation.get('forced_min_response_tokens') is None
+            and int(data.get('expected_train_rows', -1)) == 128
+            and int(training.get('source_samples', -1)) == 128
+            and int(training.get('expected_samples', -1)) == 128
+            and total_steps == 16
+            and data.get('shuffle') is False
+            and require_full_epoch
+            and int(validation.get('required_actual_steps', -1)) == 16
+            and int(validation.get('required_post_warmup_steps', -1)) == 6
+            and validation.get('final_checkpoint_required') is True
+            and validation.get('guarded_launcher') == 'scripts/run_vopd_6241_candidate_128_guarded.py'
+            and validation.get('abort_policy') == 'configs/vopd_6241_candidate_128_abort_policy.yaml'
+            and validation.get('postflight_script') == 'scripts/audit_vopd_6241_candidate_128.py'
         )
     if paper_alignment:
         checks.update(

@@ -496,6 +496,7 @@ class AgentLoopWorker:
             top_p=config.top_p,
             repetition_penalty=1.0,
             logprobs=config.calculate_log_probs,
+            ignore_eos=config.ignore_eos,
         )
 
         # override sampling params for validation

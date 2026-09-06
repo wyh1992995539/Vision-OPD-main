@@ -1,0 +1,15 @@
+{
+  "status": "OPEN_AUDIT_ACCOUNTING_REVIEW",
+  "source": "evidence/memory_stages/rank0.pid6948.jsonl",
+  "observed_global_step": 2,
+  "observed_event": "student_forward/after",
+  "reserved_bytes": 109072875520,
+  "device_total_bytes": 101975851008,
+  "device_free_bytes": 19724042240,
+  "issue": "Current stage_summary requires reserved_bytes <= device_total_bytes; observed allocator counters violate this while physical device telemetry remains below the abort threshold. Dedicated postflight is expected to reject this counter ordering unless independently reviewed.",
+  "cause_verified": false,
+  "cuda_oom_inferred": false,
+  "training_sources_modified": false,
+  "next_action": "Preserve launch-bound evidence; after run completion investigate allocator accounting and, if warranted, produce a separately versioned re-audit without rewriting original run evidence.",
+  "formal_training_authorized": false
+}

@@ -9,11 +9,17 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import sys
 from typing import Any
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scripts.day11_validation_evidence import collect_validation_evidence
+from scripts.freeze_formal_cpu import verify as verify_cpu_freeze
+
 RUN_ROOT = ROOT / "artifacts/runs/E-D11-6K-GATE-001"
 DEFAULT_OUTPUT = RUN_ROOT / "preflight.json"
 GIB = 1024**3
@@ -27,9 +33,19 @@ PATHS = {
     "cold_reload": RUN_ROOT / "pilot/64/cold_reload_attempt_002/reload_validation_summary.json",
     "pilot_64_resource": RUN_ROOT / "pilot/64/evidence/resource_summary.json",
     "formal_config": ROOT / "configs/vopd_6241.yaml",
+    "formal_candidate_config": ROOT / "configs/vopd_6241_candidate.yaml",
     "formal_policy": ROOT / "configs/vopd_6241_abort_policy.yaml",
     "project_config": ROOT / "configs/project_6241.yaml",
+    "candidate_gate_freeze": RUN_ROOT / "formal_candidate_validation_v1/formal_gate_freeze.json",
+    "promotion_receipt": RUN_ROOT / "formal_promotion_v1/promotion_receipt.json",
 }
+VALIDATION_ROOT = RUN_ROOT / 'memory_optimization/fixed_validation_v1'
+PATHS.update({
+    'fixed_baseline': VALIDATION_ROOT / 'fixed_baseline/run/evidence/postflight.json',
+    'fixed_deferred': VALIDATION_ROOT / 'fixed_deferred/run/evidence/postflight.json',
+    'fixed_comparison': VALIDATION_ROOT / 'fixed_comparison.json',
+    'pressure': VALIDATION_ROOT / 'pressure_v2/run/evidence/postflight.json',
+})
 
 
 def utc_now() -> str:
@@ -122,6 +138,9 @@ def build_preflight(
     formal = yaml.safe_load(paths["formal_config"].read_text(encoding="utf-8"))
     policy = yaml.safe_load(paths["formal_policy"].read_text(encoding="utf-8"))
     project = yaml.safe_load(paths["project_config"].read_text(encoding="utf-8"))
+    validation = collect_validation_evidence(paths)
+    diagnostics_valid = validation['status'] == 'PASS_DIAGNOSTIC_EVIDENCE'
+    pressure = validation.get('pressure', {})
 
     freeze_p16 = freeze.get("verification", {}).get("pilot_16_postflight", {})
     freeze_p64 = freeze.get("verification", {}).get("pilot_64_postflight", {})
@@ -129,6 +148,7 @@ def build_preflight(
     budget_sources = budget.get("sources", {})
     static_inputs = static.get("inputs", {})
     evidence_checks = {
+        'latest_diagnostic_evidence_integrity': diagnostics_valid,
         "static_gate_pass_and_inputs_current": (
             static.get("status") == "PASS_PENDING_GPU_PILOT"
             and all(static.get("checks", {}).values())
@@ -180,20 +200,43 @@ def build_preflight(
 
     required_disk = int(policy["disk"]["prelaunch_required_bytes"])
     formal_cpu_floor = int(policy["memory"]["prelaunch_cgroup_minimum_bytes"])
-    reviewed_cpu_floor = 224 * GIB
+    reviewed_cpu_floor = 240 * GIB
     pilot_cpu_capacity = int(pilot_resource["cpu_capacity_bytes"])
     runtime_checks = {
-        "pilot_runtime_capacity_met_reviewed_224_gib": pilot_cpu_capacity >= reviewed_cpu_floor,
+        "pilot_runtime_capacity_met_reviewed_240_gib": pilot_cpu_capacity >= reviewed_cpu_floor,
         "disk_free_meets_formal_120_gib": disk_free_bytes >= required_disk,
     }
 
     coverage = budget["coverage"]
     response_stress_floor = int(0.75 * int(coverage["configured_response_limit_tokens"]))
     safety_checks = {
-        "formal_cpu_floor_refrozen_to_at_least_224_gib": formal_cpu_floor >= reviewed_cpu_floor,
-        "pilot_gpu_peak_below_98_percent_abort_line": bool(coverage["gpu_peak_below_abort_ratio"]),
-        "at_least_two_post_warmup_steps_observed": int(coverage["post_warmup_steps_observed"]) >= 2,
-        "long_response_training_pressure_observed": int(coverage["maximum_response_tokens_observed"]) >= response_stress_floor,
+        "formal_cpu_floor_matches_reviewed_240_gib": (
+            verify_cpu_freeze() and formal_cpu_floor == reviewed_cpu_floor
+            and formal['resources']['prelaunch_cgroup_minimum_bytes'] == formal_cpu_floor
+        ),
+        'diagnostic_gpu_peaks_below_formal_abort_line': (
+            diagnostics_valid and pressure['gpu_peak_ratio'] < float(policy['memory']['gpu_used_ratio_abort'])
+            and pressure['marker_peak_ratio'] < float(policy['memory']['gpu_used_ratio_abort'])
+        ),
+        'diagnostic_cpu_peak_below_formal_abort_line': (
+            diagnostics_valid and pressure['cpu_peak_ratio'] < float(policy['memory']['cgroup_used_ratio_abort'])
+        ),
+        'at_least_two_post_warmup_steps_observed': (
+            diagnostics_valid and pressure['coverage']['passed'] is True
+        ),
+        'long_response_training_pressure_observed': (
+            diagnostics_valid and pressure['coverage']['passed'] is True
+            and pressure['maximum_response_tokens'] >= response_stress_floor
+        ),
+        'diagnostic_length_and_warmup_match_formal': (
+            diagnostics_valid and formal['data']['max_response_length'] == 1024
+            and formal['actor']['lr_warmup_steps'] == 10
+        ),
+        'formal_uses_natural_eos': formal['rollout']['ignore_eos'] is False,
+        # Diagnostic evidence is not a final-candidate receipt. The later candidate
+        # promotion workflow must replace this pending gate with bound validation.
+        # Neither a YAML status nor diagnostic PASS can authorize that promotion.
+        'formal_candidate_validation_bound': False,
     }
     formal_config_released = formal.get("status") == "ready_for_formal_training"
     status = decision_status(evidence_checks, runtime_checks, safety_checks, formal_config_released)
@@ -203,6 +246,7 @@ def build_preflight(
     return {
         "schema_version": 1,
         "gate_id": "E-D11-6K-FINAL-PREFLIGHT-001",
+        "audit_revision": "latest_diagnostic_evidence_v2",
         "generated_at_utc": generated_at or utc_now(),
         "experiment_id": "E-D12-6K-VOPD-001",
         "artifact_status": "COMPLETE",
@@ -217,6 +261,17 @@ def build_preflight(
         "evidence_checks": evidence_checks,
         "runtime_checks": runtime_checks,
         "safety_checks": safety_checks,
+        'latest_validation': validation,
+        'gate_implementation': {
+            str(path.resolve()): sha256_file(path)
+            for path in (Path(__file__), ROOT / 'scripts/day11_validation_evidence.py', ROOT / 'scripts/freeze_formal_cpu.py')
+        },
+        'formal_candidate': {
+            'status': 'PENDING_FORMAL_CANDIDATE_VALIDATION',
+            'reason': 'Historical replay / forced-EOS pressure runs do not validate the final natural-generation candidate.',
+            'automatic_promotion_supported': False,
+            'training_resume_validated': False,
+        },
         "runtime_snapshot": {
             "builder_process_cpu_capacity_bytes": cpu_capacity_bytes,
             "builder_process_cpu_capacity_gib": cpu_capacity_bytes / GIB,
@@ -238,7 +293,7 @@ def build_preflight(
             **coverage,
             "required_post_warmup_steps": 2,
             "long_response_pressure_floor_tokens": response_stress_floor,
-            "note": "The 75% response floor is a project safety stress criterion, not a paper hyperparameter.",
+            "note": "Historical Pilot-64 / budget coverage retained unchanged, not used to reject newer valid pressure coverage. The 75% floor is a project criterion, not a paper hyperparameter.",
         },
         "budget": {
             "status": budget["status"],
@@ -252,14 +307,24 @@ def build_preflight(
                 "mitigation": "Preserve current successful checkpoints; migrate or explicitly remove superseded archived artifacts, then rerun this script.",
             }] if disk_free_bytes < required_disk else []),
             {
-                "severity": "BLOCKING",
-                "risk": "Pilot-64 GPU peaks exceeded 98%, and natural responses did not exercise long-output pressure.",
-                "mitigation": "Apply an evidence-backed memory mitigation and run a targeted post-warmup/long-response resource Pilot.",
+                "severity": "HISTORICAL" if diagnostics_valid else "BLOCKING",
+                "risk": "Old Pilot-64 GPU peaks exceeded 98%; that run did not cover long responses or post-warmup steps.",
+                "mitigation": "Keep the old evidence; evaluate the separately bound pressure_v2 diagnostics above, without claiming they validate the formal candidate.",
             },
             {
                 "severity": "BLOCKING",
-                "risk": "Pilot-64 ended at step 8 before the 10-step warmup completed.",
-                "mitigation": "Record at least two optimizer steps after warmup before formal release.",
+                "risk": "The final natural-generation candidate has not been promoted and validated against the diagnostic sources/configuration.",
+                "mitigation": "Prepare the candidate, retain normal EOS, validate its actual launch chain and bind candidate evidence before implementing final promotion.",
+            },
+            {
+                "severity": "DISCLOSURE",
+                "risk": "Fixed Actor payloads match, but the whole online rollout/ref/logprob workload is not fixed; whole-run causal memory claims remain unsupported.",
+                "mitigation": "Retain optimization_validated=false and whole_run_causal_claim_allowed=false; report pressure feasibility separately.",
+            },
+            {
+                "severity": "REVIEW",
+                "risk": "Budget still uses historical short-response Pilot-64; cold reload proves historical Student inference, not training resume.",
+                "mitigation": "Refresh budget using the final natural-generation candidate and review candidate checkpoint/reload coverage. Do not extrapolate forced-length pressure as natural average throughput.",
             },
             {
                 "severity": "CONTROL",
@@ -275,8 +340,10 @@ def build_preflight(
         "next_actions": [
             *(["Free enough disk to meet the 120 GiB formal floor."]
               if disk_free_bytes < required_disk else []),
-            "Refreeze the formal CPU prelaunch floor to at least 224 GiB; Pilot runtime capacity was 240 GiB and launch capacity must be rechecked.",
-            "Complete targeted post-warmup and long-response GPU resource validation.",
+            "Use the evidence-bound 240 GiB CPU floor; freshly recheck the launcher cgroup. Refresh final static/config/budget source bindings after resource and candidate changes.",
+            *(["Repair missing/changed diagnostic evidence before using its coverage."] if not diagnostics_valid else []),
+            "Prepare and validate the final natural-generation candidate with deferred loading; preserve historical diagnostic runtimes and do not reuse forced-EOS/replay checkpoints as formal training starts.",
+            "Bind candidate source/configuration, checkpoint validation and refreshed budget in the promotion workflow; this diagnostic-only revision intentionally cannot authorize training.",
             "Set configs/vopd_6241.yaml status to ready_for_formal_training only after every prior check passes, then rerun this script.",
         ],
         "sources": {
@@ -284,6 +351,11 @@ def build_preflight(
             for name, path in paths.items()
         },
     }
+
+
+# Supersede the historical diagnostic-only composer with the source-bound
+# natural-candidate Gate. The old implementation remains readable as history.
+from scripts.finalize_day11_candidate_gate import build_preflight
 
 
 def render_markdown(value: dict[str, Any]) -> str:
@@ -294,6 +366,24 @@ def render_markdown(value: dict[str, Any]) -> str:
     blockers = "\n".join(f"- `{item}`" for item in value.get("blocking_gates", [])) or "- 无"
     actions = "\n".join(f"{index}. {item}" for index, item in enumerate(value.get("next_actions", []), 1))
     runtime = value.get("runtime_snapshot", {})
+    validation = value.get('latest_validation', {})
+    pressure = validation.get('pressure', {})
+    candidate = value.get('formal_candidate', {})
+    budget = value.get('budget', {})
+    selected_budget = budget.get('selected', {})
+    diagnostic_summary = (
+        f"- 证据状态：`{validation.get('status', 'NOT_AVAILABLE')}`\n"
+        f"- 固定输入对照：`{validation.get('fixed_comparison_status', 'NOT_AVAILABLE')}`；不允许整段显存因果归因。\n"
+        f"- 压力更新：{pressure.get('observed_steps', 0)} 步；有效回复 {pressure.get('response_count', 0)} 条；"
+        f"长度 {pressure.get('minimum_response_tokens', 0)}～{pressure.get('maximum_response_tokens', 0)} tokens。\n"
+        f"- NVML / 同步物理显存峰值：{pressure.get('gpu_peak_ratio', 0):.2%} / {pressure.get('marker_peak_ratio', 0):.2%}。\n"
+        f"- CPU 峰值：{pressure.get('cpu_peak_bytes', 0) / GIB:.2f} GiB。\n"
+        f"- 证据错误：`{validation.get('errors', [])}`\n"
+        f"- 正式候选：`{candidate.get('status', 'NOT_AVAILABLE')}`；已绑定自然生成与最终 checkpoint。\n"
+        f"- 新预算：计划 {selected_budget.get('planning_hours', 0):.2f} 双卡小时 / "
+        f"{selected_budget.get('planning_incremental_cost_cny', 0):.2f} 元；"
+        "候选 PASS 仍不等于正式配置已放行。"
+    )
     return f"""# Vision-OPD 6241 Day11 最终汇总 Gate
 
 - 状态：**{value['status']}**
@@ -303,6 +393,10 @@ def render_markdown(value: dict[str, Any]) -> str:
 - 本报告进程 cgroup（不可作启动证据）：{runtime.get('builder_process_cpu_capacity_gib', 0):.2f} GiB
 - 当前磁盘可用：{runtime.get('disk_free_gib', 0):.2f} GiB
 - 正式磁盘门槛：{runtime.get('disk_required_gib', 0):.2f} GiB
+
+## 最新诊断证据
+
+{diagnostic_summary}
 
 ## 检查
 
@@ -334,6 +428,15 @@ def main() -> int:
         cpu_capacity_bytes=memory_capacity_bytes(),
     )
     output = args.output.resolve()
+    if output.exists():
+        archive = output.parent / 'gate_history' / (
+            dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ') + '_' + sha256_file(output)[:12]
+        )
+        archive.mkdir(parents=True, exist_ok=False)
+        for previous in (output, output.with_suffix('.md'), output.with_suffix('.sha256')):
+            if previous.is_file():
+                shutil.copy2(previous, archive / previous.name)
+        value['previous_report_archive'] = str(archive)
     write_atomic(output, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     write_atomic(output.with_suffix(".md"), render_markdown(value))
     write_atomic(output.with_suffix(".sha256"), f"{sha256_file(output)}  {output}\n{sha256_file(output.with_suffix('.md'))}  {output.with_suffix('.md')}\n")

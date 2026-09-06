@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "started_at_utc": "2026-09-06T12:07:16.967303+00:00",
+  "plan_sha256": "c8f9124aba21a7011495d16fe6f09f739aaa0eec33d1450f01b542c5b62be523",
+  "deleted": [
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt"
+  ],
+  "verified": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 7520159744,
+      "mtime_ns": 1788671794256707766,
+      "nlink": 1,
+      "sha256": "8e41d2f1da4ec8c1aa0cfd03145ca6d0ebf225d9d8004bd1b612cf07751f8a94"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 7520134976,
+      "mtime_ns": 1788671793804715453,
+      "nlink": 1,
+      "sha256": "a0e49e8a847a9af99d7a516889f6a1860d161f9fbbe9bed4b3e725d108a2db4e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 7520159746,
+      "mtime_ns": 1788671853675705506,
+      "nlink": 1,
+      "sha256": "b84de915e85c7a0b4611e8fa92d56ec2ef37a15212367d879f1980fda2e8cfbf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 7520159745,
+      "mtime_ns": 1788671853415709858,
+      "nlink": 1,
+      "sha256": "e472ce359fdd79464728248c48b15ef8ab82dc15e965b85c296c2cf444055935"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 8596315781,
+      "mtime_ns": 1788673954592952654,
+      "nlink": 1,
+      "sha256": "682a47b01960e8bdb3f53e679369ccd4c42ef28906cda2e3aa126c74fcde1ce0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 8596315780,
+      "mtime_ns": 1788673954028951768,
+      "nlink": 1,
+      "sha256": "d5092b6ec0f7de7479e028bee934120a8035650d4c6d4dd685629aeeab32fbcb"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 8596315782,
+      "mtime_ns": 1788674010989019343,
+      "nlink": 1,
+      "sha256": "dd1da8a81a640c36a4637208fb20a8acc6429cd280085e2f1807b866186a905d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred_v2/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 8596315796,
+      "mtime_ns": 1788674012149020271,
+      "nlink": 1,
+      "sha256": "8ca4a81fd0bc374596f22c7bf279dcfe433aa100319bb319a321d97312241254"
+    }
+  ],
+  "free_before": 102563172352,
+  "recovery": "Deleted old online A/B tensor shards cannot be restored; no backup exists.",
+  "authorization": "Explicit user approval of the eight old online A/B tensor shards",
+  "protected_unchanged": true,
+  "finished_at_utc": "2026-09-06T12:07:17.569110+00:00",
+  "free_after": 216593027072
+}
