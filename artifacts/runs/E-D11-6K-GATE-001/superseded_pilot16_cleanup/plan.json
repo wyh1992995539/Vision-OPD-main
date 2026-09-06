@@ -1,0 +1,1728 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-05T14:46:56.878443+00:00",
+  "status": "PLANNED",
+  "authorization": "User requested generate and execute safe disk cleanup/migration after proposal to retire superseded Pilot16 checkpoint.",
+  "action": "unlink_exactly_four_superseded_model_and_optimizer_shards",
+  "archive": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision",
+  "files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 1101145287,
+      "mtime_ns": 1788605853510365428,
+      "nlink": 1,
+      "sha256": "5e121d5027d72f4d5b395d39802c4fed88f97ce0fe102219df8f854efa18e67a"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 1101145290,
+      "mtime_ns": 1788605852306351467,
+      "nlink": 1,
+      "sha256": "dee9d72574fcd7b8301a3eb26ac559a3dae0750a6b4499926a482864a2b7f019"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 1101145291,
+      "mtime_ns": 1788605925011113484,
+      "nlink": 1,
+      "sha256": "b26840cea242849ae0a1f9871efbb6b4393e8dccd8194ab874c678b25272bb44"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 1101145288,
+      "mtime_ns": 1788605924015104109,
+      "nlink": 1,
+      "sha256": "390633f0ac10962d405140cb49aaa0467de421eb6dfed5efdce39a2cceb51657"
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/archive_manifest.json",
+      "size_bytes": 7085,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 32232212083,
+      "mtime_ns": 1788611339343616982,
+      "nlink": 1,
+      "sha256": "e4bd5c0fdc9d8758fe815707c468b112f23e105d902395d330d5149310aa8f16"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 1101145284,
+      "mtime_ns": 1788605925015113521,
+      "nlink": 1,
+      "sha256": "7774ebba2ab1a16fa2f003ea261d7a5973eb728c51e65190973e25c96bbdb288"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 1101145285,
+      "mtime_ns": 1788605924015104109,
+      "nlink": 1,
+      "sha256": "5c61249796d45e5698bf97416acff1aa78f38f91e9383f6a75a9d357eec46b60"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 1101145286,
+      "mtime_ns": 1788605926131123991,
+      "nlink": 1,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 2296273919,
+      "mtime_ns": 1788605925351116674,
+      "nlink": 1,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 2294105049,
+      "mtime_ns": 1788605925027113635,
+      "nlink": 1,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 2294105050,
+      "mtime_ns": 1788605926131123991,
+      "nlink": 1,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "allocated_bytes": 19992576,
+      "device": 2304,
+      "inode": 2211056192,
+      "mtime_ns": 1788605925219115436,
+      "nlink": 1,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 2211056193,
+      "mtime_ns": 1788605925031113671,
+      "nlink": 1,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/data.pt",
+      "size_bytes": 1499,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 91099256,
+      "mtime_ns": 1788605926767129942,
+      "nlink": 1,
+      "sha256": "cfb7e4d9b1e289f1660f5d92b0b699b514c6d1aa57500002bd78cf4345b61dc8"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 30095733223,
+      "mtime_ns": 1788605926767129942,
+      "nlink": 1,
+      "sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/exit_receipt.json",
+      "size_bytes": 852,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 31158711200,
+      "mtime_ns": 1788605933079188392,
+      "nlink": 1,
+      "sha256": "60934e8f1aaa1302d6ccb389e5dcc19435802347c23016610dd7a5848b883f54"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/guard_summary.json",
+      "size_bytes": 661,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 31158711201,
+      "mtime_ns": 1788605932863186409,
+      "nlink": 1,
+      "sha256": "6824325aefd0eeb8cc17f9bffda24dbab70f7930b22c7fd8b6d344c2e4981b9f"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 271909,
+      "allocated_bytes": 274432,
+      "device": 2304,
+      "inode": 5467226916,
+      "mtime_ns": 1788605750836992669,
+      "nlink": 1,
+      "sha256": "c6ad4a15544b4b2a7c4b2e9ceee68c8c454e98a7280c79ac62ccfedd514828fb"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 809253,
+      "allocated_bytes": 811008,
+      "device": 2304,
+      "inode": 5467226917,
+      "mtime_ns": 1788605750836992669,
+      "nlink": 1,
+      "sha256": "268bca22b83e6d027e7fecde3a3e91a46f109a3f9590ef0147c006343c8838a0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 60965,
+      "allocated_bytes": 61440,
+      "device": 2304,
+      "inode": 5467226918,
+      "mtime_ns": 1788605805509770941,
+      "nlink": 1,
+      "sha256": "636709f82d86b338a11e0c72a1faeed605ddff7808929c71ee2a81738cf3c5dd"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 1104933,
+      "allocated_bytes": 1105920,
+      "device": 2304,
+      "inode": 5467226919,
+      "mtime_ns": 1788605805509770941,
+      "nlink": 1,
+      "sha256": "f41fdeb74e38ff5f646fbd1b9b78fc42225ba2c384db9b76c25245220b94d6ef"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/postflight.json",
+      "size_bytes": 6070,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 31158711202,
+      "mtime_ns": 1788605933059188208,
+      "nlink": 1,
+      "sha256": "e38d2099875c5bd392f60720968c62fc69f86389a812ede9193cac49e49a1aa6"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/postflight.md",
+      "size_bytes": 1160,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 31158711203,
+      "mtime_ns": 1788605933059188208,
+      "nlink": 1,
+      "sha256": "edc5f53091663bbc0ff7a6a1795ea2c41fedc3e096dce344ca1d10996ede9417"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/postflight_sha256.txt",
+      "size_bytes": 330,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 31158711204,
+      "mtime_ns": 1788605933059188208,
+      "nlink": 1,
+      "sha256": "e910cd9cfad23a95b84e09cccd7da2f1b7fbcdc59fcd6c3d8df11e7babc417ba"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/runtime_metrics.jsonl",
+      "size_bytes": 368,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 31158711205,
+      "mtime_ns": 1788605772889320240,
+      "nlink": 1,
+      "sha256": "1ea488c96d8a22949ed9e5f623c10d82684fc32a23e0b440a53f18ad75051801"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 21285,
+      "allocated_bytes": 24576,
+      "device": 2304,
+      "inode": 4313563264,
+      "mtime_ns": 1788605927859140135,
+      "nlink": 1,
+      "sha256": "4284d8fe79372d964a75af3b891e0df2b028fca335d513c85389cc4c4861d9e5"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/telemetry/disk.jsonl",
+      "size_bytes": 9033,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 4313563265,
+      "mtime_ns": 1788605927863140172,
+      "nlink": 1,
+      "sha256": "10bd65ace1bdbd94cfedfd1b4a3b493b351acb59fee6a3fb91a7bacea40f07c5"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/telemetry/gpu.jsonl",
+      "size_bytes": 31925,
+      "allocated_bytes": 32768,
+      "device": 2304,
+      "inode": 4313563266,
+      "mtime_ns": 1788605927775139351,
+      "nlink": 1,
+      "sha256": "66cd759a0e18464e5f5f19bae8e3aa7515f60644726e499c6db752b768d3b9c8"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 430487,
+      "allocated_bytes": 434176,
+      "device": 2304,
+      "inode": 4313563267,
+      "mtime_ns": 1788605927859140135,
+      "nlink": 1,
+      "sha256": "5a6ab6dce9cbe80d6aac61a360ba2f10382a8ce02e62fd194661a75724e4eb01"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/logs/train.log",
+      "size_bytes": 119824,
+      "allocated_bytes": 122880,
+      "device": 2304,
+      "inode": 32285911630,
+      "mtime_ns": 1788605928667147653,
+      "nlink": 1,
+      "sha256": "1732c1bbfca72df385102f24a43949df2c233708044dca855038e97b2c45091e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/billing_override_receipt.json",
+      "size_bytes": 752,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 33330966108,
+      "mtime_ns": 1788605547424936289,
+      "nlink": 1,
+      "sha256": "6a474c245a62182fbd397444c2037aa2ace65a7a0d5e428989072e1279723756"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/pilot_guard_preflight.json",
+      "size_bytes": 8209,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 33330966109,
+      "mtime_ns": 1788605547780945278,
+      "nlink": 1,
+      "sha256": "b340bfb7404c00830749cf5d7b0ac22b8d0337a2e26955835611a2849a9188fc"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/pilot_launcher_console.log",
+      "size_bytes": 120640,
+      "allocated_bytes": 122880,
+      "device": 2304,
+      "inode": 33325797056,
+      "mtime_ns": 1788605933059188208,
+      "nlink": 1,
+      "sha256": "16bfd42429706a206a3c42638f794f38902259d623f2ce813a93aaa6cbac1b5d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/pilot_live_launch_gate.json",
+      "size_bytes": 9955,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 33325797057,
+      "mtime_ns": 1788605547876947702,
+      "nlink": 1,
+      "sha256": "a8125451aae3f678c1485419db8a4bbe3c2421243dc93ffb7078e4ddf146e364"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/preflight_summary.json",
+      "size_bytes": 3271,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 33325797058,
+      "mtime_ns": 1788605548192955670,
+      "nlink": 1,
+      "sha256": "221ed670b3d8de6207628b444940af2594423983111481fa89811ae5ca3a02d6"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/run_invocation.json",
+      "size_bytes": 2141,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 33325797059,
+      "mtime_ns": 1788605548272957686,
+      "nlink": 1,
+      "sha256": "4c1eae9469884c9348b5b67887b81631dfca3c2a57aa11edc1d1d1122b5adc9b"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/selection.json",
+      "size_bytes": 9992,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 33325797060,
+      "mtime_ns": 1788522836270040354,
+      "nlink": 1,
+      "sha256": "4d7b4889e773114e46fadec976345555cafbc31eff9c1c25741ff9f2763ca6a1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/preflight/user_authorized_budget_override_policy.yaml",
+      "size_bytes": 2670,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 33325797061,
+      "mtime_ns": 1788605547424936289,
+      "nlink": 1,
+      "sha256": "15083b35ecc8cf529ab75a67d92bcf5ee83424698aec7470e25da0f7221beb63"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/rollouts/1.jsonl",
+      "size_bytes": 8911,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 91099257,
+      "mtime_ns": 1788605770933291949,
+      "nlink": 1,
+      "sha256": "d9ff9ea9bbe3596ace1981f3b63d0e07b49924c412d7697bd5d83f56d0696091"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/rollouts/2.jsonl",
+      "size_bytes": 9117,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 91099258,
+      "mtime_ns": 1788605814289885634,
+      "nlink": 1,
+      "sha256": "97a601082faa0d7d9c2a23415ba8cc81e7eb77df0d5ac7994b834d2ad06c2de1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 32232212090,
+      "mtime_ns": 1788611728635859786,
+      "nlink": 1,
+      "sha256": "440f637c2ba5ef67d3bc52cb1a8fde7cdca40137146265f912e483ebada7e862"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 32232212091,
+      "mtime_ns": 1788611729103784685,
+      "nlink": 1,
+      "sha256": "09cd519896653dbc521d7c30925faa245ad14a8c23e2808f63a11da7b17d9c61"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 32232212092,
+      "mtime_ns": 1788611730127620587,
+      "nlink": 1,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 3235565253,
+      "mtime_ns": 1788611728867822544,
+      "nlink": 1,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 3235565252,
+      "mtime_ns": 1788611728651857217,
+      "nlink": 1,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 3235565257,
+      "mtime_ns": 1788611730123621227,
+      "nlink": 1,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "allocated_bytes": 19992576,
+      "device": 2304,
+      "inode": 3235565256,
+      "mtime_ns": 1788611728855824471,
+      "nlink": 1,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 3235565255,
+      "mtime_ns": 1788611728651857217,
+      "nlink": 1,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 32232212087,
+      "mtime_ns": 1788611661743168174,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 32232212086,
+      "mtime_ns": 1788611661075287080,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 32232212088,
+      "mtime_ns": 1788611718137558480,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 32232212089,
+      "mtime_ns": 1788611719389354513,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/data.pt",
+      "size_bytes": 1499,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 31158779756,
+      "mtime_ns": 1788611730479564254,
+      "nlink": 1,
+      "sha256": "cfb7e4d9b1e289f1660f5d92b0b699b514c6d1aa57500002bd78cf4345b61dc8"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 8623736734,
+      "mtime_ns": 1788611730479564254,
+      "nlink": 1,
+      "sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/exit_receipt.json",
+      "size_bytes": 852,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 4347618575,
+      "mtime_ns": 1788611738566277736,
+      "nlink": 1,
+      "sha256": "9b8556e323ea13f8c8eee609c5321288fef8e2d7bcc16445c512b13f65a32783"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/guard_summary.json",
+      "size_bytes": 661,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 4347618569,
+      "mtime_ns": 1788611738326315682,
+      "nlink": 1,
+      "sha256": "faec6fb110050588af343e7c0ca094889766b41095bbd63789bcb228505f8208"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 591909,
+      "allocated_bytes": 593920,
+      "device": 2304,
+      "inode": 25797873642,
+      "mtime_ns": 1788611566057554498,
+      "nlink": 1,
+      "sha256": "88d9e8c85c3a1c0993f2bebb6d72b955ac29d71b2033ef5e5058e792b430d548"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 200741,
+      "allocated_bytes": 204800,
+      "device": 2304,
+      "inode": 25797873641,
+      "mtime_ns": 1788611566053555326,
+      "nlink": 1,
+      "sha256": "0efe6ab4338a1b6244b9fef564256cf6b04b650a9d9e2e2f0afe0b9d3938adf6"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 95781,
+      "allocated_bytes": 98304,
+      "device": 2304,
+      "inode": 25797873643,
+      "mtime_ns": 1788611615035793601,
+      "nlink": 1,
+      "sha256": "df950f34858df56a4088345cf57dd9d4d13c74184dd49a466515f06d2a6a3c56"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 198309,
+      "allocated_bytes": 200704,
+      "device": 2304,
+      "inode": 25797873644,
+      "mtime_ns": 1788611615035793601,
+      "nlink": 1,
+      "sha256": "a49f486acade2959c25cf05106e59cadb151efe115b0895e6d8beacbdab24df3"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+      "size_bytes": 6708,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 4347618570,
+      "mtime_ns": 1788611738542281531,
+      "nlink": 1,
+      "sha256": "cafb469e341c3a365a7e4df03e37cf08a9c30fe545a6e2a6badcb5a3dbd17cde"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.md",
+      "size_bytes": 1204,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 4347618573,
+      "mtime_ns": 1788611738542281531,
+      "nlink": 1,
+      "sha256": "2c95da4f01a17a191999ff3885de794759dbcf2a25d0e89e5239bf9ad549207d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight_sha256.txt",
+      "size_bytes": 330,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 4347618574,
+      "mtime_ns": 1788611738542281531,
+      "nlink": 1,
+      "sha256": "2e132287d4655a1ace78e7be740b158b7a8eec0d47a989bc639b051cd05d42fa"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/rerun_resource_summary.json",
+      "size_bytes": 2229,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 4347618576,
+      "mtime_ns": 1788611831996489262,
+      "nlink": 1,
+      "sha256": "0206ea0ea4bd773097b089571283b99de3181c8145330344e54b52f8dfee257a"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/runtime_metrics.jsonl",
+      "size_bytes": 756,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 4347618568,
+      "mtime_ns": 1788611733323110069,
+      "nlink": 1,
+      "sha256": "d9a551f6b0dec2e1be23f035d765cc7302154ba076a6e60b7de43acfb781fb88"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 90333,
+      "allocated_bytes": 98304,
+      "device": 2304,
+      "inode": 5401750512,
+      "mtime_ns": 1788611733323110069,
+      "nlink": 1,
+      "sha256": "f51aa437500bf651f7b25146493e86904111e41a60608a65ab73143a01ea2065"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/disk.jsonl",
+      "size_bytes": 8790,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 5401750513,
+      "mtime_ns": 1788611733323110069,
+      "nlink": 1,
+      "sha256": "2610f79e53b43428b0cdf4dd32a306490ed47df2d77065336d51ecb281f7df9e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/gpu.jsonl",
+      "size_bytes": 31062,
+      "allocated_bytes": 32768,
+      "device": 2304,
+      "inode": 5401750510,
+      "mtime_ns": 1788611733319110706,
+      "nlink": 1,
+      "sha256": "807ff62058e017b65a2bb859f6826afc79c8464c698aaf8e80efbb39f24fd849"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 448257,
+      "allocated_bytes": 450560,
+      "device": 2304,
+      "inode": 5401750511,
+      "mtime_ns": 1788611733323110069,
+      "nlink": 1,
+      "sha256": "f3550b1cc469910d58ff7ab2e51acc5f8817ced098c66d45ed9716628b095c8e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 1116637126,
+      "mtime_ns": 1788612559314973939,
+      "nlink": 1,
+      "sha256": "0b9d95c7c272ff910377ef392a72ab055ec7537b7854bb637c6c0492cbc164fc"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 1116637127,
+      "mtime_ns": 1788612559670952496,
+      "nlink": 1,
+      "sha256": "434dca7ef68b741f9f3b27f9765c1bb0ce7fe561ed5bdac3377c2bfa86112a9e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 1116637128,
+      "mtime_ns": 1788612560502902403,
+      "nlink": 1,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 10767209119,
+      "mtime_ns": 1788612559674952254,
+      "nlink": 1,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 10767209118,
+      "mtime_ns": 1788612559326973217,
+      "nlink": 1,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 10767209122,
+      "mtime_ns": 1788612560498902644,
+      "nlink": 1,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "allocated_bytes": 19992576,
+      "device": 2304,
+      "inode": 10767209121,
+      "mtime_ns": 1788612559554959483,
+      "nlink": 1,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 10767209120,
+      "mtime_ns": 1788612559330972975,
+      "nlink": 1,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 1116637122,
+      "mtime_ns": 1788612491419180552,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 1116637123,
+      "mtime_ns": 1788612492119135944,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 1116637124,
+      "mtime_ns": 1788612549375575168,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 1116637125,
+      "mtime_ns": 1788612550367514949,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/data.pt",
+      "size_bytes": 1499,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 99894444,
+      "mtime_ns": 1788612560862880735,
+      "nlink": 1,
+      "sha256": "a62df95dc7c0fbd9b8196250ff5debca590806b48e1c1725652f798855a93de9"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19344967614,
+      "mtime_ns": 1788612560862880735,
+      "nlink": 1,
+      "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/checkpoint_manifest_after.json",
+      "size_bytes": 4409,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 32232370353,
+      "mtime_ns": 1788617598278307288,
+      "nlink": 1,
+      "sha256": "9a41bf0a1ebcba8151edd0efcdc84957f3534b0b9e2e67b617a4d48c3467c42c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/checkpoint_manifest_before.json",
+      "size_bytes": 4409,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 32232370348,
+      "mtime_ns": 1788617491556464395,
+      "nlink": 1,
+      "sha256": "9a41bf0a1ebcba8151edd0efcdc84957f3534b0b9e2e67b617a4d48c3467c42c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/config_snapshot.json",
+      "size_bytes": 923,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 32232370345,
+      "mtime_ns": 1788617434601567141,
+      "nlink": 1,
+      "sha256": "53aff71063d1a8ff3610b93be96f7b52e5532cdb75887f5dc22a6c56327be25c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merge.log",
+      "size_bytes": 2249,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 32232370349,
+      "mtime_ns": 1788617529891702337,
+      "nlink": 1,
+      "sha256": "e477c5afa28663f2b78bd8355226f66ccc6e541a8ef2141b99dc6fb2aa6c4cf3"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/chat_template.jinja",
+      "size_bytes": 5415,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 7781635288,
+      "mtime_ns": 1788617528923721764,
+      "nlink": 1,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/config.json",
+      "size_bytes": 2896,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 7781635285,
+      "mtime_ns": 1788617524955801299,
+      "nlink": 1,
+      "sha256": "357a7aab66c5534d713577cf15e07ebc1ad415b38d8c62f98f6d33dc7b888606"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/generation_config.json",
+      "size_bytes": 204,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 7781635287,
+      "mtime_ns": 1788617524955801299,
+      "nlink": 1,
+      "sha256": "5f02aa641d88dd1b466df7b5ef82e5829629d28931a9e6a6750ddfd2b796b812"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/model.safetensors",
+      "size_bytes": 10350019328,
+      "allocated_bytes": 10350022656,
+      "device": 2304,
+      "inode": 7781635282,
+      "mtime_ns": 1788617524715806104,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/processor_config.json",
+      "size_bytes": 1191,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 7781635291,
+      "mtime_ns": 1788617528923721764,
+      "nlink": 1,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/tokenizer.json",
+      "size_bytes": 19989343,
+      "allocated_bytes": 19992576,
+      "device": 2304,
+      "inode": 7781635290,
+      "mtime_ns": 1788617529067718874,
+      "nlink": 1,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/tokenizer_config.json",
+      "size_bytes": 1139,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 7781635289,
+      "mtime_ns": 1788617528923721764,
+      "nlink": 1,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_manifest.json",
+      "size_bytes": 1135,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 32232370350,
+      "mtime_ns": 1788617538875521595,
+      "nlink": 1,
+      "sha256": "a669f0a7b7a8e76a5ad02af044c01d7b546a59d19a8fb220eefb6f426b355d1d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/reload_validation_summary.json",
+      "size_bytes": 5353,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 32232370354,
+      "mtime_ns": 1788617598282307205,
+      "nlink": 1,
+      "sha256": "9416d54845e943f79eba19bff0cb91ee7282bb5a7b8035d54c7b2f61105ed6c6"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/server_command.json",
+      "size_bytes": 1018,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 32232370351,
+      "mtime_ns": 1788617538875521595,
+      "nlink": 1,
+      "sha256": "2a8674e575621f222fa65a5a05532be95af397599ca0b56df67fe9dd696d1eba"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/vllm_server.log",
+      "size_bytes": 10249,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 32232370352,
+      "mtime_ns": 1788617551051275380,
+      "nlink": 1,
+      "sha256": "b285e649d7a6fc96bbd1e4654e4cd3eab08a14cd96a12077e8d067700c346d72"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/checkpoint_manifest_after.json",
+      "size_bytes": 4409,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 19345006872,
+      "mtime_ns": 1788617871903796335,
+      "nlink": 1,
+      "sha256": "9a41bf0a1ebcba8151edd0efcdc84957f3534b0b9e2e67b617a4d48c3467c42c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/checkpoint_manifest_before.json",
+      "size_bytes": 4409,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 19345006848,
+      "mtime_ns": 1788617699967410001,
+      "nlink": 1,
+      "sha256": "9a41bf0a1ebcba8151edd0efcdc84957f3534b0b9e2e67b617a4d48c3467c42c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/config_snapshot.json",
+      "size_bytes": 935,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19345006655,
+      "mtime_ns": 1788617655529107857,
+      "nlink": 1,
+      "sha256": "14e6b9ba22a5b03ea1d4a22b03899a0874592a46b89f56261277172490fc45be"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/merged_manifest.json",
+      "size_bytes": 1135,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19345006849,
+      "mtime_ns": 1788617716657313893,
+      "nlink": 1,
+      "sha256": "a669f0a7b7a8e76a5ad02af044c01d7b546a59d19a8fb220eefb6f426b355d1d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/postflight_before_reload.json",
+      "size_bytes": 12539,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 19345006874,
+      "mtime_ns": 1788617898749085864,
+      "nlink": 1,
+      "sha256": "4f36df09bfc0f8cf3c5082ec08c8ba3beb8d6f21c5331326c2edb1f53be68fd4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/predictions.jsonl",
+      "size_bytes": 3185,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19345006871,
+      "mtime_ns": 1788617822197046013,
+      "nlink": 1,
+      "sha256": "4e92971262707041f904a46ea837c22fbd64fc5e06653022d4f60b31c5f4e5ba"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/reload_validation_summary.json",
+      "size_bytes": 1732,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19345006873,
+      "mtime_ns": 1788617871903796335,
+      "nlink": 1,
+      "sha256": "38d45de42d9ab11749e7d0c4d404dc5ba1385dd5bcf125fd3e05549215dfa3e3"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/server_command.json",
+      "size_bytes": 1070,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19345006850,
+      "mtime_ns": 1788617716661313396,
+      "nlink": 1,
+      "sha256": "c1277fc6ad7baf83400c5a3e9e3d5cea4cd10db05904f8ff48801621ba3c6078"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/summary.json",
+      "size_bytes": 78,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 19345006861,
+      "mtime_ns": 1788617822197046013,
+      "nlink": 1,
+      "sha256": "9f24e89795ad350038c65c4cb40a44e0c06d68edb6704783ab5c38d73fa1334d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/training_config_freeze_before_reload.json",
+      "size_bytes": 8287,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 19345006875,
+      "mtime_ns": 1788617898753085466,
+      "nlink": 1,
+      "sha256": "7d893eeb3a3570f465c37d7c4d135df4b37e2fbf6eb047d3773fedc07c7f2f59"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/vllm_server.log",
+      "size_bytes": 19228,
+      "allocated_bytes": 20480,
+      "device": 2304,
+      "inode": 19345006851,
+      "mtime_ns": 1788617827412480452,
+      "nlink": 1,
+      "sha256": "2370a49509461be7651fcf9ebc70abbdb7b59e88ea74fb6d00c11212b6580088"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/exit_receipt.json",
+      "size_bytes": 877,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394776905,
+      "mtime_ns": 1788612575689993750,
+      "nlink": 1,
+      "sha256": "a0e48305846c513597a4eaf66094a51af71a1f23234744de10296905c3c78127"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/guard_summary.json",
+      "size_bytes": 661,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394762422,
+      "mtime_ns": 1788612575462007311,
+      "nlink": 1,
+      "sha256": "530618c6192c825c38c6707517243835ccb6d293ba03ee94a012b96310ca6419"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 538533,
+      "allocated_bytes": 540672,
+      "device": 2304,
+      "inode": 32232239040,
+      "mtime_ns": 1788612154680573500,
+      "nlink": 1,
+      "sha256": "b269523c2aed3e60d80bc9f992e3e0e7dd311938589db0695ddc0aed238faf16"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 208869,
+      "allocated_bytes": 208896,
+      "device": 2304,
+      "inode": 32292849521,
+      "mtime_ns": 1788612154680573500,
+      "nlink": 1,
+      "sha256": "226f79845e161dae736ae570f95e47cc8dbf2ee5160d93ae7728077b172f7ce6"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 212133,
+      "allocated_bytes": 212992,
+      "device": 2304,
+      "inode": 32232239042,
+      "mtime_ns": 1788612201440481099,
+      "nlink": 1,
+      "sha256": "06cdb4f59b11b10216c60b67844fb55b958b9b301f610f5778b51689abad110a"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 243621,
+      "allocated_bytes": 245760,
+      "device": 2304,
+      "inode": 32232239041,
+      "mtime_ns": 1788612201440481099,
+      "nlink": 1,
+      "sha256": "934fea841a3d3b6ddad97f26bf2512bad3cf13eb2aa6e4db365e6f4b5a7a5d7d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/3.rank0.pt",
+      "size_bytes": 128933,
+      "allocated_bytes": 131072,
+      "device": 2304,
+      "inode": 32232239058,
+      "mtime_ns": 1788612259875662624,
+      "nlink": 1,
+      "sha256": "987dcc6b6b92727f2d5599bfa45018c1188889e0759dcffa5b21bdb9c457d2c0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/3.rank1.pt",
+      "size_bytes": 210469,
+      "allocated_bytes": 212992,
+      "device": 2304,
+      "inode": 32232239063,
+      "mtime_ns": 1788612259875662624,
+      "nlink": 1,
+      "sha256": "ee0c0b350c96aaa5bcdd59f21f13257bf90ae951c7bd89c8efbb5ea3957cb9de"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/4.rank0.pt",
+      "size_bytes": 382629,
+      "allocated_bytes": 385024,
+      "device": 2304,
+      "inode": 32232239075,
+      "mtime_ns": 1788612307995917944,
+      "nlink": 1,
+      "sha256": "502c4f4ba6266a9bedaffb0e3998b79edcb07309dad213820fdd78bf687858a0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/4.rank1.pt",
+      "size_bytes": 16549,
+      "allocated_bytes": 20480,
+      "device": 2304,
+      "inode": 32232239070,
+      "mtime_ns": 1788612307995917944,
+      "nlink": 1,
+      "sha256": "7924b018a44337d549c95186aa4dba59bb5273fc049730dfd32989b5af313574"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/5.rank0.pt",
+      "size_bytes": 140197,
+      "allocated_bytes": 143360,
+      "device": 2304,
+      "inode": 32232239077,
+      "mtime_ns": 1788612341057451773,
+      "nlink": 1,
+      "sha256": "f2c88baa5f6152b05c5d64b333ca978b423159dd492cf35094793ea7e3b61c96"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/5.rank1.pt",
+      "size_bytes": 203173,
+      "allocated_bytes": 204800,
+      "device": 2304,
+      "inode": 32232239076,
+      "mtime_ns": 1788612341057451773,
+      "nlink": 1,
+      "sha256": "cd95fba89439a49f5e303337cf5bc46f53cacdfb659b61d1d337045c142ddc87"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/6.rank0.pt",
+      "size_bytes": 243621,
+      "allocated_bytes": 245760,
+      "device": 2304,
+      "inode": 32232239079,
+      "mtime_ns": 1788612374347050046,
+      "nlink": 1,
+      "sha256": "2afa11e6cf108a03fe67c1c5937efec428a9afb3a7ab272362aa2347afeed875"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/6.rank1.pt",
+      "size_bytes": 463397,
+      "allocated_bytes": 466944,
+      "device": 2304,
+      "inode": 32232239078,
+      "mtime_ns": 1788612374347050046,
+      "nlink": 1,
+      "sha256": "45d54401f79b9783902f73d16aff6b714313e920fc885c108a4f786c057230a6"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/7.rank0.pt",
+      "size_bytes": 300197,
+      "allocated_bytes": 303104,
+      "device": 2304,
+      "inode": 32232239081,
+      "mtime_ns": 1788612407596727641,
+      "nlink": 1,
+      "sha256": "5c68e8bcdb582b03e31ed6a4f8843cc83338baf5490406e9a2a01f69e2198899"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/7.rank1.pt",
+      "size_bytes": 192677,
+      "allocated_bytes": 196608,
+      "device": 2304,
+      "inode": 32232239080,
+      "mtime_ns": 1788612407564729841,
+      "nlink": 1,
+      "sha256": "bc343da5bb4a9445fed6b0b553e67363f3a6ccd237a7a58b0e16f401a15ec38d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/8.rank0.pt",
+      "size_bytes": 752677,
+      "allocated_bytes": 753664,
+      "device": 2304,
+      "inode": 32232239090,
+      "mtime_ns": 1788612452001736915,
+      "nlink": 1,
+      "sha256": "411047ba68d10d505dea286d07608bbd022ce3a4160f93c5b5eaedbf0f989ea7"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/log_probs/unknown_experiment/8.rank1.pt",
+      "size_bytes": 206501,
+      "allocated_bytes": 208896,
+      "device": 2304,
+      "inode": 32232239082,
+      "mtime_ns": 1788612452001736915,
+      "nlink": 1,
+      "sha256": "2f861e3da9848d8e2c9f56bbd27a9d32a3dc5c7b2785e43e69dc3320bd08cd94"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/postflight.json",
+      "size_bytes": 14446,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 15394776900,
+      "mtime_ns": 1788617899445016707,
+      "nlink": 1,
+      "sha256": "393934f14ad788a90e5626080ba833f6a599e4ee75defffe1bf295d1dc046811"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/postflight.md",
+      "size_bytes": 1204,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394776903,
+      "mtime_ns": 1788617899445016707,
+      "nlink": 1,
+      "sha256": "d2ab7d0337b3b67e8a3776fbfd5163adb9d20f2b681ba069df7bfee520a63018"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/postflight_sha256.txt",
+      "size_bytes": 330,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394776904,
+      "mtime_ns": 1788617899449016310,
+      "nlink": 1,
+      "sha256": "78b84e76a04f69b6689239e3f53bcd717ab955312c6bbd5054b6c963d316f2dd"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/resource_summary.json",
+      "size_bytes": 2058,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394776908,
+      "mtime_ns": 1788612628662906478,
+      "nlink": 1,
+      "sha256": "b87f01327b7e1aba27ca3c09bf27c5d21dda43f1e3192b37bdfab0aabc5da471"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/runtime_metrics.jsonl",
+      "size_bytes": 3088,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394762401,
+      "mtime_ns": 1788612570458305536,
+      "nlink": 1,
+      "sha256": "c541bc022a83dc54f986c598286c4c8837747c5847ab9d7ca802c0cc6b964a0a"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 151522,
+      "allocated_bytes": 155648,
+      "device": 2304,
+      "inode": 16132350240,
+      "mtime_ns": 1788612570458305536,
+      "nlink": 1,
+      "sha256": "5fa946100b3ed758600a4f371c4b1ab10421de40df4d56913adb062ca7a5d870"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/disk.jsonl",
+      "size_bytes": 14554,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 16132350241,
+      "mtime_ns": 1788612570458305536,
+      "nlink": 1,
+      "sha256": "09d270bf331678a3cc10ccefc2899c1bcb28df9dc5f803da877cb1a3cb33a7d4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/gpu.jsonl",
+      "size_bytes": 51587,
+      "allocated_bytes": 53248,
+      "device": 2304,
+      "inode": 16132350238,
+      "mtime_ns": 1788612570458305536,
+      "nlink": 1,
+      "sha256": "84ca0fc59690ba86ddf0f34545581049124ebd9da0bdc06e262c4447959f7a5c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 770613,
+      "allocated_bytes": 778240,
+      "device": 2304,
+      "inode": 16132350239,
+      "mtime_ns": 1788612570458305536,
+      "nlink": 1,
+      "sha256": "2f808c1ba6e4562d19e11e50efd53330eb237d23786806e7203d822e556c9564"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/logs/train.log",
+      "size_bytes": 151926,
+      "allocated_bytes": 155648,
+      "device": 2304,
+      "inode": 17246625604,
+      "mtime_ns": 1788612563778705483,
+      "nlink": 1,
+      "sha256": "d6cdf146c79b1116f2d572b86121400166451151c14434ef5d7025f104efc534"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/billing_override_receipt.json",
+      "size_bytes": 730,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 6568607765,
+      "mtime_ns": 1788611947397836239,
+      "nlink": 1,
+      "sha256": "f03918ea85837d23d85ac4aef228aaf318dc7d519bda89b0a2f917633b03467f"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/launch_attempt_result.json",
+      "size_bytes": 435,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 6568607766,
+      "mtime_ns": 1788606490437882736,
+      "nlink": 1,
+      "sha256": "9ce5f435d842adc8bf478bf6a664f72dfd0735ffb474d5b0dba6a8f5bc6357bb"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/pilot_guard_preflight.json",
+      "size_bytes": 10289,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 6568607767,
+      "mtime_ns": 1788611947813787556,
+      "nlink": 1,
+      "sha256": "82e35e19b327a834c5ee596a897340ee3288cee49882b8862b548cc52faef1ed"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/pilot_launcher_console.log",
+      "size_bytes": 152767,
+      "allocated_bytes": 155648,
+      "device": 2304,
+      "inode": 6568607768,
+      "mtime_ns": 1788612575669994940,
+      "nlink": 1,
+      "sha256": "5b175ab51b4d4b325a7e25ef45aac11099b1d298c9f125ca6665ad84b4195273"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/pilot_live_launch_gate.json",
+      "size_bytes": 16147,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 6568607769,
+      "mtime_ns": 1788611947913775853,
+      "nlink": 1,
+      "sha256": "4745b42e7e7bfb1c4667536f87b41090fea97da4840689b83f0f265f1e3c8da0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/preflight_summary.json",
+      "size_bytes": 5047,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 6568607770,
+      "mtime_ns": 1788611948349724884,
+      "nlink": 1,
+      "sha256": "c1ab0a784139f44961680b63a8a95525a8de86c221163227f61c4b88a3554e1f"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/previous_blocked_launch/billing_override_receipt.json",
+      "size_bytes": 770,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 14286584279,
+      "mtime_ns": 1788606489969882882,
+      "nlink": 1,
+      "sha256": "e2ee6fb237632a1bf63ccc58bb1cf278a92e678b7ec32504170a86660260a76c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/previous_blocked_launch/launch_attempt_result.json",
+      "size_bytes": 435,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 14286584281,
+      "mtime_ns": 1788606490437882736,
+      "nlink": 1,
+      "sha256": "9ce5f435d842adc8bf478bf6a664f72dfd0735ffb474d5b0dba6a8f5bc6357bb"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/previous_blocked_launch/pilot_guard_preflight.json",
+      "size_bytes": 10235,
+      "allocated_bytes": 12288,
+      "device": 2304,
+      "inode": 14286584278,
+      "mtime_ns": 1788606490305882777,
+      "nlink": 1,
+      "sha256": "a2d34aaa7153e7cff258f0d01efd2a79c6b035613ed5fc5287267a2b6c23c92d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/previous_blocked_launch/pilot_launcher_console.log",
+      "size_bytes": 13345,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 14286584276,
+      "mtime_ns": 1788606490393882750,
+      "nlink": 1,
+      "sha256": "3b783604c5f01277c10e866248760457f5c09fa8d2ed088216d1bcab2cb8db04"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/previous_blocked_launch/pilot_live_launch_gate.json",
+      "size_bytes": 13345,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 14286584277,
+      "mtime_ns": 1788606490393882750,
+      "nlink": 1,
+      "sha256": "3b783604c5f01277c10e866248760457f5c09fa8d2ed088216d1bcab2cb8db04"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/previous_blocked_launch/user_authorized_budget_override_policy.yaml",
+      "size_bytes": 2721,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 14286584280,
+      "mtime_ns": 1788606489969882882,
+      "nlink": 1,
+      "sha256": "5593db733eda109d1d2958365da38ba5b88160fd1bbf37401139e5ec08a458c8"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review.json",
+      "size_bytes": 3960,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 6568607771,
+      "mtime_ns": 1788606436973885575,
+      "nlink": 1,
+      "sha256": "ab79bb0cb895f77e1e61496a7b36d5b2619e1c3ccfbebdd9708aab814e5db1be"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review.md",
+      "size_bytes": 1183,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 6568607772,
+      "mtime_ns": 1788606436977885576,
+      "nlink": 1,
+      "sha256": "fd37652982e6de1399008d557259e1559ee4eaafe06b25acba176f183a729e73"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+      "size_bytes": 15087,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 15394717362,
+      "mtime_ns": 1788604580883724345,
+      "nlink": 1,
+      "sha256": "f446a134ca278a01ab8f8830f03583f5ae1fa15d5c565088325e7884a0b2f724"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate.md",
+      "size_bytes": 1429,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394717363,
+      "mtime_ns": 1788604580883724345,
+      "nlink": 1,
+      "sha256": "21a86a6e37580cf98af640c57470ebe102e746fcbbf511f393ee51473afb11a2"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate_sha256.txt",
+      "size_bytes": 296,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 15394717364,
+      "mtime_ns": 1788604580883724345,
+      "nlink": 1,
+      "sha256": "1d74fc16ec7d1932168899a9e982d331492e1bc6e1c3cb809e90cb89b706b401"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json",
+      "size_bytes": 5847,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 15394717365,
+      "mtime_ns": 1788604577279782834,
+      "nlink": 1,
+      "sha256": "389679bfc7caf0a31eba8110640eb199fcdf5dc087ace4ae97cc8754a3f1121b"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/configs/vopd_6241_pilot_abort_policy.yaml",
+      "size_bytes": 2921,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 9682667563,
+      "mtime_ns": 1788604210270546793,
+      "nlink": 1,
+      "sha256": "15893f25385cc5596cf85020782db6721a1e215259a412653177e850d3c61059"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/docs/day11_vopd_6241_pilot_runbook.md",
+      "size_bytes": 3935,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 10767026855,
+      "mtime_ns": 1788604475353489998,
+      "nlink": 1,
+      "sha256": "a4fc8e1f636ada924bfb8ddabd72668375dce322c2ca4703b068f000be499e2e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/scripts/build_day11_static_gate.py",
+      "size_bytes": 19512,
+      "allocated_bytes": 20480,
+      "device": 2304,
+      "inode": 11841241579,
+      "mtime_ns": 1788604475353489998,
+      "nlink": 1,
+      "sha256": "5d7d8e56839e19083976b7f6722c10fec5727be256ce9b506423e8d99076023d"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/scripts/run_vopd_6241_pilot_guarded.py",
+      "size_bytes": 12785,
+      "allocated_bytes": 16384,
+      "device": 2304,
+      "inode": 11841241580,
+      "mtime_ns": 1788604210270546793,
+      "nlink": 1,
+      "sha256": "c31a9fc49e261eddabd4123308f6f1c41f43bf49f39cf0fed68db0fc631cddaf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review_snapshot/tests/test_vopd_6241_pilot_guard.py",
+      "size_bytes": 6431,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 12895843318,
+      "mtime_ns": 1788592356080130437,
+      "nlink": 1,
+      "sha256": "a451c751cbaef0267e824e6f804db8cdb366947e7b995eea5813ad2e81410903"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/run_invocation.json",
+      "size_bytes": 7352,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 6588606563,
+      "mtime_ns": 1788611948461711796,
+      "nlink": 1,
+      "sha256": "6de9a660259dad168b651bd7c18dbb0bcca6ca7cf67f2f85042070943402e7ad"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json",
+      "size_bytes": 34747,
+      "allocated_bytes": 36864,
+      "device": 2304,
+      "inode": 6568607773,
+      "mtime_ns": 1788522843085847293,
+      "nlink": 1,
+      "sha256": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/training_config_freeze_before_postflight_refresh.json",
+      "size_bytes": 8024,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 6568607806,
+      "mtime_ns": 1788611831996489262,
+      "nlink": 1,
+      "sha256": "4b55398d86e95b7fc5d1f43d3002abe98531d3d589eec25dc5705f63b8a85206"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/user_authorized_budget_override_policy.yaml",
+      "size_bytes": 2721,
+      "allocated_bytes": 4096,
+      "device": 2304,
+      "inode": 6568607774,
+      "mtime_ns": 1788611947397836239,
+      "nlink": 1,
+      "sha256": "425e63e67aa265cb29d27c05b6734149a84fdff64a458acea96e2f2d0fa43e49"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/1.jsonl",
+      "size_bytes": 7127,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18277016570,
+      "mtime_ns": 1788612172710969127,
+      "nlink": 1,
+      "sha256": "ccb95c2da573ee1111564ebbd56e0978b422919648a319d4017e2e22c3871df5"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/2.jsonl",
+      "size_bytes": 5594,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18277016571,
+      "mtime_ns": 1788612209167825727,
+      "nlink": 1,
+      "sha256": "fd68b5de37d112bc7e4be1ab3a5221230da5dfdd78cde313c3b0d79301e26d85"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/3.jsonl",
+      "size_bytes": 4676,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18277016574,
+      "mtime_ns": 1788612267559051767,
+      "nlink": 1,
+      "sha256": "c3e76786a3b2a22f983a409104430bd6edea35565f1a217021a7df62a6f1a2f2"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/4.jsonl",
+      "size_bytes": 5303,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18288385177,
+      "mtime_ns": 1788612315911319887,
+      "nlink": 1,
+      "sha256": "7e0b0cde16e979c501c5778f81835695f5612580f33c51be1dde4a35929594a0"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/5.jsonl",
+      "size_bytes": 4867,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18288385178,
+      "mtime_ns": 1788612348904878443,
+      "nlink": 1,
+      "sha256": "cba807dc92495f2c623b1c8698735d70008c4526d8a1f236d0ebc0c271951b50"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/6.jsonl",
+      "size_bytes": 6862,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18288385179,
+      "mtime_ns": 1788612382238492116,
+      "nlink": 1,
+      "sha256": "a4a60e5986594c3448306382436f441a85fbf23d2123037e5e0c69fae0a1a7fa"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/7.jsonl",
+      "size_bytes": 5570,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18288385180,
+      "mtime_ns": 1788612415324198321,
+      "nlink": 1,
+      "sha256": "bfb5562b48af44ed5524378bcc1983de4f6b8de0918048a9389855af1acc88ce"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/rollouts/8.jsonl",
+      "size_bytes": 7915,
+      "allocated_bytes": 8192,
+      "device": 2304,
+      "inode": 18288385181,
+      "mtime_ns": 1788612459885218490,
+      "nlink": 1,
+      "sha256": "1778489232cf5c64349ce863c867f53a1c930ca573c29983c7ffadc686ab6cac"
+    }
+  ],
+  "free_bytes_before": 74567065600,
+  "expected_released_bytes": 57014927360,
+  "expected_free_bytes_after": 131581992960,
+  "recovery": "No backup made; deleted old tensors cannot be recovered from hashes. Historical small-file evidence and all current checkpoints retained.",
+  "alternatives": "No verified private backup destination available; same-disk moves do not release space."
+}

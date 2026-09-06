@@ -1,0 +1,9 @@
+{
+  "authorization": "User previously instructed: 不要管费用了，启动便是; user now explicitly requests Pilot-16 execution.",
+  "scope": "Use historical billing observation for this Pilot-16; widen billing freshness only. All technical abort checks unchanged.",
+  "historical_billing_source": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/pilot_live_launch_gate.json",
+  "historical_cost_cny": 225.0,
+  "historical_observed_at_utc": "2026-09-05T07:40:58+00:00",
+  "is_current_billing_observation": false,
+  "policy": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/user_authorized_budget_override_policy.yaml"
+}

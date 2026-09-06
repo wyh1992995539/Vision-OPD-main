@@ -2,6 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import yaml
+
 from scripts.audit_vopd_6241_pilot import evaluate_steps, parse_steps, projection
 from scripts.run_vopd_6241_pilot_guarded import (
     DEFAULT_POLICY,
@@ -48,6 +50,31 @@ class Vopd6241PilotGuardTest(unittest.TestCase):
         self.assertEqual(policy_64["runtime"]["max_wall_time_hours"], 8)
         self.assertIsNone(contract_16["prerequisite_postflight"])
         self.assertTrue(contract_64["require_cold_reload"])
+        self.assertEqual(policy_16["memory"]["prelaunch_cgroup_minimum_bytes"], 192 * 1024**3)
+        self.assertEqual(policy_64["memory"]["prelaunch_cgroup_minimum_bytes"], 224 * 1024**3)
+        self.assertEqual(policy_64["memory"]["cgroup_used_ratio_abort"], 0.95)
+        self.assertEqual(policy_64["memory"]["gpu_used_ratio_abort"], 0.98)
+        self.assertEqual(policy_64["memory"]["consecutive_samples"], 3)
+
+    def test_stage_memory_override_cannot_weaken_baseline(self):
+        source = yaml.safe_load(DEFAULT_POLICY.read_text())
+        source["pilot"]["stage_contracts"]["64"]["prelaunch_cgroup_minimum_bytes"] = 1
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "policy.yaml"
+            path.write_text(yaml.safe_dump(source))
+            policy, _ = load_pilot_policy(path, "64")
+        self.assertEqual(policy["memory"]["prelaunch_cgroup_minimum_bytes"], 192 * 1024**3)
+
+    def test_peak_review_capacity_boundaries(self):
+        from scripts.monitor_vopd_training import cgroup_has_minimum_capacity
+        policy, _ = load_pilot_policy(DEFAULT_POLICY, "64")
+        required = policy["memory"]["prelaunch_cgroup_minimum_bytes"]
+        for gib, expected in ((220, False), (224, True), (256, True)):
+            with self.subTest(gib=gib):
+                self.assertEqual(cgroup_has_minimum_capacity(
+                    {"supported": True, "memory_max_bytes": gib * 1024**3}, required
+                ), expected)
+        self.assertFalse(cgroup_has_minimum_capacity({}, required))
 
     def test_healthy_steps_pass_all_mechanism_checks(self):
         checks = evaluate_steps([healthy_step(1), healthy_step(2)], 2)

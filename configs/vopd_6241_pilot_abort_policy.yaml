@@ -14,7 +14,7 @@ runtime:
 
 memory:
   prelaunch_gpu_used_ratio_max: 0.10
-  gpu_used_ratio_abort: 0.95
+  gpu_used_ratio_abort: 0.98
   cgroup_used_ratio_abort: 0.95
   # Three-way offload needs additional host RAM above the observed 100 GiB peak.
   prelaunch_cgroup_minimum_bytes: 206158430208
@@ -82,6 +82,9 @@ pilot:
       output_dir: artifacts/runs/E-D11-6K-GATE-001/pilot/64
       expected_rows: 64
       expected_optimizer_steps: 8
+      # Pilot-16 measured 210.6143 GiB; / 0.95 = 221.6993 GiB.
+      # Round up to 224 GiB for Pilot-64; 256 GiB is recommended.
+      prelaunch_cgroup_minimum_bytes: 240518168576
       max_wall_time_hours: 8
       max_incremental_cost_cny: 95.68
       prerequisite_postflight: artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json

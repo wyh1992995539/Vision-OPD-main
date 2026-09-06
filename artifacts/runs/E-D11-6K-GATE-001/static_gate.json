@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "gate_id": "E-D11-6K-STATIC-GATE-001",
-  "generated_at_utc": "2026-09-05T10:36:20.886605+00:00",
+  "generated_at_utc": "2026-09-06T04:15:01.541429+00:00",
   "status": "PASS_PENDING_GPU_PILOT",
   "gpu_used": false,
   "ready_for_gpu_pilot": true,
@@ -24,7 +24,8 @@
     "pilot_ids_unique": true,
     "warmup_aware_student_update_contract": true,
     "three_way_offload_resource_contract": true,
-    "pilot_guard_stage_contracts_valid": true
+    "pilot_guard_stage_contracts_valid": true,
+    "pilot_64_peak_review_memory_floor": true
   },
   "failed_checks": [],
   "inputs": {
@@ -34,7 +35,7 @@
     },
     "abort_policy": {
       "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
-      "sha256": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3"
+      "sha256": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8"
     },
     "project_config": {
       "path": "/root/autodl-tmp/Vision-OPD-main/configs/project_6241.yaml",
@@ -58,7 +59,7 @@
     },
     "drop_last": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/drop_last/drop_last_audit.json",
-      "sha256": "fa29baecc87b7e2c8447c8bc207ff33a7b0f83d0cc01a2c88b6ff1e3ec1fd3a7"
+      "sha256": "6695bd0064e1077421195d8a9ee98a3d2a9606cea62fb4de50fe61f433a6bf68"
     },
     "cached_prefix": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/cached_prefix/report.json",
@@ -66,7 +67,7 @@
     },
     "training_config_freeze": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json",
-      "sha256": "389679bfc7caf0a31eba8110640eb199fcdf5dc087ace4ae97cc8754a3f1121b"
+      "sha256": "67c667314e293d309e60bb11895b3a812be99b301dbf1e47cb565c2602b22ad0"
     },
     "pilot_16_config": {
       "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_16.yaml",
@@ -78,23 +79,23 @@
     },
     "pilot_abort_policy": {
       "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_abort_policy.yaml",
-      "sha256": "15893f25385cc5596cf85020782db6721a1e215259a412653177e850d3c61059"
+      "sha256": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66"
     },
     "pilot_guarded_launcher": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_6241_pilot_guarded.py",
-      "sha256": "c31a9fc49e261eddabd4123308f6f1c41f43bf49f39cf0fed68db0fc631cddaf"
+      "sha256": "2e8d59f7e187d12cb24b7e92a5297b756d02a4a853b60372f2bc4224af2aa427"
     },
     "pilot_postflight": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/audit_vopd_6241_pilot.py",
-      "sha256": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3"
+      "sha256": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d"
     },
     "runtime_guard": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/monitor_vopd_training.py",
-      "sha256": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644"
+      "sha256": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59"
     },
     "training_launcher": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_2gpu.sh",
-      "sha256": "cebc263e9bb193b9d4956480c48dd8dca99ab844152d5de1d85340d1be59f6d9"
+      "sha256": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67"
     },
     "training_preflight": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_training_preflight.py",
@@ -106,7 +107,23 @@
     },
     "static_gate_builder": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/build_day11_static_gate.py",
-      "sha256": "5d7d8e56839e19083976b7f6722c10fec5727be256ce9b506423e8d99076023d"
+      "sha256": "a8757172d28ccbbcac58ee2219982ed687cb112cac9029f5975405271c796060"
+    },
+    "fsdp_checkpoint_manager": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/utils/checkpoint/fsdp_checkpoint_manager.py",
+      "sha256": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e"
+    },
+    "checkpoint_shard_io": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/utils/checkpoint/shard_io.py",
+      "sha256": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0"
+    },
+    "checkpoint_config_class": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/trainer/config/config.py",
+      "sha256": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243"
+    },
+    "checkpoint_io_contract": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/checkpoint_io_contract.py",
+      "sha256": "8c4780f54833e25735a6aba1bb7d92a311c4c9ca17731b29d601846f20476ccf"
     }
   },
   "pilot_preflights": {

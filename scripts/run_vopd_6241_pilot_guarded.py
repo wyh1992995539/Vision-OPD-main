@@ -28,6 +28,8 @@ from scripts.monitor_vopd_training import (
     utc_now, validate_policy, write_json,
 )
 from scripts.vopd_training_preflight import validate_config
+from scripts.checkpoint_io_contract import checkpoint_io_matches
+from scripts.vopd_memory_experiment import memory_overrides
 
 DEFAULT_POLICY = ROOT / "configs/vopd_6241_pilot_abort_policy.yaml"
 
@@ -64,6 +66,11 @@ def load_pilot_policy(path: Path, stage: str) -> tuple[dict[str, Any], dict[str,
     effective["experiment_id"] = contract["experiment_id"]
     effective["runtime"]["max_wall_time_hours"] = contract["max_wall_time_hours"]
     effective["checkpoint"]["expected_final_step"] = contract["expected_optimizer_steps"]
+    baseline_memory = int(source["memory"]["prelaunch_cgroup_minimum_bytes"])
+    # A stage may tighten the shared baseline, never weaken it.
+    effective["memory"]["prelaunch_cgroup_minimum_bytes"] = max(
+        baseline_memory, int(contract.get("prelaunch_cgroup_minimum_bytes", baseline_memory))
+    )
     validate_policy(effective)
     return effective, contract
 
@@ -125,9 +132,9 @@ def static_preflight(policy_path: Path, stage: str) -> dict[str, Any]:
             and static_gate.get("formal_training_authorized") is False
         ),
         "training_preflight_pass": base["status"] == "PASS",
-        "resource_memory_policy_matches_config": (
-            config["resources"].get("prelaunch_cgroup_minimum_bytes")
-            == policy["memory"]["prelaunch_cgroup_minimum_bytes"]
+        "resource_memory_policy_covers_config": (
+            int(config["resources"]["prelaunch_cgroup_minimum_bytes"])
+            <= int(policy["memory"]["prelaunch_cgroup_minimum_bytes"])
         ),
         "static_gate_input_hashes_current": (
             static_gate is not None
@@ -154,6 +161,10 @@ def static_preflight(policy_path: Path, stage: str) -> dict[str, Any]:
             and int(config["rollout"]["n"]) == 1
             and int(config["resources"]["gpus_per_node"]) == 2
         ),
+        "stage_prerequisite_checkpoint_io_current": (
+            prerequisite_path is None
+            or (prerequisite is not None and checkpoint_io_matches(prerequisite))
+        ),
         "stage_prerequisite_pass": (
             prerequisite_path is None
             or (
@@ -163,6 +174,12 @@ def static_preflight(policy_path: Path, stage: str) -> dict[str, Any]:
             )
         ),
     }
+    memory_error = None
+    try:
+        memory_overrides(policy, config_path, output_dir)
+    except (ValueError, OSError, KeyError) as exc:
+        memory_error = str(exc)
+    checks["memory_experiment_source_binding"] = memory_error is None
     failed = sorted(name for name, passed in checks.items() if not passed)
     return {
         "schema_version": 1, "generated_at_utc": utc_now(), "stage": stage,
@@ -174,6 +191,7 @@ def static_preflight(policy_path: Path, stage: str) -> dict[str, Any]:
         "effective_policy": policy, "output_dir": str(output_dir),
         "static_gate": str(static_gate_path), "static_gate_error": static_gate_error,
         "prerequisite_postflight": str(prerequisite_path) if prerequisite_path else None,
+        "memory_experiment_error": memory_error,
         "training_preflight": base,
     }
 
@@ -250,6 +268,10 @@ def main() -> int:
             capture_output=True, text=True,
         ).stdout.strip(),
     })
+    if policy.get("memory_experiment"):
+        result["memory_experiment_manifest"] = json.loads(
+            Path(policy["memory_experiment"]["manifest"]).read_text(encoding="utf-8")
+        )
     write_json(preflight_dir / "pilot_live_launch_gate.json", result)
     if result["status"] != "PASS":
         print(json.dumps(result, ensure_ascii=False, indent=2), file=sys.stderr)
@@ -258,6 +280,7 @@ def main() -> int:
     env = os.environ.copy()
     env["VOPD_GUARD_ACTIVE"] = "1"
     command = ["bash", str(ROOT / "scripts/run_vopd_2gpu.sh"), "--config", result["config"], "--run"]
+    command.extend(memory_overrides(policy, Path(result["config"]), output_dir))
     process = subprocess.Popen(command, cwd=ROOT, env=env, start_new_session=True)
     try:
         exit_code, guard_summary = monitor_process(process, output_dir, policy, output_dir / "logs/train.log")
@@ -272,7 +295,7 @@ def main() -> int:
         write_json(output_dir / "evidence/guard_summary.json", guard_summary)
 
     postflight = None
-    if exit_code == 0:
+    if exit_code == 0 or policy.get("memory_experiment"):
         audit_command = [
             sys.executable, str(resolve(policy["pilot"]["postflight_script"])),
             "--stage", args.stage, "--policy", str(policy_path),
@@ -281,7 +304,7 @@ def main() -> int:
         report_path = output_dir / "evidence/postflight.json"
         if report_path.is_file():
             postflight = json.loads(report_path.read_text(encoding="utf-8"))
-        if audit.returncode != 0:
+        if audit.returncode != 0 and exit_code == 0:
             exit_code = 43
     write_json(output_dir / "evidence/exit_receipt.json", {
         "schema_version": 1, "stage": args.stage, "guard_exit_code": exit_code,

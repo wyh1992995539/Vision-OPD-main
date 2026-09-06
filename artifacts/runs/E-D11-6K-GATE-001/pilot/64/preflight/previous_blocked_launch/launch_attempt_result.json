@@ -1,0 +1,13 @@
+{
+  "checked_at_utc": "2026-09-05T11:08:10.441551+00:00",
+  "launcher_exit_code": 41,
+  "status": "FAIL",
+  "static_preflight_failed_checks": [],
+  "failed_live_checks": [
+    "storage_pass",
+    "cgroup_capacity_pass"
+  ],
+  "training_started": false,
+  "live_gate": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/pilot_live_launch_gate.json",
+  "test_result": "47 passed, 17 subtests passed"
+}

@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "stage": "16",
+  "experiment_id": "E-D11-6K-VOPD-PILOT-016",
+  "status": "PASS",
+  "training_gate_pass": true,
+  "stage_gate_pass": true,
+  "formal_training_authorized": false,
+  "checks": {
+    "checkpoint_io_revision_matches": true,
+    "guard_pass": true,
+    "training_preflight_pass": true,
+    "run_invocation_matches": true,
+    "no_duplicate_metric_steps": true,
+    "no_traceback_or_oom": true,
+    "log_prob_evidence_complete": true,
+    "checkpoint_complete": true,
+    "telemetry_complete_two_gpus": true,
+    "exact_contiguous_steps": true,
+    "required_metrics_present_and_finite": true,
+    "jsd_loss_finite": true,
+    "learning_rate_nonnegative": true,
+    "zero_lr_only_within_warmup": true,
+    "positive_learning_rate_observed": true,
+    "student_update_matches_learning_rate": true,
+    "teacher_optimizer_unchanged": true,
+    "teacher_direct_gradient_absent": true,
+    "teacher_ema_updated_each_step": true,
+    "crop_teacher_active_each_step": true,
+    "generation_errors_zero": true,
+    "prompt_truncation_zero": true,
+    "response_within_frozen_limit": true
+  },
+  "failed_checks": [],
+  "signals": {
+    "duplicate_metric_steps": 0,
+    "traceback_count": 0,
+    "cuda_oom_count": 0,
+    "out_of_memory_error_count": 0,
+    "dataloader_worker_killed_count": 0,
+    "checkpoint_save_failure_count": 0
+  },
+  "observed_steps": 2,
+  "expected_steps": 2,
+  "steps": [
+    {
+      "step": 1,
+      "loss": 0.008990161266410723,
+      "grad_norm": 1.8711907863616943,
+      "learning_rate": 0.0,
+      "student_optimizer_delta": 0.0,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 78.77036327822134,
+      "generation_seconds": 30.663531026802957,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 7880.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 122.0,
+      "response_max_tokens": 284.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 2,
+      "loss": 0.012706731009529904,
+      "grad_norm": 2.3117499351501465,
+      "learning_rate": 2e-07,
+      "student_optimizer_delta": 2.384185791015625e-07,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 109,
+      "step_seconds": 40.79468968557194,
+      "generation_seconds": 14.164511960931122,
+      "checkpoint_save_seconds": 104.61151796206832,
+      "prompt_max_tokens": 7318.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 44.875,
+      "response_max_tokens": 103.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    }
+  ],
+  "warmup_contract": {
+    "lr_warmup_steps": 10,
+    "zero_lr_steps": [
+      1
+    ],
+    "positive_lr_steps": [
+      2
+    ],
+    "student_update_rule": "delta>=0 when lr=0; delta>0 when lr>0"
+  },
+  "checkpoint": {
+    "status": "PASS",
+    "expected_step": 2,
+    "marker_value": "2",
+    "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2",
+    "checks": {
+      "marker_exists": true,
+      "marker_matches_expected_step": true,
+      "step_directory_exists": true,
+      "required_files_present": true,
+      "required_files_nonempty": true
+    },
+    "missing_files": [],
+    "empty_files": []
+  },
+  "telemetry": {
+    "status": "PASS",
+    "paths": {
+      "gpu": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/gpu.jsonl",
+      "process_rss": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/process_rss.jsonl",
+      "cgroup": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/cgroup_memory.jsonl",
+      "disk": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/disk.jsonl"
+    },
+    "row_counts": {
+      "gpu": 73,
+      "process_rss": 73,
+      "cgroup": 73,
+      "disk": 73
+    },
+    "gpu_ids": [
+      0,
+      1
+    ],
+    "peak_by_gpu": {
+      "0": {
+        "memory_used_bytes": 94315216896,
+        "memory_total_bytes": 102641958912,
+        "used_ratio": 0.9188758466394925
+      },
+      "1": {
+        "memory_used_bytes": 96835993600,
+        "memory_total_bytes": 102641958912,
+        "used_ratio": 0.9434347768345133
+      }
+    },
+    "max_observed_elapsed_seconds": 373.4437420601025,
+    "errors": []
+  },
+  "log_prob_file_count": 4,
+  "checkpoint_io_contract": {
+    "strategy": "fsdp_sequential_shards_fsync_fadvise_v1",
+    "flush_reclaim": true,
+    "source_hashes": {
+      "verl/utils/checkpoint/fsdp_checkpoint_manager.py": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+      "verl/utils/checkpoint/shard_io.py": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+      "verl/trainer/config/config.py": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+      "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67"
+    }
+  },
+  "reload_required": false,
+  "reload_report": null,
+  "reload": null,
+  "projection_780": null,
+  "inputs": {
+    "train_log": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/logs/train.log",
+      "sha256": "ce18174f29d57a74a0ead82bef8748ffbbf33a37da48f2efe93f35e4b8673732"
+    },
+    "guard_summary": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/guard_summary.json",
+      "sha256": "faec6fb110050588af343e7c0ca094889766b41095bbd63789bcb228505f8208"
+    },
+    "run_invocation": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/run_invocation.json",
+      "sha256": "9491999e1ab5e13ebffbc01ee96728dccaf75e1d14cc1b0c64728ad33455b9bc"
+    },
+    "preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/preflight_summary.json",
+      "sha256": "221ed670b3d8de6207628b444940af2594423983111481fa89811ae5ca3a02d6"
+    },
+    "selection_manifest": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/selection.json",
+      "sha256": "4d7b4889e773114e46fadec976345555cafbc31eff9c1c25741ff9f2763ca6a1"
+    }
+  }
+}

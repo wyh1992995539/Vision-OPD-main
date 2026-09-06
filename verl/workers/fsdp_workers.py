@@ -957,10 +957,19 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
     @DistProfiler.annotate(color="red", role="actor_update")
     def update_actor(self, data: DataProto):
         assert self._is_actor
+        recorder = self.actor.memory_recorder
+        recorder.context = {"global_step": data.meta_info.get("global_steps")}
+        recorder.mark("actor_update_entry_after_rollout")
+        deferred = bool(self.config.actor.get("defer_optimizer_state_load", False))
+        if deferred and not self._is_offload_optimizer:
+            raise ValueError("Deferred optimizer loading requires optimizer offload")
         if self._is_offload_param:
             load_fsdp_model_to_gpu(self.actor_module_fsdp)
-        if self._is_offload_optimizer:
+        recorder.mark("actor_parameter_load/after")
+        if self._is_offload_optimizer and not deferred:
+            recorder.mark("optimizer_load/before")
             load_fsdp_optimizer(optimizer=self.actor_optimizer, device_id=get_device_id())
+            recorder.mark("optimizer_load/after")
 
         with self.ulysses_sharding_manager:
             data = data.to("cpu")  # data will to device with each micro batch on actor.update_policy
@@ -979,6 +988,14 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
             )
             metrics["perf/max_memory_allocated_gb"] = get_torch_device().max_memory_allocated() / (1024**3)
             metrics["perf/max_memory_reserved_gb"] = get_torch_device().max_memory_reserved() / (1024**3)
+            if recorder.enabled:
+                metrics["perf/max_memory_allocated_gb"] = max(
+                    metrics["perf/max_memory_allocated_gb"], recorder.peak_allocated / 1024**3
+                )
+                metrics["perf/max_memory_reserved_gb"] = max(
+                    metrics["perf/max_memory_reserved_gb"], recorder.peak_reserved / 1024**3
+                )
+                metrics["diagnostic/memory_stage_sync_enabled"] = 1.0
             metrics["perf/cpu_memory_used_gb"] = psutil.virtual_memory().used / (1024**3)
 
             lr = self.actor_lr_scheduler.get_last_lr()[0]
@@ -993,9 +1010,10 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
         if self._is_offload_param:
             offload_fsdp_model_to_cpu(self.actor_module_fsdp)
             log_gpu_memory_usage("After offload actor model during update_actor", logger=logger)
-        if self._is_offload_optimizer:
+        if self._is_offload_optimizer and not deferred:
             offload_fsdp_optimizer(optimizer=self.actor_optimizer)
             log_gpu_memory_usage("After offload actor optimizer during update_actor", logger=logger)
+        recorder.mark("actor_update_exit")
 
         return output
 

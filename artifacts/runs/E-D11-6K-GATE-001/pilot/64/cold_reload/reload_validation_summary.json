@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+  "phase": "checkpoint_cold_reload",
+  "scope": "student_model_training_samples_functional_inference_only",
+  "training_resume_validated": false,
+  "model_quality_evaluated": false,
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8",
+  "started_at_utc": "2026-09-05T14:10:34.604305+00:00",
+  "config_sha256": "7750f5f853405f647dd9ad4b71b06ce2439d0ea00893b820d91d3921351c3f81",
+  "input_parquet_sha256": "6748ae359028d33b8e8ee182a000362d48a54d39d7bb18b00e9cc57620e3dc60",
+  "sample_ids": [
+    "vopd_638745362e8ff75fd4cd3e22",
+    "vopd_31010954d48fdc8236f7856b",
+    "vopd_78f2828c265d5e52341c4ec5",
+    "vopd_05dede4c01d81044a432fb8a",
+    "vopd_48cb45c3d96d3996c294ee4b"
+  ],
+  "status": "FAIL",
+  "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf",
+  "merged_manifest_sha256": "a669f0a7b7a8e76a5ad02af044c01d7b546a59d19a8fb220eefb6f426b355d1d",
+  "error": "RuntimeError: vLLM exited before readiness with code 1:\n^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/entrypoints/openai/api_server.py\", line 656, in run_server\n(APIServer pid=4683)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/entrypoints/openai/api_server.py\", line 670, in run_server_worker\n(APIServer pid=4683)     async with build_async_engine_client(\n(APIServer pid=4683)                ^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/contextlib.py\", line 210, in __aenter__\n(APIServer pid=4683)     return await anext(self.gen)\n(APIServer pid=4683)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/entrypoints/openai/api_server.py\", line 103, in build_async_engine_client\n(APIServer pid=4683)     async with build_async_engine_client_from_engine_args(\n(APIServer pid=4683)                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/contextlib.py\", line 210, in __aenter__\n(APIServer pid=4683)     return await anext(self.gen)\n(APIServer pid=4683)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/entrypoints/openai/api_server.py\", line 144, in build_async_engine_client_from_engine_args\n(APIServer pid=4683)     async_llm = AsyncLLM.from_vllm_config(\n(APIServer pid=4683)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 225, in from_vllm_config\n(APIServer pid=4683)     return cls(\n(APIServer pid=4683)            ^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 135, in __init__\n(APIServer pid=4683)     self.renderer = renderer = renderer_from_config(self.vllm_config)\n(APIServer pid=4683)                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/renderers/registry.py\", line 91, in renderer_from_config\n(APIServer pid=4683)     return RENDERER_REGISTRY.load_renderer(\n(APIServer pid=4683)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/renderers/registry.py\", line 64, in load_renderer\n(APIServer pid=4683)     return renderer_cls.from_config(config, tokenizer_kwargs)\n(APIServer pid=4683)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/renderers/hf.py\", line 631, in from_config\n(APIServer pid=4683)     return cls(config, tokenizer)\n(APIServer pid=4683)            ^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/renderers/hf.py\", line 638, in __init__\n(APIServer pid=4683)     super().__init__(config, tokenizer)\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/renderers/base.py\", line 101, in __init__\n(APIServer pid=4683)     with set_default_torch_num_threads():\n(APIServer pid=4683)          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/contextlib.py\", line 137, in __enter__\n(APIServer pid=4683)     return next(self.gen)\n(APIServer pid=4683)            ^^^^^^^^^^^^^^\n(APIServer pid=4683)   File \"/root/miniconda3/envs/vision-opd/lib/python3.12/site-packages/vllm/utils/torch_utils.py\", line 130, in set_default_torch_num_threads\n(APIServer pid=4683)     torch.set_num_threads(num_threads)\n(APIServer pid=4683) RuntimeError: set_num_threads expects a positive integer\n",
+  "server_exit_code_after_controlled_shutdown": 1,
+  "source_checkpoint_unchanged": true,
+  "completed_at_utc": "2026-09-05T14:13:18.285808+00:00"
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "finished_at_utc": "2026-09-05T10:58:52.868498+00:00",
+  "status": "PASS",
+  "return_code": 0,
+  "latest_step": 1,
+  "trigger": null,
+  "termination": null,
+  "checkpoint": {
+    "status": "PASS",
+    "expected_step": 2,
+    "marker_value": "2",
+    "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2",
+    "checks": {
+      "marker_exists": true,
+      "marker_matches_expected_step": true,
+      "step_directory_exists": true,
+      "required_files_present": true,
+      "required_files_nonempty": true
+    },
+    "missing_files": [],
+    "empty_files": []
+  }
+}

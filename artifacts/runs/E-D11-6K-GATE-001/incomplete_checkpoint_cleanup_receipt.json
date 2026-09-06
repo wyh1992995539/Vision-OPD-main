@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "finished_at_utc": "2026-09-05T11:42:12.771787+00:00",
+  "status": "PASS",
+  "deleted_files": [
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_incomplete_checkpoint_20260905T074051Z/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_incomplete_checkpoint_20260905T074051Z/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt"
+  ],
+  "deleted_allocated_bytes": 23403204608,
+  "disk_free_before_bytes": 121925345280,
+  "disk_free_after_bytes": 145328521216,
+  "observed_free_increase_bytes": 23403175936,
+  "disk_required_bytes": 128849018880,
+  "disk_gate_pass": true,
+  "protected_files_checked": 99,
+  "protected_files_changed": [],
+  "recoverable_from_this_instance": false,
+  "notes": [
+    "Only four incomplete model shard files deleted; directory structures retained.",
+    "Historical archive manifests preserved; missing deleted shards are intentional and documented by this receipt.",
+    "Successful Pilot-16 checkpoint, logs, telemetry, and configuration snapshots preserved."
+  ]
+}

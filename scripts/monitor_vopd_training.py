@@ -321,6 +321,18 @@ def process_memory(root_pid: int) -> dict[str, Any]:
     }
 
 
+def read_memory_stat(root: Path) -> dict[str, Any]:
+    """Diagnostic breakdown only; never subtract cache from abort accounting."""
+    try:
+        values = {}
+        for line in (root / "memory.stat").read_text(encoding="utf-8").splitlines():
+            key, value = line.split()
+            values[key] = int(value)
+        return {"memory_stat": values, "memory_stat_error": None}
+    except (OSError, ValueError) as exc:
+        return {"memory_stat": None, "memory_stat_error": str(exc)}
+
+
 def read_cgroup(pid: int) -> dict[str, Any]:
     lines = Path(f"/proc/{pid}/cgroup").read_text(encoding="utf-8").splitlines()
     unified = next((line.split("::", 1)[1] for line in lines if line.startswith("0::")), None)
@@ -339,6 +351,7 @@ def read_cgroup(pid: int) -> dict[str, Any]:
         "memory_current_bytes": current,
         "memory_max_bytes": maximum_text if maximum_text == "max" else int(maximum_text),
         "memory_events": events,
+        **read_memory_stat(root),
     }
 
 

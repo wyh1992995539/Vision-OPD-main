@@ -12,7 +12,7 @@ runtime:
   terminate_grace_seconds: 60
 
 memory:
-  gpu_used_ratio_abort: 0.95
+  gpu_used_ratio_abort: 0.98
   cgroup_used_ratio_abort: 0.95
   # Three-way offload needs additional host RAM above the observed 100 GiB peak.
   prelaunch_cgroup_minimum_bytes: 206158430208

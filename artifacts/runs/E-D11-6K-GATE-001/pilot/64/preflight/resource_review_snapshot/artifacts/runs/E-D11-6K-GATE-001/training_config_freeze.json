@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T10:36:17.284256+00:00",
+  "experiment_id": "E-D12-6K-VOPD-001",
+  "status": "STATIC_FROZEN_PENDING_DAY11_PILOT",
+  "gpu_used": false,
+  "profile": "paper_core_resource_scaled_2gpu",
+  "selected_profile": {
+    "path": "configs/vopd_6241.yaml",
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "actor_parameter_offload": true,
+    "optimizer_offload": true,
+    "reference_parameter_offload": true,
+    "selected": true
+  },
+  "reference_profile": {
+    "path": "configs/vopd_6241_algorithm_aligned_2gpu.reference.yaml",
+    "sha256": "3bd1eb35c5704950445f86a5c10c22b9d826028e3c0021a136b496b85192256c",
+    "status": "reference_only_not_selected"
+  },
+  "sources": {
+    "paper": {
+      "path": "docs/Vision-OPD.pdf",
+      "sha256": "67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b",
+      "relevant_sections": [
+        "4.1",
+        "4.3",
+        "Tables 3-6"
+      ]
+    },
+    "official_launcher": {
+      "path": "scripts/run_vision_opd.sh",
+      "sha256": "fb135a4660f05414c3f8e4efed0a9adce7db4459db666d9734a8fb68a4a08d0f"
+    }
+  },
+  "paper_core": {
+    "model": "Qwen3.5-4B",
+    "train_rows": 6241,
+    "epochs": 1,
+    "max_response_length": 1024,
+    "jsd_beta": 0.5,
+    "distillation_top_k": 100,
+    "teacher_regularization": "ema",
+    "teacher_update_rate": 0.05,
+    "non_thinking": true
+  },
+  "resource_scaled_contract": {
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "source_rows": 6241,
+    "optimizer_steps": 780,
+    "effective_samples": 6240,
+    "padding_rows": 0,
+    "dropped_rows": 1,
+    "tail_policy": "native_drop_last",
+    "max_prompt_length": 8192,
+    "max_sequence_length": 9216,
+    "reference_parameter_offload_required": true,
+    "prelaunch_cgroup_minimum_bytes": 206158430208,
+    "actor_parameter_offload_required": true,
+    "optimizer_offload_required": true,
+    "memory_profile": "offload_3way_graph4_v1",
+    "rollout_gpu_memory_utilization": 0.4,
+    "cudagraph_capture_sizes": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "checkpoint_contract": {
+    "save_frequency": 390,
+    "scheduled_save_steps": [
+      390,
+      780
+    ],
+    "expected_final_step": 780,
+    "max_actor_ckpt_to_keep": 1,
+    "rationale": "one periodic recovery checkpoint plus verl final checkpoint; step 780 satisfies both periodic and final conditions but is saved once"
+  },
+  "vllm_engine": {
+    "fuse_allreduce_rms": false,
+    "enable_flashinfer_autotune": false,
+    "alignment": "OFFICIAL_SWITCHES_MATCH; GRAPH_CAPTURE_RESOURCE_OVERRIDE",
+    "cudagraph_capture_sizes": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "explicit_max_model_len": 9216
+  },
+  "budget": {
+    "status": "PENDING_1024_TOKEN_PILOT",
+    "hourly_dual_gpu_rate_cny": 11.96,
+    "historical_256_token_planning_hours": 5.68,
+    "historical_256_token_planning_cny": 67.88,
+    "historical_256_token_conservative_hours": 10.09,
+    "historical_256_token_conservative_cny": 120.64,
+    "max_wall_time_hours": 38,
+    "temporary_conservative_reservation_cny": 454.48
+  },
+  "hashes": {
+    "vopd_config": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
+    "cached_prefix_config": "495290e23af3e6a3232772aedab753152d7bd0bf42551a5d710bbe53e8af671f",
+    "abort_policy": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3",
+    "cached_prefix_input_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "cached_prefix_chat_template": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
+    "base_model_sha256_manifest": "91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9",
+    "train_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "pilot_abort_policy": "15893f25385cc5596cf85020782db6721a1e215259a412653177e850d3c61059",
+    "runtime_guard_script": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644",
+    "pilot_postflight_script": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3",
+    "training_launcher": "cebc263e9bb193b9d4956480c48dd8dca99ab844152d5de1d85340d1be59f6d9",
+    "training_preflight": "1eeb50984f319975503030666c08653e98b93c25c39668f03685dbf4c80d56dc",
+    "pilot_guarded_launcher": "c31a9fc49e261eddabd4123308f6f1c41f43bf49f39cf0fed68db0fc631cddaf",
+    "static_gate_builder": "5d7d8e56839e19083976b7f6722c10fec5727be256ce9b506423e8d99076023d",
+    "vllm_adapter": "d2d0f0d062275bb2799f25418f4089d335c2e6d466bd6cdd075aac10e3dbecde"
+  },
+  "verification": {
+    "shell_syntax": "PASS",
+    "pytest": "PASS",
+    "pytest_passed": 25,
+    "pytest_subtests_passed": 5,
+    "train_rows": 6241,
+    "missing_image_paths": 0,
+    "paper_alignment_checks": "PASS",
+    "resource_revision": "THREE_WAY_OFFLOAD_0.40_GRAPH_1_2_4_8_PENDING_GPU",
+    "official_vllm_engine_switches": "PASS",
+    "drop_last_contract": "PASS_6241_TO_6240",
+    "full_preflight": "EXPECTED_FAIL_CONFIG_BLOCKED_ONLY",
+    "warmup_aware_runtime_and_postflight_tests": "PASS_27_TESTS_9_SUBTESTS",
+    "resource_revision_tests": "47 passed, 14 subtests passed",
+    "resource_revision_gpu_validated": false
+  },
+  "remaining_gates": [
+    "two_gpu_pilot16_resource_revision",
+    "two_gpu_pilot64_and_cold_reload",
+    "pilot_budget_reestimate",
+    "day11_aggregate_preflight"
+  ],
+  "warmup_aware_audit_contract": {
+    "lr_metric": "actor/lr",
+    "lr_warmup_steps": 10,
+    "zero_lr_student_delta_rule": "nonnegative",
+    "positive_lr_student_delta_rule": "strictly_positive",
+    "zero_lr_allowed_only_within_warmup": true,
+    "pilot_requires_positive_lr_step": true,
+    "teacher_contract_relaxed_during_warmup": false,
+    "runtime_nonupdate_abort_consecutive_positive_lr_steps": 2
+  }
+}

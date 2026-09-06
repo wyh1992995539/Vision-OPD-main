@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "audit_id": "E-D11-6K-DROP-LAST-001",
+  "generated_at_utc": "2026-09-05T10:33:26.878065Z",
+  "status": "PASS",
+  "inputs": {
+    "project_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/project_6241.yaml",
+      "sha256": "2ab8c9973edfbaaa5c8499aba50e2d70bd6d1c5d600d4fc8b15c44667d8e59a2"
+    },
+    "training_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "sha256": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f"
+    },
+    "abort_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "sha256": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3"
+    },
+    "train_parquet": {
+      "path": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+      "sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e"
+    }
+  },
+  "observed_contract": {
+    "source_rows": 6241,
+    "parquet_rows": 6241,
+    "global_batch_size": 8,
+    "complete_batches_per_epoch": 780,
+    "optimizer_steps": 780,
+    "effective_train_samples": 6240,
+    "tail_remainder": 1,
+    "padding_rows": 0,
+    "dropped_rows_per_epoch": 1,
+    "epochs": 1,
+    "shuffle": true,
+    "seed": 42,
+    "tail_policy": "native_drop_last"
+  },
+  "native_trainer_evidence": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/verl/trainer/ppo/ray_trainer.py",
+    "sha256": "a490a53f6651e493ca9c6f93ce81a6230743773b7a58cfeca6ddcaebe85a489c",
+    "train_loader_assignments": [
+      {
+        "assignment_line": 442,
+        "drop_last_line": 446,
+        "drop_last_literal": true
+      }
+    ],
+    "drop_last_true": true
+  },
+  "checks": {
+    "parquet_rows_match_project_source": true,
+    "training_source_rows_match_project": true,
+    "batch_size_matches_training": true,
+    "one_epoch_frozen": true,
+    "shuffle_enabled": true,
+    "dataloader_seed_matches_training_seed": true,
+    "tail_is_nonempty": true,
+    "project_optimizer_steps_match_floor_division": true,
+    "project_effective_samples_match": true,
+    "project_padding_is_zero": true,
+    "project_dropped_rows_match_remainder": true,
+    "project_full_coverage_sampler_disabled": true,
+    "project_tail_policy_is_native_drop_last": true,
+    "training_optimizer_steps_match": true,
+    "training_effective_samples_match": true,
+    "training_padding_is_zero": true,
+    "training_dropped_rows_match": true,
+    "training_tail_policy_is_native_drop_last": true,
+    "training_full_coverage_padding_disabled": true,
+    "training_does_not_require_full_epoch_coverage": true,
+    "abort_policy_matches_contract": true,
+    "native_trainer_sets_drop_last_true": true
+  },
+  "failed_checks": [],
+  "runtime_receipt_requirement": {
+    "required_for_final_training_acceptance": true,
+    "expected_unique_source_seen": 6240,
+    "expected_dropped_rows": 1,
+    "exact_dropped_sample_id_known_statically": false,
+    "reason": "shuffle=true; the dropped item is the seeded sampler tail, not necessarily Parquet physical row 6240. Record the exact identity from Pilot/runtime evidence."
+  }
+}

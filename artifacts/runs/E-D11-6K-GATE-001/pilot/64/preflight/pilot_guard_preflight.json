@@ -1,30 +1,29 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-05T10:36:23.763945+00:00",
+  "generated_at_utc": "2026-09-05T12:39:07.820462+00:00",
   "stage": "64",
   "experiment_id": "E-D11-6K-VOPD-PILOT-064",
-  "status": "FAIL",
+  "status": "PASS",
   "gpu_used": false,
   "checks": {
     "policy_stage_known": true,
     "static_gate_pass_pending_pilot": true,
     "training_preflight_pass": true,
-    "resource_memory_policy_matches_config": true,
+    "resource_memory_policy_covers_config": true,
     "static_gate_input_hashes_current": true,
     "experiment_id_matches_policy": true,
     "output_dir_matches_policy": true,
     "row_contract_matches": true,
     "step_contract_matches": true,
     "frozen_1024_token_two_gpu_profile": true,
-    "stage_prerequisite_pass": false
+    "stage_prerequisite_checkpoint_io_current": true,
+    "stage_prerequisite_pass": true
   },
-  "failed_checks": [
-    "stage_prerequisite_pass"
-  ],
+  "failed_checks": [],
   "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_64.yaml",
   "config_sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
-  "policy": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_abort_policy.yaml",
-  "policy_sha256": "15893f25385cc5596cf85020782db6721a1e215259a412653177e850d3c61059",
+  "policy": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/user_authorized_budget_override_policy.yaml",
+  "policy_sha256": "425e63e67aa265cb29d27c05b6734149a84fdff64a458acea96e2f2d0fa43e49",
   "effective_policy": {
     "schema_version": 1,
     "policy_id": "E-D11-6K-VOPD-PILOT-GUARD-001",
@@ -40,9 +39,9 @@
     },
     "memory": {
       "prelaunch_gpu_used_ratio_max": 0.1,
-      "gpu_used_ratio_abort": 0.95,
+      "gpu_used_ratio_abort": 0.98,
       "cgroup_used_ratio_abort": 0.95,
-      "prelaunch_cgroup_minimum_bytes": 206158430208,
+      "prelaunch_cgroup_minimum_bytes": 240518168576,
       "consecutive_samples": 3
     },
     "disk": {
@@ -58,7 +57,7 @@
     "budget": {
       "hourly_dual_gpu_rate_cny": 11.96,
       "project_hard_limit_cny": 2000,
-      "billing_observation_max_age_seconds": 900
+      "billing_observation_max_age_seconds": 604800
     },
     "metrics": {
       "teacher_ema_nonpositive_consecutive_steps": 2,
@@ -108,6 +107,7 @@
           "output_dir": "artifacts/runs/E-D11-6K-GATE-001/pilot/64",
           "expected_rows": 64,
           "expected_optimizer_steps": 8,
+          "prelaunch_cgroup_minimum_bytes": 240518168576,
           "max_wall_time_hours": 8,
           "max_incremental_cost_cny": 95.68,
           "prerequisite_postflight": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T15:26:32.357Z",
+  "status": "CPU_VALIDATED_PENDING_GPU_AB",
+  "gpu_training_started": false,
+  "gpu_memory_reduction_validated": false,
+  "formal_training_authorized": false,
+  "algorithm_parameters_changed": false,
+  "resource_thresholds_lowered": false,
+  "defaults": {
+    "defer_optimizer_state_load": false,
+    "memory_profile_dir": null
+  },
+  "tests": {
+    "passed": 32,
+    "subtests_passed": 3,
+    "command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 conda run --no-capture-output -n vision-opd python -m pytest -q tests/test_actor_memory.py tests/test_memory_experiment.py tests/test_vopd_6241_pilot_guard.py tests/test_checkpoint_io_contract.py tests/test_vopd_gpu_threshold_98.py",
+    "scope": "CPU model/AdamW/EMA/scheduler exact equality across four accumulated updates; mocked scaler call ordering; cleanup; stage recorder and guard regressions",
+    "does_not_validate": [
+      "CUDA H2D/D2H transfers",
+      "FSDP GPU execution",
+      "real mixed precision kernels",
+      "long response memory safety",
+      "post-warmup GPU behavior"
+    ]
+  },
+  "source_hashes": {
+    "verl/utils/actor_memory.py": "8f545dbf04f546dac16e6822b907325119756a210ddd71d209683f02316ec3fd",
+    "verl/workers/actor/dp_actor.py": "6b7419667460c9d2e9c8c4a22f3f54c2011a17da217555228f2e9b657a1481f3",
+    "verl/workers/fsdp_workers.py": "58ffc7d7aedc2ddc7b0b2c6b4233788f476775b566eaf2f2eae5272dcc7d6c7d",
+    "verl/workers/config/actor.py": "ceb3cb66cf10491917baa64e6f1a4231bd99601b4eb9177c7c060bd0454ce85f",
+    "verl/utils/fsdp_utils.py": "46bec997373bbbcdac689d27fdbe61f048160f2f339d8f28a2f728fdac6c2fb0",
+    "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+    "scripts/run_vopd_6241_pilot_guarded.py": "63301170c38cedd1e8ca459275e38c4144ba7e86f18b92902974b55a5de23775",
+    "scripts/vopd_memory_experiment.py": "52e4e0251952723cf8fce478544468ea4aaccd105a1b347acee4189ad384be79",
+    "configs/vopd_6241_pilot_64.yaml": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+    "configs/vopd_6241_pilot_abort_policy.yaml": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+    "tests/test_actor_memory.py": "646c5d86b618732d7d935037139a230dd531ab6299961ffab131eb9076f976f1",
+    "tests/test_memory_experiment.py": "59652de5ae7e13b289de899fb0691347d140cde9fdf9ef124d4a86f26f40df38",
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe"
+  },
+  "documentation": "docs/day11_gpu_memory_cpu_stage.md",
+  "pending": [
+    "isolated baseline/deferred GPU A/B",
+    "disk capacity or authorized migration before retaining both A/B checkpoints",
+    "post-warmup and long-response validation",
+    "formal CPU floor refreeze",
+    "Day11 final preflight"
+  ]
+}

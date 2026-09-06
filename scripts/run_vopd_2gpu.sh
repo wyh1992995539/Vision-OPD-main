@@ -197,6 +197,7 @@ RUN_MANIFEST="${PREFLIGHT_DIR}/run_invocation.json"
 python - "$PREFLIGHT_SUMMARY" "$RUN_MANIFEST" "${EXTRA_ARGS[@]}" <<'PY'
 import datetime
 import json
+from scripts.checkpoint_io_contract import checkpoint_io_contract
 import os
 import subprocess
 import sys
@@ -230,6 +231,7 @@ payload = {
     "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
     "omp_num_threads": os.environ.get("OMP_NUM_THREADS"),
     "hydra_overrides": sys.argv[3:],
+    "checkpoint_io_contract": checkpoint_io_contract(),
 }
 output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 PY
@@ -284,6 +286,7 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu="$PPO_MAX_TOKEN_LEN_PER_GPU" \
     actor_rollout_ref.actor.fsdp_config.param_offload="$ACTOR_PARAM_OFFLOAD" \
     actor_rollout_ref.actor.fsdp_config.optimizer_offload="$ACTOR_OPTIMIZER_OFFLOAD" \
+    ++actor_rollout_ref.actor.checkpoint.fsdp_flush_reclaim=true \
     actor_rollout_ref.actor.policy_loss.loss_mode=vopd \
     actor_rollout_ref.actor.calculate_entropy=False \
     actor_rollout_ref.actor.use_kl_loss=False \

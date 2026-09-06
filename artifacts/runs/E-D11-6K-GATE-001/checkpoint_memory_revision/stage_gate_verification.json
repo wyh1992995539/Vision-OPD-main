@@ -1,0 +1,12 @@
+{
+  "16": {
+    "status": "PASS",
+    "failed_checks": []
+  },
+  "64": {
+    "status": "FAIL",
+    "failed_checks": [
+      "stage_prerequisite_checkpoint_io_current"
+    ]
+  }
+}

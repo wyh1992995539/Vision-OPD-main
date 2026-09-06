@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-05T10:36:17.284256+00:00",
+  "generated_at_utc": "2026-09-05T12:50:28.665302+00:00",
   "experiment_id": "E-D12-6K-VOPD-001",
   "status": "STATIC_FROZEN_PENDING_DAY11_PILOT",
   "gpu_used": false,
@@ -96,33 +96,57 @@
     "explicit_max_model_len": 9216
   },
   "budget": {
-    "status": "PENDING_1024_TOKEN_PILOT",
+    "status": "FROZEN_FROM_PILOT64_WITH_RESOURCE_CAVEATS",
     "hourly_dual_gpu_rate_cny": 11.96,
     "historical_256_token_planning_hours": 5.68,
     "historical_256_token_planning_cny": 67.88,
     "historical_256_token_conservative_hours": 10.09,
     "historical_256_token_conservative_cny": 120.64,
+    "measured_planning_hours": 8.978417861003056,
+    "measured_planning_cny": 107.38187761759656,
+    "measured_reservation_hours": 12.734984731533203,
+    "measured_reservation_cny": 152.31041738913711,
     "max_wall_time_hours": 38,
-    "temporary_conservative_reservation_cny": 454.48
+    "hard_abort_ceiling_cny": 454.48,
+    "freeze_path": "artifacts/runs/E-D11-6K-GATE-001/budget_freeze.json",
+    "freeze_sha256": "1eec2b91ff30dc18e2240b970b5eb532560f34f8d6a6f82fdb4d0d0c68e9abe0"
   },
   "hashes": {
     "vopd_config": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
     "cached_prefix_config": "495290e23af3e6a3232772aedab753152d7bd0bf42551a5d710bbe53e8af671f",
-    "abort_policy": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3",
+    "abort_policy": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8",
     "cached_prefix_input_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
     "cached_prefix_chat_template": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
     "base_model_sha256_manifest": "91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9",
     "train_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
-    "pilot_abort_policy": "15893f25385cc5596cf85020782db6721a1e215259a412653177e850d3c61059",
-    "runtime_guard_script": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644",
-    "pilot_postflight_script": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3",
-    "training_launcher": "cebc263e9bb193b9d4956480c48dd8dca99ab844152d5de1d85340d1be59f6d9",
+    "pilot_abort_policy": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+    "runtime_guard_script": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59",
+    "pilot_postflight_script": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d",
+    "training_launcher": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
     "training_preflight": "1eeb50984f319975503030666c08653e98b93c25c39668f03685dbf4c80d56dc",
-    "pilot_guarded_launcher": "c31a9fc49e261eddabd4123308f6f1c41f43bf49f39cf0fed68db0fc631cddaf",
-    "static_gate_builder": "5d7d8e56839e19083976b7f6722c10fec5727be256ce9b506423e8d99076023d",
-    "vllm_adapter": "d2d0f0d062275bb2799f25418f4089d335c2e6d466bd6cdd075aac10e3dbecde"
+    "pilot_guarded_launcher": "2e8d59f7e187d12cb24b7e92a5297b756d02a4a853b60372f2bc4224af2aa427",
+    "static_gate_builder": "a8757172d28ccbbcac58ee2219982ed687cb112cac9029f5975405271c796060",
+    "vllm_adapter": "d2d0f0d062275bb2799f25418f4089d335c2e6d466bd6cdd075aac10e3dbecde",
+    "fsdp_checkpoint_manager": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+    "checkpoint_shard_io": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+    "checkpoint_config_class": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+    "checkpoint_io_contract": "8c4780f54833e25735a6aba1bb7d92a311c4c9ca17731b29d601846f20476ccf"
   },
   "verification": {
+    "memory_ab_audit_tools": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/memory_optimization/postflight_revision_20260906/validation.json",
+      "sha256": "db33dde2e2f100ffa8b5e7be637b8a0b59d53322453e5175ea77fc7371b823af",
+      "status": "CPU_AUDIT_TOOLS_PASS_PENDING_GPU_AB",
+      "gpu_validated": false,
+      "formal_training_authorized": false
+    },
+    "memory_optimization_cpu": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/memory_optimization/cpu_validation.json",
+      "sha256": "fd2e36dc4fac57a96e49e6c881e1ded52ad85dd0fee62a2318ee2f655cf21868",
+      "status": "CPU_VALIDATED_PENDING_GPU_AB",
+      "gpu_validated": false,
+      "formal_training_authorized": false
+    },
     "shell_syntax": "PASS",
     "pytest": "PASS",
     "pytest_passed": 25,
@@ -130,19 +154,47 @@
     "train_rows": 6241,
     "missing_image_paths": 0,
     "paper_alignment_checks": "PASS",
-    "resource_revision": "THREE_WAY_OFFLOAD_0.40_GRAPH_1_2_4_8_PENDING_GPU",
+    "resource_revision": "PILOT16_AND_PILOT64_PASS_STUDENT_COLD_RELOAD_VERIFIED",
     "official_vllm_engine_switches": "PASS",
     "drop_last_contract": "PASS_6241_TO_6240",
     "full_preflight": "EXPECTED_FAIL_CONFIG_BLOCKED_ONLY",
     "warmup_aware_runtime_and_postflight_tests": "PASS_27_TESTS_9_SUBTESTS",
     "resource_revision_tests": "47 passed, 14 subtests passed",
-    "resource_revision_gpu_validated": false
+    "resource_revision_gpu_validated": false,
+    "budget_freeze": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/budget_freeze.json",
+      "sha256": "1eec2b91ff30dc18e2240b970b5eb532560f34f8d6a6f82fdb4d0d0c68e9abe0",
+      "status": "PASS_BUDGET_FROZEN_WITH_RESOURCE_CAVEATS",
+      "formal_training_authorized": false
+    },
+    "pilot_16_postflight": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+      "sha256": "cafb469e341c3a365a7e4df03e37cf08a9c30fe545a6e2a6badcb5a3dbd17cde",
+      "status": "PASS"
+    },
+    "pilot_64_postflight": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/postflight.json",
+      "sha256": "393934f14ad788a90e5626080ba833f6a599e4ee75defffe1bf295d1dc046811",
+      "status": "PASS"
+    },
+    "pilot_64_cold_reload": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/reload_validation_summary.json",
+      "sha256": "38d45de42d9ab11749e7d0c4d404dc5ba1385dd5bcf125fd3e05549215dfa3e3",
+      "status": "PASS",
+      "scope": "student_model_training_samples_functional_inference_only",
+      "training_resume_validated": false,
+      "model_quality_evaluated": false,
+      "script_sha256": "9f93186323b2549dd3178396ad55e9a7283d67dd846661b05c8cdc21727aa8aa",
+      "config_sha256": "7750f5f853405f647dd9ad4b71b06ce2439d0ea00893b820d91d3921351c3f81",
+      "tests": "20 passed, 1 deselected (historical Day8 artifact dependency), 6 subtests passed",
+      "updated_at_utc": "2026-09-05T14:17:51.906073+00:00"
+    }
   },
   "remaining_gates": [
-    "two_gpu_pilot16_resource_revision",
-    "two_gpu_pilot64_and_cold_reload",
-    "pilot_budget_reestimate",
-    "day11_aggregate_preflight"
+    "formal_disk_floor",
+    "formal_cpu_floor_refreeze",
+    "post_warmup_long_response_gpu_validation",
+    "day11_aggregate_preflight_pass"
   ],
   "warmup_aware_audit_contract": {
     "lr_metric": "actor/lr",
@@ -153,5 +205,37 @@
     "pilot_requires_positive_lr_step": true,
     "teacher_contract_relaxed_during_warmup": false,
     "runtime_nonupdate_abort_consecutive_positive_lr_steps": 2
+  },
+  "pilot_64_resource_review": {
+    "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review.json",
+    "sha256": "ab79bb0cb895f77e1e61496a7b36d5b2619e1c3ccfbebdd9708aab814e5db1be",
+    "prelaunch_cgroup_minimum_bytes": 240518168576,
+    "recommended_capacity_bytes": 274877906944,
+    "status": "BLOCKED_CPU_AND_DISK",
+    "formal_baseline_requires_refreeze": true
+  },
+  "checkpoint_memory_revision": {
+    "status": "PILOT16_AND_PILOT64_PASS_STUDENT_COLD_RELOAD_VERIFIED",
+    "analysis_path": "artifacts/runs/E-D11-6K-GATE-001/checkpoint_memory_revision/analysis.json",
+    "analysis_sha256": "4ea0cc8c5eb1c7524a49dc8c9d26d65cca5b559aedd6daf9f6fc4cb7361966ad",
+    "algorithm_configs_changed": false,
+    "resource_thresholds_lowered": false,
+    "cpu_test_result": "62 passed, 17 subtests passed",
+    "gpu_peak_reduction_measured": true,
+    "cold_reload_validated": true,
+    "cold_reload_scope": "student_model_only_not_optimizer_or_teacher_resume",
+    "historical_pilot_16_preserved": true,
+    "measurement_caveat": "Observed CPU peak decreased relative to prior run; rollout outputs and host allocation differ, so this is not a controlled measurement of optimization effect.",
+    "measured_resource_summary": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/rerun_resource_summary.json",
+      "sha256": "0206ea0ea4bd773097b089571283b99de3181c8145330344e54b52f8dfee257a"
+    }
+  },
+  "gpu_abort_threshold_revision": {
+    "gpu_used_ratio_abort": 0.98,
+    "cgroup_used_ratio_abort": 0.95,
+    "consecutive_samples": 3,
+    "receipt": "artifacts/runs/E-D11-6K-GATE-001/gpu_threshold_revision_98.json",
+    "gpu_validated": false
   }
 }

@@ -1,0 +1,535 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T15:38:40.749485+00:00",
+  "status": "INVENTORY_COMPLETE_MIGRATION_PENDING_PRIVATE_DESTINATION",
+  "scope": "Inventory and preparation only; no GPU, copy, move, delete, symlink or policy changes.",
+  "automatic_source_removal_authorized": false,
+  "destination": null,
+  "filesystem_inventory": [
+    {
+      "path": "/root/autodl-tmp",
+      "resolved_path": "/root/autodl-tmp",
+      "total_bytes": 322122547200,
+      "used_bytes": 190541012992,
+      "free_bytes": 131581534208,
+      "mount": {
+        "target": "/root/autodl-tmp",
+        "source": "/dev/md0[/docker/volumes/autodl-container-lalbr7shzx-e6385dc5-storage/_data]",
+        "fstype": "xfs",
+        "options": "rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,sunit=1024,swidth=2048,prjquota"
+      }
+    },
+    {
+      "path": "/",
+      "resolved_path": "/",
+      "total_bytes": 32212254720,
+      "used_bytes": 21798928384,
+      "free_bytes": 10413326336,
+      "mount": {
+        "target": "/",
+        "source": "overlay",
+        "fstype": "overlay",
+        "options": "rw,relatime,lowerdir=/data/docker/overlay2/l/RNAKTQ5GC6NY7KXTR6MOYSBGQN:/data/docker/overlay2/l/MEZFWDOWNGMLJVHYY4FXUKIPJQ:/data/docker/overlay2/l/5HOT2HII6LHPPGI3BASPQB2DW3:/data/docker/overlay2/l/VWSGBVZFBEXQAS3QZMM6SVIBRF:/data/docker/overlay2/l/EU3MXXGBVJ6AMZPRAY55VBHYGC:/data/docker/overlay2/l/XPCPZK6LL2U3AJFDRDALGM7LWY:/data/docker/overlay2/l/H6F3OFVHUZM2P3RGEAZWEPH76I:/data/docker/overlay2/l/N4KNMLIOE5LXFNAE2JFMXCFNEQ:/data/docker/overlay2/l/V62E6WXWISRIMDHGDFR3FCVACT:/data/docker/overlay2/l/26E7WZXBLA64YFFIMULBWTCBN4:/data/docker/overlay2/l/GZS6DIIT2PDKZZLGHPJMOZAI6K:/data/docker/overlay2/l/PEYTC2OQXZEWFQDST6DIVK7ONQ:/data/docker/overlay2/l/UM4C7K4STLCG7UO2LHSBAXVYYI:/data/docker/overlay2/l/7WR3MMRW666CNA45JLMGYHFXI7:/data/docker/overlay2/l/P4CETXOV5VNI2FBP4MEYR6O2QK:/data/docker/overlay2/l/LRCXK5PTRSVEIWBFRNZPAKRTQP:/data/docker/overlay2/l/LASU65OBQ4PZHOMCOAYPT2ZXOE:/data/docker/overlay2/l/377WTHKOEFSVVZ5YRTH2W7C27H:/data/docker/overlay2/l/KQQIYAMVZUG4BA5OJYHHIAI3GV:/data/docker/overlay2/l/6IX6T2DZIJPBRTAZU66L4TV7VA:/data/docker/overlay2/l/3Q4GIZ5ECGQQXM57AODSCPEWQ7,upperdir=/data/docker/overlay2/dbf972049004d0ea8569b94eb2fb519af814bc019051c992367302dfa6621006/diff,workdir=/data/docker/overlay2/dbf972049004d0ea8569b94eb2fb519af814bc019051c992367302dfa6621006/work"
+      }
+    },
+    {
+      "path": "/tmp",
+      "resolved_path": "/tmp",
+      "total_bytes": 32212254720,
+      "used_bytes": 21798928384,
+      "free_bytes": 10413326336,
+      "mount": {
+        "target": "/",
+        "source": "overlay",
+        "fstype": "overlay",
+        "options": "rw,relatime,lowerdir=/data/docker/overlay2/l/RNAKTQ5GC6NY7KXTR6MOYSBGQN:/data/docker/overlay2/l/MEZFWDOWNGMLJVHYY4FXUKIPJQ:/data/docker/overlay2/l/5HOT2HII6LHPPGI3BASPQB2DW3:/data/docker/overlay2/l/VWSGBVZFBEXQAS3QZMM6SVIBRF:/data/docker/overlay2/l/EU3MXXGBVJ6AMZPRAY55VBHYGC:/data/docker/overlay2/l/XPCPZK6LL2U3AJFDRDALGM7LWY:/data/docker/overlay2/l/H6F3OFVHUZM2P3RGEAZWEPH76I:/data/docker/overlay2/l/N4KNMLIOE5LXFNAE2JFMXCFNEQ:/data/docker/overlay2/l/V62E6WXWISRIMDHGDFR3FCVACT:/data/docker/overlay2/l/26E7WZXBLA64YFFIMULBWTCBN4:/data/docker/overlay2/l/GZS6DIIT2PDKZZLGHPJMOZAI6K:/data/docker/overlay2/l/PEYTC2OQXZEWFQDST6DIVK7ONQ:/data/docker/overlay2/l/UM4C7K4STLCG7UO2LHSBAXVYYI:/data/docker/overlay2/l/7WR3MMRW666CNA45JLMGYHFXI7:/data/docker/overlay2/l/P4CETXOV5VNI2FBP4MEYR6O2QK:/data/docker/overlay2/l/LRCXK5PTRSVEIWBFRNZPAKRTQP:/data/docker/overlay2/l/LASU65OBQ4PZHOMCOAYPT2ZXOE:/data/docker/overlay2/l/377WTHKOEFSVVZ5YRTH2W7C27H:/data/docker/overlay2/l/KQQIYAMVZUG4BA5OJYHHIAI3GV:/data/docker/overlay2/l/6IX6T2DZIJPBRTAZU66L4TV7VA:/data/docker/overlay2/l/3Q4GIZ5ECGQQXM57AODSCPEWQ7,upperdir=/data/docker/overlay2/dbf972049004d0ea8569b94eb2fb519af814bc019051c992367302dfa6621006/diff,workdir=/data/docker/overlay2/dbf972049004d0ea8569b94eb2fb519af814bc019051c992367302dfa6621006/work"
+      }
+    },
+    {
+      "path": "/autodl-pub",
+      "resolved_path": "/autodl-pub",
+      "total_bytes": 7937304035328,
+      "used_bytes": 1742405107712,
+      "free_bytes": 5794804269056,
+      "mount": {
+        "target": "/autodl-pub",
+        "source": "172.30.54.6:/data",
+        "fstype": "nfs4",
+        "options": "ro,relatime,vers=4.2,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=172.20.0.126,local_lock=none,addr=172.30.54.6"
+      }
+    }
+  ],
+  "workspace_inventory": [
+    {
+      "path": "/root/autodl-tmp/.autodl",
+      "allocated_bytes": 266240
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main",
+      "allocated_bytes": 135009017856
+    },
+    {
+      "path": "/root/autodl-tmp/benchmark_data",
+      "allocated_bytes": 8714436608
+    },
+    {
+      "path": "/root/autodl-tmp/data",
+      "allocated_bytes": 37472301056
+    },
+    {
+      "path": "/root/autodl-tmp/hf_cache",
+      "allocated_bytes": 1953792
+    },
+    {
+      "path": "/root/autodl-tmp/models",
+      "allocated_bytes": 9343008768
+    },
+    {
+      "path": "/root/autodl-tmp/pip_cache",
+      "allocated_bytes": 0
+    },
+    {
+      "path": "/root/autodl-tmp/tmp",
+      "allocated_bytes": 12288
+    },
+    {
+      "path": "/root/autodl-tmp/torch_cache",
+      "allocated_bytes": 0
+    },
+    {
+      "path": "/root/autodl-tmp/xdg_cache",
+      "allocated_bytes": 0
+    }
+  ],
+  "protected_checkpoints": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints",
+      "allocated_bytes": 57034989568,
+      "files": [
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_0.pt",
+          "size_bytes": 15077,
+          "allocated_bytes": 16384,
+          "device": 2304,
+          "inode": 32232212090,
+          "mtime_ns": 1788611728635859786,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "440f637c2ba5ef67d3bc52cb1a8fde7cdca40137146265f912e483ebada7e862"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_1.pt",
+          "size_bytes": 15077,
+          "allocated_bytes": 16384,
+          "device": 2304,
+          "inode": 32232212091,
+          "mtime_ns": 1788611729103784685,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "09cd519896653dbc521d7c30925faa245ad14a8c23e2808f63a11da7b17d9c61"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/fsdp_config.json",
+          "size_bytes": 46,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 32232212092,
+          "mtime_ns": 1788611730127620587,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/chat_template.jinja",
+          "size_bytes": 5415,
+          "allocated_bytes": 8192,
+          "device": 2304,
+          "inode": 3235565253,
+          "mtime_ns": 1788611728867822544,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/config.json",
+          "size_bytes": 2894,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 3235565252,
+          "mtime_ns": 1788611728651857217,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/processor_config.json",
+          "size_bytes": 1191,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 3235565257,
+          "mtime_ns": 1788611730123621227,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/tokenizer.json",
+          "size_bytes": 19989343,
+          "allocated_bytes": 19992576,
+          "device": 2304,
+          "inode": 3235565256,
+          "mtime_ns": 1788611728855824471,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/tokenizer_config.json",
+          "size_bytes": 1139,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 3235565255,
+          "mtime_ns": 1788611728651857217,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+          "size_bytes": 10350349843,
+          "allocated_bytes": 10350350336,
+          "device": 2304,
+          "inode": 32232212087,
+          "mtime_ns": 1788611661743168174,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+          "size_bytes": 10350349843,
+          "allocated_bytes": 10350350336,
+          "device": 2304,
+          "inode": 32232212086,
+          "mtime_ns": 1788611661075287080,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+          "size_bytes": 18157113047,
+          "allocated_bytes": 18157113344,
+          "device": 2304,
+          "inode": 32232212088,
+          "mtime_ns": 1788611718137558480,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+          "size_bytes": 18157113047,
+          "allocated_bytes": 18157113344,
+          "device": 2304,
+          "inode": 32232212089,
+          "mtime_ns": 1788611719389354513,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/data.pt",
+          "size_bytes": 1499,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 31158779756,
+          "mtime_ns": 1788611730479564254,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "cfb7e4d9b1e289f1660f5d92b0b699b514c6d1aa57500002bd78cf4345b61dc8"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/latest_checkpointed_iteration.txt",
+          "size_bytes": 1,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 8623736734,
+          "mtime_ns": 1788611730479564254,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+        }
+      ],
+      "action": "PRESERVE_IN_PLACE",
+      "full_content_integrity_verified": false
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints",
+      "allocated_bytes": 57034989568,
+      "files": [
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_0.pt",
+          "size_bytes": 15077,
+          "allocated_bytes": 16384,
+          "device": 2304,
+          "inode": 1116637126,
+          "mtime_ns": 1788612559314973939,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "0b9d95c7c272ff910377ef392a72ab055ec7537b7854bb637c6c0492cbc164fc"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_1.pt",
+          "size_bytes": 15077,
+          "allocated_bytes": 16384,
+          "device": 2304,
+          "inode": 1116637127,
+          "mtime_ns": 1788612559670952496,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "434dca7ef68b741f9f3b27f9765c1bb0ce7fe561ed5bdac3377c2bfa86112a9e"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/fsdp_config.json",
+          "size_bytes": 46,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 1116637128,
+          "mtime_ns": 1788612560502902403,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/chat_template.jinja",
+          "size_bytes": 5415,
+          "allocated_bytes": 8192,
+          "device": 2304,
+          "inode": 10767209119,
+          "mtime_ns": 1788612559674952254,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/config.json",
+          "size_bytes": 2894,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 10767209118,
+          "mtime_ns": 1788612559326973217,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/processor_config.json",
+          "size_bytes": 1191,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 10767209122,
+          "mtime_ns": 1788612560498902644,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/tokenizer.json",
+          "size_bytes": 19989343,
+          "allocated_bytes": 19992576,
+          "device": 2304,
+          "inode": 10767209121,
+          "mtime_ns": 1788612559554959483,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/tokenizer_config.json",
+          "size_bytes": 1139,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 10767209120,
+          "mtime_ns": 1788612559330972975,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+          "size_bytes": 10350349843,
+          "allocated_bytes": 10350350336,
+          "device": 2304,
+          "inode": 1116637122,
+          "mtime_ns": 1788612491419180552,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+          "size_bytes": 10350349843,
+          "allocated_bytes": 10350350336,
+          "device": 2304,
+          "inode": 1116637123,
+          "mtime_ns": 1788612492119135944,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+          "size_bytes": 18157113047,
+          "allocated_bytes": 18157113344,
+          "device": 2304,
+          "inode": 1116637124,
+          "mtime_ns": 1788612549375575168,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+          "size_bytes": 18157113047,
+          "allocated_bytes": 18157113344,
+          "device": 2304,
+          "inode": 1116637125,
+          "mtime_ns": 1788612550367514949,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/data.pt",
+          "size_bytes": 1499,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 99894444,
+          "mtime_ns": 1788612560862880735,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "a62df95dc7c0fbd9b8196250ff5debca590806b48e1c1725652f798855a93de9"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/latest_checkpointed_iteration.txt",
+          "size_bytes": 1,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 19344967614,
+          "mtime_ns": 1788612560862880735,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3"
+        }
+      ],
+      "action": "PRESERVE_IN_PLACE",
+      "full_content_integrity_verified": false
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf",
+      "allocated_bytes": 10370043904,
+      "files": [
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/chat_template.jinja",
+          "size_bytes": 5415,
+          "allocated_bytes": 8192,
+          "device": 2304,
+          "inode": 7781635288,
+          "mtime_ns": 1788617528923721764,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/config.json",
+          "size_bytes": 2896,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 7781635285,
+          "mtime_ns": 1788617524955801299,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "357a7aab66c5534d713577cf15e07ebc1ad415b38d8c62f98f6d33dc7b888606"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/generation_config.json",
+          "size_bytes": 204,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 7781635287,
+          "mtime_ns": 1788617524955801299,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "5f02aa641d88dd1b466df7b5ef82e5829629d28931a9e6a6750ddfd2b796b812"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/model.safetensors",
+          "size_bytes": 10350019328,
+          "allocated_bytes": 10350022656,
+          "device": 2304,
+          "inode": 7781635282,
+          "mtime_ns": 1788617524715806104,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/processor_config.json",
+          "size_bytes": 1191,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 7781635291,
+          "mtime_ns": 1788617528923721764,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/tokenizer.json",
+          "size_bytes": 19989343,
+          "allocated_bytes": 19992576,
+          "device": 2304,
+          "inode": 7781635290,
+          "mtime_ns": 1788617529067718874,
+          "nlink": 1,
+          "regular_file": true
+        },
+        {
+          "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf/tokenizer_config.json",
+          "size_bytes": 1139,
+          "allocated_bytes": 4096,
+          "device": 2304,
+          "inode": 7781635289,
+          "mtime_ns": 1788617528923721764,
+          "nlink": 1,
+          "regular_file": true,
+          "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+        }
+      ],
+      "action": "PRESERVE_IN_PLACE",
+      "full_content_integrity_verified": false
+    }
+  ],
+  "ab_capacity": {
+    "checkpoint_estimate_bytes": 57034989568,
+    "launch_floor_bytes": 128849018880,
+    "first_run_disk_gate_pass": true,
+    "second_run_free_estimate_bytes": 74546544640,
+    "both_runs_minimum_initial_free_bytes": 185884008448,
+    "minimum_additional_bytes": 54302474240,
+    "planning_margin_bytes": 21474836480,
+    "recommended_initial_free_bytes": 207358844928,
+    "recommended_additional_bytes": 75777310720,
+    "archive_destination_minimum_bytes": 78509826048,
+    "caveat": "Checkpoint sizes and ancillary writes may change; recheck live gates before each launch."
+  },
+  "policy_sha256": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+  "preferred_action": "Expand existing training filesystem quota; preserve paths and evidence.",
+  "alternate_action": "After baseline passes, archive its new checkpoint to a confirmed private durable destination.",
+  "future_archive_source": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run/checkpoints",
+  "migration_steps": [
+    "Confirm private destination path, durable retention and actual quota; never use public/read-only or RAM filesystems.",
+    "Check actual source size, destination free space and different storage/quota; same-disk moves do not release space.",
+    "Wait for baseline guard/postflight/checkpoint completion and no live writers; preserve all logs and original manifests.",
+    "Create source per-file SHA256 inventory; copy into a fresh non-overwriting staging directory on destination.",
+    "Compare file set, sizes and full SHA256 at source and destination; recheck source has not changed.",
+    "Record destination, retention and restoration instructions; verify restore/audit path compatibility.",
+    "Keep source until verification succeeds AND user separately authorizes exact source retirement.",
+    "Recheck 120 GiB source free floor and all other live guards before deferred run."
+  ],
+  "limitations": [
+    "No private migration destination was supplied or verified.",
+    "Large tensor files were inventoried by metadata, not reread for SHA256 in this preparation phase.",
+    "Snapshots are not backup copies or permission to remove protected checkpoints."
+  ]
+}

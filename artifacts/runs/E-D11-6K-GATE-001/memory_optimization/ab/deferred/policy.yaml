@@ -1,0 +1,81 @@
+schema_version: 1
+policy_id: E-D11-6K-VOPD-PILOT-GUARD-001
+telemetry:
+  sample_interval_seconds: 5
+  max_consecutive_collection_failures: 3
+  startup_grace_seconds: 1200
+  log_heartbeat_timeout_seconds: 600
+runtime:
+  max_wall_time_hours: 4
+  terminate_grace_seconds: 60
+memory:
+  prelaunch_gpu_used_ratio_max: 0.1
+  gpu_used_ratio_abort: 0.98
+  cgroup_used_ratio_abort: 0.95
+  prelaunch_cgroup_minimum_bytes: 206158430208
+  consecutive_samples: 3
+disk:
+  checkpoint_estimate_bytes: 57034960981
+  reserve_bytes: 5368709120
+  formula_required_bytes: 119438631082
+  minimum_free_bytes: 128849018880
+  prelaunch_required_bytes: 128849018880
+  runtime_soft_floor_bytes: 62403670101
+  runtime_hard_floor_bytes: 5368709120
+  soft_floor_consecutive_samples: 2
+budget:
+  hourly_dual_gpu_rate_cny: 11.96
+  project_hard_limit_cny: 2000
+  billing_observation_max_age_seconds: 900
+metrics:
+  teacher_ema_nonpositive_consecutive_steps: 2
+  student_delta_nonpositive_consecutive_steps: 2
+  student_update_required_only_when_lr_positive: true
+  generation_error_consecutive_steps: 2
+checkpoint:
+  expected_final_step: 2
+  marker: latest_checkpointed_iteration.txt
+  required_relative_files:
+  - actor/extra_state_world_size_2_rank_0.pt
+  - actor/extra_state_world_size_2_rank_1.pt
+  - actor/fsdp_config.json
+  - actor/huggingface/chat_template.jinja
+  - actor/huggingface/config.json
+  - actor/huggingface/processor_config.json
+  - actor/huggingface/tokenizer.json
+  - actor/huggingface/tokenizer_config.json
+  - actor/model_world_size_2_rank_0.pt
+  - actor/model_world_size_2_rank_1.pt
+  - actor/optim_world_size_2_rank_0.pt
+  - actor/optim_world_size_2_rank_1.pt
+  - data.pt
+pilot:
+  static_gate: artifacts/runs/E-D11-6K-GATE-001/static_gate.json
+  required_static_gate_status: PASS_PENDING_GPU_PILOT
+  forbid_listening_port_8000: true
+  postflight_script: scripts/audit_vopd_memory_ab.py
+  stage_contracts:
+    '16':
+      experiment_id: E-D11-6K-VOPD-PILOT-016
+      config: configs/vopd_6241_pilot_16.yaml
+      output_dir: artifacts/runs/E-D11-6K-GATE-001/pilot/16
+      expected_rows: 16
+      expected_optimizer_steps: 2
+      max_wall_time_hours: 4
+      max_incremental_cost_cny: 47.84
+      prerequisite_postflight: null
+      require_cold_reload: false
+    '64':
+      experiment_id: E-D11-MEM-DEFERRED
+      config: /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/config.yaml
+      output_dir: /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/run
+      expected_rows: 64
+      expected_optimizer_steps: 8
+      prelaunch_cgroup_minimum_bytes: 240518168576
+      max_wall_time_hours: 8
+      max_incremental_cost_cny: 95.68
+      prerequisite_postflight: artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json
+      require_cold_reload: false
+memory_experiment:
+  variant: deferred
+  manifest: /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/manifest.json

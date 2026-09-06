@@ -1,0 +1,24 @@
+{
+  "variant": "deferred",
+  "config_sha256": "0076c450f0f1c34e0dd03971797ee727623ed85cf05a14840d87c510baf3987e",
+  "source_hashes": {
+    "verl/utils/actor_memory.py": "8f545dbf04f546dac16e6822b907325119756a210ddd71d209683f02316ec3fd",
+    "verl/workers/actor/dp_actor.py": "6b7419667460c9d2e9c8c4a22f3f54c2011a17da217555228f2e9b657a1481f3",
+    "verl/workers/fsdp_workers.py": "58ffc7d7aedc2ddc7b0b2c6b4233788f476775b566eaf2f2eae5272dcc7d6c7d",
+    "verl/workers/config/actor.py": "ceb3cb66cf10491917baa64e6f1a4231bd99601b4eb9177c7c060bd0454ce85f",
+    "verl/utils/fsdp_utils.py": "46bec997373bbbcdac689d27fdbe61f048160f2f339d8f28a2f728fdac6c2fb0",
+    "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+    "scripts/run_vopd_6241_pilot_guarded.py": "63301170c38cedd1e8ca459275e38c4144ba7e86f18b92902974b55a5de23775",
+    "scripts/vopd_memory_experiment.py": "0f2ecbb2d0d6093939c0a259ed29cc0e5d56654023b15892442427ac453fa07d",
+    "configs/vopd_6241_pilot_64.yaml": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+    "configs/vopd_6241_pilot_abort_policy.yaml": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66"
+  },
+  "formal_training_authorized": false,
+  "diagnostic_sync_overhead": true,
+  "cpu_tests_do_not_validate_cuda_transfers": true,
+  "algorithm_config_source_sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+  "overrides": [
+    "++actor_rollout_ref.actor.defer_optimizer_state_load=true",
+    "++actor_rollout_ref.actor.memory_profile_dir=/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/run/evidence/memory_stages"
+  ]
+}

@@ -1,0 +1,1 @@
+{"timestamp_utc": "2026-09-05T10:56:12.891509+00:00", "step": 1, "loss": 0.009472095698583871, "grad_norm": 0.8829153180122375, "learning_rate": 0.0, "student_optimizer_delta": 0.0, "teacher_optimizer_delta": 0.0, "teacher_grad_non_none_count": 0.0, "teacher_ema_delta": 2.384185791015625e-07, "ema_update_applied": 1.0, "aborted_ratio": 0.0, "raw_metric_count": 108}

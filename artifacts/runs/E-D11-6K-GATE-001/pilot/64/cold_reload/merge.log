@@ -1,0 +1,13 @@
+COMMAND=["/root/miniconda3/envs/vision-opd/bin/python", "-m", "verl.model_merger", "merge", "--backend", "fsdp", "--local_dir", "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor", "--target_dir", "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf"]
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+config: ModelMergerConfig(operation='merge', backend='fsdp', target_dir='/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf', hf_upload_path=None, private=False, test_hf_dir=None, tie_word_embedding=False, trust_remote_code=False, is_value_model=False, local_dir='/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor', hf_model_config_path='/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface', hf_upload=False, use_cpu_initialization=False)
+Got device mesh tensor([0, 1], dtype=torch.int32), mesh_dim_names ('fsdp',)
+Processing model shards with 2 (2,) in total
+Loading 2 FSDP shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading 2 FSDP shards:  50%|█████     | 1/2 [00:06<00:06,  6.73s/it]Loading 2 FSDP shards: 100%|██████████| 2/2 [00:06<00:00,  3.36s/it]
+`torch_dtype` is deprecated! Use `dtype` instead!
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Warning: Generation config file not found in /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface, using a generation config created from the model config.
+Saving model to /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf
+Saving processor to /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf
+Saving tokenizer to /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf

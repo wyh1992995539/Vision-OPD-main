@@ -1,0 +1,17 @@
+{
+  "generated_at_utc": "2026-09-05T11:33:10.162499+00:00",
+  "authorization": "GPU 显存中止线 提高到98%",
+  "before_policy_sha256": {
+    "configs/vopd_6241_abort_policy.yaml": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3",
+    "configs/vopd_6241_pilot_abort_policy.yaml": "5cc4e2b69b539ecc5abbc2bdfc0d0a92f1c2741c4b00c126850c91ad47661e6e"
+  },
+  "after_policy_sha256": {
+    "configs/vopd_6241_abort_policy.yaml": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8",
+    "configs/vopd_6241_pilot_abort_policy.yaml": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66"
+  },
+  "gpu_used_ratio_abort": 0.98,
+  "cgroup_used_ratio_abort": 0.95,
+  "consecutive_samples": 3,
+  "historical_policy_copies_modified": false,
+  "training_started": false
+}

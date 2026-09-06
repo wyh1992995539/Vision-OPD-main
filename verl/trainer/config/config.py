@@ -36,6 +36,8 @@ class CheckpointConfig(BaseConfig):
     save_contents: list[str] = field(default_factory=lambda: ["model", "optimizer", "extra"])
     load_contents: list[str] = field(default_factory=lambda: ["model", "optimizer", "extra"])
     async_save: bool = False
+    # FSDP only: persist each shard before advising eviction of its clean file cache.
+    fsdp_flush_reclaim: bool = False
 
 
 @dataclass

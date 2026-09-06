@@ -1,0 +1,9 @@
+{
+  "authorization": "User previously instructed 不要管费用了，启动便是; current request 重跑Pilot-16，给我实时反馈.",
+  "scope": "Widen billing freshness only; current technical guard policy retained.",
+  "historical_billing_source": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/pilot_live_launch_gate.json",
+  "historical_cost_cny": 225.0,
+  "historical_observed_at_utc": "2026-09-05T07:40:58+00:00",
+  "is_current_billing_observation": false,
+  "policy": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/user_authorized_budget_override_policy.yaml"
+}

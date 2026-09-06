@@ -1,0 +1,371 @@
+{
+  "schema_version": 1,
+  "gate_id": "E-D11-6K-STATIC-GATE-001",
+  "generated_at_utc": "2026-09-05T15:27:00.153446+00:00",
+  "status": "PASS_PENDING_GPU_PILOT",
+  "gpu_used": false,
+  "ready_for_gpu_pilot": true,
+  "formal_training_authorized": false,
+  "final_gate_written": false,
+  "final_gate_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/preflight.json",
+  "checks": {
+    "prompt_length_pass": true,
+    "prompt_resource_only_amendment_valid": true,
+    "overlap_audit_complete_with_disclosure": true,
+    "drop_last_pass": true,
+    "cached_prefix_pass": true,
+    "training_config_static_freeze_current": true,
+    "formal_config_fail_closed_only_on_day11_status": true,
+    "pilot_16_static_preflight_pass": true,
+    "pilot_64_static_preflight_pass": true,
+    "pilot_16_has_two_steps": true,
+    "pilot_64_has_eight_steps": true,
+    "pilot_16_is_prefix_of_pilot_64": true,
+    "pilot_ids_unique": true,
+    "warmup_aware_student_update_contract": true,
+    "three_way_offload_resource_contract": true,
+    "pilot_guard_stage_contracts_valid": true,
+    "pilot_64_peak_review_memory_floor": true
+  },
+  "failed_checks": [],
+  "inputs": {
+    "formal_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "sha256": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f"
+    },
+    "abort_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "sha256": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8"
+    },
+    "project_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/project_6241.yaml",
+      "sha256": "2ab8c9973edfbaaa5c8499aba50e2d70bd6d1c5d600d4fc8b15c44667d8e59a2"
+    },
+    "prompt_length": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/prompt_length/prompt_length_summary.json",
+      "sha256": "065e40442b76f3384bd42d73e09f71c51a5477cbf6b55e470fa64635235ec0e2"
+    },
+    "prompt_resource_amendment": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/prompt_length/resource_only_config_amendment.json",
+      "sha256": "be0277f4f456b26ce598e13f308cf5b519a8848850de80a99381c2875c7fb86d"
+    },
+    "prompt_audited_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/prompt_length/audited_training_config.yaml",
+      "sha256": "06127d43b45e9e00aece19ef15c6b9195c362394dffc8d789e7bf1bf937e2871"
+    },
+    "overlap": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_validation.json",
+      "sha256": "fbc63af8a187e88003a9249d3939e505be03c64bedf2f39f2f2c27c45cea7211"
+    },
+    "drop_last": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/drop_last/drop_last_audit.json",
+      "sha256": "6695bd0064e1077421195d8a9ee98a3d2a9606cea62fb4de50fe61f433a6bf68"
+    },
+    "cached_prefix": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/cached_prefix/report.json",
+      "sha256": "86d2918ea1c5ee514a9f00acef32fdc5c8fc5ffcfacee15829c2cef7092c9b36"
+    },
+    "training_config_freeze": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json",
+      "sha256": "fa6fef4d17c871801368c7c37addf77798f600a32b9c6fd8375806cebaed6693"
+    },
+    "pilot_16_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_16.yaml",
+      "sha256": "9f756a85195133be23e21d474391e0df7d8e6017746d70ef8928667535793331"
+    },
+    "pilot_64_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_64.yaml",
+      "sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1"
+    },
+    "pilot_abort_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_abort_policy.yaml",
+      "sha256": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66"
+    },
+    "pilot_guarded_launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_6241_pilot_guarded.py",
+      "sha256": "63301170c38cedd1e8ca459275e38c4144ba7e86f18b92902974b55a5de23775"
+    },
+    "pilot_postflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/audit_vopd_6241_pilot.py",
+      "sha256": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d"
+    },
+    "runtime_guard": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/monitor_vopd_training.py",
+      "sha256": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59"
+    },
+    "training_launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_2gpu.sh",
+      "sha256": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67"
+    },
+    "training_preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_training_preflight.py",
+      "sha256": "1eeb50984f319975503030666c08653e98b93c25c39668f03685dbf4c80d56dc"
+    },
+    "vllm_adapter": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/workers/rollout/vllm_rollout/vllm_async_server.py",
+      "sha256": "d2d0f0d062275bb2799f25418f4089d335c2e6d466bd6cdd075aac10e3dbecde"
+    },
+    "static_gate_builder": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/build_day11_static_gate.py",
+      "sha256": "a8757172d28ccbbcac58ee2219982ed687cb112cac9029f5975405271c796060"
+    },
+    "fsdp_checkpoint_manager": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/utils/checkpoint/fsdp_checkpoint_manager.py",
+      "sha256": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e"
+    },
+    "checkpoint_shard_io": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/utils/checkpoint/shard_io.py",
+      "sha256": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0"
+    },
+    "checkpoint_config_class": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/trainer/config/config.py",
+      "sha256": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243"
+    },
+    "checkpoint_io_contract": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/checkpoint_io_contract.py",
+      "sha256": "8c4780f54833e25735a6aba1bb7d92a311c4c9ca17731b29d601846f20476ccf"
+    }
+  },
+  "pilot_preflights": {
+    "16": {
+      "schema_version": 1,
+      "experiment_id": "E-D11-6K-VOPD-PILOT-016",
+      "status": "PASS",
+      "gpu_used": false,
+      "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_16.yaml",
+      "config_sha256": "9f756a85195133be23e21d474391e0df7d8e6017746d70ef8928667535793331",
+      "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+      "train_file": "/root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_16.parquet",
+      "train_file_sha256": "444d4bb5ac8c08d626a08d743ab0cf4d52388613ea2bcffb3c183c98eefff3ae",
+      "train_rows": 16,
+      "parquet_columns": [
+        "data_source",
+        "prompt",
+        "images",
+        "bbox_images",
+        "ability",
+        "reward_model",
+        "extra_info"
+      ],
+      "chat_template": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+      "selection_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/selection.json",
+      "training_contract": {
+        "expected_samples": 16,
+        "padded_samples": 16,
+        "padding_rows": 0,
+        "dropped_rows": 0,
+        "full_coverage_padding": false,
+        "tail_policy": "native_drop_last",
+        "total_optimizer_steps": 2,
+        "total_epochs": 1,
+        "require_full_epoch": true,
+        "train_batch_size": 8,
+        "shuffle": false,
+        "save_frequency": -1,
+        "test_frequency": -1
+      },
+      "checks": {
+        "config_not_explicitly_blocked": true,
+        "prefix_source_online": true,
+        "seed_is_42": true,
+        "two_gpus": true,
+        "global_batch_is_8": true,
+        "rollout_n_is_1": true,
+        "positive_optimizer_steps": true,
+        "sample_budget_matches_steps": true,
+        "sample_budget_within_dataset": true,
+        "full_epoch_contract": true,
+        "full_coverage_contract": true,
+        "native_drop_last_contract": true,
+        "prompt_limit_is_8192": true,
+        "response_limit_matches_frozen_contract": true,
+        "truncation_is_error": true,
+        "teacher_uses_bbox_images": true,
+        "actor_parameter_offload_matches_resource_contract": true,
+        "actor_optimizer_offload_matches_resource_contract": true,
+        "reference_parameter_offload_matches_resource_contract": true,
+        "rollout_gpu_memory_utilization_safe_start": true,
+        "three_way_offload_memory_profile": true,
+        "paper_jsd_beta_is_0_5": true,
+        "paper_distillation_top_k_is_100": true,
+        "paper_teacher_ema_rate_is_0_05": true,
+        "paper_epoch_is_1": true,
+        "paper_rollout_sampling_is_frozen": true,
+        "official_lr_and_warmup_match": true,
+        "official_clip_contract_matches": true,
+        "official_max_reprompt_length_matches": true,
+        "official_vllm_engine_switches_match": true,
+        "sequence_token_budget_matches": true
+      },
+      "missing_image_paths": [],
+      "errors": [],
+      "sample_id_count": 16,
+      "sample_ids_sha256": "fbed33b30c20d80d8a33eb23514901b5917ea220218974dd572c091ec79b066f"
+    },
+    "64": {
+      "schema_version": 1,
+      "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+      "status": "PASS",
+      "gpu_used": false,
+      "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_64.yaml",
+      "config_sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+      "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+      "train_file": "/root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_64.parquet",
+      "train_file_sha256": "6748ae359028d33b8e8ee182a000362d48a54d39d7bb18b00e9cc57620e3dc60",
+      "train_rows": 64,
+      "parquet_columns": [
+        "data_source",
+        "prompt",
+        "images",
+        "bbox_images",
+        "ability",
+        "reward_model",
+        "extra_info"
+      ],
+      "chat_template": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+      "selection_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json",
+      "training_contract": {
+        "expected_samples": 64,
+        "padded_samples": 64,
+        "padding_rows": 0,
+        "dropped_rows": 0,
+        "full_coverage_padding": false,
+        "tail_policy": "native_drop_last",
+        "total_optimizer_steps": 8,
+        "total_epochs": 1,
+        "require_full_epoch": true,
+        "train_batch_size": 8,
+        "shuffle": false,
+        "save_frequency": -1,
+        "test_frequency": -1
+      },
+      "checks": {
+        "config_not_explicitly_blocked": true,
+        "prefix_source_online": true,
+        "seed_is_42": true,
+        "two_gpus": true,
+        "global_batch_is_8": true,
+        "rollout_n_is_1": true,
+        "positive_optimizer_steps": true,
+        "sample_budget_matches_steps": true,
+        "sample_budget_within_dataset": true,
+        "full_epoch_contract": true,
+        "full_coverage_contract": true,
+        "native_drop_last_contract": true,
+        "prompt_limit_is_8192": true,
+        "response_limit_matches_frozen_contract": true,
+        "truncation_is_error": true,
+        "teacher_uses_bbox_images": true,
+        "actor_parameter_offload_matches_resource_contract": true,
+        "actor_optimizer_offload_matches_resource_contract": true,
+        "reference_parameter_offload_matches_resource_contract": true,
+        "rollout_gpu_memory_utilization_safe_start": true,
+        "three_way_offload_memory_profile": true,
+        "paper_jsd_beta_is_0_5": true,
+        "paper_distillation_top_k_is_100": true,
+        "paper_teacher_ema_rate_is_0_05": true,
+        "paper_epoch_is_1": true,
+        "paper_rollout_sampling_is_frozen": true,
+        "official_lr_and_warmup_match": true,
+        "official_clip_contract_matches": true,
+        "official_max_reprompt_length_matches": true,
+        "official_vllm_engine_switches_match": true,
+        "sequence_token_budget_matches": true
+      },
+      "missing_image_paths": [],
+      "errors": [],
+      "sample_id_count": 64,
+      "sample_ids_sha256": "801651ee3ccc443ed062054dfb5c47325e1207324176be2e61c76e9d981a014d"
+    }
+  },
+  "formal_preflight": {
+    "schema_version": 1,
+    "experiment_id": "E-D12-6K-VOPD-001",
+    "status": "FAIL",
+    "gpu_used": false,
+    "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+    "config_sha256": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
+    "model_path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "train_file": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+    "train_file_sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "train_rows": 6241,
+    "parquet_columns": [
+      "data_source",
+      "prompt",
+      "images",
+      "bbox_images",
+      "ability",
+      "reward_model",
+      "extra_info"
+    ],
+    "chat_template": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+    "selection_manifest": null,
+    "training_contract": {
+      "expected_samples": 6240,
+      "padded_samples": 6240,
+      "padding_rows": 0,
+      "dropped_rows": 1,
+      "full_coverage_padding": false,
+      "tail_policy": "native_drop_last",
+      "total_optimizer_steps": 780,
+      "total_epochs": 1,
+      "require_full_epoch": false,
+      "train_batch_size": 8,
+      "shuffle": true,
+      "save_frequency": 390,
+      "test_frequency": -1
+    },
+    "checks": {
+      "config_not_explicitly_blocked": false,
+      "prefix_source_online": true,
+      "seed_is_42": true,
+      "two_gpus": true,
+      "global_batch_is_8": true,
+      "rollout_n_is_1": true,
+      "positive_optimizer_steps": true,
+      "sample_budget_matches_steps": true,
+      "sample_budget_within_dataset": true,
+      "full_epoch_contract": true,
+      "full_coverage_contract": true,
+      "native_drop_last_contract": true,
+      "prompt_limit_is_8192": true,
+      "response_limit_matches_frozen_contract": true,
+      "truncation_is_error": true,
+      "teacher_uses_bbox_images": true,
+      "actor_parameter_offload_matches_resource_contract": true,
+      "actor_optimizer_offload_matches_resource_contract": true,
+      "reference_parameter_offload_matches_resource_contract": true,
+      "rollout_gpu_memory_utilization_safe_start": true,
+      "three_way_offload_memory_profile": true,
+      "paper_jsd_beta_is_0_5": true,
+      "paper_distillation_top_k_is_100": true,
+      "paper_teacher_ema_rate_is_0_05": true,
+      "paper_epoch_is_1": true,
+      "paper_rollout_sampling_is_frozen": true,
+      "official_lr_and_warmup_match": true,
+      "official_clip_contract_matches": true,
+      "official_max_reprompt_length_matches": true,
+      "official_vllm_engine_switches_match": true,
+      "sequence_token_budget_matches": true
+    },
+    "missing_image_paths": [],
+    "errors": [
+      "frozen config checks failed: ['config_not_explicitly_blocked']"
+    ],
+    "sample_id_count": 6241,
+    "sample_ids_sha256": "77ea81f35c63c6828c170c36dceffe19a59c2e089ea9d3f4e71bc7680fc5816e"
+  },
+  "overlap_disclosure": {
+    "confirmed_pairs": 21,
+    "unresolved_pairs": 0,
+    "human_project_owner_signoff": false,
+    "required_evaluation_action": "preserve official full-set scores and report overlap-stratified or deduplicated diagnostics separately"
+  },
+  "runtime_gates": {
+    "pilot_16": "PENDING_GPU",
+    "pilot_64": "BLOCKED_UNTIL_PILOT_16_PASS",
+    "pilot_budget_reestimate": "PENDING_GPU_MEASUREMENTS",
+    "day11_final_preflight": "NOT_WRITTEN"
+  },
+  "next_command": "conda run --no-capture-output -n vision-opd python scripts/run_vopd_6241_pilot_guarded.py --stage 16 --preflight-only"
+}

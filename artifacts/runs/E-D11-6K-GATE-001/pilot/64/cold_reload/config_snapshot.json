@@ -1,0 +1,27 @@
+{
+  "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+  "source_dir": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8",
+  "output_dir": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload",
+  "input_parquet": "/root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_64.parquet",
+  "input_parquet_sha256": "6748ae359028d33b8e8ee182a000362d48a54d39d7bb18b00e9cc57620e3dc60",
+  "expected_samples": 64,
+  "reload_samples": 5,
+  "seed": 42,
+  "global_step": 8,
+  "world_size": 2,
+  "chat_template": "chat_templates/perception_chat_template_qwen35.jinja",
+  "serving": {
+    "model_name": "vopd-pilot64-cold-reload",
+    "port": 8019,
+    "tensor_parallel_size": 2,
+    "max_model_len": 9216,
+    "max_new_tokens": 1024,
+    "gpu_memory_utilization": 0.4,
+    "startup_timeout_seconds": 900,
+    "enforce_eager": true
+  },
+  "runtime": {
+    "minimum_cpu_memory_gib": 192,
+    "minimum_free_disk_gib": 30
+  }
+}

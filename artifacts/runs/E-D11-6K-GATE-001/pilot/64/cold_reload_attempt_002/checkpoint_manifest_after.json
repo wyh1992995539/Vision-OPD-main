@@ -1,0 +1,88 @@
+{
+  "files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "mtime_ns": 1788612559314973939,
+      "sha256": "0b9d95c7c272ff910377ef392a72ab055ec7537b7854bb637c6c0492cbc164fc"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "mtime_ns": 1788612559670952496,
+      "sha256": "434dca7ef68b741f9f3b27f9765c1bb0ce7fe561ed5bdac3377c2bfa86112a9e"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "mtime_ns": 1788612560502902403,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "mtime_ns": 1788612559674952254,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "mtime_ns": 1788612559326973217,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "mtime_ns": 1788612560498902644,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "mtime_ns": 1788612559554959483,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "mtime_ns": 1788612559330972975,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788612491419180552,
+      "sha256": "0991de2158f2f5c9f7effef223bea5d4f1b12b023e8267ff9fafb9a31434d9fd"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788612492119135944,
+      "sha256": "441696ccbb25d29117f85879a3ce4710d1211508bf04936e5ed6008f68709e4f"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788612549375575168,
+      "sha256": "fd9acaa838e511b92b517312b48c357320f3ead3ecdc1aa5ccaa6d151c4c6bdd"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788612550367514949,
+      "sha256": "5edd98deacfd20e8927d587bfe0b8e5378214b3b5ee10b36cc9cc82b4957e0dc"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8/data.pt",
+      "size_bytes": 1499,
+      "mtime_ns": 1788612560862880735,
+      "sha256": "a62df95dc7c0fbd9b8196250ff5debca590806b48e1c1725652f798855a93de9"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "mtime_ns": 1788612560862880735,
+      "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3"
+    }
+  ]
+}

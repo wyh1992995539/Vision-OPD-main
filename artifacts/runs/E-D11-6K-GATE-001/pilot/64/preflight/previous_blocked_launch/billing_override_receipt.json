@@ -1,0 +1,9 @@
+{
+  "authorization": "User previously instructed 不要管费用了，启动便是; latest request explicitly authorizes Pilot-64 execution.",
+  "scope": "Widen billing freshness only for this Pilot-64 attempt; retain all current technical gates including reviewed 224 GiB stage minimum.",
+  "historical_billing_source": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/pilot_live_launch_gate.json",
+  "historical_cost_cny": 225.0,
+  "historical_observed_at_utc": "2026-09-05T07:40:58+00:00",
+  "is_current_billing_observation": false,
+  "policy": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/user_authorized_budget_override_policy.yaml"
+}

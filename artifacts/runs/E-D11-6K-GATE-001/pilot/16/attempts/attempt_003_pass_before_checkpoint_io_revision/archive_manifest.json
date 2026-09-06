@@ -1,0 +1,199 @@
+{
+  "archived_at_utc": "2026-09-05T12:28:59.348272+00:00",
+  "reason": "User authorized rerun Pilot-16 with checkpoint memory revision and 240 GiB allocation.",
+  "previous_status": "PASS",
+  "method": "same-filesystem rename; no checkpoint deletion or tensor loading",
+  "files": [
+    {
+      "path": "logs/train.log",
+      "size_bytes": 119824,
+      "sha256": "1732c1bbfca72df385102f24a43949df2c233708044dca855038e97b2c45091e"
+    },
+    {
+      "path": "rollouts/1.jsonl",
+      "size_bytes": 8911,
+      "sha256": "d9ff9ea9bbe3596ace1981f3b63d0e07b49924c412d7697bd5d83f56d0696091"
+    },
+    {
+      "path": "rollouts/2.jsonl",
+      "size_bytes": 9117,
+      "sha256": "97a601082faa0d7d9c2a23415ba8cc81e7eb77df0d5ac7994b834d2ad06c2de1"
+    },
+    {
+      "path": "checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    {
+      "path": "checkpoints/global_step_2/data.pt",
+      "size_bytes": 1499,
+      "sha256": "cfb7e4d9b1e289f1660f5d92b0b699b514c6d1aa57500002bd78cf4345b61dc8"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "sha256": "7774ebba2ab1a16fa2f003ea261d7a5973eb728c51e65190973e25c96bbdb288"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "sha256": "5c61249796d45e5698bf97416acff1aa78f38f91e9383f6a75a9d357eec46b60"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343
+    },
+    {
+      "path": "checkpoints/global_step_2/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "evidence/exit_receipt.json",
+      "size_bytes": 852,
+      "sha256": "60934e8f1aaa1302d6ccb389e5dcc19435802347c23016610dd7a5848b883f54"
+    },
+    {
+      "path": "evidence/guard_summary.json",
+      "size_bytes": 661,
+      "sha256": "6824325aefd0eeb8cc17f9bffda24dbab70f7930b22c7fd8b6d344c2e4981b9f"
+    },
+    {
+      "path": "evidence/postflight.json",
+      "size_bytes": 6070,
+      "sha256": "e38d2099875c5bd392f60720968c62fc69f86389a812ede9193cac49e49a1aa6"
+    },
+    {
+      "path": "evidence/postflight.md",
+      "size_bytes": 1160,
+      "sha256": "edc5f53091663bbc0ff7a6a1795ea2c41fedc3e096dce344ca1d10996ede9417"
+    },
+    {
+      "path": "evidence/postflight_sha256.txt",
+      "size_bytes": 330,
+      "sha256": "e910cd9cfad23a95b84e09cccd7da2f1b7fbcdc59fcd6c3d8df11e7babc417ba"
+    },
+    {
+      "path": "evidence/runtime_metrics.jsonl",
+      "size_bytes": 368,
+      "sha256": "1ea488c96d8a22949ed9e5f623c10d82684fc32a23e0b440a53f18ad75051801"
+    },
+    {
+      "path": "evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 21285,
+      "sha256": "4284d8fe79372d964a75af3b891e0df2b028fca335d513c85389cc4c4861d9e5"
+    },
+    {
+      "path": "evidence/telemetry/disk.jsonl",
+      "size_bytes": 9033,
+      "sha256": "10bd65ace1bdbd94cfedfd1b4a3b493b351acb59fee6a3fb91a7bacea40f07c5"
+    },
+    {
+      "path": "evidence/telemetry/gpu.jsonl",
+      "size_bytes": 31925,
+      "sha256": "66cd759a0e18464e5f5f19bae8e3aa7515f60644726e499c6db752b768d3b9c8"
+    },
+    {
+      "path": "evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 430487,
+      "sha256": "5a6ab6dce9cbe80d6aac61a360ba2f10382a8ce02e62fd194661a75724e4eb01"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 271909,
+      "sha256": "c6ad4a15544b4b2a7c4b2e9ceee68c8c454e98a7280c79ac62ccfedd514828fb"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 809253,
+      "sha256": "268bca22b83e6d027e7fecde3a3e91a46f109a3f9590ef0147c006343c8838a0"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 60965,
+      "sha256": "636709f82d86b338a11e0c72a1faeed605ddff7808929c71ee2a81738cf3c5dd"
+    },
+    {
+      "path": "evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 1104933,
+      "sha256": "f41fdeb74e38ff5f646fbd1b9b78fc42225ba2c384db9b76c25245220b94d6ef"
+    },
+    {
+      "path": "preflight/billing_override_receipt.json",
+      "size_bytes": 752,
+      "sha256": "6a474c245a62182fbd397444c2037aa2ace65a7a0d5e428989072e1279723756"
+    },
+    {
+      "path": "preflight/pilot_guard_preflight.json",
+      "size_bytes": 8209,
+      "sha256": "b340bfb7404c00830749cf5d7b0ac22b8d0337a2e26955835611a2849a9188fc"
+    },
+    {
+      "path": "preflight/pilot_launcher_console.log",
+      "size_bytes": 120640,
+      "sha256": "16bfd42429706a206a3c42638f794f38902259d623f2ce813a93aaa6cbac1b5d"
+    },
+    {
+      "path": "preflight/pilot_live_launch_gate.json",
+      "size_bytes": 9955,
+      "sha256": "a8125451aae3f678c1485419db8a4bbe3c2421243dc93ffb7078e4ddf146e364"
+    },
+    {
+      "path": "preflight/preflight_summary.json",
+      "size_bytes": 3271,
+      "sha256": "221ed670b3d8de6207628b444940af2594423983111481fa89811ae5ca3a02d6"
+    },
+    {
+      "path": "preflight/run_invocation.json",
+      "size_bytes": 2141,
+      "sha256": "4c1eae9469884c9348b5b67887b81631dfca3c2a57aa11edc1d1d1122b5adc9b"
+    },
+    {
+      "path": "preflight/selection.json",
+      "size_bytes": 9992,
+      "sha256": "4d7b4889e773114e46fadec976345555cafbc31eff9c1c25741ff9f2763ca6a1"
+    },
+    {
+      "path": "preflight/user_authorized_budget_override_policy.yaml",
+      "size_bytes": 2670,
+      "sha256": "15083b35ecc8cf529ab75a67d92bcf5ee83424698aec7470e25da0f7221beb63"
+    }
+  ],
+  "large_file_hashes": "Not recomputed; sizes recorded and original files moved without copying."
+}

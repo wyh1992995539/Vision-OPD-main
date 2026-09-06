@@ -303,6 +303,10 @@ def build_gate() -> dict[str, Any]:
             and bool(pilot_policies["64"][1]["prerequisite_postflight"])
             and pilot_policies["64"][1]["require_cold_reload"] is True
         ),
+        "pilot_64_peak_review_memory_floor": (
+            pilot_policies["64"][0]["memory"]["prelaunch_cgroup_minimum_bytes"]
+            >= 224 * 1024**3
+        ),
     }
     failed = sorted(name for name, passed in checks.items() if not passed)
     status = "PASS_PENDING_GPU_PILOT" if not failed else "FAIL"
@@ -327,6 +331,10 @@ def build_gate() -> dict[str, Any]:
         "training_preflight": ROOT / "scripts/vopd_training_preflight.py",
         "vllm_adapter": ROOT / "verl/workers/rollout/vllm_rollout/vllm_async_server.py",
         "static_gate_builder": Path(__file__).resolve(),
+        "fsdp_checkpoint_manager": ROOT / "verl/utils/checkpoint/fsdp_checkpoint_manager.py",
+        "checkpoint_shard_io": ROOT / "verl/utils/checkpoint/shard_io.py",
+        "checkpoint_config_class": ROOT / "verl/trainer/config/config.py",
+        "checkpoint_io_contract": ROOT / "scripts/checkpoint_io_contract.py",
     }
     return {
         "schema_version": 1,

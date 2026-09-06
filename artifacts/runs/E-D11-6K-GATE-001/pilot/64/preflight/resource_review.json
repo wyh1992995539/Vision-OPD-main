@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T11:07:16.878772+00:00",
+  "stage": "64",
+  "status": "BLOCKED_CPU_AND_DISK",
+  "training_started": false,
+  "formal_training_authorized": false,
+  "pilot_16_status": "PASS",
+  "sources": {
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json": {
+      "sha256": "e38d2099875c5bd392f60720968c62fc69f86389a812ede9193cac49e49a1aa6"
+    },
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/guard_summary.json": {
+      "sha256": "6824325aefd0eeb8cc17f9bffda24dbab70f7930b22c7fd8b6d344c2e4981b9f"
+    },
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/cgroup_memory.jsonl": {
+      "sha256": "4284d8fe79372d964a75af3b891e0df2b028fca335d513c85389cc4c4861d9e5"
+    },
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/gpu.jsonl": {
+      "sha256": "66cd759a0e18464e5f5f19bae8e3aa7515f60644726e499c6db752b768d3b9c8"
+    },
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/disk.jsonl": {
+      "sha256": "10bd65ace1bdbd94cfedfd1b4a3b493b351acb59fee6a3fb91a7bacea40f07c5"
+    },
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/run_invocation.json": {
+      "sha256": "4c1eae9469884c9348b5b67887b81631dfca3c2a57aa11edc1d1d1122b5adc9b"
+    },
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/user_authorized_budget_override_policy.yaml": {
+      "sha256": "15083b35ecc8cf529ab75a67d92bcf5ee83424698aec7470e25da0f7221beb63"
+    }
+  },
+  "cpu": {
+    "peak_bytes": 226145378304,
+    "peak_gib": 210.61429595947266,
+    "peak_at_utc": "2026-09-05T10:58:42.571278+00:00",
+    "observed_capacity_bytes": 236223201280,
+    "longest_above_95_percent_samples": 1,
+    "derived_minimum_bytes": 238047766636,
+    "derived_minimum_gib": 221.69925890470807,
+    "reviewed_minimum_bytes": 240518168576,
+    "recommended_capacity_bytes": 274877906944,
+    "note": "Peak includes charged file cache; threshold is based on observed peak only, not proof of Pilot-64 stability."
+  },
+  "gpu": [
+    {
+      "index": 0,
+      "peak_bytes": 94248108032,
+      "capacity_bytes": 102641958912,
+      "peak_ratio": 0.9182220315261475,
+      "peak_at_utc": "2026-09-05T10:56:43.417511+00:00",
+      "longest_above_95_percent_samples": 0
+    },
+    {
+      "index": 1,
+      "peak_bytes": 99199483904,
+      "capacity_bytes": 102641958912,
+      "peak_ratio": 0.9664613278576317,
+      "peak_at_utc": "2026-09-05T10:56:43.417511+00:00",
+      "longest_above_95_percent_samples": 2
+    }
+  ],
+  "policy": {
+    "path": "configs/vopd_6241_pilot_abort_policy.yaml",
+    "sha256": "5cc4e2b69b539ecc5abbc2bdfc0d0a92f1c2741c4b00c126850c91ad47661e6e",
+    "gpu_abort_ratio": 0.95,
+    "cgroup_abort_ratio": 0.95,
+    "consecutive_samples": 3,
+    "stage_minimum_only_changed": true
+  },
+  "live_resources": {
+    "cgroup": {
+      "supported": true,
+      "path": "/sys/fs/cgroup",
+      "memory_current_bytes": 58752315392,
+      "memory_max_bytes": 236223201280,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0
+      }
+    },
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-97348d4f-c822-1b16-bef1-62c58c7e289f",
+        "memory_used_bytes": 0,
+        "memory_total_bytes": 102641958912,
+        "utilization_percent": 0
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-cadd5ac7-27fe-4462-7c0a-538019fe4081",
+        "memory_used_bytes": 0,
+        "memory_total_bytes": 102641958912,
+        "utilization_percent": 0
+      }
+    ],
+    "disk_free_bytes": 121925738496,
+    "disk_required_bytes": 128849018880,
+    "disk_shortfall_bytes": 6923280384,
+    "cgroup_shortfall_bytes": 4294967296
+  },
+  "checkpoint_action": "Preserve successful Pilot-16 and all archived artifacts; no deletion authorized or performed.",
+  "formal_resource_gate": "Historical 192 GiB baseline must be re-frozen before formal training; formal authorization remains false."
+}

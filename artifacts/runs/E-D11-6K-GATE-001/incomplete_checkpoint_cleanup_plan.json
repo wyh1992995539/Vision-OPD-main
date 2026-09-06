@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-05T11:41:24.711046+00:00",
+  "authorization": "User agreed to delete only the two identified incomplete checkpoint groups.",
+  "status": "PLANNED",
+  "files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_incomplete_checkpoint_20260905T074051Z/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 5570789376,
+      "allocated_bytes": 5570789376,
+      "device": 2304,
+      "inode": 20425360159,
+      "mtime_ns": 1788537327343145700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_incomplete_checkpoint_20260905T074051Z/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 5377064960,
+      "allocated_bytes": 5377064960,
+      "device": 2304,
+      "inode": 20425360160,
+      "mtime_ns": 1788537327467147300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 6255521792,
+      "allocated_bytes": 6255521792,
+      "device": 2304,
+      "inode": 7538016913,
+      "mtime_ns": 1788594442658241300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 6199828480,
+      "allocated_bytes": 6199828480,
+      "device": 2304,
+      "inode": 7538016914,
+      "mtime_ns": 1788594442682240500
+    }
+  ],
+  "protected_file_stats": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/pilot_guard_preflight.json",
+      "size_bytes": 8209,
+      "mtime_ns": 1788605547780945200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/preflight_summary.json",
+      "size_bytes": 3271,
+      "mtime_ns": 1788605548192955600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/selection.json",
+      "size_bytes": 9992,
+      "mtime_ns": 1788522836270040300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/user_authorized_budget_override_policy.yaml",
+      "size_bytes": 2670,
+      "mtime_ns": 1788605547424936200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/billing_override_receipt.json",
+      "size_bytes": 752,
+      "mtime_ns": 1788605547424936200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/pilot_launcher_console.log",
+      "size_bytes": 120640,
+      "mtime_ns": 1788605933059188200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/pilot_live_launch_gate.json",
+      "size_bytes": 9955,
+      "mtime_ns": 1788605547876947700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/preflight/run_invocation.json",
+      "size_bytes": 2141,
+      "mtime_ns": 1788605548272957700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/runtime_metrics.jsonl",
+      "size_bytes": 368,
+      "mtime_ns": 1788605772889320200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/guard_summary.json",
+      "size_bytes": 661,
+      "mtime_ns": 1788605932863186400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+      "size_bytes": 6070,
+      "mtime_ns": 1788605933059188200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.md",
+      "size_bytes": 1160,
+      "mtime_ns": 1788605933059188200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight_sha256.txt",
+      "size_bytes": 330,
+      "mtime_ns": 1788605933059188200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/exit_receipt.json",
+      "size_bytes": 852,
+      "mtime_ns": 1788605933079188500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/logs/train.log",
+      "size_bytes": 119824,
+      "mtime_ns": 1788605928667147800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/rollouts/1.jsonl",
+      "size_bytes": 8911,
+      "mtime_ns": 1788605770933292000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/rollouts/2.jsonl",
+      "size_bytes": 9117,
+      "mtime_ns": 1788605814289885700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "mtime_ns": 1788605926767129900
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/active_run_invocation.json",
+      "size_bytes": 3081,
+      "mtime_ns": 1788594060320979000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/active_pilot_live_launch_gate.json",
+      "size_bytes": 10792,
+      "mtime_ns": 1788594059872998700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/archive_manifest.json",
+      "size_bytes": 7820,
+      "mtime_ns": 1788604110864754200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/exit_receipt.json",
+      "size_bytes": 708,
+      "mtime_ns": 1788537324063107600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/guard_events.jsonl",
+      "size_bytes": 193,
+      "mtime_ns": 1788537324059107600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/guard_summary.json",
+      "size_bytes": 519,
+      "mtime_ns": 1788537324063107600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/runtime_metrics.jsonl",
+      "size_bytes": 347,
+      "mtime_ns": 1788537267878325000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/logs/train.log",
+      "size_bytes": 118090,
+      "mtime_ns": 1788537265450285600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/preflight/pilot_live_launch_gate.json",
+      "size_bytes": 10598,
+      "mtime_ns": 1788537017883247900
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/preflight/run_invocation.json",
+      "size_bytes": 2989,
+      "mtime_ns": 1788537018315266300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/preflight/user_authorized_budget_override_policy.yaml",
+      "size_bytes": 2742,
+      "mtime_ns": 1788536998602401000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/rollouts/1.jsonl",
+      "size_bytes": 7135,
+      "mtime_ns": 1788537263194248400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/rollouts/2.jsonl",
+      "size_bytes": 5600,
+      "mtime_ns": 1788537317959034400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 17288,
+      "mtime_ns": 1788537324055107600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/telemetry/disk.jsonl",
+      "size_bytes": 7350,
+      "mtime_ns": 1788537324059107600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/telemetry/gpu.jsonl",
+      "size_bytes": 25999,
+      "mtime_ns": 1788537324043107300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 349527,
+      "mtime_ns": 1788537324055107600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 541733,
+      "mtime_ns": 1788537256254131700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 208869,
+      "mtime_ns": 1788537256254131700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 212133,
+      "mtime_ns": 1788537311462953200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_001_pre_reference_offload/evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 251685,
+      "mtime_ns": 1788537311462953200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/logs/train.log",
+      "size_bytes": 120275,
+      "mtime_ns": 1788594381164384800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/rollouts/1.jsonl",
+      "size_bytes": 7067,
+      "mtime_ns": 1788594381136385800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/rollouts/2.jsonl",
+      "size_bytes": 5013,
+      "mtime_ns": 1788594431234634500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/runtime_metrics.jsonl",
+      "size_bytes": 368,
+      "mtime_ns": 1788594382592334000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/guard_events.jsonl",
+      "size_bytes": 193,
+      "mtime_ns": 1788594438858371800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/guard_summary.json",
+      "size_bytes": 519,
+      "mtime_ns": 1788594438862371600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/exit_receipt.json",
+      "size_bytes": 708,
+      "mtime_ns": 1788594438862371600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/pilot_guard_preflight.json",
+      "size_bytes": 7973,
+      "mtime_ns": 1788594059413019000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/preflight_summary.json",
+      "size_bytes": 3191,
+      "mtime_ns": 1788594060240982500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/selection.json",
+      "size_bytes": 9992,
+      "mtime_ns": 1788522836270040300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/pilot_live_launch_gate.json",
+      "size_bytes": 10792,
+      "mtime_ns": 1788594059872998700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/preflight/run_invocation.json",
+      "size_bytes": 3081,
+      "mtime_ns": 1788594060320979000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/telemetry/gpu.jsonl",
+      "size_bytes": 31963,
+      "mtime_ns": 1788594438854371800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 430540,
+      "mtime_ns": 1788594438858371800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 21259,
+      "mtime_ns": 1788594438858371800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/telemetry/disk.jsonl",
+      "size_bytes": 9039,
+      "mtime_ns": 1788594438858371800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 519973,
+      "mtime_ns": 1788594375580583000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 230693,
+      "mtime_ns": 1788594375580583000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 254117,
+      "mtime_ns": 1788594425854820400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 111909,
+      "mtime_ns": 1788594425854820400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/configs/vopd_6241.yaml",
+      "size_bytes": 2752,
+      "mtime_ns": 1788538412764753400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/configs/vopd_6241_pilot_16.yaml",
+      "size_bytes": 2700,
+      "mtime_ns": 1788538412768753200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/configs/vopd_6241_pilot_64.yaml",
+      "size_bytes": 2798,
+      "mtime_ns": 1788538412768753200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/configs/vopd_6241_abort_policy.yaml",
+      "size_bytes": 2360,
+      "mtime_ns": 1788592237365292800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/configs/vopd_6241_pilot_abort_policy.yaml",
+      "size_bytes": 2915,
+      "mtime_ns": 1788592237365292800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/scripts/run_vopd_2gpu.sh",
+      "size_bytes": 15835,
+      "mtime_ns": 1788463913162147600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/scripts/vopd_training_preflight.py",
+      "size_bytes": 16113,
+      "mtime_ns": 1788538412772753200
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/scripts/build_day11_static_gate.py",
+      "size_bytes": 16790,
+      "mtime_ns": 1788592447075179000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/scripts/run_vopd_6241_pilot_guarded.py",
+      "size_bytes": 12207,
+      "mtime_ns": 1788539235676328000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/scripts/monitor_vopd_training.py",
+      "size_bytes": 24154,
+      "mtime_ns": 1788592281260874500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/scripts/audit_vopd_6241_pilot.py",
+      "size_bytes": 17481,
+      "mtime_ns": 1788592237361292800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json",
+      "size_bytes": 4936,
+      "mtime_ns": 1788592535262215700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+      "size_bytes": 13695,
+      "mtime_ns": 1788592537590189600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate.md",
+      "size_bytes": 1350,
+      "mtime_ns": 1788592537590189600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/static_gate_sha256.txt",
+      "size_bytes": 296,
+      "mtime_ns": 1788592537590189600
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/prompt_length/resource_only_config_amendment.json",
+      "size_bytes": 2243,
+      "mtime_ns": 1788538871956766700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/drop_last/drop_last_audit.json",
+      "size_bytes": 3116,
+      "mtime_ns": 1788592409267580000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/drop_last/drop_last_audit.md",
+      "size_bytes": 1711,
+      "mtime_ns": 1788592409271580000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_002_reference_offload_gpu_pressure/snapshot/artifacts/runs/E-D11-6K-GATE-001/drop_last/sha256.txt",
+      "size_bytes": 172,
+      "mtime_ns": 1788592409271580000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/gpu.jsonl",
+      "size_bytes": 31925,
+      "mtime_ns": 1788605927775139300
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/process_rss.jsonl",
+      "size_bytes": 430487,
+      "mtime_ns": 1788605927859140000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/cgroup_memory.jsonl",
+      "size_bytes": 21285,
+      "mtime_ns": 1788605927859140000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/disk.jsonl",
+      "size_bytes": 9033,
+      "mtime_ns": 1788605927863140000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/1.rank1.pt",
+      "size_bytes": 809253,
+      "mtime_ns": 1788605750836992800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/1.rank0.pt",
+      "size_bytes": 271909,
+      "mtime_ns": 1788605750836992800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/2.rank0.pt",
+      "size_bytes": 60965,
+      "mtime_ns": 1788605805509771000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/log_probs/unknown_experiment/2.rank1.pt",
+      "size_bytes": 1104933,
+      "mtime_ns": 1788605805509771000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/data.pt",
+      "size_bytes": 1499,
+      "mtime_ns": 1788605926767129900
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788605852306351400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788605853510365400
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788605924015104000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788605925011113500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15077,
+      "mtime_ns": 1788605924015104000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15077,
+      "mtime_ns": 1788605925015113500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "mtime_ns": 1788605926131124000
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "mtime_ns": 1788605925027113700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "mtime_ns": 1788605925351116800
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "mtime_ns": 1788605925031113700
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "mtime_ns": 1788605925219115500
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "mtime_ns": 1788605926131124000
+    }
+  ],
+  "disk_free_before_bytes": 121925345280,
+  "expected_reclaimed_bytes": 23403204608,
+  "recoverable_from_this_instance": false
+}

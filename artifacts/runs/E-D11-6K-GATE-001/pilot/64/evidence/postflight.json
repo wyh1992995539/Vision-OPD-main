@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "stage": "64",
+  "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+  "status": "PASS",
+  "training_gate_pass": true,
+  "stage_gate_pass": true,
+  "formal_training_authorized": false,
+  "checks": {
+    "checkpoint_io_revision_matches": true,
+    "guard_pass": true,
+    "training_preflight_pass": true,
+    "run_invocation_matches": true,
+    "no_duplicate_metric_steps": true,
+    "no_traceback_or_oom": true,
+    "log_prob_evidence_complete": true,
+    "checkpoint_complete": true,
+    "telemetry_complete_two_gpus": true,
+    "exact_contiguous_steps": true,
+    "required_metrics_present_and_finite": true,
+    "jsd_loss_finite": true,
+    "learning_rate_nonnegative": true,
+    "zero_lr_only_within_warmup": true,
+    "positive_learning_rate_observed": true,
+    "student_update_matches_learning_rate": true,
+    "teacher_optimizer_unchanged": true,
+    "teacher_direct_gradient_absent": true,
+    "teacher_ema_updated_each_step": true,
+    "crop_teacher_active_each_step": true,
+    "generation_errors_zero": true,
+    "prompt_truncation_zero": true,
+    "response_within_frozen_limit": true
+  },
+  "failed_checks": [],
+  "signals": {
+    "duplicate_metric_steps": 0,
+    "traceback_count": 0,
+    "cuda_oom_count": 0,
+    "out_of_memory_error_count": 0,
+    "dataloader_worker_killed_count": 0,
+    "checkpoint_save_failure_count": 0
+  },
+  "observed_steps": 8,
+  "expected_steps": 8,
+  "steps": [
+    {
+      "step": 1,
+      "loss": 0.007769451316562481,
+      "grad_norm": 1.1921284198760986,
+      "learning_rate": 0.0,
+      "student_optimizer_delta": 0.0,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 76.96072020800784,
+      "generation_seconds": 30.073783184867352,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 7880.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 115.0,
+      "response_max_tokens": 255.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 2,
+      "loss": 0.01293701332724595,
+      "grad_norm": 1.4489530324935913,
+      "learning_rate": 2e-07,
+      "student_optimizer_delta": 2.384185791015625e-07,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 36.38030318822712,
+      "generation_seconds": 13.111408645752817,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 7318.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 69.875,
+      "response_max_tokens": 143.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 3,
+      "loss": 0.014418198974453844,
+      "grad_norm": 2.7011709213256836,
+      "learning_rate": 4e-07,
+      "student_optimizer_delta": 4.76837158203125e-07,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 1.1920928955078125e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 58.29132243199274,
+      "generation_seconds": 11.760298694949597,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 7032.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 51.875,
+      "response_max_tokens": 131.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 4,
+      "loss": 0.012137713179981802,
+      "grad_norm": 1.204707145690918,
+      "learning_rate": 6e-07,
+      "student_optimizer_delta": 7.152557373046875e-07,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 1.1920928955078125e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 48.24797488003969,
+      "generation_seconds": 12.911182737909257,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 6700.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 61.125,
+      "response_max_tokens": 215.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 5,
+      "loss": 0.018103892958606593,
+      "grad_norm": 4.050677299499512,
+      "learning_rate": 8e-07,
+      "student_optimizer_delta": 7.80448317527771e-07,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 1.1920928955078125e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 32.88194809574634,
+      "generation_seconds": 12.46894795820117,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 6047.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 52.5,
+      "response_max_tokens": 181.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 6,
+      "loss": 0.015539026746409945,
+      "grad_norm": 2.0312745571136475,
+      "learning_rate": 1e-06,
+      "student_optimizer_delta": 9.784707799553871e-07,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 33.257079454138875,
+      "generation_seconds": 13.395117398817092,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 5949.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 108.75,
+      "response_max_tokens": 354.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 7,
+      "loss": 0.016954106045886874,
+      "grad_norm": 1.5393720865249634,
+      "learning_rate": 1.2e-06,
+      "student_optimizer_delta": 1.1920928955078125e-06,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.384185791015625e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 108,
+      "step_seconds": 32.99109760299325,
+      "generation_seconds": 11.854891972150654,
+      "checkpoint_save_seconds": null,
+      "prompt_max_tokens": 5907.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 75.625,
+      "response_max_tokens": 183.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    },
+    {
+      "step": 8,
+      "loss": 0.008864912088029087,
+      "grad_norm": 1.9835972785949707,
+      "learning_rate": 1.4e-06,
+      "student_optimizer_delta": 1.3047829270362854e-06,
+      "teacher_optimizer_delta": 0.0,
+      "teacher_grad_non_none_count": 0.0,
+      "teacher_ema_delta": 2.443557605147362e-07,
+      "ema_update_applied": 1.0,
+      "aborted_ratio": 0.0,
+      "raw_metric_count": 109,
+      "step_seconds": 44.467727600131184,
+      "generation_seconds": 24.35609488096088,
+      "checkpoint_save_seconds": 100.9799040411599,
+      "prompt_max_tokens": 5727.0,
+      "prompt_clip_ratio": 0.0,
+      "response_mean_tokens": 147.75,
+      "response_max_tokens": 392.0,
+      "response_clip_ratio": 0.0,
+      "teacher_always_on_fraction": 1.0,
+      "teacher_image_swap_fraction": 1.0
+    }
+  ],
+  "warmup_contract": {
+    "lr_warmup_steps": 10,
+    "zero_lr_steps": [
+      1
+    ],
+    "positive_lr_steps": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "student_update_rule": "delta>=0 when lr=0; delta>0 when lr>0"
+  },
+  "checkpoint": {
+    "status": "PASS",
+    "expected_step": 8,
+    "marker_value": "8",
+    "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8",
+    "checks": {
+      "marker_exists": true,
+      "marker_matches_expected_step": true,
+      "step_directory_exists": true,
+      "required_files_present": true,
+      "required_files_nonempty": true
+    },
+    "missing_files": [],
+    "empty_files": []
+  },
+  "telemetry": {
+    "status": "PASS",
+    "paths": {
+      "gpu": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/gpu.jsonl",
+      "process_rss": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/process_rss.jsonl",
+      "cgroup": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/cgroup_memory.jsonl",
+      "disk": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/telemetry/disk.jsonl"
+    },
+    "row_counts": {
+      "gpu": 121,
+      "process_rss": 121,
+      "cgroup": 121,
+      "disk": 121
+    },
+    "gpu_ids": [
+      0,
+      1
+    ],
+    "peak_by_gpu": {
+      "0": {
+        "memory_used_bytes": 101648957440,
+        "memory_total_bytes": 102641958912,
+        "used_ratio": 0.9903255794947236
+      },
+      "1": {
+        "memory_used_bytes": 101063852032,
+        "memory_total_bytes": 102641958912,
+        "used_ratio": 0.984625128975247
+      }
+    },
+    "max_observed_elapsed_seconds": 622.5424082092941,
+    "errors": []
+  },
+  "log_prob_file_count": 16,
+  "checkpoint_io_contract": {
+    "strategy": "fsdp_sequential_shards_fsync_fadvise_v1",
+    "flush_reclaim": true,
+    "source_hashes": {
+      "verl/utils/checkpoint/fsdp_checkpoint_manager.py": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+      "verl/utils/checkpoint/shard_io.py": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+      "verl/trainer/config/config.py": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+      "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67"
+    }
+  },
+  "reload_required": true,
+  "reload_report": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/reload_validation_summary.json",
+  "reload": {
+    "schema_version": 1,
+    "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+    "phase": "checkpoint_cold_reload",
+    "scope": "student_model_training_samples_functional_inference_only",
+    "training_resume_validated": false,
+    "model_quality_evaluated": false,
+    "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8",
+    "started_at_utc": "2026-09-05T14:14:15.531846+00:00",
+    "config_sha256": "7750f5f853405f647dd9ad4b71b06ce2439d0ea00893b820d91d3921351c3f81",
+    "input_parquet_sha256": "6748ae359028d33b8e8ee182a000362d48a54d39d7bb18b00e9cc57620e3dc60",
+    "sample_ids": [
+      "vopd_638745362e8ff75fd4cd3e22",
+      "vopd_31010954d48fdc8236f7856b",
+      "vopd_78f2828c265d5e52341c4ec5",
+      "vopd_05dede4c01d81044a432fb8a",
+      "vopd_48cb45c3d96d3996c294ee4b"
+    ],
+    "status": "PASS",
+    "reused_merge_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/reload_validation_summary.json",
+    "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf",
+    "merged_manifest_sha256": "a669f0a7b7a8e76a5ad02af044c01d7b546a59d19a8fb220eefb6f426b355d1d",
+    "verification": {
+      "status": "PASS",
+      "prediction_count": 5,
+      "sample_ids": [
+        "vopd_638745362e8ff75fd4cd3e22",
+        "vopd_31010954d48fdc8236f7856b",
+        "vopd_78f2828c265d5e52341c4ec5",
+        "vopd_05dede4c01d81044a432fb8a",
+        "vopd_48cb45c3d96d3996c294ee4b"
+      ],
+      "nonempty_response_count": 5,
+      "inference_error_count": 0,
+      "errors": []
+    },
+    "server_exit_code_after_controlled_shutdown": 0,
+    "source_checkpoint_unchanged": true,
+    "completed_at_utc": "2026-09-05T14:17:51.906073+00:00"
+  },
+  "projection_780": {
+    "target_optimizer_steps": 780,
+    "checkpoint_count": 2,
+    "startup_seconds_estimate": 158.08433070685714,
+    "pilot_final_checkpoint_seconds": 100.9799040411599,
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 36.38030318822712,
+        "projected_total_seconds": 28777.26104262611,
+        "projected_dual_gpu_hours": 7.993683622951697,
+        "projected_cost_cny": 95.6044561305023
+      },
+      "mean": {
+        "steady_step_seconds": 40.93106475046703,
+        "projected_total_seconds": 32322.304299611,
+        "projected_dual_gpu_hours": 8.978417861003056,
+        "projected_cost_cny": 107.38187761759656
+      },
+      "conservative_max": {
+        "steady_step_seconds": 58.29132243199274,
+        "projected_total_seconds": 45845.94503351953,
+        "projected_dual_gpu_hours": 12.734984731533203,
+        "projected_cost_cny": 152.31041738913711
+      }
+    },
+    "status": "MEASURED_PROJECTION_NOT_YET_FROZEN"
+  },
+  "inputs": {
+    "train_log": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/logs/train.log",
+      "sha256": "d6cdf146c79b1116f2d572b86121400166451151c14434ef5d7025f104efc534"
+    },
+    "guard_summary": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/guard_summary.json",
+      "sha256": "530618c6192c825c38c6707517243835ccb6d293ba03ee94a012b96310ca6419"
+    },
+    "run_invocation": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/run_invocation.json",
+      "sha256": "6de9a660259dad168b651bd7c18dbb0bcca6ca7cf67f2f85042070943402e7ad"
+    },
+    "preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/preflight_summary.json",
+      "sha256": "c1ab0a784139f44961680b63a8a95525a8de86c221163227f61c4b88a3554e1f"
+    },
+    "selection_manifest": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json",
+      "sha256": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe"
+    }
+  }
+}

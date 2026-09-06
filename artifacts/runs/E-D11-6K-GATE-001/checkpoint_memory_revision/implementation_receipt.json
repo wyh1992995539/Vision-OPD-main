@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "status": "CPU_VALIDATED_PENDING_GPU",
+  "gpu_used": false,
+  "test_result": "62 passed, 17 subtests passed",
+  "new_sources": {
+    "scripts/monitor_vopd_training.py": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59",
+    "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+    "scripts/run_vopd_6241_pilot_guarded.py": "b2d9bd24c83f619080e7e08ebb9e78d6a761cb05076ed69d960b4a547c888a49",
+    "scripts/audit_vopd_6241_pilot.py": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d",
+    "scripts/build_day11_static_gate.py": "a8757172d28ccbbcac58ee2219982ed687cb112cac9029f5975405271c796060",
+    "verl/utils/checkpoint/fsdp_checkpoint_manager.py": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+    "verl/utils/checkpoint/shard_io.py": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+    "verl/trainer/config/config.py": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+    "scripts/checkpoint_io_contract.py": "8c4780f54833e25735a6aba1bb7d92a311c4c9ca17731b29d601846f20476ccf"
+  },
+  "unchanged_training_and_guard_configs": {
+    "configs/vopd_6241.yaml": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
+    "configs/vopd_6241_pilot_16.yaml": "9f756a85195133be23e21d474391e0df7d8e6017746d70ef8928667535793331",
+    "configs/vopd_6241_pilot_64.yaml": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+    "configs/vopd_6241_abort_policy.yaml": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3",
+    "configs/vopd_6241_pilot_abort_policy.yaml": "5cc4e2b69b539ecc5abbc2bdfc0d0a92f1c2741c4b00c126850c91ad47661e6e"
+  },
+  "analysis_sha256": "4ea0cc8c5eb1c7524a49dc8c9d26d65cca5b559aedd6daf9f6fc4cb7361966ad",
+  "snapshot_hashes": {
+    "snapshot/scripts/monitor_vopd_training.py": "8840b10df69ea47b395f42261b51f2132418c1e8550cf479f4f768323ea92644",
+    "snapshot/scripts/run_vopd_2gpu.sh": "cebc263e9bb193b9d4956480c48dd8dca99ab844152d5de1d85340d1be59f6d9",
+    "snapshot/scripts/build_day11_static_gate.py": "7b7e3b06c82c86922934d7247d4ec737dc26d77f084545c2c5ba8f2c91903ec0",
+    "snapshot/scripts/run_vopd_6241_pilot_guarded.py": "87f383d20dfd8e00a7e4de65d84a21e5948b96990952cff0f1b845ae900bf75c",
+    "snapshot/scripts/audit_vopd_6241_pilot.py": "4aee952d510537e30bf1d6d4629f02f826d1a721f1944139145413917e6b29b3",
+    "snapshot/verl/trainer/config/config.py": "b7092541e9e19d132894e066ad177a62fadfe0ffdc8febae55a90f8edb9f5b0a",
+    "snapshot/verl/utils/checkpoint/fsdp_checkpoint_manager.py": "0a751e6a543fc68eb3cc2160699b3b9855511649c4ee230cd8074fe134eb5942",
+    "snapshot/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json": "f15bf49cb636fa2e7467f0edcc4e23ad9a0407bf26444157ce58113d7c333256"
+  },
+  "notes": [
+    "No GPU initialized or training launched.",
+    "No checkpoint deleted, rewritten, or tensor-loaded. CPU roundtrip tests use small synthetic tensors.",
+    "Historical Pilot-16 cannot satisfy the new checkpoint-source binding for Pilot-64.",
+    "Source binding protects implementation freshness; it does not certify 220 GiB is sufficient."
+  ]
+}

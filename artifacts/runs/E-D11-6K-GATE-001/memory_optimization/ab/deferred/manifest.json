@@ -1,0 +1,126 @@
+{
+  "variant": "deferred",
+  "config_sha256": "51f7eb679df2dcf7f983df4b8ecef5f41e52f4eefb2f8366263bff651952fc95",
+  "effective_policy": {
+    "schema_version": 1,
+    "policy_id": "E-D11-6K-VOPD-PILOT-GUARD-001",
+    "telemetry": {
+      "sample_interval_seconds": 5,
+      "max_consecutive_collection_failures": 3,
+      "startup_grace_seconds": 1200,
+      "log_heartbeat_timeout_seconds": 600
+    },
+    "runtime": {
+      "max_wall_time_hours": 8,
+      "terminate_grace_seconds": 60
+    },
+    "memory": {
+      "prelaunch_gpu_used_ratio_max": 0.1,
+      "gpu_used_ratio_abort": 0.98,
+      "cgroup_used_ratio_abort": 0.95,
+      "prelaunch_cgroup_minimum_bytes": 240518168576,
+      "consecutive_samples": 3
+    },
+    "disk": {
+      "checkpoint_estimate_bytes": 57034960981,
+      "reserve_bytes": 5368709120,
+      "formula_required_bytes": 119438631082,
+      "minimum_free_bytes": 128849018880,
+      "prelaunch_required_bytes": 128849018880,
+      "runtime_soft_floor_bytes": 62403670101,
+      "runtime_hard_floor_bytes": 5368709120,
+      "soft_floor_consecutive_samples": 2
+    },
+    "budget": {
+      "hourly_dual_gpu_rate_cny": 11.96,
+      "project_hard_limit_cny": 2000,
+      "billing_observation_max_age_seconds": 900
+    },
+    "metrics": {
+      "teacher_ema_nonpositive_consecutive_steps": 2,
+      "student_delta_nonpositive_consecutive_steps": 2,
+      "student_update_required_only_when_lr_positive": true,
+      "generation_error_consecutive_steps": 2
+    },
+    "checkpoint": {
+      "expected_final_step": 8,
+      "marker": "latest_checkpointed_iteration.txt",
+      "required_relative_files": [
+        "actor/extra_state_world_size_2_rank_0.pt",
+        "actor/extra_state_world_size_2_rank_1.pt",
+        "actor/fsdp_config.json",
+        "actor/huggingface/chat_template.jinja",
+        "actor/huggingface/config.json",
+        "actor/huggingface/processor_config.json",
+        "actor/huggingface/tokenizer.json",
+        "actor/huggingface/tokenizer_config.json",
+        "actor/model_world_size_2_rank_0.pt",
+        "actor/model_world_size_2_rank_1.pt",
+        "actor/optim_world_size_2_rank_0.pt",
+        "actor/optim_world_size_2_rank_1.pt",
+        "data.pt"
+      ]
+    },
+    "pilot": {
+      "static_gate": "artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+      "required_static_gate_status": "PASS_PENDING_GPU_PILOT",
+      "forbid_listening_port_8000": true,
+      "postflight_script": "scripts/audit_vopd_memory_ab.py",
+      "stage_contracts": {
+        "16": {
+          "experiment_id": "E-D11-6K-VOPD-PILOT-016",
+          "config": "configs/vopd_6241_pilot_16.yaml",
+          "output_dir": "artifacts/runs/E-D11-6K-GATE-001/pilot/16",
+          "expected_rows": 16,
+          "expected_optimizer_steps": 2,
+          "max_wall_time_hours": 4,
+          "max_incremental_cost_cny": 47.84,
+          "prerequisite_postflight": null,
+          "require_cold_reload": false
+        },
+        "64": {
+          "experiment_id": "E-D11-MEM-DEFERRED",
+          "config": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/config.yaml",
+          "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/run",
+          "expected_rows": 64,
+          "expected_optimizer_steps": 8,
+          "prelaunch_cgroup_minimum_bytes": 240518168576,
+          "max_wall_time_hours": 8,
+          "max_incremental_cost_cny": 95.68,
+          "prerequisite_postflight": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+          "require_cold_reload": false
+        }
+      }
+    },
+    "memory_experiment": {
+      "variant": "deferred",
+      "manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/manifest.json"
+    },
+    "experiment_id": "E-D11-MEM-DEFERRED"
+  },
+  "source_hashes": {
+    "verl/utils/actor_memory.py": "8f545dbf04f546dac16e6822b907325119756a210ddd71d209683f02316ec3fd",
+    "verl/workers/actor/dp_actor.py": "6b7419667460c9d2e9c8c4a22f3f54c2011a17da217555228f2e9b657a1481f3",
+    "verl/workers/fsdp_workers.py": "58ffc7d7aedc2ddc7b0b2c6b4233788f476775b566eaf2f2eae5272dcc7d6c7d",
+    "verl/workers/config/actor.py": "ceb3cb66cf10491917baa64e6f1a4231bd99601b4eb9177c7c060bd0454ce85f",
+    "verl/utils/fsdp_utils.py": "46bec997373bbbcdac689d27fdbe61f048160f2f339d8f28a2f728fdac6c2fb0",
+    "scripts/run_vopd_2gpu.sh": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+    "scripts/run_vopd_6241_pilot_guarded.py": "2e8d59f7e187d12cb24b7e92a5297b756d02a4a853b60372f2bc4224af2aa427",
+    "scripts/vopd_memory_experiment.py": "d53518bd05be952ba4d63cb094265c90f68ac77c4c2960ac6ec43631e91286d9",
+    "configs/vopd_6241_pilot_64.yaml": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+    "configs/vopd_6241_pilot_abort_policy.yaml": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+    "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json": "751b2e0d7fd8c79f55af0f3e52204cbb8d4d607138f7f3679669438cb9153bfe",
+    "scripts/audit_vopd_memory_ab.py": "21b09045f2a9303e4de9cd3edf041e3096fbefbb18f25ebaa6ec933ce9f36d10",
+    "scripts/compare_vopd_memory_ab.py": "702508a8d3018793712a88789701810d7af137c5a3d34314ebfa00062d05b96b",
+    "scripts/audit_vopd_6241_pilot.py": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d",
+    "scripts/monitor_vopd_training.py": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59"
+  },
+  "formal_training_authorized": false,
+  "diagnostic_sync_overhead": true,
+  "cpu_tests_do_not_validate_cuda_transfers": true,
+  "algorithm_config_source_sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1",
+  "overrides": [
+    "++actor_rollout_ref.actor.defer_optimizer_state_load=true",
+    "++actor_rollout_ref.actor.memory_profile_dir=/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/run/evidence/memory_stages"
+  ]
+}

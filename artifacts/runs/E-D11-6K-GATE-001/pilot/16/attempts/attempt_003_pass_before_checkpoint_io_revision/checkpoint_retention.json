@@ -1,0 +1,8 @@
+{
+  "status": "HISTORICAL_EVIDENCE_ONLY_TENSOR_SHARDS_REMOVED",
+  "resumable": false,
+  "receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/superseded_pilot16_cleanup/receipt.json",
+  "receipt_sha256": "0192cba4b39347a6756f895f42933ba043ee352c90da2e4305d76a8e179eec1e",
+  "retained": "logs, telemetry, rollout outputs, configs, metadata, tokenizer, extra_state and data.pt",
+  "original_archive_manifest_preserved": true
+}

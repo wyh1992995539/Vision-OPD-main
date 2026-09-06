@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "started_at_utc": "2026-09-05T14:51:21.381781+00:00",
+  "plan_sha256": "929c55f6d16229600451ce9a7388bc9d947f1fbc13ce7e6796b90eede0e1bbde",
+  "free_bytes_before": 74566991872,
+  "deleted": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 1101145287,
+      "mtime_ns": 1788605853510365428,
+      "nlink": 1,
+      "sha256": "5e121d5027d72f4d5b395d39802c4fed88f97ce0fe102219df8f854efa18e67a"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 1101145290,
+      "mtime_ns": 1788605852306351467,
+      "nlink": 1,
+      "sha256": "dee9d72574fcd7b8301a3eb26ac559a3dae0750a6b4499926a482864a2b7f019"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 1101145291,
+      "mtime_ns": 1788605925011113484,
+      "nlink": 1,
+      "sha256": "b26840cea242849ae0a1f9871efbb6b4393e8dccd8194ab874c678b25272bb44"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/attempts/attempt_003_pass_before_checkpoint_io_revision/checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 1101145288,
+      "mtime_ns": 1788605924015104109,
+      "nlink": 1,
+      "sha256": "390633f0ac10962d405140cb49aaa0467de421eb6dfed5efdce39a2cceb51657"
+    }
+  ],
+  "recovery": "No backup made; deleted old tensors cannot be recovered from hashes. Historical small-file evidence and all current checkpoints retained.",
+  "protected_files_unchanged": true,
+  "all_targets_absent": true,
+  "free_bytes_after": 131581919232,
+  "observed_free_bytes_increase": 57014927360,
+  "formal_disk_floor_met": true,
+  "completed_at_utc": "2026-09-05T14:51:30.242775+00:00"
+}

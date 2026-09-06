@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T11:24:11.067291+00:00",
+  "experiment_id": "E-D12-6K-VOPD-001",
+  "status": "STATIC_FROZEN_PENDING_DAY11_PILOT",
+  "gpu_used": false,
+  "profile": "paper_core_resource_scaled_2gpu",
+  "selected_profile": {
+    "path": "configs/vopd_6241.yaml",
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "actor_parameter_offload": true,
+    "optimizer_offload": true,
+    "reference_parameter_offload": true,
+    "selected": true
+  },
+  "reference_profile": {
+    "path": "configs/vopd_6241_algorithm_aligned_2gpu.reference.yaml",
+    "sha256": "3bd1eb35c5704950445f86a5c10c22b9d826028e3c0021a136b496b85192256c",
+    "status": "reference_only_not_selected"
+  },
+  "sources": {
+    "paper": {
+      "path": "docs/Vision-OPD.pdf",
+      "sha256": "67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b",
+      "relevant_sections": [
+        "4.1",
+        "4.3",
+        "Tables 3-6"
+      ]
+    },
+    "official_launcher": {
+      "path": "scripts/run_vision_opd.sh",
+      "sha256": "fb135a4660f05414c3f8e4efed0a9adce7db4459db666d9734a8fb68a4a08d0f"
+    }
+  },
+  "paper_core": {
+    "model": "Qwen3.5-4B",
+    "train_rows": 6241,
+    "epochs": 1,
+    "max_response_length": 1024,
+    "jsd_beta": 0.5,
+    "distillation_top_k": 100,
+    "teacher_regularization": "ema",
+    "teacher_update_rate": 0.05,
+    "non_thinking": true
+  },
+  "resource_scaled_contract": {
+    "gpus_per_node": 2,
+    "global_batch_size": 8,
+    "ppo_mini_batch_size": 8,
+    "rollout_n": 1,
+    "source_rows": 6241,
+    "optimizer_steps": 780,
+    "effective_samples": 6240,
+    "padding_rows": 0,
+    "dropped_rows": 1,
+    "tail_policy": "native_drop_last",
+    "max_prompt_length": 8192,
+    "max_sequence_length": 9216,
+    "reference_parameter_offload_required": true,
+    "prelaunch_cgroup_minimum_bytes": 206158430208,
+    "actor_parameter_offload_required": true,
+    "optimizer_offload_required": true,
+    "memory_profile": "offload_3way_graph4_v1",
+    "rollout_gpu_memory_utilization": 0.4,
+    "cudagraph_capture_sizes": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "checkpoint_contract": {
+    "save_frequency": 390,
+    "scheduled_save_steps": [
+      390,
+      780
+    ],
+    "expected_final_step": 780,
+    "max_actor_ckpt_to_keep": 1,
+    "rationale": "one periodic recovery checkpoint plus verl final checkpoint; step 780 satisfies both periodic and final conditions but is saved once"
+  },
+  "vllm_engine": {
+    "fuse_allreduce_rms": false,
+    "enable_flashinfer_autotune": false,
+    "alignment": "OFFICIAL_SWITCHES_MATCH; GRAPH_CAPTURE_RESOURCE_OVERRIDE",
+    "cudagraph_capture_sizes": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "explicit_max_model_len": 9216
+  },
+  "budget": {
+    "status": "PENDING_1024_TOKEN_PILOT",
+    "hourly_dual_gpu_rate_cny": 11.96,
+    "historical_256_token_planning_hours": 5.68,
+    "historical_256_token_planning_cny": 67.88,
+    "historical_256_token_conservative_hours": 10.09,
+    "historical_256_token_conservative_cny": 120.64,
+    "max_wall_time_hours": 38,
+    "temporary_conservative_reservation_cny": 454.48
+  },
+  "hashes": {
+    "vopd_config": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f",
+    "cached_prefix_config": "495290e23af3e6a3232772aedab753152d7bd0bf42551a5d710bbe53e8af671f",
+    "abort_policy": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8",
+    "cached_prefix_input_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "cached_prefix_chat_template": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db",
+    "base_model_sha256_manifest": "91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9",
+    "train_parquet": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "pilot_abort_policy": "43052eca5d67b30178586adcc91c80a9e2617186fdc7eb57282e2f32afdeae66",
+    "runtime_guard_script": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59",
+    "pilot_postflight_script": "b3b04dfa624c56271d971fca6cca36f6e2fd742558d1187cdfab7f0f5e596c5d",
+    "training_launcher": "8f57bfe561a13ad73c2b103468be0f685ef3170d953ea6b29268bc0a81e34e67",
+    "training_preflight": "1eeb50984f319975503030666c08653e98b93c25c39668f03685dbf4c80d56dc",
+    "pilot_guarded_launcher": "b2d9bd24c83f619080e7e08ebb9e78d6a761cb05076ed69d960b4a547c888a49",
+    "static_gate_builder": "a8757172d28ccbbcac58ee2219982ed687cb112cac9029f5975405271c796060",
+    "vllm_adapter": "d2d0f0d062275bb2799f25418f4089d335c2e6d466bd6cdd075aac10e3dbecde",
+    "fsdp_checkpoint_manager": "965abfee905eb2711c31ff7548d07721712421821352b981ed5486ccd8f0175e",
+    "checkpoint_shard_io": "9c5d47a72285c75c07c8b94c6be6f935b499cd376f20e3a68258376913f84ef0",
+    "checkpoint_config_class": "9628cdd59336e8256e6a8959f7640a61a907b87b623d4f7ce55dd3f07d4d5243",
+    "checkpoint_io_contract": "8c4780f54833e25735a6aba1bb7d92a311c4c9ca17731b29d601846f20476ccf"
+  },
+  "verification": {
+    "shell_syntax": "PASS",
+    "pytest": "PASS",
+    "pytest_passed": 25,
+    "pytest_subtests_passed": 5,
+    "train_rows": 6241,
+    "missing_image_paths": 0,
+    "paper_alignment_checks": "PASS",
+    "resource_revision": "CHECKPOINT_IO_CPU_VALIDATED_NEW_PILOT_16_REQUIRED",
+    "official_vllm_engine_switches": "PASS",
+    "drop_last_contract": "PASS_6241_TO_6240",
+    "full_preflight": "EXPECTED_FAIL_CONFIG_BLOCKED_ONLY",
+    "warmup_aware_runtime_and_postflight_tests": "PASS_27_TESTS_9_SUBTESTS",
+    "resource_revision_tests": "47 passed, 14 subtests passed",
+    "resource_revision_gpu_validated": false,
+    "pilot_16_postflight": {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+      "sha256": "e38d2099875c5bd392f60720968c62fc69f86389a812ede9193cac49e49a1aa6",
+      "status": "PASS"
+    }
+  },
+  "remaining_gates": [
+    "new_pilot16_checkpoint_memory_revision",
+    "two_gpu_pilot64_and_cold_reload",
+    "pilot_budget_reestimate",
+    "day11_aggregate_preflight"
+  ],
+  "warmup_aware_audit_contract": {
+    "lr_metric": "actor/lr",
+    "lr_warmup_steps": 10,
+    "zero_lr_student_delta_rule": "nonnegative",
+    "positive_lr_student_delta_rule": "strictly_positive",
+    "zero_lr_allowed_only_within_warmup": true,
+    "pilot_requires_positive_lr_step": true,
+    "teacher_contract_relaxed_during_warmup": false,
+    "runtime_nonupdate_abort_consecutive_positive_lr_steps": 2
+  },
+  "pilot_64_resource_review": {
+    "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/resource_review.json",
+    "sha256": "ab79bb0cb895f77e1e61496a7b36d5b2619e1c3ccfbebdd9708aab814e5db1be",
+    "prelaunch_cgroup_minimum_bytes": 240518168576,
+    "recommended_capacity_bytes": 274877906944,
+    "status": "BLOCKED_CPU_AND_DISK",
+    "formal_baseline_requires_refreeze": true
+  },
+  "checkpoint_memory_revision": {
+    "status": "CPU_IMPLEMENTED_PENDING_NEW_GPU_PILOT_16",
+    "analysis_path": "artifacts/runs/E-D11-6K-GATE-001/checkpoint_memory_revision/analysis.json",
+    "analysis_sha256": "4ea0cc8c5eb1c7524a49dc8c9d26d65cca5b559aedd6daf9f6fc4cb7361966ad",
+    "algorithm_configs_changed": false,
+    "resource_thresholds_lowered": false,
+    "cpu_test_result": "62 passed, 17 subtests passed",
+    "gpu_peak_reduction_measured": false,
+    "cold_reload_validated": false,
+    "historical_pilot_16_preserved": true
+  },
+  "gpu_abort_threshold_revision": {
+    "gpu_used_ratio_abort": 0.98,
+    "cgroup_used_ratio_abort": 0.95,
+    "consecutive_samples": 3,
+    "receipt": "artifacts/runs/E-D11-6K-GATE-001/gpu_threshold_revision_98.json",
+    "gpu_validated": false
+  }
+}

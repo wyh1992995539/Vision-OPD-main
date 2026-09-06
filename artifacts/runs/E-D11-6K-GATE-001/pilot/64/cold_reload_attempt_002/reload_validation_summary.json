@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D11-6K-VOPD-PILOT-064",
+  "phase": "checkpoint_cold_reload",
+  "scope": "student_model_training_samples_functional_inference_only",
+  "training_resume_validated": false,
+  "model_quality_evaluated": false,
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints/global_step_8",
+  "started_at_utc": "2026-09-05T14:14:15.531846+00:00",
+  "config_sha256": "7750f5f853405f647dd9ad4b71b06ce2439d0ea00893b820d91d3921351c3f81",
+  "input_parquet_sha256": "6748ae359028d33b8e8ee182a000362d48a54d39d7bb18b00e9cc57620e3dc60",
+  "sample_ids": [
+    "vopd_638745362e8ff75fd4cd3e22",
+    "vopd_31010954d48fdc8236f7856b",
+    "vopd_78f2828c265d5e52341c4ec5",
+    "vopd_05dede4c01d81044a432fb8a",
+    "vopd_48cb45c3d96d3996c294ee4b"
+  ],
+  "status": "PASS",
+  "reused_merge_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/reload_validation_summary.json",
+  "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload/merged_hf",
+  "merged_manifest_sha256": "a669f0a7b7a8e76a5ad02af044c01d7b546a59d19a8fb220eefb6f426b355d1d",
+  "verification": {
+    "status": "PASS",
+    "prediction_count": 5,
+    "sample_ids": [
+      "vopd_638745362e8ff75fd4cd3e22",
+      "vopd_31010954d48fdc8236f7856b",
+      "vopd_78f2828c265d5e52341c4ec5",
+      "vopd_05dede4c01d81044a432fb8a",
+      "vopd_48cb45c3d96d3996c294ee4b"
+    ],
+    "nonempty_response_count": 5,
+    "inference_error_count": 0,
+    "errors": []
+  },
+  "server_exit_code_after_controlled_shutdown": 0,
+  "source_checkpoint_unchanged": true,
+  "completed_at_utc": "2026-09-05T14:17:51.906073+00:00"
+}

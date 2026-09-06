@@ -317,7 +317,10 @@ def audit(stage: str, policy_path: Path, reload_report: Path | None = None) -> d
         if path.is_file() and path.stat().st_size > 0
     ] if (output_dir / "evidence/log_probs").is_dir() else []
 
+    from scripts.checkpoint_io_contract import checkpoint_io_matches
+
     checks = {
+        "checkpoint_io_revision_matches": checkpoint_io_matches(invocation),
         "guard_pass": guard.get("status") == "PASS",
         "training_preflight_pass": preflight.get("status") == "PASS",
         "run_invocation_matches": (
@@ -377,6 +380,7 @@ def audit(stage: str, policy_path: Path, reload_report: Path | None = None) -> d
         },
         "checkpoint": checkpoint, "telemetry": telemetry,
         "log_prob_file_count": len(log_prob_files),
+        "checkpoint_io_contract": invocation.get("checkpoint_io_contract"),
         "reload_required": reload_required,
         "reload_report": str(reload_report.resolve()) if reload_report else None,
         "reload": reload_value,

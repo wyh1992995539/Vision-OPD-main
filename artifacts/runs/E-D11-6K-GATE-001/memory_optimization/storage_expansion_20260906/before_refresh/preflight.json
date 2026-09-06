@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "gate_id": "E-D11-6K-FINAL-PREFLIGHT-001",
+  "generated_at_utc": "2026-09-05T15:27:07.968427+00:00",
+  "experiment_id": "E-D12-6K-VOPD-001",
+  "artifact_status": "COMPLETE",
+  "status": "BLOCKED_ADDITIONAL_RESOURCE_VALIDATION",
+  "gpu_used_to_build_report": false,
+  "formal_training_authorized": false,
+  "ready_to_unblock_formal_config": false,
+  "checks": {
+    "static_gate_pass_and_inputs_current": true,
+    "training_freeze_matches_formal_config_and_policy": true,
+    "pilot_16_pass_and_frozen": true,
+    "pilot_64_pass_and_frozen": true,
+    "cold_reload_pass_bound_to_pilot_64": true,
+    "budget_frozen_and_sources_current": true,
+    "formal_data_and_drop_last_contract": true,
+    "pilot_resource_summary_bound_to_training_run": true,
+    "pilot_runtime_capacity_met_reviewed_224_gib": true,
+    "disk_free_meets_formal_120_gib": true,
+    "formal_cpu_floor_refrozen_to_at_least_224_gib": false,
+    "pilot_gpu_peak_below_98_percent_abort_line": false,
+    "at_least_two_post_warmup_steps_observed": false,
+    "long_response_training_pressure_observed": false,
+    "formal_config_released": false
+  },
+  "blocking_gates": [
+    "at_least_two_post_warmup_steps_observed",
+    "formal_config_released",
+    "formal_cpu_floor_refrozen_to_at_least_224_gib",
+    "long_response_training_pressure_observed",
+    "pilot_gpu_peak_below_98_percent_abort_line"
+  ],
+  "evidence_checks": {
+    "static_gate_pass_and_inputs_current": true,
+    "training_freeze_matches_formal_config_and_policy": true,
+    "pilot_16_pass_and_frozen": true,
+    "pilot_64_pass_and_frozen": true,
+    "cold_reload_pass_bound_to_pilot_64": true,
+    "budget_frozen_and_sources_current": true,
+    "formal_data_and_drop_last_contract": true,
+    "pilot_resource_summary_bound_to_training_run": true
+  },
+  "runtime_checks": {
+    "pilot_runtime_capacity_met_reviewed_224_gib": true,
+    "disk_free_meets_formal_120_gib": true
+  },
+  "safety_checks": {
+    "formal_cpu_floor_refrozen_to_at_least_224_gib": false,
+    "pilot_gpu_peak_below_98_percent_abort_line": false,
+    "at_least_two_post_warmup_steps_observed": false,
+    "long_response_training_pressure_observed": false
+  },
+  "runtime_snapshot": {
+    "builder_process_cpu_capacity_bytes": 2147483648,
+    "builder_process_cpu_capacity_gib": 2.0,
+    "builder_process_capacity_is_launch_evidence": false,
+    "pilot_runtime_cpu_capacity_bytes": 257698037760,
+    "pilot_runtime_cpu_capacity_gib": 240.0,
+    "pilot_runtime_cpu_peak_bytes": 192857767936,
+    "pilot_runtime_cpu_peak_gib": 179.61279296875,
+    "reviewed_cpu_floor_bytes": 240518168576,
+    "formal_policy_cpu_floor_bytes": 206158430208,
+    "disk_free_bytes": 131581575168,
+    "disk_free_gib": 122.54489135742188,
+    "disk_required_bytes": 128849018880,
+    "disk_required_gib": 120.0,
+    "disk_deficit_bytes": 0,
+    "disk_deficit_gib": 0.0
+  },
+  "pilot_coverage": {
+    "pilot_optimizer_steps": 8,
+    "warmup_steps": 10,
+    "post_warmup_steps_observed": 0,
+    "configured_response_limit_tokens": 1024,
+    "maximum_response_tokens_observed": 392.0,
+    "maximum_gpu_used_ratio_observed": 0.9903255794947236,
+    "gpu_abort_ratio": 0.98,
+    "gpu_peak_below_abort_ratio": false,
+    "required_post_warmup_steps": 2,
+    "long_response_pressure_floor_tokens": 768,
+    "note": "The 75% response floor is a project safety stress criterion, not a paper hyperparameter."
+  },
+  "budget": {
+    "status": "PASS_BUDGET_FROZEN_WITH_RESOURCE_CAVEATS",
+    "planning": {
+      "planning_scenario": "mean",
+      "planning_hours": 8.978417861003056,
+      "planning_incremental_cost_cny": 107.38187761759656,
+      "reservation_scenario": "conservative_max",
+      "reservation_hours": 12.734984731533203,
+      "reservation_incremental_cost_cny": 152.31041738913711,
+      "hard_abort_ceiling_hours": 38.0,
+      "hard_abort_ceiling_incremental_cost_cny": 454.48
+    },
+    "project_cap": {
+      "hard_limit_cny": 2000.0,
+      "historical_user_reported_cumulative_cny": 211.36,
+      "historical_observation_at_utc": "2026-09-04T13:56:41Z",
+      "historical_plus_reservation_cny": 363.6704173891371,
+      "historical_plus_hard_abort_ceiling_cny": 665.84,
+      "budget_pass": true,
+      "launch_value_fresh": false,
+      "launch_requirement": "Refresh cumulative AutoDL charge and UTC time immediately before formal --run."
+    }
+  },
+  "risks": [
+    {
+      "severity": "BLOCKING",
+      "risk": "Formal disk space is below the frozen 120 GiB prelaunch floor.",
+      "mitigation": "Preserve current successful checkpoints; migrate or explicitly remove superseded archived artifacts, then rerun this script."
+    },
+    {
+      "severity": "BLOCKING",
+      "risk": "Pilot-64 GPU peaks exceeded 98%, and natural responses did not exercise long-output pressure.",
+      "mitigation": "Apply an evidence-backed memory mitigation and run a targeted post-warmup/long-response resource Pilot."
+    },
+    {
+      "severity": "BLOCKING",
+      "risk": "Pilot-64 ended at step 8 before the 10-step warmup completed.",
+      "mitigation": "Record at least two optimizer steps after warmup before formal release."
+    },
+    {
+      "severity": "CONTROL",
+      "risk": "The report-builder process may run in a smaller cgroup than the training launcher.",
+      "mitigation": "Use the Pilot runtime capacity evidence here; the guarded launcher must freshly recheck cgroup capacity before formal --run."
+    },
+    {
+      "severity": "CONTROL",
+      "risk": "The cumulative billing observation is historical.",
+      "mitigation": "Refresh cumulative charge and UTC timestamp immediately before formal launch."
+    }
+  ],
+  "next_actions": [
+    "Free enough disk to meet the 120 GiB formal floor.",
+    "Refreeze the formal CPU prelaunch floor to at least 224 GiB; current 240 GiB capacity satisfies it.",
+    "Complete targeted post-warmup and long-response GPU resource validation.",
+    "Set configs/vopd_6241.yaml status to ready_for_formal_training only after every prior check passes, then rerun this script."
+  ],
+  "sources": {
+    "static_gate": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/static_gate.json",
+      "sha256": "13a2efa1bb23a4fc2d842d962fc1be1fd35437cfc9872722c71b3bb1d0548bfa"
+    },
+    "freeze": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/training_config_freeze.json",
+      "sha256": "fa6fef4d17c871801368c7c37addf77798f600a32b9c6fd8375806cebaed6693"
+    },
+    "budget": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/budget_freeze.json",
+      "sha256": "1eec2b91ff30dc18e2240b970b5eb532560f34f8d6a6f82fdb4d0d0c68e9abe0"
+    },
+    "pilot_16": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+      "sha256": "cafb469e341c3a365a7e4df03e37cf08a9c30fe545a6e2a6badcb5a3dbd17cde"
+    },
+    "pilot_64": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/postflight.json",
+      "sha256": "393934f14ad788a90e5626080ba833f6a599e4ee75defffe1bf295d1dc046811"
+    },
+    "cold_reload": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/cold_reload_attempt_002/reload_validation_summary.json",
+      "sha256": "38d45de42d9ab11749e7d0c4d404dc5ba1385dd5bcf125fd3e05549215dfa3e3"
+    },
+    "pilot_64_resource": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/evidence/resource_summary.json",
+      "sha256": "b87f01327b7e1aba27ca3c09bf27c5d21dda43f1e3192b37bdfab0aabc5da471"
+    },
+    "formal_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "sha256": "1e8cae87c3ba65d4dbbc9f0e2fed0e12d7d78d90b657ac8dbb24524eeba7ff1f"
+    },
+    "formal_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
+      "sha256": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8"
+    },
+    "project_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/project_6241.yaml",
+      "sha256": "2ab8c9973edfbaaa5c8499aba50e2d70bd6d1c5d600d4fc8b15c44667d8e59a2"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-06T04:14:15.632Z",
+  "status": "CPU_AUDIT_TOOLS_PASS_PENDING_GPU_AB",
+  "formal_training_authorized": false,
+  "gpu_training_started": false,
+  "optimization_validated": false,
+  "changes": {
+    "ab_postflight": "scripts/audit_vopd_memory_ab.py",
+    "comparison": "scripts/compare_vopd_memory_ab.py",
+    "ab_cold_reload_required": false,
+    "historical_pilot64_cold_reload_required": true,
+    "launch_time_source_snapshot": true,
+    "effective_policy_bound": true,
+    "abort_audit_preserves_guard_exit_code": true
+  },
+  "tests": {
+    "final_regression": "54 passed, 3 subtests passed",
+    "earlier_combined_with_optimizer": "63 passed, 3 subtests passed",
+    "final_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 conda run --no-capture-output -n vision-opd python -m pytest -q tests/test_memory_ab_audit.py tests/test_memory_experiment.py tests/test_vopd_6241_pilot_guard.py tests/test_checkpoint_io_contract.py tests/test_vopd_gpu_threshold_98.py",
+    "integration_scope": "Synthetic CPU traces and runtime evidence; generic training verdict mocked only for adapter tests; existing generic training audit regressions included"
+  },
+  "cli_checks": {
+    "comparison_status": "WAITING_FOR_RUNS",
+    "comparison_exit_code": 2,
+    "baseline_audit_status": "NOT_RUN",
+    "baseline_audit_exit_code": 2,
+    "no_run_output_created": true
+  },
+  "source_hashes": {
+    "scripts/run_vopd_6241_pilot_guarded.py": "2e8d59f7e187d12cb24b7e92a5297b756d02a4a853b60372f2bc4224af2aa427",
+    "scripts/vopd_memory_experiment.py": "d53518bd05be952ba4d63cb094265c90f68ac77c4c2960ac6ec43631e91286d9",
+    "scripts/audit_vopd_memory_ab.py": "21b09045f2a9303e4de9cd3edf041e3096fbefbb18f25ebaa6ec933ce9f36d10",
+    "scripts/compare_vopd_memory_ab.py": "702508a8d3018793712a88789701810d7af137c5a3d34314ebfa00062d05b96b"
+  },
+  "criteria": {
+    "minimum_worst_device_reduction_bytes": 536870912,
+    "require_no_device_peak_regression": true,
+    "require_matching_observed_lengths_and_shapes": true,
+    "require_candidate_below_gpu_and_cpu_abort_ratios": true
+  },
+  "documentation": "docs/day11_memory_ab_audit.md",
+  "history": "artifacts/runs/E-D11-6K-GATE-001/memory_optimization/postflight_revision_20260906/before"
+}

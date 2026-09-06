@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-06T04:13:23.766253+00:00",
+  "status": "WAITING_FOR_RUNS",
+  "formal_training_authorized": false,
+  "optimization_validated": false,
+  "criteria": {
+    "minimum_worst_device_reduction_bytes": 536870912,
+    "no_per_device_peak_regression": true,
+    "workload_must_match": true
+  },
+  "checks": {},
+  "runs": {
+    "baseline": {
+      "schema_version": 1,
+      "generated_at_utc": "2026-09-06T04:13:23.741497+00:00",
+      "status": "NOT_RUN",
+      "training_gate_pass": false,
+      "stage_gate_pass": false,
+      "formal_training_authorized": false,
+      "cold_reload_required": false,
+      "cold_reload_validated": false,
+      "optimization_validated": false,
+      "errors": [],
+      "variant": "baseline",
+      "experiment_id": "E-D11-MEM-BASELINE",
+      "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/baseline/run"
+    },
+    "deferred": {
+      "schema_version": 1,
+      "generated_at_utc": "2026-09-06T04:13:23.754398+00:00",
+      "status": "NOT_RUN",
+      "training_gate_pass": false,
+      "stage_gate_pass": false,
+      "formal_training_authorized": false,
+      "cold_reload_required": false,
+      "cold_reload_validated": false,
+      "optimization_validated": false,
+      "errors": [],
+      "variant": "deferred",
+      "experiment_id": "E-D11-MEM-DEFERRED",
+      "output_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/ab/deferred/run"
+    }
+  }
+}

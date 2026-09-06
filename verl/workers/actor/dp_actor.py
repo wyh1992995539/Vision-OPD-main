@@ -33,6 +33,7 @@ from verl import DataProto
 from verl.trainer.ppo.core_algos import agg_loss, compute_self_distillation_loss, get_policy_loss_fn, kl_penalty
 from verl.utils.attention_utils import index_first_axis, pad_input, rearrange, unpad_input
 from verl.utils.device import get_device_id, get_device_name
+from verl.utils.actor_memory import StageMemoryRecorder, OptimizerResidency, profiled_stage, with_optimizer_residency
 from verl.utils.fsdp_utils import FSDPModule, fsdp2_clip_grad_norm_
 from verl.utils.metric import AggregationType, Metric, reduce_metrics
 from verl.utils.profiler import GPUMemoryLogger
@@ -87,6 +88,24 @@ class DataParallelPPOActor(BasePPOActor):
         self.actor_module = actor_module
         self.actor_optimizer = actor_optimizer
         self.teacher_module: Optional[nn.Module] = None
+        self.memory_recorder = StageMemoryRecorder(
+            self.config.get("memory_profile_dir"), rank=torch.distributed.get_rank()
+        )
+        self.optimizer_residency = None
+        if self.config.get("defer_optimizer_state_load", False):
+            if actor_optimizer is None or not self.config.fsdp_config.optimizer_offload:
+                raise ValueError("Deferred optimizer loading requires actor optimizer_offload=True")
+            from verl.utils.fsdp_utils import load_fsdp_optimizer, offload_fsdp_optimizer
+
+            def offload_and_wait():
+                offload_fsdp_optimizer(self.actor_optimizer)
+                # Existing helper copies D2H asynchronously; wait before reloading.
+                torch.cuda.synchronize()
+
+            self.optimizer_residency = OptimizerResidency(
+                lambda: load_fsdp_optimizer(self.actor_optimizer, get_device_id()),
+                offload_and_wait, self.memory_recorder,
+            )
         role = "Ref" if actor_optimizer is None else "Actor"
 
         self.use_remove_padding = self.config.get("use_remove_padding", False)
@@ -141,6 +160,7 @@ class DataParallelPPOActor(BasePPOActor):
     _parameter_probe_max_abs_delta = staticmethod(parameter_probe_max_abs_delta)
     _non_none_gradient_count = staticmethod(non_none_gradient_count)
 
+    @profiled_stage("teacher_ema")
     def _update_teacher(self) -> bool:
         self_distillation_cfg = getattr(self.config, "self_distillation", None)
         loss_mode = self.config.policy_loss.get("loss_mode", "vanilla")
@@ -303,6 +323,7 @@ class DataParallelPPOActor(BasePPOActor):
             save_path,
         )
 
+    @profiled_stage("forward")
     def _forward_micro_batch(
         self,
         micro_batch: dict[str, torch.Tensor],
@@ -735,6 +756,15 @@ class DataParallelPPOActor(BasePPOActor):
                     outputs["topk_indices"] = topk_indices
             return outputs
 
+    @profiled_stage("backward")
+    def _backward_loss(self, loss):
+        if self.scaler is not None:
+            self.scaler.scale(loss).backward()
+        else:
+            loss.backward()
+
+    @with_optimizer_residency
+    @profiled_stage("optimizer_step")
     def _optimizer_step(self):
         assert self.config.grad_clip is not None
         if self.scaler is not None:
@@ -1220,10 +1250,7 @@ class DataParallelPPOActor(BasePPOActor):
                     else:
                         loss = policy_loss * loss_scale_factor
                     backward_start = time.perf_counter()
-                    if self.scaler is not None:
-                        self.scaler.scale(loss).backward()
-                    else:
-                        loss.backward()
+                    self._backward_loss(loss)
                     if self_distillation_enabled:
                         backward_time = time.perf_counter() - backward_start
                         stage_wall_time_totals["timing_s/update_actor/backward"] += backward_time

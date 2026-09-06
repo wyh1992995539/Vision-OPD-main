@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "status": "ANALYZED_WITH_HISTORICAL_BREAKDOWN_GAP",
+  "gpu_used": false,
+  "checkpoint_tensors_loaded": false,
+  "sources": [
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/cgroup_memory.jsonl",
+      "sha256": "4284d8fe79372d964a75af3b891e0df2b028fca335d513c85389cc4c4861d9e5"
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/process_rss.jsonl",
+      "sha256": "5a6ab6dce9cbe80d6aac61a360ba2f10382a8ce02e62fd194661a75724e4eb01"
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/telemetry/disk.jsonl",
+      "sha256": "10bd65ace1bdbd94cfedfd1b4a3b493b351acb59fee6a3fb91a7bacea40f07c5"
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/evidence/postflight.json",
+      "sha256": "e38d2099875c5bd392f60720968c62fc69f86389a812ede9193cac49e49a1aa6"
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/logs/train.log",
+      "sha256": "1732c1bbfca72df385102f24a43949df2c233708044dca855038e97b2c45091e"
+    }
+  ],
+  "checkpoint_save_seconds": 112.48124236613512,
+  "estimated_save_window_elapsed_seconds": [
+    267.4185786470771,
+    379.8998210132122
+  ],
+  "window_caveat": "Estimated from final telemetry minus save duration; not an exact save-entry timestamp.",
+  "baseline": {
+    "timestamp_utc": "2026-09-05T10:56:53.663767+00:00",
+    "elapsed_seconds": 265.88705345615745,
+    "supported": true,
+    "path": "/sys/fs/cgroup",
+    "memory_current_bytes": 151008456704,
+    "memory_max_bytes": 236223201280,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0
+    }
+  },
+  "peak": {
+    "timestamp_utc": "2026-09-05T10:58:42.571278+00:00",
+    "elapsed_seconds": 374.8047049418092,
+    "supported": true,
+    "path": "/sys/fs/cgroup",
+    "memory_current_bytes": 226145378304,
+    "memory_max_bytes": 236223201280,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0
+    }
+  },
+  "growth_from_baseline_gib": 69.97671127319336,
+  "historical_memory_stat_available": false,
+  "timeline": [
+    {
+      "timestamp_utc": "2026-09-05T10:56:53.663767+00:00",
+      "elapsed_seconds": 265.88705345615745,
+      "cgroup_bytes": 151008456704,
+      "tree_rss_sum_bytes": 159979601920,
+      "disk_free_bytes": 178961010688,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:56:58.770557+00:00",
+      "elapsed_seconds": 270.9892883040011,
+      "cgroup_bytes": 160918507520,
+      "tree_rss_sum_bytes": 169868824576,
+      "disk_free_bytes": 178960990208,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:03.871851+00:00",
+      "elapsed_seconds": 276.1068702824414,
+      "cgroup_bytes": 175492653056,
+      "tree_rss_sum_bytes": 178945273856,
+      "disk_free_bytes": 170470666240,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:09.076079+00:00",
+      "elapsed_seconds": 281.3109712526202,
+      "cgroup_bytes": 178110271488,
+      "tree_rss_sum_bytes": 178945622016,
+      "disk_free_bytes": 170470658048,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:14.291561+00:00",
+      "elapsed_seconds": 286.52723179385066,
+      "cgroup_bytes": 180649242624,
+      "tree_rss_sum_bytes": 178946031616,
+      "disk_free_bytes": 161872330752,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:19.411455+00:00",
+      "elapsed_seconds": 291.6507684700191,
+      "cgroup_bytes": 183363190784,
+      "tree_rss_sum_bytes": 178948444160,
+      "disk_free_bytes": 161872322560,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:24.644918+00:00",
+      "elapsed_seconds": 296.84352301061153,
+      "cgroup_bytes": 186074918912,
+      "tree_rss_sum_bytes": 178951053312,
+      "disk_free_bytes": 161872310272,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:29.828396+00:00",
+      "elapsed_seconds": 302.06274054571986,
+      "cgroup_bytes": 188719919104,
+      "tree_rss_sum_bytes": 178950836224,
+      "disk_free_bytes": 153273978880,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:35.021818+00:00",
+      "elapsed_seconds": 307.2584144026041,
+      "cgroup_bytes": 192005726208,
+      "tree_rss_sum_bytes": 178953256960,
+      "disk_free_bytes": 156108562432,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:40.142567+00:00",
+      "elapsed_seconds": 312.41324650123715,
+      "cgroup_bytes": 194641248256,
+      "tree_rss_sum_bytes": 178955878400,
+      "disk_free_bytes": 150727262208,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:45.538767+00:00",
+      "elapsed_seconds": 317.73424322903156,
+      "cgroup_bytes": 197422936064,
+      "tree_rss_sum_bytes": 178958479360,
+      "disk_free_bytes": 150727258112,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:50.618609+00:00",
+      "elapsed_seconds": 322.833085026592,
+      "cgroup_bytes": 199936602112,
+      "tree_rss_sum_bytes": 178961055744,
+      "disk_free_bytes": 142128926720,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:57:55.812663+00:00",
+      "elapsed_seconds": 328.0272186398506,
+      "cgroup_bytes": 202573189120,
+      "tree_rss_sum_bytes": 178966343680,
+      "disk_free_bytes": 142128922624,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:00.954293+00:00",
+      "elapsed_seconds": 333.1883282586932,
+      "cgroup_bytes": 205187837952,
+      "tree_rss_sum_bytes": 178968686592,
+      "disk_free_bytes": 142128930816,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:06.090179+00:00",
+      "elapsed_seconds": 338.30668452754617,
+      "cgroup_bytes": 207797186560,
+      "tree_rss_sum_bytes": 178969481216,
+      "disk_free_bytes": 133530603520,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:11.213299+00:00",
+      "elapsed_seconds": 343.42861653119326,
+      "cgroup_bytes": 210422206464,
+      "tree_rss_sum_bytes": 178973450240,
+      "disk_free_bytes": 133530595328,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:16.478052+00:00",
+      "elapsed_seconds": 348.7128281071782,
+      "cgroup_bytes": 213111554048,
+      "tree_rss_sum_bytes": 178977366016,
+      "disk_free_bytes": 133530587136,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:21.613102+00:00",
+      "elapsed_seconds": 353.83036843687296,
+      "cgroup_bytes": 215670284288,
+      "tree_rss_sum_bytes": 178980384768,
+      "disk_free_bytes": 124940644352,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:26.760564+00:00",
+      "elapsed_seconds": 359.0474626198411,
+      "cgroup_bytes": 218259582976,
+      "tree_rss_sum_bytes": 178984194048,
+      "disk_free_bytes": 116350709760,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:32.019113+00:00",
+      "elapsed_seconds": 364.2472125440836,
+      "cgroup_bytes": 220916527104,
+      "tree_rss_sum_bytes": 178987438080,
+      "disk_free_bytes": 116350738432,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:37.317295+00:00",
+      "elapsed_seconds": 369.5286013633013,
+      "cgroup_bytes": 223562285056,
+      "tree_rss_sum_bytes": 178991243264,
+      "disk_free_bytes": 116350734336,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:42.571278+00:00",
+      "elapsed_seconds": 374.8047049418092,
+      "cgroup_bytes": 226145378304,
+      "tree_rss_sum_bytes": 178994814976,
+      "disk_free_bytes": 116350722048,
+      "memory_stat": null
+    },
+    {
+      "timestamp_utc": "2026-09-05T10:58:47.707939+00:00",
+      "elapsed_seconds": 379.8998210132122,
+      "cgroup_bytes": 185704382464,
+      "tree_rss_sum_bytes": 2264117248,
+      "disk_free_bytes": 121925881856,
+      "memory_stat": null
+    }
+  ],
+  "shard_sizes": [
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_0.pt",
+      "bytes": 15077
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/extra_state_world_size_2_rank_1.pt",
+      "bytes": 15077
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_0.pt",
+      "bytes": 10350349843
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/model_world_size_2_rank_1.pt",
+      "bytes": 10350349843
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_0.pt",
+      "bytes": 18157113047
+    },
+    {
+      "path": "artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints/global_step_2/actor/optim_world_size_2_rank_1.pt",
+      "bytes": 18157113047
+    }
+  ],
+  "evidence_limits": [
+    "No historical memory.stat: cannot quantify anon/file/shmem at the peak.",
+    "RSS sums can double-count shared mappings and omit processes outside the tree.",
+    "cgroup minus summed RSS is NOT a valid page-cache estimate.",
+    "Shard disk size is NOT identical to temporary in-memory tensor allocation.",
+    "Stable RSS with rising cgroup usage during writes supports, but does not prove, page-cache growth."
+  ],
+  "code_findings": [
+    "Old save_checkpoint retains model_state_dict while constructing/saving optimizer_state_dict.",
+    "Old per-rank torch.save has no explicit fsync/file-cache advice between shards.",
+    "Current revision releases temporary dict references before the next shard; never mutates live tensors.",
+    "Optional per-shard fsync then DONTNEED only advises eviction of the newly saved file cache."
+  ],
+  "validation_required": "New GPU Pilot-16 plus checkpoint cold reload; peak reduction is not measured yet.",
+  "resource_thresholds_lowered": false,
+  "pilot_64_authorized_by_this_report": false
+}

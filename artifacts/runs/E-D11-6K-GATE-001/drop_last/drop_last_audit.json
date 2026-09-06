@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "audit_id": "E-D11-6K-DROP-LAST-001",
-  "generated_at_utc": "2026-09-05T10:33:26.878065Z",
+  "generated_at_utc": "2026-09-05T11:34:39.163342Z",
   "status": "PASS",
   "inputs": {
     "project_config": {
@@ -14,7 +14,7 @@
     },
     "abort_policy": {
       "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_abort_policy.yaml",
-      "sha256": "98caa92d425e3c3fe3e8ac61d4f8486c36fa90807dd64c78e89d6be1b80d55d3"
+      "sha256": "fa4fec3fbf1c9f8792f73a5977a4ae74f14fd097adaaa72c79d9744808f118d8"
     },
     "train_parquet": {
       "path": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",

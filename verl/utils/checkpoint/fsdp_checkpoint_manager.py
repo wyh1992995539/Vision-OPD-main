@@ -34,6 +34,7 @@ from verl.utils.fsdp_utils import fsdp_version, get_fsdp_full_state_dict, get_fs
 from verl.utils.logger import log_with_rank
 
 from .checkpoint_manager import BaseCheckpointManager
+from .shard_io import save_shard
 
 # Setup logging
 logger = logging.getLogger(__file__)
@@ -225,14 +226,18 @@ class FSDPCheckpointManager(BaseCheckpointManager):
                 optim_path = os.path.join(local_path, f"optim_world_size_{self.world_size}_rank_{self.rank}.pt")
                 extra_path = os.path.join(local_path, f"extra_state_world_size_{self.world_size}_rank_{self.rank}.pt")
 
+                flush_reclaim = bool(
+                    self.checkpoint_config and self.checkpoint_config.get("fsdp_flush_reclaim", False)
+                )
+
                 if self.should_save_model:
-                    model_state_dict = self.model.state_dict()
-                    torch.save(model_state_dict, model_path)
+                    # Drop temporary dict references before constructing optimizer state.
+                    # Never clear tensor storage: it may alias the live training state.
+                    save_shard(self.model.state_dict(), model_path, flush_reclaim=flush_reclaim)
                     log_with_rank(f"Saved model to {os.path.abspath(model_path)}", rank=self.rank, logger=logger)
 
                 if self.should_save_optimizer:
-                    optimizer_state_dict = self.optimizer.state_dict()
-                    torch.save(optimizer_state_dict, optim_path)
+                    save_shard(self.optimizer.state_dict(), optim_path, flush_reclaim=flush_reclaim)
                     log_with_rank(f"Saved optim to {os.path.abspath(optim_path)}", rank=self.rank, logger=logger)
 
                 if self.should_save_extra:
@@ -241,7 +246,7 @@ class FSDPCheckpointManager(BaseCheckpointManager):
                         "lr_scheduler": lr_scheduler_state_dict,
                         "rng": self.get_rng_state(),
                     }
-                    torch.save(extra_state_dict, extra_path)
+                    save_shard(extra_state_dict, extra_path, flush_reclaim=flush_reclaim)
                     log_with_rank(f"Saved extra_state to {os.path.abspath(extra_path)}", rank=self.rank, logger=logger)
 
         if self.rank == 0:
