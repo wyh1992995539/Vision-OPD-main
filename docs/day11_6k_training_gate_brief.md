@@ -7,6 +7,10 @@
 > 正式训练是否已经启动：**否**
 > 冻结提交：`078d403 day11: finalize formal training gate and validation evidence`
 
+> Day12 后续修订（2026-09-07）：双卡合计 14 元/小时；取消每次提供累计费用和账单时间的要求。
+> 当前估算为平均 98.61 元、保守 113.04 元。使用 `scripts/run_day12_vopd.py`；
+> 下文 Day11 预算保留为历史值。详见 [Day12 运行修订](day12_operations_amendment.md)。
+
 ## 技术摘要
 
 Day 11 已完成 Vision-OPD 6,241 条正式训练之前的全部准入工作。工作从论文和作者入口参数核对开始，先冻结双卡缩规模方案、训练算术、checkpoint 和中止策略；随后对 6,241 条训练数据执行真实 Processor 下的全量 Prompt 长度审计，完成 train-6241 与 ZoomBench、MMStar、V* Bench 的 overlap 检查，并将训练合同固定为原生 `drop_last=True`：源数据 6,241 条、有效训练 6,240 条、padding 0、每个 epoch 丢弃 1 条、共 780 optimizer steps。
@@ -186,7 +190,39 @@ training_started=false
 
 关联回归测试为 `84 passed, 5 subtests passed`。冻结提交 `078d403` 已同步 `origin/main`，提交后工作树干净。
 
-## 七、主要证据
+## 七、今日问题与解决方式集中复盘
+
+下表只记录实际遇到或被审计发现的问题。`解决` 表示已经完成修复、重新验证或形成明确的结论边界；不表示相关风险在 780-step 正式训练中永久消失。
+
+| 问题 | 直接表现 | 原因判断 | 解决方式 | 当前结论 |
+|---|---|---|---|---|
+| 论文参数与当前配置不同 | 官方口径为 8 GPU、global batch 96、rollout n=8，当前机器只有双卡 | GPU 数量、显存和 CPU 资源不支持直接照搬作者规模 | 采用双卡缩规模主方案，并另存算法对齐双卡参考配置；核心 loss、LR、Top-K、JSD、EMA 等不变 | 已解决口径问题；当前不是官方原样硬件复现 |
+| 旧配置要求覆盖全部 6,241 条 | global batch 8 无法整除 6,241，旧全覆盖合同会引入补齐样本 | 旧 sampler 合同与项目负责人要求的原生 drop-last 不一致 | 关闭补齐，冻结 6,241→6,240、padding 0、dropped 1、780 steps | PASS |
+| 全量 CPU 审计或真实依赖测试被 SIGKILL | Prompt/overlap 或 vLLM 依赖检查在低配额环境中断，未产生 Python 异常栈 | 当时 cgroup 仅约 2 GiB，常驻进程与真实依赖导入超过限制 | 提高 CPU 配额；将重型依赖测试与普通 CPU 测试分开；后续正式门槛按训练遥测冻结为 240 GiB | 不是模型错误；相关审计已重跑通过 |
+| Cached Prefix 缺少完整审计绑定 | 生成结果无法同时证明配置、Base 身份和输出未变化 | 生成器最初没有完整保存三个审计哈希和相应测试 | 补哈希、单测、16 条 smoke，再执行 6,241 条全量生成和完整性检查 | 6,241/6,241 PASS |
+| Pilot-16 首次无法稳定运行 | 双卡资源冲突、GPU 接近保护线，保存阶段 CPU 峰值高 | 模型、reference、vLLM、激活和 optimizer/checkpoint 状态在部分阶段重叠 | 修正双卡资源布局，逐步启用 offload，补 checkpoint 内存遥测和 warmup-aware 审计后重跑 | 最终 2 steps、checkpoint、postflight PASS |
+| Pilot-64 仍不能覆盖 warmup 后与最长回复 | Pilot-64 只有 8 steps，而 warmup 为 10；自然回复也没有全部接近 1,024 tokens | Pilot 的定位是机制和预算 smoke，覆盖范围不足以证明正式资源安全 | 保留 Pilot-64 与 Student 冷重载证据，另建 16-step 长回复压力和正常 EOS 候选验证 | Pilot-64 PASS，但不单独授权正式训练 |
+| GPU 显存一度接近或超过 98% | baseline NVML 峰值约 98.74%/98.30%，同步阶段曾约 99.38% | allocator 口径、整卡占用以及 optimizer/激活/vLLM 重叠没有被正确分开 | 修正显存计数口径，保留 NVML 与 CUDA 同步证据；启用三类 offload 和 optimizer deferred load | Pressure v2 约 90.59%，自然候选约 89.14%，均低于 98% |
+| checkpoint 保存期 CPU 内存陡升 | 最高 cgroup 峰值出现在保存阶段，而非普通 forward/backward | 模型/优化器状态、序列化临时对象、写入双副本和 Linux 文件缓存叠加 | 增加 `memory.stat` 分类遥测和缓存处理；不降低保护线；用多次成功运行重冻 240 GiB 门槛 | 已纳入正式 Gate，仍须运行期监控 |
+| A/B 显存结果最初不可直接归因 | baseline/deferred 的生成长度和实际微批次数不同 | 自然生成负载差异混入优化效果 | capture 完整 actor 输入，再以相同输入回放 fixed baseline/deferred，绑定源码、输入哈希和微批次 | 支持显存风险缓解；不作全程严格因果声明 |
+| 第一轮压力训练负载无效 | 配置写了 `ignore_eos`，实际回复却提前结束 | 参数没有真正传入 vLLM 采样器 | 主动停止并保留 FAIL；修复参数透传，增加端到端参数测试和首批 1,000～1,024-token Gate 后重跑 | Pressure v2 128/128 均为 1,024 tokens，16 steps PASS |
+| 服务器或监控连接中断看起来像训练失败 | 终端连接结束，但不确定训练进程是否异常 | 连接/监控会话和训练生命周期不是同一状态来源 | 复核 `exit_receipt`、`guard_summary`、checkpoint 与 postflight；确认 fixed_deferred 正常结束、guard=0、OOM=0 | 不是该次训练故障；以后以落盘证据判断 |
+| 费用上界看起来像单次 Pilot 很昂贵 | 曾出现 259.20 元、307.04 元等最大预估总费用 | 数字包含已有累计费用及最大预留/硬中止口径，不是单次 Pilot 必然新增费用；旧估算又来自较短回复 | 区分累计费用、增量预算和硬上限；用正常 EOS 候选重新测量并重算 | 正式规划增量约 84.24 元，保守约 96.57 元 |
+| 修改配置或源码后旧 Gate 重新阻塞 | 旧 PASS 变成 source/hash stale，正式配置不能直接放行 | fail-closed Gate 检测到证据与当前实现不再同一版本 | 重新冻结 CPU、磁盘和预算；完成自然候选验证；生成 promotion receipt 并重算最终 Gate | 新 Gate PASS；旧历史证据保留且不冒充当前证据 |
+| 磁盘不足以安全保存正式 checkpoint | 可用空间曾降到约 69～95 GiB，低于 120 GiB 门槛 | 单个 checkpoint 约 53.12 GiB，保存时还要考虑临时双副本和证据增长 | 数据盘扩容到 600 GiB；按白名单删除 8 个旧 A/B 分片；按双副本公式重冻门槛 | 冻结时约 148.59 GiB 可用，Gate PASS；启动时仍需重查 |
+| Git 提交文件过多而失败 | 一次暂存 5,318 个文件，`COMMIT_EDITMSG` 约 818 KiB，IDE 提交流程被拖慢或中止 | 实验目录中的完整 `runtime/verl` 源码快照和 TensorBoard 临时文件被一起加入暂存区 | 不删除磁盘实验数据，只将约 4,850 个可再生 runtime 快照移出暂存并加入 `.gitignore`；保留代码、配置、测试和关键证据 | 暂存降至 466 项；commit `078d403` 已成功并同步 |
+
+### 判断训练是否失败的统一规则
+
+今天多次出现“终端断开、进程被杀、主动停止、审计 FAIL”四种不同情况，不能统一称为训练失败：
+
+- 有 Python/CUDA 错误、guard 中止、非零训练退出码或不完整 checkpoint，才按训练失败处理；
+- cgroup `oom`/`oom_kill` 增量用于判断是否发生 CPU OOM；
+- `nvidia-smi`/NVML、CUDA 同步峰值和错误日志共同判断 GPU OOM 或显存越线；
+- 主动停止无效压力负载属于验证设计失败，不属于模型数值训练失败；
+- 终端或监控连接中断后，必须读取 `exit_receipt`、`guard_summary`、checkpoint 和 postflight，不能只凭连接状态下结论。
+
+## 八、主要证据
 
 - `configs/vopd_6241.yaml`
 - `configs/vopd_6241_abort_policy.yaml`
@@ -203,7 +239,7 @@ training_started=false
 - `artifacts/runs/E-D11-6K-GATE-001/preflight.json`
 - `artifacts/runs/E-D12-6K-VOPD-001/preflight/guarded_launcher_preflight.json`
 
-## 八、结论边界
+## 九、结论边界
 
 ### 可以确认
 
@@ -223,7 +259,7 @@ training_started=false
 - 固定负载 A/B 支持 deferred 降低显存风险，但诊断同步、有限步数和运行环境使其不能升级为全程严格因果结论。
 - 静态 Gate 的 CPU、GPU、磁盘和账单快照不能代替 Day 12 启动时的实时检查。
 
-## 九、Day 12 交接
+## 十、Day 12 交接
 
 Day 12 将执行 `E-D12-6K-VOPD-001` 正式训练。启动前必须重新满足：
 
@@ -232,7 +268,7 @@ Day 12 将执行 `E-D12-6K-VOPD-001` 正式训练。启动前必须重新满足�
 3. 实时可用磁盘至少 120 GiB；
 4. Git 工作树干净且配置/源码/证据哈希匹配；
 5. 正式输出目录不存在冲突；
-6. AutoDL 累计费用和 UTC 观测时间不超过 15 分钟；
+6. 使用 Day12 新入口和双卡 14 元/小时估算配置；不再要求累计费用或账单观测时间；
 7. guarded launcher 实时 preflight 全部 PASS。
 
 正式训练从冻结 Qwen3.5-4B Base 冷启动。启动后人工重点观察前 3 个 optimizer steps，确认 sample ID、online response、Teacher crop、有限 loss、Student 更新、Teacher 无直接梯度、EMA、GPU、CPU 和磁盘正常；随后由守护器持续监控。step 390 保存唯一周期恢复点，step 780 完成后再验证最终 checkpoint 和成功 receipt。

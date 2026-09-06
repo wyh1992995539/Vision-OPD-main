@@ -1,6 +1,10 @@
 # Vision-OPD 可执行项目规划
 
 > Day 1～9 保留已完成证据；Day 10～16 完成 6K 数据版 Vision-OPD/Cached 可投递版本；Day 17～21 完成 GRPO 扩展。
+
+> Day12 运行修订（2026-09-07）：双卡合计 14 元/小时；Day12 使用 `scripts/run_day12_vopd.py`，
+> 费用只作估算记录，不再要求每次填写累计费用/账单时间或以累计费用门禁阻塞启动。
+> 资源与训练异常守护仍启用。旧计费数值为历史口径，详见 [运行修订](day12_operations_amendment.md)。
 > 本文档替代原“21 天学习计划”。已完成的论文阅读、代码理解、环境配置、Qwen3.5-4B 下载与普通多模态推理不再重复，也不安排与项目无关的 Tensor/玩具实验。
 >
 > 历史计划修订：Day 4 完成后曾删除 SFT 分支，并采用内部 `eval-128` 与 `retention-64`。该条仅保留当时的审计背景；2026-09-02 全量训练修订后，128/64 样本已并入 train-6241，不再用于新模型评测。Day 1～4 已完成的数据、评测与 Cached Prefix 证据继续有效，不重复执行。
@@ -661,7 +665,7 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 任务：
 
 1. 从冻结原始 Base 冷启动，使用 train-6241、online Student prefix、Teacher crop、780 steps、原生 drop-last 和新 guarded launcher。
-2. 启动前刷新 AutoDL 累计费用和观测时间；配置哈希、数据哈希、Git、两张 GPU、cgroup、输出冲突和磁盘任一 Gate 失败均不启动。
+2. 使用 `scripts/run_day12_vopd.py`，按双卡合计 14 元/小时记录估算，不要求累计费用或账单时间；配置哈希、数据哈希、Git、两张 GPU、cgroup、输出冲突和磁盘任一 Gate 失败均不启动。
 3. 观察最初 3 个 optimizer steps，核对 sample ID、在线 response、Teacher crop、有限 loss、Student delta、Teacher gradient/optimizer delta=0、EMA、prompt/response、GPU/RSS/cgroup/磁盘。
 4. 正常后允许守护器无人值守；不要求每小时人工查看，但所有自动中止、信号和恢复事件必须落盘。
 5. step 390 保存唯一的周期恢复点；最终 step 780 成功后验证 marker、13 个必需文件和非空分片，最终写入成功 receipt。

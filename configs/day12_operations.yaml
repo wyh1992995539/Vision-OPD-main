@@ -1,0 +1,7 @@
+schema_version: 1
+experiment_id: E-D12-6K-VOPD-001
+# User amendment, 2026-09-07: 14 CNY/hour for BOTH GPUs combined.
+hourly_dual_gpu_rate_cny: 14.0
+billing_mode: estimate_only
+require_billing_observation: false
+enforce_cumulative_cost_gate: false

@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-06T16:18:31.352668+00:00",
+  "status": "PASS",
+  "scope": "exactly 16 retired diagnostic model/optimizer shards",
+  "targets": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 12902317758,
+      "mtime_ns": 1788677318041504060,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 12902317759,
+      "mtime_ns": 1788677316585422803,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 12902320003,
+      "mtime_ns": 1788677375068510666,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 12902318680,
+      "mtime_ns": 1788677373912452987,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 9670007531,
+      "mtime_ns": 1788678026591646229,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 9670007530,
+      "mtime_ns": 1788678025995339935,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 9670007533,
+      "mtime_ns": 1788678087282771881,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 9670007532,
+      "mtime_ns": 1788678086494368140,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 4297618198,
+      "mtime_ns": 1788678718655421389,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 4297618197,
+      "mtime_ns": 1788678717687417936,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 4297618200,
+      "mtime_ns": 1788678778647622988,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_deferred/run/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 4297618199,
+      "mtime_ns": 1788678776995617752,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/checkpoints/global_step_16/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 15041491962,
+      "mtime_ns": 1788682861875446000,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/checkpoints/global_step_16/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "allocated_bytes": 10350350336,
+      "device": 2304,
+      "inode": 15041491961,
+      "mtime_ns": 1788682863139450580,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/checkpoints/global_step_16/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 15041491963,
+      "mtime_ns": 1788682918543640166,
+      "nlink": 1
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/pressure_v2/run/checkpoints/global_step_16/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "allocated_bytes": 18157113344,
+      "device": 2304,
+      "inode": 15041491964,
+      "mtime_ns": 1788682920111645226,
+      "nlink": 1
+    }
+  ],
+  "target_allocated_bytes": 228059709440,
+  "free_before_bytes": 159538196480,
+  "protected": [
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/run/checkpoints",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/capture/run/evidence/fixed_workload",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/16/checkpoints",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/checkpoints"
+  ],
+  "recovery": "No backup; deleted tensor shards require rerunning their diagnostic experiment.",
+  "completed_at_utc": "2026-09-06T16:18:31.353138+00:00",
+  "free_after_bytes": 387597922304,
+  "observed_free_bytes_increase": 228059725824
+}
