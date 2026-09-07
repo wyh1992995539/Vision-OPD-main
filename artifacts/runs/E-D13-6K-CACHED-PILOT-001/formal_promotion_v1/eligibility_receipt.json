@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D13-6K-CACHED-PILOT-001",
+  "target_experiment_id": "E-D14-6K-CACHED-001",
+  "created_at_utc": "2026-09-07T18:25:01.738393+00:00",
+  "status": "PASS",
+  "eligible_for_formal_promotion": true,
+  "formal_training_authorized": false,
+  "authorization_note": "This receipt proves technical eligibility only; it does not start or authorize the separate 780-step Day 14 run.",
+  "strict_prefix_source_ablation": "PASS",
+  "checks": {
+    "static_contract_pass": true,
+    "pilot_completion_pass": true,
+    "postflight_pass": true,
+    "training_gate_pass": true,
+    "stage_gate_pass": true,
+    "strict_prefix_source_ablation_pass": true,
+    "checkpoint_complete": true,
+    "cold_reload_pass": true,
+    "cold_reload_five_of_five": true,
+    "cold_reload_zero_errors": true,
+    "checkpoint_unchanged_after_reload": true,
+    "cached_online_generation_zero": true,
+    "cached_records_resolved_total_64": true
+  },
+  "failed_checks": [],
+  "formal_projection": {
+    "target_optimizer_steps": 780,
+    "checkpoint_count": 2,
+    "startup_seconds_estimate": 84.61981565319002,
+    "pilot_final_checkpoint_seconds": 93.81768359988928,
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 31.097145339474082,
+        "projected_total_seconds": 24576.45344075933,
+        "projected_dual_gpu_hours": 6.826792622433148,
+        "projected_cost_cny": 95.57509671406407
+      },
+      "mean": {
+        "steady_step_seconds": 34.724914621295675,
+        "projected_total_seconds": 27402.48571129835,
+        "projected_dual_gpu_hours": 7.611801586471764,
+        "projected_cost_cny": 106.5652222106047
+      },
+      "conservative_max": {
+        "steady_step_seconds": 42.75425139814615,
+        "projected_total_seconds": 33657.339060464874,
+        "projected_dual_gpu_hours": 9.34926085012913,
+        "projected_cost_cny": 130.88965190180784
+      }
+    },
+    "status": "MEASURED_PROJECTION_NOT_YET_FROZEN"
+  },
+  "sources": {
+    "static_contract": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/preflight/contract_audit.json",
+      "sha256": "e2fce1aac5709dc43f24c09832e3edbb8716068c634360cc3e5341bee1c449bd",
+      "bytes": 6885
+    },
+    "postflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/postflight.json",
+      "sha256": "7ed2cdda3f5bec47da527e0a428243aaa24819f21e5d6cbae5f5dd5daeaaa507",
+      "bytes": 16439
+    },
+    "completion": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/completion_receipt.json",
+      "sha256": "58d7256d5208fc696b5f5675925be1003c33d9990e83b9229abfe0a4b3c29aff",
+      "bytes": 8085
+    },
+    "formal_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241.yaml",
+      "sha256": "31245cfff940c9d6c7409b90b1fa2c7d83e5534e1fc2a2973bf531bc108a46e7",
+      "bytes": 4942
+    }
+  }
+}

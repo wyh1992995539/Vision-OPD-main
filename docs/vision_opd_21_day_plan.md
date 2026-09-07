@@ -660,6 +660,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 ### Day 12：Vision-OPD 6K 正式训练
 
+> 实际执行记录：[Day 12 Vision-OPD 6K 正式训练工作简报](day12_vopd_6k_formal_training_brief.md)
+
 目标：完成 `E-D12-6K-VOPD-001`，不再执行旧 `E-D10-001` 1024 正式训练。
 
 任务：
@@ -686,7 +688,9 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 ### Day 13：Vision-OPD 定版、Cached 契约实现与长尾稳定性
 
-> 执行状态（2026-09-07 UTC）：**Vision-OPD 定版 PASS / Cached 静态契约 PASS / Day 13 等待双卡 Pilot**。任务 1～5 已完成：`global_step_780` checkpoint、merged Student SHA256 和 5/5 冷加载通过；`prefix_source: online|cached` 已实现，6,241/6,241 条 sample ID、prompt、Student 原图和 response token 往返完全绑定，online 默认路径回归通过。任务 6 只能在 8-step Cached Pilot、checkpoint 与冷加载后判定；任务 7 的实时 Gate 因当前仅 1 张 GPU、cgroup 120 GiB 而安全阻断，训练未启动。费用按双卡合计 14 元/小时仅作估算，不要求账单时间。详见 `artifacts/reports/vopd_6241_audit.md`、`artifacts/reports/cached_prefix_contract.md` 和 `artifacts/reports/cached_6241_pilot.md`。
+> 实际执行记录：[Day 13 Vision-OPD 定版与 Cached Prefix Pilot 工作简报](day13_vopd_final_and_cached_pilot_brief.md)
+>
+> 执行状态（2026-09-07 UTC）：**Day 13 PASS / Cached 已具备正式训练技术资格**。任务 1～7 已完成：Vision-OPD `global_step_780`、merged Student SHA256 和 5/5 冷加载通过；Cached 静态契约覆盖 6,241/6,241，8-step 双卡 Pilot 完成 64/64 条缓存解析、在线生成调用为 0，Student/Teacher/EMA、checkpoint 和严格 prefix-source 消融 Gate 全部通过。首次冷加载因启动进程找不到虚拟环境内的 `vllm` 命令而失败；修正可执行文件定位后复用同一已校验合并模型重试，5/5 非空、0 inference error，源 checkpoint 前后哈希不变。当前可用空间约 235 GiB，高于 ≥130 GiB 建议余量，因此任务 8 无需删除唯一恢复用 FSDP checkpoint。Pilot 至修复后冷加载共约 17.00 分钟、估算 3.97 元；780-step 正式训练外推约 6.83～9.35 小时、95.58～130.89 元。Day 13 资格凭据本身保持 `formal_training_authorized=false`；2026-09-08 的独立启动准备已将 Day 14 正式配置晋级为 `ready_after_day13_gate`、`formal_training_authorized=true`，同时 `training_started=false`。详见 `artifacts/reports/vopd_6241_audit.md`、`artifacts/reports/cached_prefix_contract.md`、`artifacts/reports/cached_6241_pilot.md` 和 `artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/completion_receipt.json`。
 
 目标：关闭 Vision-OPD 模型交付，并让 Cached-6241 具备正式训练资格。
 
@@ -717,6 +721,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 消融名称已按证据冻结；Cached 正式配置与 Vision-OPD 的差异清单完整。
 
 ### Day 14：Cached Prefix 6241 全量正式训练
+
+> 正式启动入口与监控方法：[Day 14 Cached Prefix 6241 正式训练运行手册](day14_cached_formal_training_runbook.md)
 
 目标：完成 `E-D14-6K-CACHED-001`。
 

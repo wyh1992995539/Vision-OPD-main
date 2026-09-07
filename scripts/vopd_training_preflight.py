@@ -372,14 +372,32 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
 
     if resources.get('memory_profile') == 'offload_3way_graph4_deferred_cached_v1':
         promotion = config.get('promotion') or {}
+        cached_candidate = (
+            config.get('status') == 'implementation_ready_requires_cached_pilot'
+            and promotion.get('formal_training_authorized') is False
+        )
+        cached_formal = (
+            config.get('status') == 'ready_after_day13_gate'
+            and promotion.get('receipt')
+            == 'artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/promotion_receipt.json'
+            and promotion.get('source_candidate')
+            == 'artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/candidate_cached_prefix_6241.yaml'
+            and promotion.get('eligibility_receipt')
+            == 'artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/eligibility_receipt.json'
+            and promotion.get('validated_workload') == 'cached_64x8'
+            and int(promotion.get('validated_steps', -1)) == 8
+            and promotion.get('strict_prefix_source_ablation') == 'PASS'
+            and promotion.get('formal_training_authorized') is True
+        )
         checks['cached_execution_contract'] = (
             actor.get('defer_optimizer_state_load') is True
             and actor.get('memory_profile_dir') == config['paths']['output_dir'] + '/evidence/memory_stages'
             and rollout.get('ignore_eos') is False
             and experiment.get('prefix_source') == 'cached'
             and not config.get('diagnostic_generation')
-            and promotion.get('formal_training_authorized') is False
+            and (cached_candidate or cached_formal)
         )
+        checks['cached_formal_promotion_shape'] = cached_formal if config.get('status') == 'ready_after_day13_gate' else True
 
     if resources.get('memory_profile') == 'offload_3way_graph4_deferred_validation_v1':
         validation = config.get('validation') or {}

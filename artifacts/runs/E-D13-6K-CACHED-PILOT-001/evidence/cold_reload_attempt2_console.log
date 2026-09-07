@@ -1,0 +1,11 @@
+PREFLIGHT_PASS sample_ids=["vopd_638745362e8ff75fd4cd3e22", "vopd_31010954d48fdc8236f7856b", "vopd_78f2828c265d5e52341c4ec5", "vopd_05dede4c01d81044a432fb8a", "vopd_48cb45c3d96d3996c294ee4b"]
+HASH_SOURCE_BEFORE (~53 GiB)
+VERIFIED_MERGE_REUSE
+SERVER_START TP=2 eager max_model_len=9216
+INFERENCE 1/5 vopd_638745362e8ff75fd4cd3e22 tokens=17 finish=stop
+INFERENCE 2/5 vopd_31010954d48fdc8236f7856b tokens=108 finish=stop
+INFERENCE 3/5 vopd_78f2828c265d5e52341c4ec5 tokens=27 finish=stop
+INFERENCE 4/5 vopd_05dede4c01d81044a432fb8a tokens=59 finish=stop
+INFERENCE 5/5 vopd_48cb45c3d96d3996c294ee4b tokens=25 finish=stop
+HASH_SOURCE_AFTER
+RELOAD_STATUS=PASS

@@ -113,6 +113,8 @@ def parse_training_metric_line(line: str) -> dict[str, Any] | None:
         "teacher_ema_delta": raw.get("evidence/teacher_param_probe_max_delta_after_ema"),
         "ema_update_applied": raw.get("evidence/ema_update_applied"),
         "aborted_ratio": raw.get("response/aborted_ratio"),
+        "cached_resolved_records": raw.get("cached_prefix/resolved_records"),
+        "cached_online_generation_calls": raw.get("cached_prefix/online_generation_calls"),
     }
     return {"step": int(match.group(1)), **aliases, "raw_metric_count": len(raw)}
 
@@ -222,6 +224,23 @@ class RuleEvaluator:
             issues.append(
                 self.issue("consecutive_generation_errors", f"step={row.get('step')} aborted_ratio={aborted}")
             )
+        if limits.get("cached_prefix_required") is True:
+            resolved = row.get("cached_resolved_records")
+            online_calls = row.get("cached_online_generation_calls")
+            expected = float(limits["cached_expected_records_per_step"])
+            maximum_online = float(limits.get("cached_online_generation_calls_max", 0))
+            if not finite_number(resolved) or float(resolved) != expected:
+                issues.append(self.issue(
+                    "cached_prefix_resolution_mismatch",
+                    f"step={row.get('step')} resolved={resolved} expected={expected}",
+                    True,
+                ))
+            if not finite_number(online_calls) or float(online_calls) > maximum_online:
+                issues.append(self.issue(
+                    "cached_prefix_online_generation_detected",
+                    f"step={row.get('step')} calls={online_calls} maximum={maximum_online}",
+                    True,
+                ))
         return issues
 
     def evaluate_telemetry(self, sample: dict[str, Any]) -> list[dict[str, Any]]:

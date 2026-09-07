@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "promotion_id": "E-D14-6K-CACHED-PROMOTION-001",
+  "created_at_utc": "2026-09-07T19:03:19.895882+00:00",
+  "status": "PASS_FORMAL_CONFIG_PROMOTED",
+  "artifact_status": "COMPLETE",
+  "formal_training_authorized": true,
+  "training_started": false,
+  "checks": {
+    "eligibility_pass_and_current": true,
+    "pilot_completion_pass": true,
+    "pilot_postflight_pass": true,
+    "strict_prefix_source_ablation_pass": true,
+    "online_generation_zero_in_pilot": true,
+    "cached_64_records_resolved": true,
+    "formal_config_exactly_derived": true,
+    "formal_config_status_ready": true,
+    "formal_config_authorized": true,
+    "formal_run_starts_from_base": true,
+    "drop_last_6241_to_6240": true,
+    "formal_policy_identity": true,
+    "formal_policy_cached_runtime_guard": true,
+    "estimate_only_accounting": true
+  },
+  "source_candidate": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/candidate_cached_prefix_6241.yaml",
+    "sha256": "31245cfff940c9d6c7409b90b1fa2c7d83e5534e1fc2a2973bf531bc108a46e7"
+  },
+  "promoted_formal_config": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241.yaml",
+    "sha256": "247dedba3eca82ff11df516dd27fdff45c7d1cb5a4666ac89af3c2d9b54fe1bb",
+    "status": "ready_after_day13_gate"
+  },
+  "formal_policy": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_abort_policy.yaml",
+    "sha256": "df7cd7a6613919abaadc2d0feb87849cf92f4c38144bd4d6871c483294c94ad9"
+  },
+  "eligibility": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/eligibility_receipt.json",
+    "sha256": "0bcbb55c07f38731838b675ca6bd342dacdfd31faab8ec9f72845c4833410087",
+    "strict_prefix_source_ablation": "PASS"
+  },
+  "projection_780": {
+    "target_optimizer_steps": 780,
+    "checkpoint_count": 2,
+    "startup_seconds_estimate": 84.61981565319002,
+    "pilot_final_checkpoint_seconds": 93.81768359988928,
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 31.097145339474082,
+        "projected_total_seconds": 24576.45344075933,
+        "projected_dual_gpu_hours": 6.826792622433148,
+        "projected_cost_cny": 95.57509671406407
+      },
+      "mean": {
+        "steady_step_seconds": 34.724914621295675,
+        "projected_total_seconds": 27402.48571129835,
+        "projected_dual_gpu_hours": 7.611801586471764,
+        "projected_cost_cny": 106.5652222106047
+      },
+      "conservative_max": {
+        "steady_step_seconds": 42.75425139814615,
+        "projected_total_seconds": 33657.339060464874,
+        "projected_dual_gpu_hours": 9.34926085012913,
+        "projected_cost_cny": 130.88965190180784
+      }
+    },
+    "status": "MEASURED_PROJECTION_NOT_YET_FROZEN"
+  },
+  "sources": {
+    "candidate_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/candidate_cached_prefix_6241.yaml",
+      "sha256": "31245cfff940c9d6c7409b90b1fa2c7d83e5534e1fc2a2973bf531bc108a46e7"
+    },
+    "eligibility_receipt": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/eligibility_receipt.json",
+      "sha256": "0bcbb55c07f38731838b675ca6bd342dacdfd31faab8ec9f72845c4833410087"
+    },
+    "completion_receipt": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/completion_receipt.json",
+      "sha256": "58d7256d5208fc696b5f5675925be1003c33d9990e83b9229abfe0a4b3c29aff"
+    },
+    "pilot_postflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/postflight.json",
+      "sha256": "7ed2cdda3f5bec47da527e0a428243aaa24819f21e5d6cbae5f5dd5daeaaa507"
+    },
+    "formal_policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_abort_policy.yaml",
+      "sha256": "df7cd7a6613919abaadc2d0feb87849cf92f4c38144bd4d6871c483294c94ad9"
+    },
+    "operations": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/day14_cached_operations.yaml",
+      "sha256": "20e37167e2751b4f0b278c4556397a31fd12a4fba722a743402d768ff747ad09"
+    },
+    "promotion_builder": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/promote_cached_prefix_6241.py",
+      "sha256": "934f8b6cc0eb99eae80a69bda0a77ce1480c8ba60a6cbc7e21d7d0d7d70f477f"
+    },
+    "guarded_launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_day14_cached.py",
+      "sha256": "b073d5cac411aad45c3973ab8ca2b839f195f4118436f0304c700be58e3b04dd"
+    },
+    "training_preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_training_preflight.py",
+      "sha256": "6eb2ce642ec7152879d34c2a36ad2ead3db4979360f64caf60309d135b3c08cc"
+    },
+    "runtime_monitor": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/monitor_vopd_training.py",
+      "sha256": "fe7769fdfd9c9505c9fd01ba55112e8daf190085e38f6554d6ebd4ef10d8896a"
+    },
+    "training_shell": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_2gpu.sh",
+      "sha256": "38710998db5914723d042e6b165db4df43bd86d903a30208aaa780ce1d381503"
+    },
+    "cached_shell": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_cached_prefix_2gpu.sh",
+      "sha256": "2fb5361411d7803d7b31af99709a097b5a256492ac2f81f25ffc107f4ce02ce4"
+    }
+  },
+  "limits": [
+    "Promotion is metadata-only and does not start training.",
+    "The guarded launcher must rerun static and live resource checks immediately before training.",
+    "Any change to the promoted config, policy, launcher, monitor, preflight or training shell invalidates this receipt.",
+    "The formal run starts from the frozen Base and never resumes the Pilot checkpoint."
+  ]
+}

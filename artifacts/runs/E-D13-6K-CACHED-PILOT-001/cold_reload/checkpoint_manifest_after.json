@@ -1,0 +1,88 @@
+{
+  "files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15141,
+      "mtime_ns": 1788804497636873003,
+      "sha256": "bbc9e32b9c1bb37d0d8260ef82dac1163595975104c15cf531109a5b95e83294"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15205,
+      "mtime_ns": 1788804494344956438,
+      "sha256": "460204aa34188f671ba4045fe1bf0fa54817e7f68ec1aecc44b47c2e98585736"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/fsdp_config.json",
+      "size_bytes": 46,
+      "mtime_ns": 1788804498500851190,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "mtime_ns": 1788804497828868151,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "mtime_ns": 1788804497652872599,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "mtime_ns": 1788804498500851190,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "mtime_ns": 1788804497816868454,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "mtime_ns": 1788804497656872498,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788804433990580563,
+      "sha256": "19bdc2358082c90152e576ba7662ec50de88b72db711334c0fca851c642adae5"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788804434542564871,
+      "sha256": "d12d5d3043753c57b78677c5d7bc3eefab0abb33bb43a66851de1a4aca4e95af"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788804486181165570,
+      "sha256": "0c628c9405881ab66e4bc805061059d3d6907b89c743527abf58ac9629001340"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788804487329135971,
+      "sha256": "57cb04212fb64858cfe5d7e3f3be93897eebb7df4ca0830293bf93525f54561c"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8/data.pt",
+      "size_bytes": 1499,
+      "mtime_ns": 1788804498740845136,
+      "sha256": "a62df95dc7c0fbd9b8196250ff5debca590806b48e1c1725652f798855a93de9"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/latest_checkpointed_iteration.txt",
+      "size_bytes": 1,
+      "mtime_ns": 1788804498740845136,
+      "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3"
+    }
+  ]
+}

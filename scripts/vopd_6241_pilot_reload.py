@@ -171,7 +171,14 @@ def execute(config_path, run, output_override=None, reuse_merged_from=None):
         serving = config['serving']
         if not serving['enforce_eager']:
             raise ValueError('This inference-only profile requires eager mode')
-        command = [shutil.which('vllm') or 'vllm', 'serve', str(merged),
+        environment_vllm = Path(sys.executable).with_name('vllm')
+        vllm_executable = str(environment_vllm) if environment_vllm.is_file() else (shutil.which('vllm') or 'vllm')
+        summary['reload_implementation'] = {
+            'path': str(Path(__file__).resolve()),
+            'sha256': sha256_file(Path(__file__).resolve()),
+            'vllm_executable': vllm_executable,
+        }
+        command = [vllm_executable, 'serve', str(merged),
                    '--served-model-name', serving['model_name'], '--host', '127.0.0.1',
                    '--port', str(serving['port']), '--trust-remote-code', '--dtype', 'bfloat16',
                    '--max-model-len', str(serving['max_model_len']), '--max-num-seqs', '1',

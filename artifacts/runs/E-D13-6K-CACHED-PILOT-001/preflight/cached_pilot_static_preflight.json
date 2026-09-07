@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-07T11:54:56.507038+00:00",
+  "generated_at_utc": "2026-09-07T18:00:06.689860+00:00",
   "stage": "64",
   "experiment_id": "E-D13-6K-CACHED-PILOT-001",
   "status": "PASS",
@@ -282,7 +282,7 @@
   },
   "contract_audit": {
     "schema_version": 1,
-    "generated_at_utc": "2026-09-07T11:54:54.833995+00:00",
+    "generated_at_utc": "2026-09-07T18:00:05.037568+00:00",
     "status": "STATIC_CONTRACT_PASS",
     "ready_for_gpu_pilot": true,
     "formal_training_authorized": false,

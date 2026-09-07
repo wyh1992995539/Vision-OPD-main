@@ -1,0 +1,1 @@
+58d7256d5208fc696b5f5675925be1003c33d9990e83b9229abfe0a4b3c29aff  /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/completion_receipt.json

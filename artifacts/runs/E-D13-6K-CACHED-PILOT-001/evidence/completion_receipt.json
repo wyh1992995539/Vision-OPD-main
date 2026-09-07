@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D13-6K-CACHED-PILOT-001",
+  "created_at_utc": "2026-09-07T18:19:51.893761+00:00",
+  "status": "PASS",
+  "training_started": true,
+  "gpu_used": true,
+  "strict_prefix_source_ablation": "PASS",
+  "formal_training_authorized": false,
+  "checks": {
+    "training_guard_pass": true,
+    "eight_steps_pass": true,
+    "training_gate_pass": true,
+    "cached_online_generation_zero": true,
+    "cached_64_records_resolved": true,
+    "checkpoint_complete": true,
+    "reload_five_of_five": true,
+    "reload_zero_errors": true,
+    "checkpoint_unchanged_after_reload": true,
+    "postflight_pass": true,
+    "strict_prefix_source_ablation_pass": true
+  },
+  "failed_checks": [],
+  "checkpoint": {
+    "status": "PASS",
+    "expected_step": 8,
+    "marker_value": "8",
+    "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8",
+    "checks": {
+      "marker_exists": true,
+      "marker_matches_expected_step": true,
+      "step_directory_exists": true,
+      "required_files_present": true,
+      "required_files_nonempty": true
+    },
+    "missing_files": [],
+    "empty_files": []
+  },
+  "cold_reload": {
+    "successful_attempt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/cold_reload_attempt2/reload_validation_summary.json",
+    "prediction_count": 5,
+    "nonempty_response_count": 5,
+    "inference_error_count": 0,
+    "source_checkpoint_unchanged": true,
+    "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/cold_reload/merged_hf",
+    "merged_manifest_sha256": "9d61fabf8b52a3e694e381fbb4f67bb874056a1787231a797dfb1571045f944f"
+  },
+  "attempt_history": [
+    {
+      "phase": "guarded_training_and_automatic_reload",
+      "result": "TRAINING_PASS_RELOAD_PATH_ERROR",
+      "exit_code": 44,
+      "detail": "Checkpoint and merge passed; reload could not find vllm because the direct Python invocation did not add its environment bin directory to PATH."
+    },
+    {
+      "phase": "cold_reload_attempt2",
+      "result": "PASS",
+      "exit_code": 0,
+      "detail": "Resolved vllm from the current Python environment; reused the verified merge and reran only cold reload plus postflight."
+    }
+  ],
+  "accounting": {
+    "started_at_utc": "2026-09-07T18:00:06.784555+00:00",
+    "completed_at_utc": "2026-09-07T18:17:07.030091+00:00",
+    "end_to_end_elapsed_seconds": 1020.245536,
+    "dual_gpu_hours": 0.28340153777777777,
+    "hourly_dual_gpu_rate_cny": 14.0,
+    "estimated_incremental_cost_cny": 3.9676215288888885,
+    "is_provider_bill": false,
+    "scope": "End-to-end from guarded launch through successful repaired cold reload; includes the repair interval."
+  },
+  "projection_780": {
+    "target_optimizer_steps": 780,
+    "checkpoint_count": 2,
+    "startup_seconds_estimate": 84.61981565319002,
+    "pilot_final_checkpoint_seconds": 93.81768359988928,
+    "scenarios": {
+      "median": {
+        "steady_step_seconds": 31.097145339474082,
+        "projected_total_seconds": 24576.45344075933,
+        "projected_dual_gpu_hours": 6.826792622433148,
+        "projected_cost_cny": 95.57509671406407
+      },
+      "mean": {
+        "steady_step_seconds": 34.724914621295675,
+        "projected_total_seconds": 27402.48571129835,
+        "projected_dual_gpu_hours": 7.611801586471764,
+        "projected_cost_cny": 106.5652222106047
+      },
+      "conservative_max": {
+        "steady_step_seconds": 42.75425139814615,
+        "projected_total_seconds": 33657.339060464874,
+        "projected_dual_gpu_hours": 9.34926085012913,
+        "projected_cost_cny": 130.88965190180784
+      }
+    },
+    "status": "MEASURED_PROJECTION_NOT_YET_FROZEN"
+  },
+  "sources": {
+    "contract_audit": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/preflight/contract_audit.json",
+      "sha256": "e2fce1aac5709dc43f24c09832e3edbb8716068c634360cc3e5341bee1c449bd",
+      "bytes": 6885
+    },
+    "live_launch_gate": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/preflight/cached_pilot_live_launch_gate.json",
+      "sha256": "2421ae792458ac1f6d750864c0a0874b56151ab9046684dd1dfdd6dfb436fc8d",
+      "bytes": 21698
+    },
+    "run_invocation": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/preflight/run_invocation.json",
+      "sha256": "a4a74147cb8235a36ae831124ee18c37fda280e5f4266867cba5e443d9a38e4e",
+      "bytes": 4511
+    },
+    "training_log": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/logs/train.log",
+      "sha256": "1377483c17ac80f80330517d803f7be3aa3bd0e417a67b8c859824d39efe93ae",
+      "bytes": 126042
+    },
+    "guard_summary": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/guard_summary.json",
+      "sha256": "f9f9ecc7a410fd770e9ed00e6130226c6afef1e08b298a4a02b20e847e4a48c1",
+      "bytes": 660
+    },
+    "initial_exit_receipt": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/exit_receipt.json",
+      "sha256": "4f730fb2ccb0c852e0fa8b85a9b74a8ee29a092f9c2f04e48c3d55eb772798fb",
+      "bytes": 2337
+    },
+    "reload_attempt1": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/cold_reload/reload_validation_summary.json",
+      "sha256": "cd113be2064bd4af3abec2e62c2e991f0cbd4c632cd349d5757e8dec9a869a41",
+      "bytes": 1233
+    },
+    "reload_attempt2": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/cold_reload_attempt2/reload_validation_summary.json",
+      "sha256": "aaafaec8efff09155fb9b29d814d27c36aea5a9635d99efc0257abd0503953df",
+      "bytes": 1996
+    },
+    "checkpoint_manifest_before": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/cold_reload_attempt2/checkpoint_manifest_before.json",
+      "sha256": "19614fd77127c1726df34883c189fe5ccc88922ad900ecd5eced6eac2f7d7108",
+      "bytes": 4395
+    },
+    "checkpoint_manifest_after": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/cold_reload_attempt2/checkpoint_manifest_after.json",
+      "sha256": "19614fd77127c1726df34883c189fe5ccc88922ad900ecd5eced6eac2f7d7108",
+      "bytes": 4395
+    },
+    "postflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/postflight.json",
+      "sha256": "7ed2cdda3f5bec47da527e0a428243aaa24819f21e5d6cbae5f5dd5daeaaa507",
+      "bytes": 16439
+    },
+    "postflight_hashes": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/evidence/postflight_sha256.txt",
+      "sha256": "24ee72705d26115413781993c50a1285b7d672cdad8bb0502b84d19f44fa528a",
+      "bytes": 303
+    },
+    "training_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_64.yaml",
+      "sha256": "65630305703c189f5bc8fda7417329866855670187c083869b950b3b749ec8b8",
+      "bytes": 5065
+    },
+    "policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_abort_policy.yaml",
+      "sha256": "fd3268b3825d8f21696420c49851b41002b9aa440d2587d9e06c669ac1b2efc3",
+      "bytes": 2554
+    },
+    "operations": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_pilot_operations.yaml",
+      "sha256": "f447c9afa325df40c93fd46bec36e56d95dfcf6170a4714aa67e0fcaf9c7d550",
+      "bytes": 255
+    },
+    "reload_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_64_reload.yaml",
+      "sha256": "99527f81449d543b94fcad858d6afdb9e352a38939e63c0adbdac4e04d992751",
+      "bytes": 791
+    },
+    "reload_implementation": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_6241_pilot_reload.py",
+      "sha256": "f23ee28d85344496d7e9647c3ab02dcd2b25330cda4a2e776d8a8459eb0798c9",
+      "bytes": 14217
+    }
+  }
+}

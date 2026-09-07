@@ -1,0 +1,7 @@
+schema_version: 1
+experiment_id: E-D14-6K-CACHED-001
+service: autodl
+billing_mode: estimate_only
+hourly_dual_gpu_rate_cny: 14.0
+require_billing_observation: false
+enforce_cumulative_cost_gate: false

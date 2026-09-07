@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "guard_exit_code": 44,
+  "guard_summary": {
+    "schema_version": 1,
+    "finished_at_utc": "2026-09-07T18:08:32.861374+00:00",
+    "status": "PASS",
+    "return_code": 0,
+    "latest_step": 8,
+    "trigger": null,
+    "termination": null,
+    "checkpoint": {
+      "status": "PASS",
+      "expected_step": 8,
+      "marker_value": "8",
+      "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/checkpoints/global_step_8",
+      "checks": {
+        "marker_exists": true,
+        "marker_matches_expected_step": true,
+        "step_directory_exists": true,
+        "required_files_present": true,
+        "required_files_nonempty": true
+      },
+      "missing_files": [],
+      "empty_files": []
+    }
+  },
+  "reload_exit_code": 1,
+  "postflight_exit_code": 1,
+  "postflight_status": "FAIL",
+  "strict_prefix_source_ablation": "NOT_PROVEN",
+  "accounting": {
+    "started_at_utc": "2026-09-07T18:00:06.784555+00:00",
+    "finished_at_utc": "2026-09-07T18:11:01.196058+00:00",
+    "elapsed_seconds": 654.4114626869559,
+    "hourly_dual_gpu_rate_cny": 14.0,
+    "estimated_incremental_cost_cny": 2.544933466004829,
+    "is_provider_bill": false,
+    "scope": "Guarded training plus automatic cold reload and postflight."
+  },
+  "operational_sources": {
+    "launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_cached_prefix_pilot.py",
+      "sha256": "62f9dd7efc6fc1e7a007090c01794c1ec6f9d092076f56605046491e8f29b763"
+    },
+    "policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_abort_policy.yaml",
+      "sha256": "fd3268b3825d8f21696420c49851b41002b9aa440d2587d9e06c669ac1b2efc3"
+    },
+    "operations": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_pilot_operations.yaml",
+      "sha256": "f447c9afa325df40c93fd46bec36e56d95dfcf6170a4714aa67e0fcaf9c7d550"
+    },
+    "reload_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_64_reload.yaml",
+      "sha256": "99527f81449d543b94fcad858d6afdb9e352a38939e63c0adbdac4e04d992751"
+    },
+    "postflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/audit_cached_prefix_pilot.py",
+      "sha256": "b7164211818e14b10db95a7a7ff11932a8c83415ad999d0ab5c8aefeaafc9e37"
+    }
+  }
+}

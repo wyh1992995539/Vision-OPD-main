@@ -1,5 +1,5 @@
 schema_version: 1
-status: ready_after_day13_gate
+status: implementation_ready_requires_cached_pilot
 paper_alignment:
   source_pdf: docs/Vision-OPD.pdf
   source_pdf_sha256: 67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b
@@ -154,10 +154,5 @@ cached_prefix:
   base_model_sha256_manifest_sha256: 91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9
   report_status: PASS
 promotion:
-  receipt: artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/promotion_receipt.json
-  source_candidate: artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/candidate_cached_prefix_6241.yaml
-  eligibility_receipt: artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/eligibility_receipt.json
-  validated_workload: cached_64x8
-  validated_steps: 8
-  strict_prefix_source_ablation: PASS
-  formal_training_authorized: true
+  formal_training_authorized: false
+  required_gate: E-D13-6K-CACHED-PILOT-001 PASS plus cold reload

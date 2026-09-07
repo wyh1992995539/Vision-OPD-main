@@ -1,0 +1,21 @@
+PREFLIGHT_PASS sample_ids=["vopd_638745362e8ff75fd4cd3e22", "vopd_31010954d48fdc8236f7856b", "vopd_78f2828c265d5e52341c4ec5", "vopd_05dede4c01d81044a432fb8a", "vopd_48cb45c3d96d3996c294ee4b"]
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+HASH_SOURCE_BEFORE (~53 GiB)
+MERGE_START
+SERVER_START TP=2 eager max_model_len=9216
+HASH_SOURCE_AFTER
+RELOAD_STATUS=FAIL
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_6241_pilot_reload.py", line 249, in <module>
+    execute(args.config.resolve(), args.run, args.output_dir, args.reuse_merged_from)
+  File "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_6241_pilot_reload.py", line 188, in execute
+    server = subprocess.Popen(command, stdout=stream, stderr=subprocess.STDOUT,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/envs/vision-opd/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/root/miniconda3/envs/vision-opd/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'vllm'
