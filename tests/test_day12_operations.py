@@ -1,4 +1,5 @@
 import copy
+import subprocess
 import tempfile
 from pathlib import Path
 from types import SimpleNamespace
@@ -48,6 +49,27 @@ class Day12OperationsTest(TestCase):
              }] * gpu_count), \
              patch.object(launcher.subprocess, "run", return_value=SimpleNamespace(stdout=" M file" if dirty else "")):
             return launcher.live_gate(copy.deepcopy(self.result), self.config, self.policy, directory)
+
+    def test_launcher_preflight_outputs_do_not_dirty_live_gate(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+            (repo / "tracked.txt").write_text("baseline")
+            subprocess.run(["git", "add", "tracked.txt"], cwd=repo, check=True)
+            subprocess.run(
+                ["git", "-c", "user.name=test", "-c", "user.email=test@example.com",
+                 "commit", "-qm", "baseline"],
+                cwd=repo, check=True,
+            )
+            output = repo / "artifacts/run"
+            preflight = output / "preflight"
+            preflight.mkdir(parents=True)
+            (preflight / "day12_operations_preflight.json").write_text("{}")
+            (preflight / "day12_live_launch_gate.json").write_text("{}")
+
+            self.assertTrue(launcher.git_clean_for_launch(output, root=repo))
+            (repo / "unexpected.txt").write_text("dirty")
+            self.assertFalse(launcher.git_clean_for_launch(output, root=repo))
 
     def test_no_bill_needed_and_resource_failures_still_block(self):
         with tempfile.TemporaryDirectory() as directory:

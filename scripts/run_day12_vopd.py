@@ -75,6 +75,21 @@ def preflight() -> dict:
     return result
 
 
+def git_clean_for_launch(output_dir: Path, *, root: Path = ROOT) -> bool:
+    """Ignore only the preflight files written by this launcher itself."""
+    command = ["git", "status", "--porcelain", "--", "."]
+    for name in ("day12_operations_preflight.json", "day12_live_launch_gate.json"):
+        path = (output_dir / "preflight" / name).resolve()
+        try:
+            relative = path.relative_to(root.resolve())
+        except ValueError:
+            continue
+        command.append(f":(exclude){relative.as_posix()}")
+    return not subprocess.run(
+        command, cwd=root, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+
 def live_gate(result: dict, config: dict, policy: dict, output_dir: Path) -> dict:
     required_disk = int(result["disk_required_bytes"])
     disk = shutil.disk_usage(output_dir)
@@ -95,9 +110,7 @@ def live_gate(result: dict, config: dict, policy: dict, output_dir: Path) -> dic
         "cgroup_readable": bool(cgroup.get("supported")),
         "cgroup_capacity_pass": frozen.cgroup_has_minimum_capacity(
             cgroup, int(policy["memory"]["prelaunch_cgroup_minimum_bytes"])),
-        "git_clean": not subprocess.run(
-            ["git", "status", "--porcelain"], cwd=ROOT, check=True,
-            capture_output=True, text=True).stdout.strip(),
+        "git_clean": git_clean_for_launch(output_dir),
     }
     return {**result, "live_checks": checks,
             "status": "PASS" if all(checks.values()) else "FAIL",
