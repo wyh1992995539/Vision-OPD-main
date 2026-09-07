@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "promotion_id": "E-D11-6K-FORMAL-PROMOTION-001",
-  "generated_at_utc": "2026-09-07T03:25:45.390719+00:00",
+  "generated_at_utc": "2026-09-06T14:44:39.860342+00:00",
   "status": "PASS_FORMAL_CONFIG_PROMOTED",
   "artifact_status": "COMPLETE",
   "formal_training_authorized": true,
@@ -30,11 +30,11 @@
   },
   "candidate_gate_freeze": {
     "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json",
-    "sha256": "64057da23afc6e484b90f617498030c173bee51118b5373036026f5532f85b0a"
+    "sha256": "c77c4edf06cbbd459d3346060ba599e73a5b0fa65fd13de698d1e1ce8dea0061"
   },
   "pre_promotion_gate": {
     "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/pre_promotion_gate.json",
-    "sha256": "336128ca4bd3a2bf1363b36ae6cf47e57364916e96e90c203a4cd3ca7d89f6a1"
+    "sha256": "2d1970ca879d5aa90c93d75980361e9a1defc78b8daf854d42951dfdea30099b"
   },
   "budget": {
     "status": "PASS_BUDGET_REFROZEN_FROM_NATURAL_CANDIDATE",
@@ -102,18 +102,18 @@
       "current_disk_meets_refrozen_floor": true
     },
     "checkpoint_payload_bytes": 57034957461,
-    "checkpoint_apparent_bytes": 57034957461,
+    "checkpoint_apparent_bytes": 57034961759,
     "configured_checkpoint_estimate_bytes": 57034960981,
     "checkpoint_budget_bytes": 57034960981,
     "checkpoint_copies_at_write_peak": 2,
     "reserve_bytes": 5368709120,
-    "candidate_noncheckpoint_observed_bytes": 9675442,
-    "formal_noncheckpoint_projected_bytes": 471677798,
+    "candidate_noncheckpoint_observed_bytes": 9688246,
+    "formal_noncheckpoint_projected_bytes": 472301993,
     "formula_required_bytes": 119438631082,
     "policy_rounded_floor_bytes": 128849018880,
     "refrozen_prelaunch_required_bytes": 128849018880,
-    "snapshot_free_bytes": 387598655488,
-    "snapshot_headroom_bytes": 258749636608,
+    "snapshot_free_bytes": 159546654720,
+    "snapshot_headroom_bytes": 30697635840,
     "formula": "max(policy_floor, 2 * checkpoint_budget + reserve)"
   },
   "sources": {
@@ -123,7 +123,7 @@
     },
     "candidate_gate_freeze": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json",
-      "sha256": "64057da23afc6e484b90f617498030c173bee51118b5373036026f5532f85b0a"
+      "sha256": "c77c4edf06cbbd459d3346060ba599e73a5b0fa65fd13de698d1e1ce8dea0061"
     },
     "cpu_freeze": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/resource_refreeze_v1/cpu_freeze.json",
@@ -135,7 +135,7 @@
     },
     "pre_promotion_gate": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/pre_promotion_gate.json",
-      "sha256": "336128ca4bd3a2bf1363b36ae6cf47e57364916e96e90c203a4cd3ca7d89f6a1"
+      "sha256": "2d1970ca879d5aa90c93d75980361e9a1defc78b8daf854d42951dfdea30099b"
     },
     "previous_formal_config": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/previous_vopd_6241.yaml",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "freeze_id": "E-D11-6K-CANDIDATE-GATE-FREEZE-001",
-  "generated_at_utc": "2026-09-07T03:20:30.154893+00:00",
+  "generated_at_utc": "2026-09-06T13:48:26.381252+00:00",
   "status": "PASS_CANDIDATE_GATE_FREEZE",
   "artifact_status": "COMPLETE",
   "formal_training_authorized": false,
@@ -37,18 +37,18 @@
       "current_disk_meets_refrozen_floor": true
     },
     "checkpoint_payload_bytes": 57034957461,
-    "checkpoint_apparent_bytes": 57034957461,
+    "checkpoint_apparent_bytes": 57034961759,
     "configured_checkpoint_estimate_bytes": 57034960981,
     "checkpoint_budget_bytes": 57034960981,
     "checkpoint_copies_at_write_peak": 2,
     "reserve_bytes": 5368709120,
-    "candidate_noncheckpoint_observed_bytes": 9675442,
-    "formal_noncheckpoint_projected_bytes": 471677798,
+    "candidate_noncheckpoint_observed_bytes": 9688246,
+    "formal_noncheckpoint_projected_bytes": 472301993,
     "formula_required_bytes": 119438631082,
     "policy_rounded_floor_bytes": 128849018880,
     "refrozen_prelaunch_required_bytes": 128849018880,
-    "snapshot_free_bytes": 387598655488,
-    "snapshot_headroom_bytes": 258749636608,
+    "snapshot_free_bytes": 159546654720,
+    "snapshot_headroom_bytes": 30697635840,
     "formula": "max(policy_floor, 2 * checkpoint_budget + reserve)"
   },
   "budget": {
@@ -135,7 +135,7 @@
     },
     "freeze_builder": {
       "path": "/root/autodl-tmp/Vision-OPD-main/scripts/freeze_formal_candidate_resources.py",
-      "sha256": "f713c820f0da2412099736e160d2f47277d0f663d68fea9694c9a0514c3f2357"
+      "sha256": "a0b9efaee6b8fa8d3e3119b13d201d68ed4898c21d8e3d7e2488e0f1ae3adb47"
     }
   },
   "limits": [

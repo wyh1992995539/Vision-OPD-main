@@ -54,13 +54,20 @@ def require(condition: bool, message: str) -> None:
 
 
 def tree_apparent_bytes(path: Path) -> int:
-    """Match ``du --apparent-size --bytes`` without invoking another process."""
+    """Return stable apparent bytes for regular files below ``path``.
+
+    Directory inode sizes are filesystem metadata rather than evidence payload.
+    They can change after directory entry cleanup or a filesystem remount, which
+    made otherwise identical frozen evidence fail exact reconstruction.
+    """
     require(path.is_dir(), f"directory is missing: {path}")
-    total = path.lstat().st_size
+    require(not path.is_symlink(), f"symlink is not allowed in evidence tree: {path}")
+    total = 0
     for entry in path.rglob("*"):
         require(not entry.is_symlink(), f"symlink is not allowed in evidence tree: {entry}")
         require(entry.is_file() or entry.is_dir(), f"unsupported evidence entry: {entry}")
-        total += entry.lstat().st_size
+        if entry.is_file():
+            total += entry.stat().st_size
     return total
 
 

@@ -22,7 +22,7 @@ def test_disk_and_budget_are_recomputed_from_candidate_measurements():
     disk = value["disk"]
     budget = value["budget"]
     assert disk["checkpoint_payload_bytes"] == 57034957461
-    assert disk["checkpoint_apparent_bytes"] == 57034961759
+    assert disk["checkpoint_apparent_bytes"] == 57034957461
     assert disk["refrozen_prelaunch_required_bytes"] == 120 * freeze.GIB
     assert all(disk["checks"].values())
     assert budget["steady_step_sample_count"] == 15
@@ -31,6 +31,15 @@ def test_disk_and_budget_are_recomputed_from_candidate_measurements():
     assert budget["selected"]["reservation_hours"] == pytest.approx(8.074135051401229)
     assert budget["selected"]["reservation_incremental_cost_cny"] == pytest.approx(96.5666552147587)
     assert budget["project_cap"]["launch_value_fresh"] is False
+
+
+def test_tree_apparent_bytes_excludes_unstable_directory_metadata(tmp_path):
+    nested = tmp_path / "nested"
+    nested.mkdir()
+    (tmp_path / "root.bin").write_bytes(b"root")
+    (nested / "payload.bin").write_bytes(b"payload")
+
+    assert freeze.tree_apparent_bytes(tmp_path) == len(b"rootpayload")
 
 
 def test_low_disk_blocks_freeze_without_changing_evidence_contract():

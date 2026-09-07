@@ -2,7 +2,7 @@
   "schema_version": 1,
   "gate_id": "E-D11-6K-FINAL-PREFLIGHT-001",
   "audit_revision": "candidate_validation_budget_disk_v3",
-  "generated_at_utc": "2026-09-06T14:44:23.373125+00:00",
+  "generated_at_utc": "2026-09-07T03:25:45.369534+00:00",
   "experiment_id": "E-D12-6K-VOPD-001",
   "artifact_status": "COMPLETE",
   "status": "READY_TO_UNBLOCK_FORMAL_CONFIG",
@@ -1919,7 +1919,7 @@
     "/root/autodl-tmp/Vision-OPD-main/scripts/finalize_day11_candidate_gate.py": "0888e1653fb9ebab96614d4a4231abc31f4b79361beb15e0bf56a8f126d63f4b",
     "/root/autodl-tmp/Vision-OPD-main/scripts/finalize_day11_preflight.py": "c1ce7f31ab011890d325c582c3f4661a47621717b4810a45b69a74a68d821f8f",
     "/root/autodl-tmp/Vision-OPD-main/scripts/day11_validation_evidence.py": "e016c4f163efec53ccc2496bea952e9f90cfb2bd2a856c942edb3f782a66353c",
-    "/root/autodl-tmp/Vision-OPD-main/scripts/freeze_formal_candidate_resources.py": "a0b9efaee6b8fa8d3e3119b13d201d68ed4898c21d8e3d7e2488e0f1ae3adb47",
+    "/root/autodl-tmp/Vision-OPD-main/scripts/freeze_formal_candidate_resources.py": "f713c820f0da2412099736e160d2f47277d0f663d68fea9694c9a0514c3f2357",
     "/root/autodl-tmp/Vision-OPD-main/scripts/freeze_formal_cpu.py": "85ce70c8fcc0768ebe36cd616cf6bfa8a67717cd78ce75ab0aea74cb7a6f5637",
     "/root/autodl-tmp/Vision-OPD-main/scripts/promote_vopd_6241_candidate.py": "5d55adeadbeb802842aeea5adb582a03f2ee32f9daa95e9cb724efb7bd9febda",
     "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_6241_guarded.py": "9670346a4e6aeb13425c7c1c32ced818e238abd5f9a5613fd8d17ae34201a378"
@@ -1927,16 +1927,16 @@
   "formal_candidate": {
     "status": "PASS_CANDIDATE_VALIDATION",
     "reason": "The 128x16 natural-generation candidate and checkpoint are source-bound.",
-    "promotion_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/promotion_receipt.json",
+    "promotion_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_promotion_v1/.absent_during_refresh.json",
     "promotion_receipt_valid": false,
     "candidate_gate_freeze": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json",
-    "candidate_gate_freeze_sha256": "c77c4edf06cbbd459d3346060ba599e73a5b0fa65fd13de698d1e1ce8dea0061",
+    "candidate_gate_freeze_sha256": "64057da23afc6e484b90f617498030c173bee51118b5373036026f5532f85b0a",
     "automatic_promotion_supported": false,
     "training_resume_validated": false
   },
   "runtime_snapshot": {
-    "builder_process_cpu_capacity_bytes": 2147483648,
-    "builder_process_cpu_capacity_gib": 2.0,
+    "builder_process_cpu_capacity_bytes": 257698037760,
+    "builder_process_cpu_capacity_gib": 240.0,
     "builder_process_capacity_is_launch_evidence": false,
     "pilot_runtime_cpu_capacity_bytes": 257698037760,
     "pilot_runtime_cpu_capacity_gib": 240.0,
@@ -1944,14 +1944,14 @@
     "pilot_runtime_cpu_peak_gib": 179.61279296875,
     "reviewed_cpu_floor_bytes": 257698037760,
     "formal_policy_cpu_floor_bytes": 257698037760,
-    "disk_free_bytes": 159545044992,
-    "disk_free_gib": 148.5879020690918,
+    "disk_free_bytes": 387598225408,
+    "disk_free_gib": 360.97897720336914,
     "disk_required_bytes": 128849018880,
     "disk_required_gib": 120.0,
     "disk_deficit_bytes": 0,
     "disk_deficit_gib": 0.0,
-    "disk_headroom_bytes": 30696026112,
-    "disk_headroom_gib": 28.587902069091797
+    "disk_headroom_bytes": 258749206528,
+    "disk_headroom_gib": 240.97897720336914
   },
   "pilot_coverage": {
     "pilot_optimizer_steps": 8,
@@ -2032,18 +2032,18 @@
       "current_disk_meets_refrozen_floor": true
     },
     "checkpoint_payload_bytes": 57034957461,
-    "checkpoint_apparent_bytes": 57034961759,
+    "checkpoint_apparent_bytes": 57034957461,
     "configured_checkpoint_estimate_bytes": 57034960981,
     "checkpoint_budget_bytes": 57034960981,
     "checkpoint_copies_at_write_peak": 2,
     "reserve_bytes": 5368709120,
-    "candidate_noncheckpoint_observed_bytes": 9688246,
-    "formal_noncheckpoint_projected_bytes": 472301993,
+    "candidate_noncheckpoint_observed_bytes": 9675442,
+    "formal_noncheckpoint_projected_bytes": 471677798,
     "formula_required_bytes": 119438631082,
     "policy_rounded_floor_bytes": 128849018880,
     "refrozen_prelaunch_required_bytes": 128849018880,
-    "snapshot_free_bytes": 159546654720,
-    "snapshot_headroom_bytes": 30697635840,
+    "snapshot_free_bytes": 387598655488,
+    "snapshot_headroom_bytes": 258749636608,
     "formula": "max(policy_floor, 2 * checkpoint_budget + reserve)"
   },
   "historical_freezes": {
@@ -2127,7 +2127,7 @@
     },
     "candidate_gate_freeze": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/formal_candidate_validation_v1/formal_gate_freeze.json",
-      "sha256": "c77c4edf06cbbd459d3346060ba599e73a5b0fa65fd13de698d1e1ce8dea0061"
+      "sha256": "64057da23afc6e484b90f617498030c173bee51118b5373036026f5532f85b0a"
     },
     "fixed_baseline": {
       "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/memory_optimization/fixed_validation_v1/fixed_baseline/run/evidence/postflight.json",
@@ -2146,6 +2146,5 @@
       "sha256": "0b3fb970b3ed118bedc131da1b7195719ef44e53ca6b534b3db9db436e5eda31"
     }
   },
-  "formal_config_observed_status": "blocked_until_day11_gate_passes",
-  "previous_report_archive": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/gate_history/20260906T144423375157Z_5a8260b858d7"
+  "formal_config_observed_status": "blocked_until_day11_gate_passes"
 }

@@ -20,9 +20,9 @@
 
 ## 磁盘重算
 
-- checkpoint payload / apparent size：57034957461 / 57034957461 bytes。
+- checkpoint payload / apparent size：57034957461 / 57034961759 bytes。
 - 原始双份公式：111.24 GiB。
 - 圆整后的正式启动门槛：120.00 GiB。
-- 冻结时可用：360.98 GiB；余量：240.98 GiB。
+- 冻结时可用：148.59 GiB；余量：28.59 GiB。
 
 此冻结只提供正式 Gate 输入；不会自动修改或放行正式配置。

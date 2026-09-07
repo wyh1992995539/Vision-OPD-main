@@ -1,11 +1,11 @@
 # Vision-OPD 6241 Day11 最终汇总 Gate
 
-- 状态：**READY_TO_UNBLOCK_FORMAL_CONFIG**
+- 状态：**PASS**
 - 报告生成使用 GPU：`false`
-- 正式训练授权：`false`
+- 正式训练授权：`true`
 - Pilot 运行期 CPU 容量：240.00 GiB
-- 本报告进程 cgroup（不可作启动证据）：240.00 GiB
-- 当前磁盘可用：360.98 GiB
+- 本报告进程 cgroup（不可作启动证据）：2.00 GiB
+- 当前磁盘可用：148.59 GiB
 - 正式磁盘门槛：120.00 GiB
 
 ## 最新诊断证据
@@ -47,16 +47,14 @@
 | `candidate_cpu_peak_below_formal_abort_line` | PASS |
 | `candidate_checkpoint_validation_bound` | PASS |
 | `formal_candidate_validation_bound` | PASS |
-| `formal_config_released` | FAIL |
+| `formal_config_released` | PASS |
 
 ## 阻塞项
 
-- `formal_config_released`
+- 无
 
 ## 下一步
 
-1. Promote the source-bound candidate into configs/vopd_6241.yaml with a dedicated immutable receipt.
-2. Bind the promoted config/policy hashes and this candidate Gate receipt in the formal launcher.
-3. Refresh cumulative AutoDL billing and live resources immediately before formal --run.
+1. Refresh cumulative AutoDL billing and live resources immediately before formal --run.
 
 此文件是决策快照；资源变化、配置变化或证据文件变化后必须重新生成。
