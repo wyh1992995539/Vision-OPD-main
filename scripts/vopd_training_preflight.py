@@ -12,6 +12,8 @@ from typing import Any
 import pyarrow.parquet as pq
 import yaml
 
+from verl.trainer.ppo.cached_prefix import CachedPrefixStore, TOKEN_IDS_SOURCE
+
 
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
@@ -190,7 +192,7 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
     vllm_kernel = vllm_engine.get("kernel_config", {})
     checks = {
         "config_not_explicitly_blocked": not str(config.get("status", "")).startswith("blocked"),
-        "prefix_source_online": experiment["prefix_source"] == "online",
+        "prefix_source_valid": experiment["prefix_source"] in ("online", "cached"),
         "seed_is_42": int(experiment["seed"]) == 42,
         "two_gpus": int(resources["gpus_per_node"]) == 2,
         "global_batch_is_8": batch_size == 8,
@@ -259,6 +261,7 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
         "offload_3way_graph4_deferred_candidate_v1",
         "offload_3way_graph4_deferred_formal_v1",
         "offload_3way_graph4_deferred_validation_v1",
+        "offload_3way_graph4_deferred_cached_v1",
     ):
         checks["three_way_offload_memory_profile"] = (
             all(actor.get(key) is True for key in (
@@ -300,6 +303,82 @@ def validate_config(config_path: Path, project_root: Path) -> dict[str, Any]:
             and int(promotion.get('validated_steps', -1)) == 16
             and promotion.get('normal_eos_validated') is True
             and promotion.get('formal_training_authorized') is True
+        )
+
+    if experiment.get("prefix_source") == "cached":
+        cached = config.get("cached_prefix") or {}
+        shared = config.get("shared") or {}
+        generation = cached.get("generation") or {}
+        report_path = resolve(project_root, cached.get("report_file", ""))
+        manifest_path = resolve(project_root, experiment.get("base_model_sha256_file", ""))
+        cached_path = resolve(project_root, cached.get("output_parquet", ""))
+        cache_contract_ok = False
+        try:
+            store = CachedPrefixStore.from_parquet(
+                cached_path,
+                expected_sha256=str(cached.get("output_sha256", "")),
+                expected_records=int(cached.get("expected_samples", -1)),
+                max_response_length=int(data["max_response_length"]),
+                expected_token_ids_source=str(cached.get("token_ids_source", TOKEN_IDS_SOURCE)),
+                expected_generation_config_sha256=str(cached.get("generation_config_sha256", "")),
+                expected_model_path=str(model_path),
+            )
+            cache_contract_ok = (
+                len(store) == int(cached.get("expected_samples", -1))
+                and frozenset(actual_sample_ids).issubset(store.sample_ids)
+            )
+        except (OSError, TypeError, ValueError, KeyError) as exc:
+            errors.append(f"cached prefix contract failed: {exc}")
+        try:
+            cached_report = json.loads(report_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            cached_report = {}
+            errors.append(f"cached prefix report is unreadable: {exc}")
+        checks.update({
+            "cached_prefix_record_contract": cache_contract_ok,
+            "cached_prefix_report_pass": (
+                cached_report.get("status") == "PASS"
+                and cached_report.get("output_sha256") == cached.get("output_sha256")
+                and int(cached_report.get("actual_records", -1)) == int(cached.get("expected_samples", -2))
+            ),
+            "cached_prefix_base_identity": (
+                manifest_path.is_file()
+                and sha256_file(manifest_path) == experiment.get("base_model_sha256_file_sha256")
+                and experiment.get("base_model_sha256_file_sha256")
+                == cached.get("base_model_sha256_manifest_sha256")
+                and Path(experiment.get("base_model_path", "")).resolve() == model_path
+            ),
+            "cached_prefix_chat_template_identity": (
+                (shared.get("chat_template") or {}).get("sha256") == sha256_file(chat_template)
+                and (shared.get("chat_template") or {}).get("file") == config["paths"]["chat_template"]
+            ),
+            "cached_prefix_generation_contract": (
+                int(generation.get("num_return_sequences", -1)) == int(rollout["n"])
+                and generation.get("do_sample") is True
+                and float(generation.get("temperature", -1)) == float(rollout["temperature"])
+                and float(generation.get("top_p", -1)) == float(rollout["top_p"])
+                and int(generation.get("top_k", 0)) == int(rollout["top_k"])
+                and int(generation.get("max_new_tokens", -1)) == int(data["max_response_length"])
+                and int(generation.get("seed", -1)) == int(experiment["seed"])
+                and generation.get("stop") == "tokenizer_eos_only"
+                and rollout.get("ignore_eos") is False
+            ),
+            "cached_prefix_student_teacher_views": (
+                (shared.get("student_image_key") == data["image_key"] == "images")
+                and data["teacher_image_key"] == "bbox_images"
+                and "bbox_images" in shared.get("forbidden_model_inputs", [])
+            ),
+        })
+
+    if resources.get('memory_profile') == 'offload_3way_graph4_deferred_cached_v1':
+        promotion = config.get('promotion') or {}
+        checks['cached_execution_contract'] = (
+            actor.get('defer_optimizer_state_load') is True
+            and actor.get('memory_profile_dir') == config['paths']['output_dir'] + '/evidence/memory_stages'
+            and rollout.get('ignore_eos') is False
+            and experiment.get('prefix_source') == 'cached'
+            and not config.get('diagnostic_generation')
+            and promotion.get('formal_training_authorized') is False
         )
 
     if resources.get('memory_profile') == 'offload_3way_graph4_deferred_validation_v1':

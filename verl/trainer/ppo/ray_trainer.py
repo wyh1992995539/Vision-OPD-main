@@ -49,6 +49,7 @@ from verl.single_controller.ray import RayClassWithInitArgs, RayResourcePool, Ra
 from verl.single_controller.ray.base import create_colocated_worker_cls
 from verl.trainer.config import AlgoConfig
 from verl.trainer.ppo import core_algos
+from verl.trainer.ppo.cached_prefix import CachedPrefixStore, TOKEN_IDS_SOURCE
 from verl.trainer.ppo.core_algos import AdvantageEstimator, agg_loss
 from verl.trainer.ppo.metric_utils import (
     compute_data_metrics,
@@ -358,6 +359,27 @@ class RayPPOTrainer:
         self.tokenizer.truncation_side = config.actor_rollout_ref.actor.get("self_distillation", {}).get("reprompt_truncation", "error")
         self.processor = processor
         self.config = config
+        rollout_config = self.config.actor_rollout_ref.rollout
+        self.prefix_source = str(rollout_config.get("prefix_source", "online"))
+        if self.prefix_source not in ("online", "cached"):
+            raise ValueError(f"unsupported prefix_source: {self.prefix_source}")
+        self.cached_prefix_store = None
+        if self.prefix_source == "cached":
+            if int(rollout_config.n) != 1:
+                raise ValueError("cached prefix requires rollout.n=1")
+            self.cached_prefix_store = CachedPrefixStore.from_parquet(
+                rollout_config.cached_prefix_path,
+                expected_sha256=str(rollout_config.cached_prefix_sha256),
+                expected_records=int(rollout_config.cached_prefix_expected_records),
+                max_response_length=int(rollout_config.response_length),
+                expected_token_ids_source=str(
+                    rollout_config.get("cached_prefix_token_ids_source", TOKEN_IDS_SOURCE)
+                ),
+                expected_generation_config_sha256=str(
+                    rollout_config.cached_prefix_generation_config_sha256
+                ),
+                expected_model_path=str(rollout_config.cached_prefix_base_model_path),
+            )
         custom_chat_template = resolve_custom_chat_template(self.config.actor_rollout_ref.model)
         if custom_chat_template is not None:
             if self.processor is not None:
@@ -1510,6 +1532,17 @@ class RayPPOTrainer:
             "self_distillation_mask": self_distillation_mask,
         }), metrics
 
+    def _build_prefix_batch(self, gen_batch: DataProto) -> tuple[DataProto, dict[str, float]]:
+        """Dispatch online generation or construct tensors from the frozen cache."""
+        if self.prefix_source == "online":
+            if not self.async_rollout_mode:
+                return self.actor_rollout_wg.generate_sequences(gen_batch), {}
+            return self.async_rollout_manager.generate_sequences(gen_batch), {}
+        if self.cached_prefix_store is None:
+            raise RuntimeError("cached prefix store was not initialized")
+        metrics = self.cached_prefix_store.bind(gen_batch)
+        return self.async_rollout_manager.build_cached_sequences(gen_batch), metrics
+
     def _get_gen_batch(self, batch: DataProto) -> DataProto:
         reward_model_keys = (
             set({"data_source", "reward_model", "extra_info", "uid", "raw_prompt", "teacher_prompt"})
@@ -2370,10 +2403,8 @@ class RayPPOTrainer:
                 with marked_timer("step", timing_raw):
                     # generate a batch
                     with marked_timer("gen", timing_raw, color="red"):
-                        if not self.async_rollout_mode:
-                            gen_batch_output = self.actor_rollout_wg.generate_sequences(gen_batch_output)
-                        else:
-                            gen_batch_output = self.async_rollout_manager.generate_sequences(gen_batch_output)
+                        gen_batch_output, prefix_metrics = self._build_prefix_batch(gen_batch_output)
+                        metrics.update(prefix_metrics)
 
                         timing_raw.update(gen_batch_output.meta_info["timing"])
                         gen_batch_output.meta_info.pop("timing", None)

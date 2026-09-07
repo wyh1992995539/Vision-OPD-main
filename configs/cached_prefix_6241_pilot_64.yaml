@@ -1,36 +1,33 @@
 schema_version: 1
-status: implementation_ready_requires_cached_pilot
+status: implementation_ready_for_cached_pilot
 paper_alignment:
   source_pdf: docs/Vision-OPD.pdf
-  source_pdf_sha256: 67f77a637fe691bba592477ef09e22773ded1a45b9eac6f83c75e3f32404e71b
-  official_launcher: scripts/run_vision_opd.sh
-  profile: paper_core_resource_scaled_2gpu
+  profile: paper_core_resource_scaled_2gpu_pilot
   required_max_response_length: 1024
-  pending_gates: []
 experiment:
-  id: E-D14-6K-CACHED-001
-  name: cached-prefix-qwen35-4b-drop-last-6241
-  group_name: E-D14-6K-CACHED-001
+  id: E-D13-6K-CACHED-PILOT-001
+  name: cached-prefix-qwen35-4b-6241-pilot-64
+  group_name: E-D13-6K-CACHED-PILOT-001
   prefix_source: cached
   seed: 42
   base_model_path: /root/autodl-tmp/models/Qwen3.5-4B
   base_model_sha256_file: artifacts/runs/E-D4-001/base_model_sha256.txt
   base_model_sha256_file_sha256: 91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9
-  generation_experiment_id: E-D11-6K-CACHED-GEN-001
 paths:
   model: /root/autodl-tmp/models/Qwen3.5-4B
-  train_file: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+  train_file: /root/autodl-tmp/data/vision_opd_6241/pilot/train_pilot_64.parquet
+  selection_manifest: artifacts/runs/E-D13-6K-CACHED-PILOT-001/preflight/selection.json
   chat_template: chat_templates/perception_chat_template_qwen35.jinja
-  output_dir: artifacts/runs/E-D14-6K-CACHED-001
+  output_dir: artifacts/runs/E-D13-6K-CACHED-PILOT-001
 data:
-  expected_train_rows: 6241
+  expected_train_rows: 64
   train_batch_size: 8
   image_key: images
   teacher_image_key: bbox_images
   max_prompt_length: 8192
   max_response_length: 1024
   truncation: error
-  shuffle: true
+  shuffle: false
   dataloader_num_workers: 0
   tail_policy: native_drop_last
 actor:
@@ -43,8 +40,6 @@ actor:
   gradient_checkpointing: true
   parameter_offload: true
   optimizer_offload: true
-  defer_optimizer_state_load: true
-  memory_profile_dir: artifacts/runs/E-D14-6K-CACHED-001/evidence/memory_stages
   reference_parameter_offload: true
   max_token_length_per_gpu: 9216
 rollout:
@@ -84,24 +79,39 @@ self_distillation:
 resources:
   nodes: 1
   gpus_per_node: 2
-  memory_profile: offload_3way_graph4_deferred_cached_v1
+  memory_profile: offload_3way_graph4_v1
   actor_parameter_offload_required: true
   optimizer_offload_required: true
   reference_parameter_offload_required: true
-  prelaunch_cgroup_minimum_bytes: 257698037760
+  prelaunch_cgroup_minimum_bytes: 206158430208
 training:
-  source_samples: 6241
-  expected_samples: 6240
-  padded_samples: 6240
+  source_samples: 64
+  expected_samples: 64
+  padded_samples: 64
   padding_rows: 0
-  dropped_rows: 1
-  total_optimizer_steps: 780
+  dropped_rows: 0
+  total_optimizer_steps: 8
   total_epochs: 1
-  require_full_epoch: false
-  save_frequency: 390
+  require_full_epoch: true
+  save_frequency: -1
   test_frequency: -1
   max_actor_ckpt_to_keep: 1
   resume_mode: disable
+pilot:
+  stage: 64
+  purpose: cached_prefix_contract_stability_and_throughput
+  may_start_formal_training: false
+  prerequisite_experiment: E-D13-6K-VOPD-FINAL-001
+  required_runtime_evidence:
+  - eight_contiguous_optimizer_steps
+  - finite_losses
+  - generation_errors_zero
+  - student_parameter_delta_positive
+  - teacher_direct_gradient_absent
+  - ema_update_positive
+  - per_gpu_peak_memory
+  - wall_time_projection_for_780_steps
+  - final_checkpoint_and_reload
 serving:
   served_model_name: vision-opd-base
   tensor_parallel_size: 2
@@ -153,6 +163,3 @@ cached_prefix:
   token_ids_source: base_tokenizer_reencoded_openai_response_text
   base_model_sha256_manifest_sha256: 91c057245eced223e2fb9fed2152154d2ecf26294d9cd6e5842a28c5b8b949c9
   report_status: PASS
-promotion:
-  formal_training_authorized: false
-  required_gate: E-D13-6K-CACHED-PILOT-001 PASS plus cold reload

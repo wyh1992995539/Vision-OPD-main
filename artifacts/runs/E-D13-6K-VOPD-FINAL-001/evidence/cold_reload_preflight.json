@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-07T10:55:08.445586+00:00",
+  "status": "PASS",
+  "config": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_day13_final_reload.yaml",
+  "config_sha256": "cd1345272d231155b080859bf927c972ac3f043b5d4c9420c1f9dfd4ed624cf6",
+  "sample_ids": [
+    "vopd_638745362e8ff75fd4cd3e22",
+    "vopd_31010954d48fdc8236f7856b",
+    "vopd_78f2828c265d5e52341c4ec5",
+    "vopd_05dede4c01d81044a432fb8a",
+    "vopd_48cb45c3d96d3996c294ee4b"
+  ],
+  "gpu_count": 1
+}

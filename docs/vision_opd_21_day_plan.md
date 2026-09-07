@@ -686,6 +686,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 ### Day 13：Vision-OPD 定版、Cached 契约实现与长尾稳定性
 
+> 执行状态（2026-09-07 UTC）：**Vision-OPD 定版 PASS / Cached 静态契约 PASS / Day 13 等待双卡 Pilot**。任务 1～5 已完成：`global_step_780` checkpoint、merged Student SHA256 和 5/5 冷加载通过；`prefix_source: online|cached` 已实现，6,241/6,241 条 sample ID、prompt、Student 原图和 response token 往返完全绑定，online 默认路径回归通过。任务 6 只能在 8-step Cached Pilot、checkpoint 与冷加载后判定；任务 7 的实时 Gate 因当前仅 1 张 GPU、cgroup 120 GiB 而安全阻断，训练未启动。费用按双卡合计 14 元/小时仅作估算，不要求账单时间。详见 `artifacts/reports/vopd_6241_audit.md`、`artifacts/reports/cached_prefix_contract.md` 和 `artifacts/reports/cached_6241_pilot.md`。
+
 目标：关闭 Vision-OPD 模型交付，并让 Cached-6241 具备正式训练资格。
 
 任务：

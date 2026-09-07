@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-07T10:59:47.190183+00:00",
+  "experiment_id": "E-D13-6K-VOPD-FINAL-001",
+  "scope": "vision_opd_final_student_delivery",
+  "status": "PASS",
+  "checks": {
+    "formal_training_guard_pass": true,
+    "final_checkpoint_step_780_complete": true,
+    "checkpoint_13_files_hashed_and_independently_verified": true,
+    "fsdp_merge_exit_zero": true,
+    "merged_7_files_hashed_and_independently_verified": true,
+    "merged_safetensors_724_bf16_tensors": true,
+    "cold_process_load_pass": true,
+    "five_of_five_responses_nonempty": true,
+    "zero_inference_errors": true,
+    "source_checkpoint_unchanged_during_reload": true,
+    "merged_model_unchanged_during_reload": true,
+    "drop_last_contract_consistent": true,
+    "historical_internal_eval_not_run": true,
+    "external_results_not_opened": true
+  },
+  "formal_training": {
+    "config": "configs/vopd_6241.yaml",
+    "config_sha256": "0f6aafcf922b88d9dbc7b1cf4e1f656d4f980addca1b95a8772b38614e1c5864",
+    "guard_summary": "artifacts/runs/E-D12-6K-VOPD-001/evidence/guard_summary.json",
+    "guard_summary_sha256": "a00d2f4d1223bcec5ef4068a6335136166c9e3d8a1f192e7867366052a40a08e",
+    "global_step": 780,
+    "return_code": 0
+  },
+  "drop_last_contract": {
+    "source_rows": 6241,
+    "effective_train_samples": 6240,
+    "train_batch_size": 8,
+    "optimizer_steps": 780,
+    "tail_policy": "native_drop_last",
+    "padding_rows": 0,
+    "dropped_rows": 1,
+    "equation": "6240 / 8 = 780"
+  },
+  "checkpoint": {
+    "directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780",
+    "file_count": 13,
+    "total_size_bytes": 57034962830,
+    "manifest": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/checkpoint_manifest.json",
+    "manifest_sha256": "41f778eab39ad0ab3f117d79019a8c7d849ff2dafa26371125960af3f2c67ba9",
+    "sha256_list": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/checkpoint_sha256.txt",
+    "sha256_list_sha256": "2790f0663f383ee441cc92d2d33438680d064ff5d35d355791585ab8a5dea8c4",
+    "receipt": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/checkpoint_hash_receipt.json",
+    "receipt_sha256": "4082ee287a9059b5108403448d2857596158d4ee749025901a7835d43c18d7b2"
+  },
+  "merged_student": {
+    "directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf",
+    "file_count": 7,
+    "total_size_bytes": 10370019516,
+    "tensor_count": 724,
+    "tensor_dtype": "BF16",
+    "model_safetensors_sha256": "265a3c49fbee7a44d65cf8af732c4a9b71de5ad9ef799c935c4e38d07094862f",
+    "manifest": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merged_manifest.json",
+    "manifest_sha256": "edff6523b78e2ff5166ec95e47496dbf7a70afa83c9afa11bbc9a572cee7c566",
+    "sha256_list": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_sha256.txt",
+    "sha256_list_sha256": "b0bfe4e29e40b391dd2bf6603276dc77fde4463d55cb92c4153eb821edc9ca68",
+    "receipt": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merge_receipt.json",
+    "receipt_sha256": "43c3a5cefead0e4b3690cd58fa509b02f937c57a9ac12db8d5fe7efa92c2806c"
+  },
+  "cold_reload": {
+    "config": "configs/vopd_day13_final_reload.yaml",
+    "config_sha256": "cd1345272d231155b080859bf927c972ac3f043b5d4c9420c1f9dfd4ed624cf6",
+    "script": "scripts/vopd_day13_final_reload.py",
+    "script_sha256": "c703be9c779d1c33c16ba805175f89ff3253623cfee585b63d441bca17d35563",
+    "receipt": "artifacts/runs/E-D13-6K-VOPD-FINAL-001/cold_reload/reload_validation_summary.json",
+    "receipt_sha256": "394b22f1baae123879ae25c27d9f2991bcb115c94a436a4b7ba4e6d2759d4420",
+    "sample_ids": [
+      "vopd_638745362e8ff75fd4cd3e22",
+      "vopd_31010954d48fdc8236f7856b",
+      "vopd_78f2828c265d5e52341c4ec5",
+      "vopd_05dede4c01d81044a432fb8a",
+      "vopd_48cb45c3d96d3996c294ee4b"
+    ],
+    "prediction_count": 5,
+    "nonempty_response_count": 5,
+    "inference_error_count": 0,
+    "finish_reasons": [
+      "stop",
+      "stop",
+      "stop",
+      "stop",
+      "stop"
+    ],
+    "model_quality_evaluated": false,
+    "training_resume_validated": false
+  },
+  "day13_scope": {
+    "completed_tasks": [
+      1,
+      2,
+      3
+    ],
+    "remaining_tasks": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "next_phase": "Cached prefix-source contract implementation and pilot"
+  }
+}

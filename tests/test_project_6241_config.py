@@ -91,7 +91,7 @@ class Project6241ConfigTest(unittest.TestCase):
         self.assertEqual(cached["serving"]["max_model_len"], 9216)
         self.assertTrue(policy["budget"]["require_pilot_reestimate_before_day12"])
         self.assertEqual(
-            policy["memory"]["prelaunch_cgroup_minimum_bytes"], 192 * 1024**3
+            policy["memory"]["prelaunch_cgroup_minimum_bytes"], 240 * 1024**3
         )
         self.assertEqual(
             policy["budget"]["conservative_reservation_cny"],
@@ -135,7 +135,11 @@ class Project6241ConfigTest(unittest.TestCase):
             self.assertEqual(pilot["data"]["max_response_length"], 1024)
             self.assertEqual(pilot["rollout"]["n"], 1)
             self.assertEqual(pilot["self_distillation"], formal["self_distillation"])
-            self.assertEqual(pilot["actor"], formal["actor"])
+            formal_actor_algorithm = {
+                key: value for key, value in formal["actor"].items()
+                if key not in {"defer_optimizer_state_load", "memory_profile_dir"}
+            }
+            self.assertEqual(pilot["actor"], formal_actor_algorithm)
             self.assertEqual(pilot["rollout"], formal["rollout"])
             self.assertTrue(pilot["training"]["require_full_epoch"])
             self.assertEqual(pilot["training"]["dropped_rows"], 0)

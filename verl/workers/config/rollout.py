@@ -126,6 +126,15 @@ class RolloutConfig(BaseConfig):
     name: Optional[str] = MISSING
     mode: str = "async"
 
+    # Prefix origin. Online is the backward-compatible default.
+    prefix_source: str = "online"
+    cached_prefix_path: Optional[str] = None
+    cached_prefix_sha256: Optional[str] = None
+    cached_prefix_expected_records: Optional[int] = None
+    cached_prefix_token_ids_source: str = "base_tokenizer_reencoded_openai_response_text"
+    cached_prefix_generation_config_sha256: Optional[str] = None
+    cached_prefix_base_model_path: Optional[str] = None
+
     temperature: float = 1.0
     top_k: int = -1
     top_p: float = 1.0
@@ -224,6 +233,21 @@ class RolloutConfig(BaseConfig):
 
     def __post_init__(self):
         """Validate the rollout config"""
+        if self.prefix_source not in ("online", "cached"):
+            raise ValueError(f"Unsupported prefix_source: {self.prefix_source}")
+        if self.prefix_source == "cached":
+            required = {
+                "cached_prefix_path": self.cached_prefix_path,
+                "cached_prefix_sha256": self.cached_prefix_sha256,
+                "cached_prefix_expected_records": self.cached_prefix_expected_records,
+                "cached_prefix_generation_config_sha256": self.cached_prefix_generation_config_sha256,
+                "cached_prefix_base_model_path": self.cached_prefix_base_model_path,
+            }
+            missing = sorted(name for name, value in required.items() if value in (None, ""))
+            if missing:
+                raise ValueError(f"cached prefix configuration is incomplete: {missing}")
+            if self.n != 1:
+                raise ValueError("cached prefix requires n=1")
         # Deprecation warning for mode field - only async mode is supported
         if self.mode == "sync":
             raise ValueError(

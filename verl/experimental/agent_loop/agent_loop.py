@@ -554,6 +554,65 @@ class AgentLoopWorker:
 
         return output
 
+    @tqbridge()
+    async def build_cached_sequences(self, batch: DataProto) -> DataProto:
+        """Build normal rollout tensors from frozen response IDs without an LLM request."""
+        if self.config.actor_rollout_ref.rollout.get("prefix_source", "online") != "cached":
+            raise ValueError("build_cached_sequences requires prefix_source=cached")
+        if "cached_response_ids" not in batch.non_tensor_batch:
+            raise ValueError("cached_response_ids are missing from the batch")
+        if "agent_name" not in batch.non_tensor_batch:
+            default_agent_loop = self.config.actor_rollout_ref.rollout.agent.default_agent_loop
+            batch.non_tensor_batch["agent_name"] = np.array([default_agent_loop] * len(batch), dtype=object)
+        tasks = []
+        for index in range(len(batch)):
+            kwargs = {key: value[index] for key, value in batch.non_tensor_batch.items()}
+            tasks.append(asyncio.create_task(self._build_cached_single_turn(**kwargs)))
+        return self._postprocess(await asyncio.gather(*tasks))
+
+    async def _build_cached_single_turn(self, *, agent_name: str, **kwargs) -> _InternalAgentLoopOutput:
+        if agent_name != "single_turn_agent":
+            raise ValueError("cached prefix currently supports only single_turn_agent")
+        agent_loop_config = _agent_loop_registry[agent_name]
+        agent_loop = hydra.utils.instantiate(
+            config=agent_loop_config,
+            trainer_config=DictConfigWrap(config=self.config),
+            server_manager=self.server_manager,
+            tokenizer=self.tokenizer,
+            processor=self.processor,
+            dataset_cls=self.dataset_cls,
+            dataset_config=self.config.data,
+        )
+        agent_loop.validate = bool(kwargs.get("__validate__", False))
+        agent_loop.val_custom_chat_template = self.val_custom_chat_template
+        messages = list(kwargs["raw_prompt"])
+        multi_modal_data = await agent_loop.process_vision_info(messages)
+        prompt_ids = await agent_loop.apply_chat_template(
+            messages,
+            tools=getattr(agent_loop, "tool_schemas", []),
+            images=multi_modal_data.get("images"),
+            videos=multi_modal_data.get("videos"),
+        )
+        response_ids = [int(token) for token in kwargs["cached_response_ids"]]
+        response_length = int(self.config.actor_rollout_ref.rollout.response_length)
+        if not response_ids or len(response_ids) > response_length:
+            raise ValueError("cached response IDs violate the frozen response length")
+        output = AgentLoopOutput(
+            prompt_ids=prompt_ids,
+            response_ids=response_ids,
+            response_mask=[1] * len(response_ids),
+            response_logprobs=None,
+            multi_modal_data=multi_modal_data,
+            num_turns=2,
+            metrics=AgentLoopMetrics(generate_sequences=0.0, tool_calls=0.0),
+            extra_fields={
+                "prefix_source": "cached",
+                "cached_sample_id": str(kwargs["cached_sample_id"]),
+                "cached_finish_reason": str(kwargs["cached_finish_reason"]),
+            },
+        )
+        return await self._agent_loop_postprocess(output, **kwargs)
+
     async def _run_agent_loop(
         self,
         sampling_params: dict[str, Any],
@@ -994,11 +1053,18 @@ class AgentLoopManager:
         if not hasattr(self, "agent_loop_workers_class"):
             self.agent_loop_workers_class = ray.remote(AgentLoopWorker)
 
-        self._initialize_llm_servers()
+        self.prefix_source = str(self.config.actor_rollout_ref.rollout.get("prefix_source", "online"))
+        if self.prefix_source not in ("online", "cached"):
+            raise ValueError(f"unsupported prefix_source: {self.prefix_source}")
+        if self.prefix_source == "online":
+            self._initialize_llm_servers()
+        else:
+            self.server_handles = []
+            self.server_addresses = []
         self._init_agent_loop_workers()
 
-        # Initially we're in sleep mode.
-        if self.config.actor_rollout_ref.rollout.free_cache_engine:
+        # Cached mode never creates an online rollout server.
+        if self.prefix_source == "online" and self.config.actor_rollout_ref.rollout.free_cache_engine:
             self.sleep()
 
     def _initialize_llm_servers(self):
@@ -1091,6 +1157,24 @@ class AgentLoopManager:
         metrics = [output.meta_info.pop("metrics") for output in outputs]  # List[List[Dict[str, str]]]
         timing = self._performance_metrics(metrics, output)
 
+        output.meta_info = {"timing": timing, **outputs[0].meta_info}
+        return output
+
+    def build_cached_sequences(self, prompts: DataProto) -> DataProto:
+        """Build cached rollout tensors without waking or calling an inference server."""
+        if self.prefix_source != "cached":
+            raise ValueError("build_cached_sequences requires prefix_source=cached")
+        chunks = prompts.chunk(len(self.agent_loop_workers))
+        outputs = ray.get(
+            [
+                worker.build_cached_sequences.remote(chunk)
+                for worker, chunk in zip(self.agent_loop_workers, chunks, strict=True)
+            ]
+        )
+        outputs = self._align_output_prompt_length(outputs)
+        output = DataProto.concat(outputs)
+        metrics = [item.meta_info.pop("metrics") for item in outputs]
+        timing = self._performance_metrics(metrics, output)
         output.meta_info = {"timing": timing, **outputs[0].meta_info}
         return output
 

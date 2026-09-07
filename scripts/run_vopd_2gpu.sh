@@ -87,6 +87,7 @@ config_path = Path(sys.argv[1])
 project_root = Path(sys.argv[2])
 config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
 training = config.get("training", config.get("smoke"))
+cached_prefix = config.get("cached_prefix") or {}
 if not isinstance(training, dict):
     raise ValueError("config must contain a training or legacy smoke mapping")
 
@@ -129,6 +130,13 @@ values = {
     "ACTOR_MEMORY_PROFILE_DIR": resolve(config["actor"]["memory_profile_dir"]) if config["actor"].get("memory_profile_dir") else None,
     "REF_PARAM_OFFLOAD": config["actor"]["reference_parameter_offload"],
     "ROLLOUT_N": config["rollout"]["n"],
+    "PREFIX_SOURCE": config["experiment"].get("prefix_source", "online"),
+    "CACHED_PREFIX_PATH": resolve(cached_prefix["output_parquet"]) if cached_prefix.get("output_parquet") else None,
+    "CACHED_PREFIX_SHA256": cached_prefix.get("output_sha256"),
+    "CACHED_PREFIX_EXPECTED_RECORDS": cached_prefix.get("expected_samples"),
+    "CACHED_PREFIX_TOKEN_IDS_SOURCE": cached_prefix.get("token_ids_source") or "base_tokenizer_reencoded_openai_response_text",
+    "CACHED_PREFIX_GENERATION_CONFIG_SHA256": cached_prefix.get("generation_config_sha256"),
+    "CACHED_PREFIX_BASE_MODEL_PATH": resolve(config["paths"]["model"]),
     "ROLLOUT_TEMPERATURE": config["rollout"].get("temperature", 1.0),
     "ROLLOUT_TOP_P": config["rollout"].get("top_p", 1.0),
     "ROLLOUT_TOP_K": config["rollout"].get("top_k", -1),
@@ -307,6 +315,13 @@ python -m verl.trainer.main_ppo --config-name vopd \
     actor_rollout_ref.actor.self_distillation.is_clip="$IMPORTANCE_SAMPLING_CLIP" \
     actor_rollout_ref.actor.self_distillation.log_prob_dump_dir="${OUTPUT_DIR}/evidence/log_probs" \
     actor_rollout_ref.rollout.n="$ROLLOUT_N" \
+    actor_rollout_ref.rollout.prefix_source="$PREFIX_SOURCE" \
+    actor_rollout_ref.rollout.cached_prefix_path="$CACHED_PREFIX_PATH" \
+    actor_rollout_ref.rollout.cached_prefix_sha256="$CACHED_PREFIX_SHA256" \
+    actor_rollout_ref.rollout.cached_prefix_expected_records="$CACHED_PREFIX_EXPECTED_RECORDS" \
+    actor_rollout_ref.rollout.cached_prefix_token_ids_source="$CACHED_PREFIX_TOKEN_IDS_SOURCE" \
+    actor_rollout_ref.rollout.cached_prefix_generation_config_sha256="$CACHED_PREFIX_GENERATION_CONFIG_SHA256" \
+    actor_rollout_ref.rollout.cached_prefix_base_model_path="$CACHED_PREFIX_BASE_MODEL_PATH" \
     actor_rollout_ref.rollout.temperature="$ROLLOUT_TEMPERATURE" \
     actor_rollout_ref.rollout.top_p="$ROLLOUT_TOP_P" \
     actor_rollout_ref.rollout.top_k="$ROLLOUT_TOP_K" \

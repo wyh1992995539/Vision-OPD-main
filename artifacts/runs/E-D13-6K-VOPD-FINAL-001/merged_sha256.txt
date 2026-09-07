@@ -1,0 +1,7 @@
+d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/chat_template.jinja
+357a7aab66c5534d713577cf15e07ebc1ad415b38d8c62f98f6d33dc7b888606  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/config.json
+5f02aa641d88dd1b466df7b5ef82e5829629d28931a9e6a6750ddfd2b796b812  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/generation_config.json
+265a3c49fbee7a44d65cf8af732c4a9b71de5ad9ef799c935c4e38d07094862f  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/model.safetensors
+d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/processor_config.json
+87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/tokenizer.json
+e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182  artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf/tokenizer_config.json

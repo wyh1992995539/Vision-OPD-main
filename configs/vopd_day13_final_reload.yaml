@@ -1,0 +1,34 @@
+experiment_id: E-D13-6K-VOPD-FINAL-001
+phase: final_student_cold_reload
+seed: 42
+
+source_checkpoint: artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780
+checkpoint_manifest: artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/checkpoint_manifest.json
+checkpoint_hash_receipt: artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/checkpoint_hash_receipt.json
+merged_model_dir: artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf
+merged_manifest: artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merged_manifest.json
+merge_receipt: artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merge_receipt.json
+
+input_parquet: /root/autodl-tmp/data/vision_opd_6241/train_6241.parquet
+input_parquet_sha256: 142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e
+expected_samples: 6241
+reload_samples: 5
+
+output_dir: artifacts/runs/E-D13-6K-VOPD-FINAL-001/cold_reload
+chat_template: chat_templates/perception_chat_template_qwen35.jinja
+
+serving:
+  model_name: vopd-day13-final-cold-reload
+  host: 127.0.0.1
+  port: 8021
+  cuda_visible_devices: "0"
+  required_gpu_count: 1
+  tensor_parallel_size: 1
+  dtype: bfloat16
+  max_model_len: 9216
+  max_num_seqs: 1
+  max_new_tokens: 1024
+  gpu_memory_utilization: 0.40
+  startup_timeout_seconds: 900
+  enforce_eager: true
+

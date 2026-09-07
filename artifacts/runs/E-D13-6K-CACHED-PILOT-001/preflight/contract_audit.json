@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-07T11:54:54.833995+00:00",
+  "status": "STATIC_CONTRACT_PASS",
+  "ready_for_gpu_pilot": true,
+  "formal_training_authorized": false,
+  "runtime_ablation_status": "PENDING_TWO_GPU_PILOT",
+  "checks": {
+    "cache_sha256_matches": true,
+    "row_count_matches": true,
+    "sample_ids_unique": true,
+    "all_response_ids_roundtrip_exactly": true,
+    "all_lengths_within_contract": true,
+    "token_ids_source_frozen": true,
+    "generation_hash_singleton": true,
+    "base_model_path_singleton": true,
+    "inference_errors_zero": true,
+    "train_cache_sample_id_sets_equal": true,
+    "all_train_prompts_and_student_images_bound": true,
+    "generation_hash_matches_frozen_report": true,
+    "generation_sampling_matches_online_rollout": true,
+    "formal_data_contract_equal": true,
+    "formal_actor_contract_equal": true,
+    "formal_rollout_contract_equal": true,
+    "formal_self_distillation_contract_equal": true,
+    "formal_resource_contract_equal": true,
+    "formal_training_contract_equal": true,
+    "formal_model_train_template_paths_equal": true,
+    "pilot_data_contract_equal": true,
+    "pilot_actor_contract_equal": true,
+    "pilot_rollout_contract_equal": true,
+    "pilot_self_distillation_contract_equal": true,
+    "pilot_resource_contract_equal": true,
+    "pilot_training_contract_equal": true,
+    "pilot_model_train_template_paths_equal": true,
+    "pilot_frozen_sample_order_equal": true,
+    "online_is_rollout_default": true,
+    "trainer_has_separate_online_and_cached_dispatch": true,
+    "cached_manager_skips_online_server_initialization": true,
+    "cached_and_online_share_agent_loop_postprocess": true
+  },
+  "token_roundtrip": {
+    "path": "/root/autodl-tmp/data/vision_opd_6241/cached_prefix_base_6241.parquet",
+    "sha256": "3a68ff1f8c7e63082f188dcc1bc508d8c0f9d7eafbcee748f00fd3769e6193ef",
+    "rows": 6241,
+    "eos_token_id": 248046,
+    "response_length_min": 2,
+    "response_length_max": 1024,
+    "finish_reasons": {
+      "length": 48,
+      "stop": 6193
+    },
+    "eos_appended_records": 6193,
+    "truncated_after_retokenization_records": 1,
+    "token_ids_sources": [
+      "base_tokenizer_reencoded_openai_response_text"
+    ],
+    "generation_config_sha256_values": [
+      "40e1b1fa53ce220ef8377fec9264631488866fa0e88fcb6db7de925f4d668d84"
+    ],
+    "model_path_values": [
+      "/root/autodl-tmp/models/Qwen3.5-4B"
+    ],
+    "inference_errors": 0,
+    "mismatch_count_capped_at_20": 0,
+    "mismatch_examples": []
+  },
+  "dataset_binding": {
+    "train_path": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+    "train_sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+    "train_rows": 6241,
+    "cache_rows": 6241,
+    "error_count_capped_at_20": 0,
+    "error_examples": []
+  },
+  "configs": {
+    "online_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "sha256": "0f6aafcf922b88d9dbc7b1cf4e1f656d4f980addca1b95a8772b38614e1c5864"
+    },
+    "cached_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241.yaml",
+      "sha256": "31245cfff940c9d6c7409b90b1fa2c7d83e5534e1fc2a2973bf531bc108a46e7"
+    },
+    "online_pilot_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_64.yaml",
+      "sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1"
+    },
+    "cached_pilot_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_64.yaml",
+      "sha256": "65630305703c189f5bc8fda7417329866855670187c083869b950b3b749ec8b8"
+    }
+  },
+  "inputs": {
+    "online_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241.yaml",
+      "sha256": "0f6aafcf922b88d9dbc7b1cf4e1f656d4f980addca1b95a8772b38614e1c5864"
+    },
+    "cached_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241.yaml",
+      "sha256": "31245cfff940c9d6c7409b90b1fa2c7d83e5534e1fc2a2973bf531bc108a46e7"
+    },
+    "online_pilot_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/vopd_6241_pilot_64.yaml",
+      "sha256": "b94edf7a6b5ebdd35df5217380bc631f5bca1d5602adb19bf14dda2dab3e50d1"
+    },
+    "cached_pilot_config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_pilot_64.yaml",
+      "sha256": "65630305703c189f5bc8fda7417329866855670187c083869b950b3b749ec8b8"
+    },
+    "cache": {
+      "path": "/root/autodl-tmp/data/vision_opd_6241/cached_prefix_base_6241.parquet",
+      "sha256": "3a68ff1f8c7e63082f188dcc1bc508d8c0f9d7eafbcee748f00fd3769e6193ef"
+    },
+    "cache_report": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/cached_prefix/report.json",
+      "sha256": "86d2918ea1c5ee514a9f00acef32fdc5c8fc5ffcfacee15829c2cef7092c9b36"
+    },
+    "chat_template": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/chat_templates/perception_chat_template_qwen35.jinja",
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    "cached_store": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/trainer/ppo/cached_prefix.py",
+      "sha256": "441479a93913c86f9a2d568957fafee3e62068c21d6c96147a4875787cf11234"
+    },
+    "trainer_dispatch": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/trainer/ppo/ray_trainer.py",
+      "sha256": "6cb8165ea84abe630bbc3abf5e3b7955431c3683eb530ad9ee24a7f1f01d1b84"
+    },
+    "agent_loop": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/verl/experimental/agent_loop/agent_loop.py",
+      "sha256": "367649c6437c46f773cb45bfe668642259565ad2ed2c548e009337b3ecd6fee1"
+    },
+    "launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_vopd_2gpu.sh",
+      "sha256": "38710998db5914723d042e6b165db4df43bd86d903a30208aaa780ce1d381503"
+    },
+    "training_preflight": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/vopd_training_preflight.py",
+      "sha256": "67a3ffff8cc8bc353d42e0c04e60d905077553c0a5f6614650a57bfc7313e9d5"
+    },
+    "contract_tests": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/tests/test_cached_prefix_contract.py",
+      "sha256": "bf1274ca9df547b9b8ba2f27eea24f1e28ef1108f2ea40e5d82b1697e172f123"
+    }
+  },
+  "pilot_selection": {
+    "online_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/pilot/64/preflight/selection.json",
+    "cached_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/preflight/selection.json",
+    "sample_count": 64,
+    "ordered_sample_ids_sha256": "f9f9b50bcb69ee94977c0caf551d859c34fd2924c6f643c49f0c125f243c9b7a"
+  },
+  "limits": [
+    "Static checks do not prove runtime loss, parameter update, Teacher EMA, checkpoint, or cold reload.",
+    "Strict prefix-source ablation requires the frozen 8-step cached Pilot on two GPUs."
+  ]
+}

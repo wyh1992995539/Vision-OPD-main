@@ -7,6 +7,17 @@ name: ???
 # sync: LLM, async: AsyncLLM
 mode: async
 
+# Source of Student response prefixes. Online preserves the existing behavior.
+prefix_source: online
+
+# Frozen Cached Prefix Parquet and its audit bindings. Required only for cached mode.
+cached_prefix_path: null
+cached_prefix_sha256: null
+cached_prefix_expected_records: null
+cached_prefix_token_ids_source: base_tokenizer_reencoded_openai_response_text
+cached_prefix_generation_config_sha256: null
+cached_prefix_base_model_path: null
+
 # Sampling temperature for rollout.
 temperature: 1.0
 

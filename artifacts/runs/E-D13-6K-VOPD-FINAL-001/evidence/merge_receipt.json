@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-07T10:47:20.638497+00:00",
+  "status": "PASS",
+  "operation": "FSDP_to_HuggingFace_merge",
+  "backend": "fsdp",
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780/actor",
+  "source_checkpoint_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/checkpoint_manifest.json",
+  "source_checkpoint_manifest_sha256": "41f778eab39ad0ab3f117d79019a8c7d849ff2dafa26371125960af3f2c67ba9",
+  "target_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf",
+  "command": "python -m verl.model_merger merge --backend fsdp --local_dir <source_checkpoint>/actor --target_dir <day13>/merged_hf.inprogress",
+  "merge_started_at_utc": "2026-09-07T10:44:44Z",
+  "merge_finished_at_utc": "2026-09-07T10:45:27Z",
+  "merge_exit_code": 0,
+  "merge_log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merge_attempt2.log",
+  "merge_log_sha256": "298777c2a019cc885330422b4db06aab3cad292f69f359d810fd1dd78caac30e",
+  "prior_failed_attempt": {
+    "log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merge.log",
+    "exit_code": 137,
+    "reason": "2_GiB_cgroup_memory_limit"
+  },
+  "validation": {
+    "status": "PASS",
+    "required_files_present": true,
+    "empty_files": 0,
+    "merged_file_count": 7,
+    "merged_total_size_bytes": 10370019516,
+    "model_file_bytes": 10350019328,
+    "tensor_count": 724,
+    "tensor_logical_bytes": 10349929472,
+    "tensor_dtype": "BF16",
+    "safetensors_metadata": {
+      "format": "pt"
+    },
+    "config_matches_source": true
+  },
+  "merged_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merged_manifest.json",
+  "merged_manifest_sha256": "edff6523b78e2ff5166ec95e47496dbf7a70afa83c9afa11bbc9a572cee7c566",
+  "merged_sha256_list": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_sha256.txt",
+  "merged_sha256_list_sha256": "b0bfe4e29e40b391dd2bf6603276dc77fde4463d55cb92c4153eb821edc9ca68",
+  "independent_verification": {
+    "verified_at_utc": "2026-09-07T10:48:19.420829+00:00",
+    "command": "sha256sum -c artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_sha256.txt",
+    "status": "PASS",
+    "checked_files": 7,
+    "exit_code": 0
+  }
+}
