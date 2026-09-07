@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "guard_exit_code": 0,
+  "training_summary": {
+    "schema_version": 1,
+    "finished_at_utc": "2026-09-07T09:39:44.905116+00:00",
+    "status": "PASS",
+    "return_code": 0,
+    "latest_step": 780,
+    "trigger": null,
+    "termination": null,
+    "checkpoint": {
+      "status": "PASS",
+      "expected_step": 780,
+      "marker_value": "780",
+      "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780",
+      "checks": {
+        "marker_exists": true,
+        "marker_matches_expected_step": true,
+        "step_directory_exists": true,
+        "required_files_present": true,
+        "required_files_nonempty": true
+      },
+      "missing_files": [],
+      "empty_files": []
+    }
+  },
+  "accounting": {
+    "started_at_utc": "2026-09-07T03:39:48.042348+00:00",
+    "finished_at_utc": "2026-09-07T09:39:44.905889+00:00",
+    "elapsed_seconds": 21596.863463887945,
+    "hourly_dual_gpu_rate_cny": 14.0,
+    "estimated_incremental_cost_cny": 83.98780235956423,
+    "is_provider_bill": false,
+    "scope": "Launcher runtime only; excludes instance idle time and other jobs."
+  },
+  "operational_sources": {
+    "launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_day12_vopd.py",
+      "sha256": "4b89bcaebf665a7bd6d8f46649321da0c25cf94f5fb0393b88faaac4f35ebc20"
+    },
+    "operations": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/day12_operations.yaml",
+      "sha256": "c7365ed743750c3bf01ed2fec720690af3df1fc464149ddb7543faf0326efd6d"
+    },
+    "day11_gate": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D11-6K-GATE-001/preflight.json",
+      "sha256": "82aaf6a2cde096929c06f84deea036911b2abfd2cb179ebba3de4555fb5a0524"
+    },
+    "runtime_monitor": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/monitor_vopd_training.py",
+      "sha256": "175d45e58c06dd08bfaefc0de512aae4dbab9d5f8383ee322afdfbb468ae4e59"
+    }
+  }
+}

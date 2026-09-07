@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D13-6K-VOPD-FINAL-001",
+  "generated_at_utc": "2026-09-07T09:57:19.300583+00:00",
+  "status": "PASS",
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780",
+  "global_step": 780,
+  "file_count": 13,
+  "total_size_bytes": 57034962830,
+  "checks": {
+    "source_guard_pass": true,
+    "checkpoint_guard_pass": true,
+    "marker_matches": true,
+    "expected_file_count": true,
+    "all_files_nonempty": true,
+    "source_files_stable_while_hashing": true
+  },
+  "manifest": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/checkpoint_manifest.json",
+    "sha256": "41f778eab39ad0ab3f117d79019a8c7d849ff2dafa26371125960af3f2c67ba9"
+  },
+  "sha256_list": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/checkpoint_sha256.txt",
+    "sha256": "2790f0663f383ee441cc92d2d33438680d064ff5d35d355791585ab8a5dea8c4"
+  },
+  "independent_verification": {
+    "verified_at_utc": "2026-09-07T10:06:23.024563+00:00",
+    "command": "sha256sum -c artifacts/runs/E-D13-6K-VOPD-FINAL-001/checkpoint_sha256.txt",
+    "status": "PASS",
+    "checked_files": 13,
+    "exit_code": 0
+  }
+}

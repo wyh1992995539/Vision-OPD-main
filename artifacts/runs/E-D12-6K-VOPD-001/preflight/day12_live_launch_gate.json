@@ -6399,5 +6399,90 @@
     }
   },
   "billing_note": "Day11 budget checks describe historical evidence. Day12 uses the current dual-GPU rate for estimates only; no fresh bill or cumulative-cost gate.",
-  "training_started": false
+  "training_started": false,
+  "live_checks": {
+    "static_preflight_pass": true,
+    "storage_pass": true,
+    "no_output_collision": true,
+    "expected_gpu_count": true,
+    "gpus_idle": true,
+    "cgroup_readable": true,
+    "cgroup_capacity_pass": true,
+    "git_clean": true
+  },
+  "disk_free_bytes": 387597119488,
+  "live_disk_required_bytes": 128849018880,
+  "cgroup": {
+    "supported": true,
+    "path": "/sys/fs/cgroup",
+    "memory_current_bytes": 1713393664,
+    "memory_max_bytes": 257698037760,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0
+    },
+    "memory_stat": {
+      "anon": 1495310336,
+      "file": 126033920,
+      "kernel_stack": 16351232,
+      "pagetables": 26259456,
+      "percpu": 7488,
+      "sock": 20480,
+      "shmem": 8192,
+      "file_mapped": 8110080,
+      "file_dirty": 3723264,
+      "file_writeback": 249856,
+      "swapcached": 0,
+      "anon_thp": 0,
+      "file_thp": 0,
+      "shmem_thp": 0,
+      "inactive_anon": 1490890752,
+      "active_anon": 212992,
+      "inactive_file": 95035392,
+      "active_file": 34803712,
+      "unevictable": 0,
+      "slab_reclaimable": 27385504,
+      "slab_unreclaimable": 13047512,
+      "slab": 40433016,
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 0,
+      "workingset_activate_anon": 0,
+      "workingset_activate_file": 0,
+      "workingset_restore_anon": 0,
+      "workingset_restore_file": 0,
+      "workingset_nodereclaim": 0,
+      "pgfault": 7994513,
+      "pgmajfault": 35,
+      "pgrefill": 0,
+      "pgscan": 0,
+      "pgsteal": 0,
+      "pgactivate": 11731,
+      "pgdeactivate": 0,
+      "pglazyfree": 931,
+      "pglazyfreed": 0,
+      "thp_fault_alloc": 0,
+      "thp_collapse_alloc": 0
+    },
+    "memory_stat_error": null
+  },
+  "gpus": [
+    {
+      "index": 0,
+      "uuid": "GPU-82eeba57-c783-69cf-0ad8-73029d959be0",
+      "memory_used_bytes": 0,
+      "memory_total_bytes": 102641958912,
+      "utilization_percent": 0
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-789a935a-941d-62d6-9615-46eaeca4ce7d",
+      "memory_used_bytes": 0,
+      "memory_total_bytes": 102641958912,
+      "utilization_percent": 0
+    }
+  ],
+  "collisions": []
 }

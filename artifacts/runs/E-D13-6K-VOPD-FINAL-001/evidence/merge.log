@@ -1,0 +1,7 @@
+merge_started_at_utc=2026-09-07T10:11:06Z
+source=/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780/actor
+target=/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf.inprogress
+/tmp/tmp5nw0tbth: line 3:  2615 Killed                  python -m verl.model_merger merge --backend fsdp --local_dir /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780/actor --target_dir /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf.inprogress
+ERROR conda.cli.main_run:execute(124): `conda run python -m verl.model_merger merge --backend fsdp --local_dir /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D12-6K-VOPD-001/checkpoints/global_step_780/actor --target_dir /root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf.inprogress` failed. (See above for error)
+merge_finished_at_utc=2026-09-07T10:11:18Z
+merge_exit_code=137
