@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-08T14:11:39.581059+00:00",
+  "status": "PASS",
+  "operation": "FSDP_to_HuggingFace_merge",
+  "backend": "fsdp",
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor",
+  "target_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/merged_hf",
+  "merge_log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/merge.log",
+  "merge_log_sha256": "799d3b0fba976992dcb8c8727e34deb1a9a79837ab90c15d32e49ebcb6e7e038",
+  "staging_validation_attempt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/merge_validation_attempt1.json",
+  "staging_validation_attempt_sha256": "f38f50c3f3fc2f8f4134e0a277149529a4c1fdca0f7af64a8962a71bba9fb0f6",
+  "staging_reused_after_validation_adjustment": true,
+  "promoted_at_utc": "2026-09-08T14:10:56.443989+00:00",
+  "checks": {
+    "prior_merge_process_exit_code_zero": true,
+    "required_files_present": true,
+    "all_files_nonempty": true,
+    "expected_file_count": true,
+    "tensor_count_724": true,
+    "all_tensors_bf16": true,
+    "only_expected_dtype_metadata_transitions": true,
+    "atomic_promotion_completed": true,
+    "independent_sha256_verification": true
+  },
+  "validation": {
+    "status": "PASS",
+    "merged_file_count": 7,
+    "merged_total_size_bytes": 10370019516,
+    "model_file_bytes": 10350019328,
+    "tensor_count": 724,
+    "tensor_logical_bytes": 10349929472,
+    "tensor_dtype": "BF16",
+    "safetensors_metadata": {
+      "format": "pt"
+    },
+    "config_differences": [
+      {
+        "path": "text_config.dtype",
+        "source": "float32",
+        "merged": "bfloat16"
+      },
+      {
+        "path": "vision_config.dtype",
+        "source": "float32",
+        "merged": "bfloat16"
+      }
+    ],
+    "config_difference_assessment": "expected_save_pretrained_dtype_metadata_normalization"
+  },
+  "merged_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/merged_manifest.json",
+  "merged_manifest_sha256": "1f6e67b7ac0bf333163c867152875e350d828045fdb87c3f46476ce9a50e7cc0",
+  "merged_sha256_list": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/merged_sha256.txt",
+  "merged_sha256_list_sha256": "ee6beff4a9c5777d8dd0bfc84d8e64cf78edb7f7e90853baa88211c470df54fa",
+  "independent_verification": {
+    "verified_at_utc": "2026-09-08T14:11:39.581645+00:00",
+    "command": "sha256sum -c artifacts/runs/E-D14-6K-CACHED-001/merged_sha256.txt",
+    "status": "PASS",
+    "checked_files": 7,
+    "exit_code": 0
+  }
+}

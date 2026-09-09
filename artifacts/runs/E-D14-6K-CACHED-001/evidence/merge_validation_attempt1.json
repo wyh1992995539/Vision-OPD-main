@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-08T14:09:05.446357+00:00",
+  "status": "VALIDATION_STOP",
+  "merge_process_exit_code": 0,
+  "staging_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/merged_hf.inprogress",
+  "final_directory_created": false,
+  "weights_validation": {
+    "tensor_count": 724,
+    "dtype": "BF16",
+    "status": "PASS"
+  },
+  "config_validation": {
+    "status": "EXPECTED_SERIALIZATION_METADATA_DIFF",
+    "differences": [
+      {
+        "path": "text_config.dtype",
+        "source": "float32",
+        "merged": "bfloat16"
+      },
+      {
+        "path": "vision_config.dtype",
+        "source": "float32",
+        "merged": "bfloat16"
+      }
+    ],
+    "all_other_fields_equal": true,
+    "reason": "Transformers save_pretrained records the actual merged BF16 tensor dtype."
+  },
+  "merge_log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/merge.log",
+  "merge_log_sha256": "799d3b0fba976992dcb8c8727e34deb1a9a79837ab90c15d32e49ebcb6e7e038",
+  "action": "Reuse the intact staging directory after changing validation to allow only these two exact dtype metadata transitions."
+}

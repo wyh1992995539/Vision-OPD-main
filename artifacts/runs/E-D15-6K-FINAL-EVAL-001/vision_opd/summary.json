@@ -1,0 +1,294 @@
+{
+  "amendment_sha256_raw_bytes": "6f85950a0f566cd61d9cb957842da8dbc92478acf68c66059a9ed6454db92b60",
+  "config_sha256_raw_bytes": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "decision_status": "complete",
+  "experiment_id": "E-PAPER-BASEJUDGE-001",
+  "generated_at_utc": "2026-09-08T15:09:16.728443+00:00",
+  "generation_diagnostics": {
+    "completion_tokens": 448933,
+    "finish_reason_length_count": 163,
+    "latency_mean_seconds": 3.8695090887223973,
+    "latency_sum_seconds": 9813.075049,
+    "prompt_tokens": 4284690
+  },
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.68,
+      "correct": 1020,
+      "incorrect": 480,
+      "pending_judge": 0,
+      "total": 1500
+    },
+    "vstar/full": {
+      "accuracy": 0.7591623036649214,
+      "correct": 145,
+      "incorrect": 46,
+      "pending_judge": 0,
+      "total": 191
+    },
+    "zoombench/full": {
+      "accuracy": 0.5254437869822485,
+      "correct": 444,
+      "incorrect": 401,
+      "pending_judge": 0,
+      "total": 845
+    }
+  },
+  "input_compaction": {
+    "judge_duplicate_keys": 0,
+    "judge_malformed_lines": 0,
+    "prediction_duplicate_keys": 0,
+    "prediction_malformed_lines": 0
+  },
+  "limitation_statement": "Best-public-recipe-aligned non-thinking inference with a frozen Qwen3.5-4B Base Judge substituted for the unavailable GPT-OSS-120B Judge.",
+  "model_id": "vision-opd-day15-r3",
+  "model_role": "vision_opd",
+  "official_category_groups": {
+    "mmstar/full/coarse perception": {
+      "accuracy": 0.752,
+      "correct": 188,
+      "incorrect": 62,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/fine-grained perception": {
+      "accuracy": 0.596,
+      "correct": 149,
+      "incorrect": 101,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/instance reasoning": {
+      "accuracy": 0.692,
+      "correct": 173,
+      "incorrect": 77,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/logical reasoning": {
+      "accuracy": 0.696,
+      "correct": 174,
+      "incorrect": 76,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/math": {
+      "accuracy": 0.76,
+      "correct": 190,
+      "incorrect": 60,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "mmstar/full/science & technology": {
+      "accuracy": 0.584,
+      "correct": 146,
+      "incorrect": 104,
+      "pending_judge": 0,
+      "total": 250
+    },
+    "vstar/full/direct_attributes": {
+      "accuracy": 0.8434782608695652,
+      "correct": 97,
+      "incorrect": 18,
+      "pending_judge": 0,
+      "total": 115
+    },
+    "vstar/full/relative_position": {
+      "accuracy": 0.631578947368421,
+      "correct": 48,
+      "incorrect": 28,
+      "pending_judge": 0,
+      "total": 76
+    },
+    "zoombench/full/multiple_choice": {
+      "accuracy": 0.573268921095008,
+      "correct": 356,
+      "incorrect": 265,
+      "pending_judge": 0,
+      "total": 621
+    },
+    "zoombench/full/open_question": {
+      "accuracy": 0.39285714285714285,
+      "correct": 88,
+      "incorrect": 136,
+      "pending_judge": 0,
+      "total": 224
+    }
+  },
+  "official_l2_category_groups": {
+    "mmstar/full/biology & chemistry & physics": {
+      "accuracy": 0.6164383561643836,
+      "correct": 90,
+      "incorrect": 56,
+      "pending_judge": 0,
+      "total": 146
+    },
+    "mmstar/full/code & sequence reasoning": {
+      "accuracy": 0.5384615384615384,
+      "correct": 21,
+      "incorrect": 18,
+      "pending_judge": 0,
+      "total": 39
+    },
+    "mmstar/full/common reasoning": {
+      "accuracy": 0.5841584158415841,
+      "correct": 59,
+      "incorrect": 42,
+      "pending_judge": 0,
+      "total": 101
+    },
+    "mmstar/full/cross-instance attribute reasoning": {
+      "accuracy": 0.6853932584269663,
+      "correct": 61,
+      "incorrect": 28,
+      "pending_judge": 0,
+      "total": 89
+    },
+    "mmstar/full/cross-instance relation reasoning": {
+      "accuracy": 0.8064516129032258,
+      "correct": 50,
+      "incorrect": 12,
+      "pending_judge": 0,
+      "total": 62
+    },
+    "mmstar/full/diagram reasoning": {
+      "accuracy": 0.8545454545454545,
+      "correct": 94,
+      "incorrect": 16,
+      "pending_judge": 0,
+      "total": 110
+    },
+    "mmstar/full/electronics & energy & mechanical eng.": {
+      "accuracy": 0.5217391304347826,
+      "correct": 24,
+      "incorrect": 22,
+      "pending_judge": 0,
+      "total": 46
+    },
+    "mmstar/full/geography & earth science & agriculture": {
+      "accuracy": 0.5517241379310345,
+      "correct": 32,
+      "incorrect": 26,
+      "pending_judge": 0,
+      "total": 58
+    },
+    "mmstar/full/geometry": {
+      "accuracy": 0.7413793103448276,
+      "correct": 86,
+      "incorrect": 30,
+      "pending_judge": 0,
+      "total": 116
+    },
+    "mmstar/full/image emotion": {
+      "accuracy": 0.8387096774193549,
+      "correct": 26,
+      "incorrect": 5,
+      "pending_judge": 0,
+      "total": 31
+    },
+    "mmstar/full/image scene and topic": {
+      "accuracy": 0.6879432624113475,
+      "correct": 97,
+      "incorrect": 44,
+      "pending_judge": 0,
+      "total": 141
+    },
+    "mmstar/full/image style & quality": {
+      "accuracy": 0.8333333333333334,
+      "correct": 65,
+      "incorrect": 13,
+      "pending_judge": 0,
+      "total": 78
+    },
+    "mmstar/full/localization": {
+      "accuracy": 0.775,
+      "correct": 31,
+      "incorrect": 9,
+      "pending_judge": 0,
+      "total": 40
+    },
+    "mmstar/full/numeric commonsense and calculation": {
+      "accuracy": 0.7291666666666666,
+      "correct": 35,
+      "incorrect": 13,
+      "pending_judge": 0,
+      "total": 48
+    },
+    "mmstar/full/object counting": {
+      "accuracy": 0.4782608695652174,
+      "correct": 44,
+      "incorrect": 48,
+      "pending_judge": 0,
+      "total": 92
+    },
+    "mmstar/full/recognition": {
+      "accuracy": 0.6271186440677966,
+      "correct": 74,
+      "incorrect": 44,
+      "pending_judge": 0,
+      "total": 118
+    },
+    "mmstar/full/single-instance reasoning": {
+      "accuracy": 0.6262626262626263,
+      "correct": 62,
+      "incorrect": 37,
+      "pending_judge": 0,
+      "total": 99
+    },
+    "mmstar/full/statistical reasoning": {
+      "accuracy": 0.8023255813953488,
+      "correct": 69,
+      "incorrect": 17,
+      "pending_judge": 0,
+      "total": 86
+    }
+  },
+  "question_format_groups": {
+    "mmstar/full/multiple_choice": {
+      "accuracy": 0.68,
+      "correct": 1020,
+      "incorrect": 480,
+      "pending_judge": 0,
+      "total": 1500
+    },
+    "vstar/full/multiple_choice": {
+      "accuracy": 0.7591623036649214,
+      "correct": 145,
+      "incorrect": 46,
+      "pending_judge": 0,
+      "total": 191
+    },
+    "zoombench/full/multiple_choice": {
+      "accuracy": 0.573268921095008,
+      "correct": 356,
+      "incorrect": 265,
+      "pending_judge": 0,
+      "total": 621
+    },
+    "zoombench/full/open_question": {
+      "accuracy": 0.39285714285714285,
+      "correct": 88,
+      "incorrect": 136,
+      "pending_judge": 0,
+      "total": 224
+    }
+  },
+  "request_count": 2536,
+  "resume_gate": {
+    "duplicate_prediction_keys": 0,
+    "duplicate_score_keys": 0,
+    "unique_prediction_keys": 2536,
+    "unique_score_keys": 2536
+  },
+  "run_mode": "formal",
+  "schema_version": 1,
+  "scoring_pipeline": {
+    "first_letter_correct_count": 490,
+    "inference_failure_count": 0,
+    "judge_failure_count": 0,
+    "llm_judge_completed_count": 1989,
+    "llm_judge_required_count": 1989,
+    "mathruler_correct_count": 57,
+    "pending_judge_count": 0
+  }
+}

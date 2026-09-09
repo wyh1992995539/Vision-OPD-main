@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-08T15:10:02.384481+00:00",
+  "status": "PASS",
+  "experiment_id": "E-D15-6K-FINAL-EVAL-001",
+  "freeze_config": "/root/autodl-tmp/Vision-OPD-main/configs/day15_final_eval_freeze.yaml",
+  "freeze_config_sha256": "0fd5fbb51827f0704aaca2bddf7e905ea7aac8c32881110652954c70af7d4615",
+  "freeze_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/preflight/eval_design_freeze.json",
+  "freeze_receipt_sha256": "f97b9554036b16506431ad8de6ddd06f82da519d499ba7e7b001dcca5f32eabb",
+  "runs": {
+    "base": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base",
+      "run_manifest_sha256": "d58bccb48939a8667496c2a5256c41e9a34aaef3c2ffb8b073b0ae1ca2f494cf",
+      "scores_sha256": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71",
+      "summary_sha256": "a03aedda76094da9f47205d9fe929fe4714c78efde76c40d013545f1dcad0f98",
+      "validation_sha256": "e63f5632d76c0d72f18e5973b3e9dea9c7cca8bd46bd84820e23cd4175ba23cb"
+    },
+    "vision_opd": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd",
+      "run_manifest_sha256": "184749a097f65ef11b91d955864bc91cc8561f753b6e1aadaef2716624d77166",
+      "scores_sha256": "2e7c64ee0296f72e7f2edceff00fe5f8f82392d6cae64df851b264fe19a3b960",
+      "summary_sha256": "b0ad391d195d112ce0203a1fe70a2bc05046407bfb30c65d89f844dda788fa4c",
+      "validation_sha256": "0382b7fa799c43d4ff43778e9ac0c60e9747db4be9f9188ef834ba7ee28af68b"
+    },
+    "cached_prefix": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix",
+      "run_manifest_sha256": "61f07927755a98cd2b6bf293808384e4da0a90ce2664ba2d7b5a231245242eb8",
+      "scores_sha256": "7bbb748331a9a77ba7c41a72400e1ac6050875aff37e20b0735add27bb77e0ab",
+      "summary_sha256": "ac92d5400a3984db834c0b9ee612ec36ccd9472f4bf744141ad58f60b4fa9605",
+      "validation_sha256": "63ae8e19b3d1c3734eb0f3cbdee44876a7d8cecf5f06adb5d5a39989e0ab2c2e"
+    }
+  },
+  "rows": [
+    {
+      "benchmark": "zoombench",
+      "total": 845,
+      "base_correct": 428,
+      "base_accuracy": 0.506508875739645,
+      "vision_opd_correct": 444,
+      "vision_opd_accuracy": 0.5254437869822485,
+      "vision_opd_delta_vs_base": 0.01893491124260349,
+      "cached_prefix_correct": 434,
+      "cached_prefix_accuracy": 0.5136094674556213,
+      "cached_prefix_delta_vs_base": 0.007100591715976323,
+      "cached_prefix_delta_vs_vision_opd": -0.011834319526627168
+    },
+    {
+      "benchmark": "mmstar",
+      "total": 1500,
+      "base_correct": 1126,
+      "base_accuracy": 0.7506666666666667,
+      "vision_opd_correct": 1020,
+      "vision_opd_accuracy": 0.68,
+      "vision_opd_delta_vs_base": -0.07066666666666666,
+      "cached_prefix_correct": 937,
+      "cached_prefix_accuracy": 0.6246666666666667,
+      "cached_prefix_delta_vs_base": -0.126,
+      "cached_prefix_delta_vs_vision_opd": -0.055333333333333345
+    },
+    {
+      "benchmark": "vstar",
+      "total": 191,
+      "base_correct": 160,
+      "base_accuracy": 0.837696335078534,
+      "vision_opd_correct": 145,
+      "vision_opd_accuracy": 0.7591623036649214,
+      "vision_opd_delta_vs_base": -0.07853403141361259,
+      "cached_prefix_correct": 148,
+      "cached_prefix_accuracy": 0.774869109947644,
+      "cached_prefix_delta_vs_base": -0.06282722513089001,
+      "cached_prefix_delta_vs_vision_opd": 0.015706806282722585
+    },
+    {
+      "benchmark": "overall_micro",
+      "total": 2536,
+      "base_correct": 1714,
+      "base_accuracy": 0.6758675078864353,
+      "vision_opd_correct": 1609,
+      "vision_opd_accuracy": 0.6344637223974764,
+      "vision_opd_delta_vs_base": -0.041403785488958955,
+      "cached_prefix_correct": 1519,
+      "cached_prefix_accuracy": 0.5989747634069401,
+      "cached_prefix_delta_vs_base": -0.07689274447949523,
+      "cached_prefix_delta_vs_vision_opd": -0.03548895899053628
+    }
+  ],
+  "paired_transitions": {
+    "base_to_vision_opd": {
+      "incorrect_to_correct": 306,
+      "correct_to_incorrect": 411
+    },
+    "base_to_cached_prefix": {
+      "incorrect_to_correct": 287,
+      "correct_to_incorrect": 482
+    },
+    "vision_opd_to_cached_prefix": {
+      "incorrect_to_correct": 255,
+      "correct_to_incorrect": 345
+    }
+  },
+  "notes": [
+    "All failures and invalid outputs remain in the frozen denominator.",
+    "V* primary denominator is 191.",
+    "Comparison does not mutate scores or select checkpoints."
+  ]
+}

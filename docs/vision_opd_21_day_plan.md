@@ -48,7 +48,7 @@
 - Vision-OPD 与 Cached Prefix 使用同一 6,241 条全量训练数据。GRPO 也必须以同一 6,241 条为正式训练输入；若任一记录无法可靠规则判分，GRPO 正式训练 Gate 记为 BLOCKED，不得静默筛成小子集后冒充“完整 6.2K GRPO”。
 - 本项目恢复了 Vision-OPD-6K 源数据规模，并将论文核心 response 上限恢复为 1024；仍使用双卡、batch 8、rollout n=1 等资源缩放配置，不得写成“完整复现论文原始 8 卡训练配置或论文数值”。
 
-当前执行状态（2026-09-02 同步）：
+当前执行状态（2026-09-08 同步）：
 
 | 范围 | 状态 | 边界 |
 |---|---|---|
@@ -60,8 +60,11 @@
 | Day 7 | PASS_WITH_CAVEAT | `E-D7-001` 双卡 Smoke 完成；Teacher/Student/EMA 关键证据通过，结束阶段 worker 异常保留为 caveat |
 | Day 8 | PASS_WITH_CAVEAT | `E-D8-001` 完成 64 条/8 steps、`global_step_8`、5/5 冷重载和 1024 条成本外推；详见 `artifacts/reports/vopd_64_stability.md` |
 | Day 9 | PASS_TO_DAY10 | E-D10-001 预算、readiness、配置冻结、正式 preflight 和中止控制均已通过；详见 `docs/day9_vopd_formal_training_gate_brief.md` |
-| 6K full-train amendment | 已决策，待执行 | 现行 train=source=6241，不划分训练/测试集；旧 `E-D10-001` 1024 正式训练不启动 |
-| Day 10～16 | 未开始 | 下一步为 300GB 磁盘动态检查、6K 数据自动 Gate、Parquet 和全量长度审计 |
+| 6K full-train amendment | PASS（已执行） | train=source=6241、不划分训练/测试集；Vision-OPD/Cached 全量训练及 R3 已完成 |
+| Day 10～13 | PASS | 6K 数据 Gate、Vision-OPD 正式训练/定版、Cached 静态合同与双卡 Pilot 已完成 |
+| Day 14 | PASS | Cached 780/780 正式训练、凭据修正、checkpoint SHA256 与 HF 合并完成 |
+| Day 15 | PASS | Cached 5/5 冷加载；Vision-OPD/Cached R3 各 2536/2536；比较与 18 条 Bad Case 抽样完成 |
+| Day 16 | 未开始 | 下一步为 18 条 Bad Case 人工分析、overlap 诊断与报告投递验收 |
 | Day 17～21 | 未开始 | GRPO 数据/Reward、真实 Pilot、正式训练、R3 评测和四组收尾 |
 
 ## 2. 已完成进度与正式起点
@@ -722,6 +725,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 ### Day 14：Cached Prefix 6241 全量正式训练
 
+> 执行状态（2026-09-08 UTC）：**Day 14 PASS / 780/780**。最终 FSDP checkpoint、逐文件 SHA256、凭据尾行修正和 Cached merged Student 均通过；详见 [Day 14 工作简报](day14_cached_6k_formal_training_brief.md)。
+
 > 正式启动入口与监控方法：[Day 14 Cached Prefix 6241 正式训练运行手册](day14_cached_formal_training_runbook.md)
 
 目标：完成 `E-D14-6K-CACHED-001`。
@@ -744,6 +749,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 配置 diff 没有未申报变量；若存在则更新为实现消融并保留差异，不能丢弃结果。
 
 ### Day 15：Cached 定版与三组统一 R3 外部评测
+
+> 执行状态（2026-09-08 UTC）：**Day 15 PASS / R3 2536/2536 × 2**。Cached 冷加载 5/5，两组 Smoke 与正式 Gate、固定 Base Judge、三组比较及 18 条确定性 Bad Case 抽样完成；详见 [Day 15 工作简报](day15_cached_final_and_r3_eval_brief.md)。
 
 目标：冻结 Cached 模型，并在所有设计、checkpoint 身份和输出 Schema 锁定后统一打开外部结果。
 

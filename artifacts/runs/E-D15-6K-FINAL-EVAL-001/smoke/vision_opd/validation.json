@@ -1,0 +1,38 @@
+{
+  "amendment_sha256_raw_bytes": "6f85950a0f566cd61d9cb957842da8dbc92478acf68c66059a9ed6454db92b60",
+  "config_contract": "pass",
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+  "config_sha256_raw_bytes": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "generated_at_utc": "2026-09-08T14:42:14.037435+00:00",
+  "run": {
+    "compaction_stats": {
+      "judges": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      },
+      "predictions": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      },
+      "scores": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      }
+    },
+    "comparability_gate": {
+      "reason": "smoke_run",
+      "status": "not_applicable"
+    },
+    "completed_judge_count": 10,
+    "expected_request_count": 12,
+    "model_role": "vision_opd",
+    "prediction_count": 12,
+    "required_judge_count": 10,
+    "run_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/vision_opd",
+    "run_mode": "smoke",
+    "score_count": 12,
+    "status": "pass"
+  },
+  "schema_version": 1,
+  "status": "pass"
+}

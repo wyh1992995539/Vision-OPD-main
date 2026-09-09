@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-08T15:10:02.736481+00:00",
+  "status": "PASS",
+  "experiment_id": "E-D15-6K-FINAL-EVAL-001",
+  "selection_policy": {
+    "frozen_before_new_scores": true,
+    "seed": "vision-opd-day15-badcase-v1",
+    "maximum_total": 18,
+    "maximum_per_stratum": 3,
+    "deterministic_rank": "sha256(seed + NUL + stratum + NUL + request_key)",
+    "strata_priority": [
+      "both_trained_fix",
+      "vision_only_fix_cached_regression",
+      "cached_only_fix",
+      "both_trained_regression",
+      "vision_regression_cached_recovers",
+      "cached_regression"
+    ],
+    "definitions": {
+      "both_trained_fix": "base_wrong_and_vision_correct_and_cached_correct",
+      "vision_only_fix_cached_regression": "base_wrong_and_vision_correct_and_cached_wrong",
+      "cached_only_fix": "base_wrong_and_vision_wrong_and_cached_correct",
+      "both_trained_regression": "base_correct_and_vision_wrong_and_cached_wrong",
+      "vision_regression_cached_recovers": "base_correct_and_vision_wrong_and_cached_correct",
+      "cached_regression": "base_correct_and_vision_correct_and_cached_wrong"
+    },
+    "review_fields": [
+      "request_key",
+      "stratum",
+      "benchmark",
+      "sample_uid",
+      "prompt",
+      "reference_answer",
+      "base_answer",
+      "vision_opd_answer",
+      "cached_prefix_answer",
+      "base_correct",
+      "vision_opd_correct",
+      "cached_prefix_correct",
+      "rule_and_judge_sources"
+    ],
+    "score_mutation_forbidden": true,
+    "checkpoint_reselection_forbidden": true
+  },
+  "freeze_config_sha256": "0fd5fbb51827f0704aaca2bddf7e905ea7aac8c32881110652954c70af7d4615",
+  "freeze_receipt_sha256": "f97b9554036b16506431ad8de6ddd06f82da519d499ba7e7b001dcca5f32eabb",
+  "candidate_counts": {
+    "both_trained_fix": 190,
+    "vision_only_fix_cached_regression": 116,
+    "cached_only_fix": 97,
+    "both_trained_regression": 253,
+    "vision_regression_cached_recovers": 158,
+    "cached_regression": 229
+  },
+  "selected_counts": {
+    "both_trained_fix": 3,
+    "vision_only_fix_cached_regression": 3,
+    "cached_only_fix": 3,
+    "both_trained_regression": 3,
+    "vision_regression_cached_recovers": 3,
+    "cached_regression": 3
+  },
+  "selected_total": 18,
+  "output": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/badcases.jsonl",
+  "output_sha256": "5f418f5a4bf6f7082eaf92f590dd992b0dc598ca1d2148a8f54a8822e6d8afef",
+  "manual_review_status": "pending",
+  "score_mutation_performed": false,
+  "checkpoint_reselection_performed": false
+}

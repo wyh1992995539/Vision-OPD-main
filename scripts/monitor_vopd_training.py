@@ -445,6 +445,14 @@ class IncrementalLogReader:
         self.partial = parts.pop()
         return parts
 
+    def read_final_lines(self, now_monotonic: float) -> list[str]:
+        """Read bytes written during process shutdown and flush a final unterminated line."""
+        lines = self.read_lines(now_monotonic)
+        if self.partial:
+            lines.append(self.partial)
+            self.partial = ""
+        return lines
+
 
 def terminate_process_group(process: subprocess.Popen[Any], grace_seconds: float) -> dict[str, Any]:
     receipt = {"term_sent_at_utc": utc_now(), "kill_sent_at_utc": None}
@@ -527,6 +535,25 @@ def monitor_process(
     trigger = None
     termination = None
     interval = float(policy["telemetry"]["sample_interval_seconds"])
+
+    def evaluate_log_lines(lines: list[str]) -> list[dict[str, Any]]:
+        nonlocal latest_step
+        issues: list[dict[str, Any]] = []
+        for line in lines:
+            metric = parse_training_metric_line(line)
+            if metric:
+                latest_step = metric["step"]
+                issues.extend(evaluator.evaluate_metric(metric))
+                append_jsonl(
+                    output_dir / "evidence/runtime_metrics.jsonl",
+                    {"timestamp_utc": utc_now(), **metric},
+                )
+            for rule in scan_fatal_log_line(line):
+                issues.append(
+                    RuleEvaluator.issue(rule, ANSI_RE.sub("", line)[-500:], True)
+                )
+        return issues
+
     while process.poll() is None:
         now = time.monotonic()
         issues = evaluator.evaluate_elapsed(now - started)
@@ -540,14 +567,7 @@ def monitor_process(
             if collection_failures >= int(policy["telemetry"]["max_consecutive_collection_failures"]):
                 issues.append(RuleEvaluator.issue("telemetry_unavailable", repr(exc)))
 
-        for line in reader.read_lines(now):
-            metric = parse_training_metric_line(line)
-            if metric:
-                latest_step = metric["step"]
-                issues.extend(evaluator.evaluate_metric(metric))
-                append_jsonl(output_dir / "evidence/runtime_metrics.jsonl", {"timestamp_utc": utc_now(), **metric})
-            for rule in scan_fatal_log_line(line):
-                issues.append(RuleEvaluator.issue(rule, ANSI_RE.sub("", line)[-500:], True))
+        issues.extend(evaluate_log_lines(reader.read_lines(now)))
 
         telemetry_policy = policy["telemetry"]
         grace = float(telemetry_policy["startup_grace_seconds"])
@@ -564,6 +584,15 @@ def monitor_process(
         time.sleep(interval)
 
     return_code = process.wait()
+    final_issues = evaluate_log_lines(reader.read_final_lines(time.monotonic()))
+    if final_issues and trigger is None:
+        trigger = {
+            "timestamp_utc": utc_now(),
+            "latest_step": latest_step,
+            "issues": final_issues,
+            "detected_during_final_log_drain": True,
+        }
+        append_jsonl(events_path, {"event": "abort_triggered", **trigger})
     checkpoint = validate_checkpoint(output_dir, policy) if trigger is None and return_code == 0 else None
     passed = trigger is None and return_code == 0 and checkpoint and checkpoint["status"] == "PASS"
     status = "PASS" if passed else "FAIL"

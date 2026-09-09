@@ -1,3 +1,6 @@
+import copy
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,6 +11,7 @@ from scripts.monitor_vopd_training import (
     cgroup_has_minimum_capacity,
     load_policy,
     parse_training_metric_line,
+    monitor_process,
     replay,
     scan_fatal_log_line,
     terminate_process_group,
@@ -222,6 +226,42 @@ class VopdAbortGuardTest(unittest.TestCase):
             self.assertEqual(validate_checkpoint(output, self.policy)["status"], "PASS")
             (root / f"global_step_{step}" / checkpoint["required_relative_files"][0]).write_bytes(b"")
             self.assertEqual(validate_checkpoint(output, self.policy)["status"], "FAIL")
+
+    @patch("scripts.monitor_vopd_training.collect_sample")
+    def test_monitor_drains_final_metric_after_process_exit(self, collect_sample):
+        policy = copy.deepcopy(self.policy)
+        policy["telemetry"]["sample_interval_seconds"] = 0.01
+        policy["checkpoint"]["expected_final_step"] = 1
+        policy["checkpoint"]["required_relative_files"] = []
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp)
+            log = output / "logs/train.log"
+            log.parent.mkdir(parents=True)
+            checkpoint_root = output / "checkpoints"
+            (checkpoint_root / "global_step_1").mkdir(parents=True)
+            (checkpoint_root / policy["checkpoint"]["marker"]).write_text("1")
+            metric = (
+                "step:1 - actor/vopd_loss:0.1 - actor/grad_norm:1.0 "
+                "- evidence/student_param_probe_max_delta_after_optimizer:1e-6 "
+                "- evidence/teacher_param_probe_max_delta_after_optimizer:0.0 "
+                "- evidence/teacher_grad_non_none_count:0.0 "
+                "- evidence/teacher_param_probe_max_delta_after_ema:1e-7 "
+                "- response/aborted_ratio:0.0"
+            )
+            process = subprocess.Popen(
+                [
+                    sys.executable,
+                    "-c",
+                    "from pathlib import Path; Path(r'%s').write_text(%r)" % (log, metric),
+                ]
+            )
+            process.wait()
+            exit_code, summary = monitor_process(process, output, policy, log)
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(summary["status"], "PASS")
+            self.assertEqual(summary["latest_step"], 1)
+            rows = (output / "evidence/runtime_metrics.jsonl").read_text().splitlines()
+            self.assertEqual(len(rows), 1)
 
     @patch("scripts.monitor_vopd_training.os.killpg")
     def test_termination_escalates_from_term_to_kill(self, killpg):

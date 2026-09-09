@@ -1,0 +1,1004 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "为什么当前 Vision-OPD 效果低于论文",
+    "description": "Day 16 对训练缩放、评测逻辑和能力回归的可复核诊断。",
+    "generatedAt": "2026-09-08T17:06:17Z",
+    "cards": [
+      {
+        "id": "micro_delta",
+        "description": "冻结 R3 中 Vision-OPD 相对 Base 的 2,536 条样本加权变化。",
+        "dataset": "headline",
+        "sourceId": "day15_r3",
+        "metrics": [
+          {
+            "label": "Micro 变化",
+            "field": "vision_micro_delta",
+            "format": "percent",
+            "signed": true
+          }
+        ]
+      },
+      {
+        "id": "zoom_delta",
+        "description": "冻结 R3 ZoomBench，N=845。",
+        "dataset": "headline",
+        "sourceId": "day15_r3",
+        "metrics": [
+          {
+            "label": "ZoomBench 变化",
+            "field": "zoom_delta",
+            "format": "percent",
+            "signed": true
+          }
+        ]
+      },
+      {
+        "id": "mmstar_delta",
+        "description": "冻结 R3 MMStar，N=1,500。",
+        "dataset": "headline",
+        "sourceId": "day15_r3",
+        "metrics": [
+          {
+            "label": "MMStar 变化",
+            "field": "mmstar_delta",
+            "format": "percent",
+            "signed": true
+          }
+        ]
+      },
+      {
+        "id": "vstar_delta",
+        "description": "冻结 R3 V* Bench，N=191。",
+        "dataset": "headline",
+        "sourceId": "day15_r3",
+        "metrics": [
+          {
+            "label": "V* Bench 变化",
+            "field": "vstar_delta",
+            "format": "percent",
+            "signed": true
+          }
+        ]
+      }
+    ],
+    "charts": [
+      {
+        "id": "paper_vs_local_gain",
+        "title": "相对 Base 的准确率变化",
+        "subtitle": "论文三项均提升；本项目仅 ZoomBench 提升，MMStar 与 V* 下降。两套协议不可视为同一次复现。",
+        "type": "bar",
+        "dataset": "gain_comparison",
+        "sourceId": "diagnostic_data",
+        "valueFormat": "percent",
+        "encodings": {
+          "x": {
+            "field": "benchmark",
+            "type": "nominal",
+            "label": "Benchmark"
+          },
+          "y": {
+            "field": "delta_vs_base",
+            "type": "quantitative",
+            "label": "准确率变化"
+          },
+          "color": {
+            "field": "setup",
+            "type": "nominal",
+            "label": "结果来源"
+          },
+          "tooltip": [
+            {
+              "field": "base_accuracy",
+              "type": "quantitative",
+              "label": "Base",
+              "format": "percent"
+            },
+            {
+              "field": "vision_accuracy",
+              "type": "quantitative",
+              "label": "Vision-OPD",
+              "format": "percent"
+            }
+          ]
+        }
+      },
+      {
+        "id": "paired_transitions",
+        "title": "冻结 R3 的逐题正确性迁移",
+        "subtitle": "Vision-OPD 修正 306 条 Base 错题，同时把 411 条 Base 对题变错，净减少 105 条。",
+        "type": "bar",
+        "dataset": "paired_transitions",
+        "sourceId": "day15_r3",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "comparison",
+            "type": "nominal",
+            "label": "模型比较"
+          },
+          "y": {
+            "field": "count",
+            "type": "quantitative",
+            "label": "样本数"
+          },
+          "color": {
+            "field": "transition",
+            "type": "nominal",
+            "label": "变化方向"
+          },
+          "tooltip": [
+            {
+              "field": "net_change",
+              "type": "quantitative",
+              "label": "净变化",
+              "format": "number"
+            }
+          ]
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "config_table",
+        "title": "作者入口与本次正式训练的关键差异",
+        "subtitle": "核心 loss 参数相同，但优化批量、rollout 数和 EMA 更新频率不同。",
+        "dataset": "configuration_comparison",
+        "sourceId": "diagnostic_data",
+        "columns": [
+          {
+            "field": "parameter",
+            "label": "参数",
+            "type": "text"
+          },
+          {
+            "field": "author_entry",
+            "label": "作者入口",
+            "type": "text"
+          },
+          {
+            "field": "current_run",
+            "label": "本次运行",
+            "type": "text"
+          },
+          {
+            "field": "ratio_or_effect",
+            "label": "差异",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "sensitivity_table",
+        "title": "评分器明确误报剔除敏感性",
+        "subtitle": "只剔除输出明确选择错误选项、却因 Answer 首字母 A 被判对的记录；不是完整 R4 重评分。",
+        "dataset": "parser_sensitivity",
+        "sourceId": "diagnostic_data",
+        "columns": [
+          {
+            "field": "model",
+            "label": "模型",
+            "type": "text"
+          },
+          {
+            "field": "benchmark",
+            "label": "Benchmark",
+            "type": "text"
+          },
+          {
+            "field": "total",
+            "label": "N",
+            "format": "number"
+          },
+          {
+            "field": "frozen_r3_accuracy",
+            "label": "冻结 R3",
+            "format": "percent"
+          },
+          {
+            "field": "explicit_false_positives",
+            "label": "明确误报",
+            "format": "number"
+          },
+          {
+            "field": "explicit_mismatch_adjusted_accuracy",
+            "label": "剔除后",
+            "format": "percent"
+          }
+        ]
+      },
+      {
+        "id": "category_table",
+        "title": "能力回归集中的类别",
+        "subtitle": "按明确误报剔除口径排序；V* 相对位置和 MMStar 逻辑推理降幅最大。",
+        "dataset": "category_sensitivity",
+        "sourceId": "diagnostic_data",
+        "defaultSort": {
+          "field": "vision_delta_vs_base",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "benchmark",
+            "label": "Benchmark",
+            "type": "text"
+          },
+          {
+            "field": "category",
+            "label": "类别",
+            "type": "text"
+          },
+          {
+            "field": "total",
+            "label": "N",
+            "format": "number"
+          },
+          {
+            "field": "base_accuracy",
+            "label": "Base",
+            "format": "percent"
+          },
+          {
+            "field": "vision_accuracy",
+            "label": "Vision-OPD",
+            "format": "percent"
+          },
+          {
+            "field": "vision_delta_vs_base",
+            "label": "变化",
+            "format": "percent"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "day15_r3",
+        "label": "Day 15 frozen R3 comparison",
+        "path": "artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json",
+        "query": {
+          "engine": "duckdb",
+          "sql": "SELECT * FROM read_json_auto('artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json')",
+          "description": "Loads the frozen Day 15 benchmark rows and paired transitions.",
+          "tables_used": [
+            "artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json"
+          ],
+          "filters": [
+            "status = PASS",
+            "all three model roles present"
+          ],
+          "metric_definitions": {
+            "accuracy": "correct / frozen benchmark denominator",
+            "delta_vs_base": "trained-model accuracy minus Base accuracy"
+          }
+        }
+      },
+      {
+        "id": "paper_pdf",
+        "label": "Vision-OPD paper, Tables 1–6",
+        "path": "docs/Vision-OPD.pdf"
+      },
+      {
+        "id": "author_launcher",
+        "label": "Author training launcher",
+        "path": "scripts/run_vision_opd.sh"
+      },
+      {
+        "id": "selected_config",
+        "label": "Selected two-GPU training config",
+        "path": "configs/vopd_6241.yaml"
+      },
+      {
+        "id": "score_code",
+        "label": "Frozen R3 answer parsing and scoring code",
+        "path": "eval/paper_aligned_common.py"
+      },
+      {
+        "id": "diagnostic_data",
+        "label": "Reproducible Day 16 diagnostic data",
+        "path": "artifacts/reports/vision_opd_gap_diagnostic/diagnostic_data.json",
+        "query": {
+          "engine": "duckdb",
+          "sql": "SELECT * FROM read_json_auto('artifacts/reports/vision_opd_gap_diagnostic/diagnostic_data.json')",
+          "description": "Loads the reproducible parser sensitivity, category, overlap, paper-gap, and configuration datasets.",
+          "tables_used": [
+            "artifacts/reports/vision_opd_gap_diagnostic/diagnostic_data.json"
+          ],
+          "filters": [
+            "frozen Day 15 scores only",
+            "explicit first-letter mismatches only in sensitivity adjustment"
+          ],
+          "metric_definitions": {
+            "explicit_false_positive": "frozen first-letter rule accepted while a leading explicit A-F answer differs from the reference",
+            "explicit_mismatch_adjusted_accuracy": "(frozen correct minus explicit false positives) / frozen denominator"
+          }
+        }
+      },
+      {
+        "id": "overlap_audit",
+        "label": "Train-to-benchmark overlap audit",
+        "path": "artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_report.json"
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# 为什么当前 Vision-OPD 效果低于论文"
+      },
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "body": "## Executive Summary / 执行摘要\n\n当前结果差并非一次明显的工程故障：两次训练均完整结束，未出现 OOM、NaN、abort 或 checkpoint 损坏。模型也并非完全没有学习，Vision-OPD 在 ZoomBench 提升 1.89 个百分点。\n\n证据最强的解释是：本次运行改变了论文方法的优化时间尺度。作者入口使用 batch 96、rollout n=8、约 65 个 trainer step/EMA 事件；本次使用 batch 8、rollout n=1、780 个 trainer step/EMA 事件，同时保持 LR 2e-6 和 EMA 0.05。每个 epoch 的 on-policy 序列减少到 1/8，EMA 事件增加到 12 倍；考虑 rollout 展开后的 PPO mini-batch，Student Adam 更新约从 520 次变为 780 次，但单次 mini-batch 从 96 降为 8。Cached Prefix 还移除了方法最关键的实时 on-policy prefix。\n\nR3 评分器另有一个已确认缺陷，会把 `Answer` 的 A 当作选项 A。它改变绝对分数，但剔除能明确确认的误报后，Base→Vision 的 micro 差值仍约为 −4.18 个百分点，因此训练差距仍然存在。结论可用于决定下一步，但精确分数需要修复评分器后建立 R4。"
+      },
+      {
+        "id": "headline_metrics",
+        "type": "metric-strip",
+        "cardIds": [
+          "micro_delta",
+          "zoom_delta",
+          "mmstar_delta",
+          "vstar_delta"
+        ]
+      },
+      {
+        "id": "measured_results",
+        "type": "markdown",
+        "body": "## 实测结果与论文方向相反\n\n论文 Table 2 的 Qwen3.5-4B 从 Base 到 Vision-OPD，在 V*、ZoomBench、MMStar 分别变化 +7.86、+12.07、+1.07 个百分点。本项目冻结 R3 分别为 −7.85、+1.89、−7.07 个百分点。模型在细节计数和颜色识别上确有新增正确样本，但新错误更多，属于收益与遗忘同时发生。"
+      },
+      {
+        "id": "gain_chart",
+        "type": "chart",
+        "chartId": "paper_vs_local_gain"
+      },
+      {
+        "id": "verified_causes",
+        "type": "markdown",
+        "body": "## 已证实的差异\n\n1. **训练不是作者原配置复现。** 模型、6.2K 数据规模、JSD β=0.5、Top-K=100、EMA=0.05、response 1024 和 1 epoch 对齐，但 GPU、batch、rollout、Student mini-batch 和 EMA 事件次数没有对齐。\n2. **EMA 的时间尺度发生了数量级变化。** 实现每个 `update_policy` / trainer step 在全部 PPO mini-batch 完成后执行一次 `teacher = 0.95 × teacher + 0.05 × student`。仅看初始教师权重的理论系数，65 次后约剩 3.56%，780 次后约为 4.3e−18。该值不是性能预测，但证明相同 EMA 系数在两种 step 粒度下并不等价。\n3. **Cached Prefix 不是论文主方法。** 它在 780 steps 中 online generation calls 为 0，无法保留论文强调的“沿当前 Student rollout 蒸馏”机制。"
+      },
+      {
+        "id": "config",
+        "type": "table",
+        "tableId": "config_table"
+      },
+      {
+        "id": "behavior",
+        "type": "markdown",
+        "body": "## 回归不只来自一个 Benchmark\n\n冻结 R3 的逐题迁移显示，Vision-OPD 产生 306 个错→对，也产生 411 个对→错。明确误报剔除后，最大分项退化出现在 V* relative_position（约 −19.74 个百分点）、MMStar logical reasoning（−12.80）和 fine-grained perception（−9.60）。这更像训练后能力分布发生迁移，而不是单次推理失败。"
+      },
+      {
+        "id": "transition_chart",
+        "type": "chart",
+        "chartId": "paired_transitions"
+      },
+      {
+        "id": "category",
+        "type": "table",
+        "tableId": "category_table"
+      },
+      {
+        "id": "evaluation_issue",
+        "type": "markdown",
+        "body": "## 评测器缺陷改变绝对值，但没有消除主结论\n\n`extract_answer_official()` 保留 `Answer:` 前缀，随后 `extract_first_option()` 在无法先识别显式选项时会抓取第一个大写字母。例如参考答案 A、模型输出 `Answer: D` 可被判为正确。现有数据中至少有 Base 86 条、Vision-OPD 87 条、Cached 48 条属于可明确确认的这种误报。\n\n该问题意味着 Day 15 的完整性 Gate 证明了记录齐全和协议一致，却没有证明评分逻辑正确。下表只做保守敏感性分析，冻结 R3 文件未被修改。"
+      },
+      {
+        "id": "sensitivity",
+        "type": "table",
+        "tableId": "sensitivity_table"
+      },
+      {
+        "id": "other_factors",
+        "type": "markdown",
+        "body": "## 次要但必须保留的限制\n\n- 论文 Judge 记录为 GPT-OSS-120B，本项目因不可用改用冻结 Qwen3.5-4B Base Judge；该替代的偏差尚未量化。\n- V* 有 21/191 条测试图像与训练图像确认重合。剔除明确误报后，Vision-OPD 在重合 21 条为 18/21，在其余 170 条为 125/170；两部分都没有支持论文式增益，重合不能解释当前低分。\n- 本项目 Base 在 V* 和 ZoomBench 接近论文量级，但 MMStar 在保守敏感性口径下明显低于论文 Base。这说明 MMStar 的绝对数值尤其不能直接横向对齐。"
+      },
+      {
+        "id": "next_steps",
+        "type": "markdown",
+        "body": "## 下一步行动\n\n1. **先修评分，不立刻重训。** 修复 Answer 前缀解析并新增回归用例；建立独立 R4，重新路由所有 Base、Vision-OPD、Cached 样本，必要时补跑 Judge。保留 R3 作为历史结果。\n2. **用最小对照验证训练缩放假设。** 优先做 64–128 prompt Pilot，对比当前 batch 8 / n=1 与尽可能接近 batch 96 / n=8 的配置；至少把 EMA 系数按 optimizer-step 粒度重新标定。\n3. **确认 Pilot 的配对趋势后再花费完整训练成本。** Gate 应同时要求 ZoomBench 增益、MMStar/V* 不出现显著回归，并查看错→对与对→错。\n4. **不要仅延长当前训练。** 当前 loss 已从 0.02727 降至 0.000778，继续相同轨迹没有证据能恢复外部能力，反而可能加深漂移。"
+      },
+      {
+        "id": "validation",
+        "type": "markdown",
+        "body": "## 验证结论与限制\n\n**总体评估：Share with caveats。** 训练完成、分母、逐题配对和配置差异均已复核；核心结论“当前缩规模配置未复现论文收益”可靠。精确准确率存在高严重度评分缺陷，必须在 R4 后才能作为最终对外指标。\n\n最可能原因是 batch / rollout / update / EMA 时间尺度共同变化，但现有单次运行不能分离各因素的因果贡献。当前证据不支持把问题归因于 GPU 故障、checkpoint 损坏、训练未完成或单纯训练时间不足。"
+      },
+      {
+        "id": "methods",
+        "type": "markdown",
+        "body": "## 数据、定义与方法\n\n数据截至 2026-09-08 UTC。冻结 R3 包含 ZoomBench 845、MMStar 1,500、V* 191，共 2,536 条；所有 inference failure 均保留在分母。`明确误报剔除` 仅指：旧 first-letter 规则判对，同时模型回答开头可明确解析为与参考不同的 A–F 选项。该分析不会推断无法明确解析的回答，也不会修改原始 score。\n\n可继续核查的问题：R4 重评分后各 Benchmark 差值是否稳定；更接近作者 batch / rollout 的 Pilot 是否恢复 V* relative_position；EMA 按样本量或 step 数重新标定后是否减少遗忘。"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-09-08T17:06:17Z",
+    "status": "ready",
+    "datasets": {
+      "headline": [
+        {
+          "scope": "frozen_r3",
+          "vision_micro_delta": -0.041403785488958955,
+          "zoom_delta": 0.01893491124260349,
+          "mmstar_delta": -0.07066666666666666,
+          "vstar_delta": -0.07853403141361259,
+          "total": 2536
+        }
+      ],
+      "gain_comparison": [
+        {
+          "benchmark": "V* Bench",
+          "setup": "论文 Table 2",
+          "delta_vs_base": 0.0786,
+          "base_accuracy": 0.8429,
+          "vision_accuracy": 0.9215,
+          "protocol": "paper_reported"
+        },
+        {
+          "benchmark": "V* Bench",
+          "setup": "本项目冻结 R3",
+          "delta_vs_base": -0.07853403141361259,
+          "base_accuracy": 0.837696335078534,
+          "vision_accuracy": 0.7591623036649214,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "ZoomBench",
+          "setup": "论文 Table 2",
+          "delta_vs_base": 0.12070000000000003,
+          "base_accuracy": 0.4769,
+          "vision_accuracy": 0.5976,
+          "protocol": "paper_reported"
+        },
+        {
+          "benchmark": "ZoomBench",
+          "setup": "本项目冻结 R3",
+          "delta_vs_base": 0.01893491124260349,
+          "base_accuracy": 0.506508875739645,
+          "vision_accuracy": 0.5254437869822485,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "MMStar",
+          "setup": "论文 Table 2",
+          "delta_vs_base": 0.010700000000000043,
+          "base_accuracy": 0.7853,
+          "vision_accuracy": 0.796,
+          "protocol": "paper_reported"
+        },
+        {
+          "benchmark": "MMStar",
+          "setup": "本项目冻结 R3",
+          "delta_vs_base": -0.07066666666666666,
+          "base_accuracy": 0.7506666666666667,
+          "vision_accuracy": 0.68,
+          "protocol": "local_r3_frozen"
+        }
+      ],
+      "benchmark_long": [
+        {
+          "benchmark": "V* Bench",
+          "model": "Base",
+          "accuracy": 0.837696335078534,
+          "total": 191,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "V* Bench",
+          "model": "Vision-OPD",
+          "accuracy": 0.7591623036649214,
+          "total": 191,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "V* Bench",
+          "model": "Cached Prefix",
+          "accuracy": 0.774869109947644,
+          "total": 191,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "ZoomBench",
+          "model": "Base",
+          "accuracy": 0.506508875739645,
+          "total": 845,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "ZoomBench",
+          "model": "Vision-OPD",
+          "accuracy": 0.5254437869822485,
+          "total": 845,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "ZoomBench",
+          "model": "Cached Prefix",
+          "accuracy": 0.5136094674556213,
+          "total": 845,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "MMStar",
+          "model": "Base",
+          "accuracy": 0.7506666666666667,
+          "total": 1500,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "MMStar",
+          "model": "Vision-OPD",
+          "accuracy": 0.68,
+          "total": 1500,
+          "protocol": "local_r3_frozen"
+        },
+        {
+          "benchmark": "MMStar",
+          "model": "Cached Prefix",
+          "accuracy": 0.6246666666666667,
+          "total": 1500,
+          "protocol": "local_r3_frozen"
+        }
+      ],
+      "paired_transitions": [
+        {
+          "comparison": "Base → Vision-OPD",
+          "transition": "错→对",
+          "count": 306,
+          "net_change": -105
+        },
+        {
+          "comparison": "Base → Vision-OPD",
+          "transition": "对→错",
+          "count": 411,
+          "net_change": -105
+        },
+        {
+          "comparison": "Base → Cached",
+          "transition": "错→对",
+          "count": 287,
+          "net_change": -195
+        },
+        {
+          "comparison": "Base → Cached",
+          "transition": "对→错",
+          "count": 482,
+          "net_change": -195
+        },
+        {
+          "comparison": "Vision-OPD → Cached",
+          "transition": "错→对",
+          "count": 255,
+          "net_change": -90
+        },
+        {
+          "comparison": "Vision-OPD → Cached",
+          "transition": "对→错",
+          "count": 345,
+          "net_change": -90
+        }
+      ],
+      "configuration_comparison": [
+        {
+          "parameter": "GPU",
+          "author_entry": "8",
+          "current_run": "2",
+          "ratio_or_effect": "资源缩放"
+        },
+        {
+          "parameter": "global / PPO batch",
+          "author_entry": "96 / 96",
+          "current_run": "8 / 8",
+          "ratio_or_effect": "当前为 1/12"
+        },
+        {
+          "parameter": "rollout n",
+          "author_entry": "8",
+          "current_run": "1",
+          "ratio_or_effect": "当前为 1/8"
+        },
+        {
+          "parameter": "每个 epoch 的 rollout 序列",
+          "author_entry": "49,920",
+          "current_run": "6,240",
+          "ratio_or_effect": "当前为 1/8"
+        },
+        {
+          "parameter": "trainer steps / EMA events",
+          "author_entry": "约 65",
+          "current_run": "780",
+          "ratio_or_effect": "当前为 12×"
+        },
+        {
+          "parameter": "Student Adam updates（估算）",
+          "author_entry": "约 520",
+          "current_run": "780",
+          "ratio_or_effect": "当前约为 1.5×；mini-batch 为 1/12"
+        },
+        {
+          "parameter": "EMA 初始教师权重系数",
+          "author_entry": "0.0356",
+          "current_run": "4.21e-18",
+          "ratio_or_effect": "同一 0.05 系数处于不同时间尺度"
+        },
+        {
+          "parameter": "learning rate",
+          "author_entry": "2e-6",
+          "current_run": "2e-6",
+          "ratio_or_effect": "未随 batch / step 缩放"
+        },
+        {
+          "parameter": "response / epoch / Top-K / JSD / EMA",
+          "author_entry": "1024 / 1 / 100 / 0.5 / 0.05",
+          "current_run": "相同",
+          "ratio_or_effect": "核心参数对齐"
+        }
+      ],
+      "parser_sensitivity": [
+        {
+          "model": "Base",
+          "benchmark": "ZoomBench",
+          "total": 845,
+          "frozen_r3_correct": 428,
+          "frozen_r3_accuracy": 0.506508875739645,
+          "explicit_false_positives": 0,
+          "explicit_mismatch_adjusted_correct": 428,
+          "explicit_mismatch_adjusted_accuracy": 0.506508875739645
+        },
+        {
+          "model": "Base",
+          "benchmark": "MMStar",
+          "total": 1500,
+          "frozen_r3_correct": 1126,
+          "frozen_r3_accuracy": 0.7506666666666667,
+          "explicit_false_positives": 86,
+          "explicit_mismatch_adjusted_correct": 1040,
+          "explicit_mismatch_adjusted_accuracy": 0.6933333333333334
+        },
+        {
+          "model": "Base",
+          "benchmark": "V* Bench",
+          "total": 191,
+          "frozen_r3_correct": 160,
+          "frozen_r3_accuracy": 0.837696335078534,
+          "explicit_false_positives": 0,
+          "explicit_mismatch_adjusted_correct": 160,
+          "explicit_mismatch_adjusted_accuracy": 0.837696335078534
+        },
+        {
+          "model": "Base",
+          "benchmark": "Micro 汇总",
+          "total": 2536,
+          "frozen_r3_correct": 1714,
+          "frozen_r3_accuracy": 0.6758675078864353,
+          "explicit_false_positives": 86,
+          "explicit_mismatch_adjusted_correct": 1628,
+          "explicit_mismatch_adjusted_accuracy": 0.6419558359621451
+        },
+        {
+          "model": "Vision-OPD",
+          "benchmark": "ZoomBench",
+          "total": 845,
+          "frozen_r3_correct": 444,
+          "frozen_r3_accuracy": 0.5254437869822485,
+          "explicit_false_positives": 0,
+          "explicit_mismatch_adjusted_correct": 444,
+          "explicit_mismatch_adjusted_accuracy": 0.5254437869822485
+        },
+        {
+          "model": "Vision-OPD",
+          "benchmark": "MMStar",
+          "total": 1500,
+          "frozen_r3_correct": 1020,
+          "frozen_r3_accuracy": 0.68,
+          "explicit_false_positives": 85,
+          "explicit_mismatch_adjusted_correct": 935,
+          "explicit_mismatch_adjusted_accuracy": 0.6233333333333333
+        },
+        {
+          "model": "Vision-OPD",
+          "benchmark": "V* Bench",
+          "total": 191,
+          "frozen_r3_correct": 145,
+          "frozen_r3_accuracy": 0.7591623036649214,
+          "explicit_false_positives": 2,
+          "explicit_mismatch_adjusted_correct": 143,
+          "explicit_mismatch_adjusted_accuracy": 0.7486910994764397
+        },
+        {
+          "model": "Vision-OPD",
+          "benchmark": "Micro 汇总",
+          "total": 2536,
+          "frozen_r3_correct": 1609,
+          "frozen_r3_accuracy": 0.6344637223974764,
+          "explicit_false_positives": 87,
+          "explicit_mismatch_adjusted_correct": 1522,
+          "explicit_mismatch_adjusted_accuracy": 0.6001577287066246
+        },
+        {
+          "model": "Cached Prefix",
+          "benchmark": "ZoomBench",
+          "total": 845,
+          "frozen_r3_correct": 434,
+          "frozen_r3_accuracy": 0.5136094674556213,
+          "explicit_false_positives": 0,
+          "explicit_mismatch_adjusted_correct": 434,
+          "explicit_mismatch_adjusted_accuracy": 0.5136094674556213
+        },
+        {
+          "model": "Cached Prefix",
+          "benchmark": "MMStar",
+          "total": 1500,
+          "frozen_r3_correct": 937,
+          "frozen_r3_accuracy": 0.6246666666666667,
+          "explicit_false_positives": 48,
+          "explicit_mismatch_adjusted_correct": 889,
+          "explicit_mismatch_adjusted_accuracy": 0.5926666666666667
+        },
+        {
+          "model": "Cached Prefix",
+          "benchmark": "V* Bench",
+          "total": 191,
+          "frozen_r3_correct": 148,
+          "frozen_r3_accuracy": 0.774869109947644,
+          "explicit_false_positives": 0,
+          "explicit_mismatch_adjusted_correct": 148,
+          "explicit_mismatch_adjusted_accuracy": 0.774869109947644
+        },
+        {
+          "model": "Cached Prefix",
+          "benchmark": "Micro 汇总",
+          "total": 2536,
+          "frozen_r3_correct": 1519,
+          "frozen_r3_accuracy": 0.5989747634069401,
+          "explicit_false_positives": 48,
+          "explicit_mismatch_adjusted_correct": 1471,
+          "explicit_mismatch_adjusted_accuracy": 0.5800473186119873
+        }
+      ],
+      "parser_summary": [
+        {
+          "model": "Base",
+          "first_letter_accepted": 665,
+          "explicit_mismatch_false_positives": 86,
+          "affected_share": 0.1293233082706767
+        },
+        {
+          "model": "Vision-OPD",
+          "first_letter_accepted": 490,
+          "explicit_mismatch_false_positives": 87,
+          "affected_share": 0.17755102040816326
+        },
+        {
+          "model": "Cached Prefix",
+          "first_letter_accepted": 455,
+          "explicit_mismatch_false_positives": 48,
+          "affected_share": 0.1054945054945055
+        }
+      ],
+      "category_sensitivity": [
+        {
+          "benchmark": "V* Bench",
+          "category": "relative_position",
+          "total": 76,
+          "base_accuracy": 0.8289473684210527,
+          "vision_accuracy": 0.631578947368421,
+          "vision_delta_vs_base": -0.19736842105263164,
+          "cached_accuracy": 0.75,
+          "cached_delta_vs_base": -0.07894736842105265
+        },
+        {
+          "benchmark": "MMStar",
+          "category": "logical reasoning",
+          "total": 250,
+          "base_accuracy": 0.768,
+          "vision_accuracy": 0.64,
+          "vision_delta_vs_base": -0.128,
+          "cached_accuracy": 0.564,
+          "cached_delta_vs_base": -0.20400000000000007
+        },
+        {
+          "benchmark": "MMStar",
+          "category": "fine-grained perception",
+          "total": 250,
+          "base_accuracy": 0.652,
+          "vision_accuracy": 0.556,
+          "vision_delta_vs_base": -0.09599999999999997,
+          "cached_accuracy": 0.508,
+          "cached_delta_vs_base": -0.14400000000000002
+        },
+        {
+          "benchmark": "MMStar",
+          "category": "math",
+          "total": 250,
+          "base_accuracy": 0.808,
+          "vision_accuracy": 0.72,
+          "vision_delta_vs_base": -0.08800000000000008,
+          "cached_accuracy": 0.724,
+          "cached_delta_vs_base": -0.08400000000000007
+        },
+        {
+          "benchmark": "MMStar",
+          "category": "instance reasoning",
+          "total": 250,
+          "base_accuracy": 0.724,
+          "vision_accuracy": 0.648,
+          "vision_delta_vs_base": -0.07599999999999996,
+          "cached_accuracy": 0.632,
+          "cached_delta_vs_base": -0.09199999999999997
+        },
+        {
+          "benchmark": "V* Bench",
+          "category": "direct_attributes",
+          "total": 115,
+          "base_accuracy": 0.8434782608695652,
+          "vision_accuracy": 0.8260869565217391,
+          "vision_delta_vs_base": -0.017391304347826098,
+          "cached_accuracy": 0.7913043478260869,
+          "cached_delta_vs_base": -0.05217391304347829
+        },
+        {
+          "benchmark": "MMStar",
+          "category": "coarse perception",
+          "total": 250,
+          "base_accuracy": 0.708,
+          "vision_accuracy": 0.692,
+          "vision_delta_vs_base": -0.016000000000000014,
+          "cached_accuracy": 0.664,
+          "cached_delta_vs_base": -0.04399999999999993
+        },
+        {
+          "benchmark": "MMStar",
+          "category": "science & technology",
+          "total": 250,
+          "base_accuracy": 0.5,
+          "vision_accuracy": 0.484,
+          "vision_delta_vs_base": -0.016000000000000014,
+          "cached_accuracy": 0.464,
+          "cached_delta_vs_base": -0.035999999999999976
+        },
+        {
+          "benchmark": "ZoomBench",
+          "category": "multiple_choice",
+          "total": 621,
+          "base_accuracy": 0.5587761674718197,
+          "vision_accuracy": 0.573268921095008,
+          "vision_delta_vs_base": 0.01449275362318836,
+          "cached_accuracy": 0.5571658615136876,
+          "cached_delta_vs_base": -0.0016103059581320522
+        },
+        {
+          "benchmark": "ZoomBench",
+          "category": "open_question",
+          "total": 224,
+          "base_accuracy": 0.36160714285714285,
+          "vision_accuracy": 0.39285714285714285,
+          "vision_delta_vs_base": 0.03125,
+          "cached_accuracy": 0.39285714285714285,
+          "cached_delta_vs_base": 0.03125
+        }
+      ],
+      "vstar_overlap_sensitivity": [
+        {
+          "model": "Base",
+          "split": "21 张训练重合图像",
+          "total": 21,
+          "correct": 19,
+          "accuracy": 0.9047619047619048
+        },
+        {
+          "model": "Base",
+          "split": "其余 170 条",
+          "total": 170,
+          "correct": 141,
+          "accuracy": 0.8294117647058824
+        },
+        {
+          "model": "Vision-OPD",
+          "split": "21 张训练重合图像",
+          "total": 21,
+          "correct": 18,
+          "accuracy": 0.8571428571428571
+        },
+        {
+          "model": "Vision-OPD",
+          "split": "其余 170 条",
+          "total": 170,
+          "correct": 125,
+          "accuracy": 0.7352941176470589
+        },
+        {
+          "model": "Cached Prefix",
+          "split": "21 张训练重合图像",
+          "total": 21,
+          "correct": 17,
+          "accuracy": 0.8095238095238095
+        },
+        {
+          "model": "Cached Prefix",
+          "split": "其余 170 条",
+          "total": 170,
+          "correct": 131,
+          "accuracy": 0.7705882352941177
+        }
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {
+      "id": "day15_r3",
+      "label": "Day 15 frozen R3 comparison",
+      "path": "artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json",
+      "query": {
+        "engine": "duckdb",
+        "sql": "SELECT * FROM read_json_auto('artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json')",
+        "description": "Loads the frozen Day 15 benchmark rows and paired transitions.",
+        "tables_used": [
+          "artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json"
+        ],
+        "filters": [
+          "status = PASS",
+          "all three model roles present"
+        ],
+        "metric_definitions": {
+          "accuracy": "correct / frozen benchmark denominator",
+          "delta_vs_base": "trained-model accuracy minus Base accuracy"
+        }
+      }
+    },
+    {
+      "id": "paper_pdf",
+      "label": "Vision-OPD paper, Tables 1–6",
+      "path": "docs/Vision-OPD.pdf"
+    },
+    {
+      "id": "author_launcher",
+      "label": "Author training launcher",
+      "path": "scripts/run_vision_opd.sh"
+    },
+    {
+      "id": "selected_config",
+      "label": "Selected two-GPU training config",
+      "path": "configs/vopd_6241.yaml"
+    },
+    {
+      "id": "score_code",
+      "label": "Frozen R3 answer parsing and scoring code",
+      "path": "eval/paper_aligned_common.py"
+    },
+    {
+      "id": "diagnostic_data",
+      "label": "Reproducible Day 16 diagnostic data",
+      "path": "artifacts/reports/vision_opd_gap_diagnostic/diagnostic_data.json",
+      "query": {
+        "engine": "duckdb",
+        "sql": "SELECT * FROM read_json_auto('artifacts/reports/vision_opd_gap_diagnostic/diagnostic_data.json')",
+        "description": "Loads the reproducible parser sensitivity, category, overlap, paper-gap, and configuration datasets.",
+        "tables_used": [
+          "artifacts/reports/vision_opd_gap_diagnostic/diagnostic_data.json"
+        ],
+        "filters": [
+          "frozen Day 15 scores only",
+          "explicit first-letter mismatches only in sensitivity adjustment"
+        ],
+        "metric_definitions": {
+          "explicit_false_positive": "frozen first-letter rule accepted while a leading explicit A-F answer differs from the reference",
+          "explicit_mismatch_adjusted_accuracy": "(frozen correct minus explicit false positives) / frozen denominator"
+        }
+      }
+    },
+    {
+      "id": "overlap_audit",
+      "label": "Train-to-benchmark overlap audit",
+      "path": "artifacts/runs/E-D10-6K-DATA-001/overlap/overlap_report.json"
+    }
+  ],
+  "package_info": {
+    "originUrl": "artifact://vision-opd-gap-diagnostic",
+    "controls": {
+      "edit": false,
+      "refresh": false
+    }
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-08T15:16:59.695724+00:00",
+  "status": "PASS",
+  "experiment_id": "E-D15-6K-FINAL-EVAL-001",
+  "scope": "cached_finalization_and_base_vision_cached_r3_evaluation",
+  "checks": {
+    "cached_cold_reload_5_of_5": true,
+    "pre_score_freeze_pass": true,
+    "all_service_stages_pass": true,
+    "both_smoke_gates_pass": true,
+    "both_formal_gates_pass": true,
+    "comparison_pass": true,
+    "badcase_selection_pass": true
+  },
+  "cached_cold_reload": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix/cold_reload/reload_validation_summary.json",
+    "sha256": "c68659e125bf3a1788ad3e9d20bf328f2cfa2bf063b525aaf68aca8e3d097396"
+  },
+  "pre_score_freeze": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/preflight/eval_design_freeze.json",
+    "sha256": "f97b9554036b16506431ad8de6ddd06f82da519d499ba7e7b001dcca5f32eabb"
+  },
+  "roles": {
+    "vision_opd": {
+      "smoke_validation": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/vision_opd/validation.json",
+      "smoke_validation_sha256": "4f448c0853f89b11edb2f52deb9840713f634b661073f0e4739ae432e59392c5",
+      "formal_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd",
+      "formal_validation_sha256": "0382b7fa799c43d4ff43778e9ac0c60e9747db4be9f9188ef834ba7ee28af68b",
+      "run_manifest_sha256": "184749a097f65ef11b91d955864bc91cc8561f753b6e1aadaef2716624d77166",
+      "predictions_sha256": "fff2c1d67fb5a5b6f6f998c162d68c2c60353f042721a4c1ca76ddc9b7c741e7",
+      "judge_results_sha256": "8386597ee22b16220c4422aa8e19495630db552bc4b6298411e911fff7ff747a",
+      "scores_sha256": "2e7c64ee0296f72e7f2edceff00fe5f8f82392d6cae64df851b264fe19a3b960",
+      "summary_sha256": "b0ad391d195d112ce0203a1fe70a2bc05046407bfb30c65d89f844dda788fa4c",
+      "artifact_sha256_list_sha256": "ce8f4f20eaeda2e313c696c0e76f47cb17843f1be5a570c8cf536a19b583a5a0",
+      "prediction_count": 2536,
+      "score_count": 2536,
+      "judge_required": 1989,
+      "judge_completed": 1989,
+      "groups": {
+        "mmstar/full": {
+          "accuracy": 0.68,
+          "correct": 1020,
+          "incorrect": 480,
+          "pending_judge": 0,
+          "total": 1500
+        },
+        "vstar/full": {
+          "accuracy": 0.7591623036649214,
+          "correct": 145,
+          "incorrect": 46,
+          "pending_judge": 0,
+          "total": 191
+        },
+        "zoombench/full": {
+          "accuracy": 0.5254437869822485,
+          "correct": 444,
+          "incorrect": 401,
+          "pending_judge": 0,
+          "total": 845
+        }
+      },
+      "smoke_status": "pass",
+      "formal_status": "pass"
+    },
+    "cached_prefix": {
+      "smoke_validation": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/cached_prefix/validation.json",
+      "smoke_validation_sha256": "909df98a676eb5d7b69c8d31506053e782d3ab8702cdd593c5d2ba00c67e3f81",
+      "formal_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix",
+      "formal_validation_sha256": "63ae8e19b3d1c3734eb0f3cbdee44876a7d8cecf5f06adb5d5a39989e0ab2c2e",
+      "run_manifest_sha256": "61f07927755a98cd2b6bf293808384e4da0a90ce2664ba2d7b5a231245242eb8",
+      "predictions_sha256": "82473121a69781de8f6f7c6c33d1e5cb495bf2241beb904728885347d1ec991f",
+      "judge_results_sha256": "cba32a0b5a7357bf31dff9a54f694235d36bfd5c9fd05c9c7e0a7e18a95b03c1",
+      "scores_sha256": "7bbb748331a9a77ba7c41a72400e1ac6050875aff37e20b0735add27bb77e0ab",
+      "summary_sha256": "ac92d5400a3984db834c0b9ee612ec36ccd9472f4bf744141ad58f60b4fa9605",
+      "artifact_sha256_list_sha256": "8de7fc6be9c585fbc18c21e45e8f8527d46e6c6649f9db19ffeb3929593965a0",
+      "prediction_count": 2536,
+      "score_count": 2536,
+      "judge_required": 1936,
+      "judge_completed": 1936,
+      "groups": {
+        "mmstar/full": {
+          "accuracy": 0.6246666666666667,
+          "correct": 937,
+          "incorrect": 563,
+          "pending_judge": 0,
+          "total": 1500
+        },
+        "vstar/full": {
+          "accuracy": 0.774869109947644,
+          "correct": 148,
+          "incorrect": 43,
+          "pending_judge": 0,
+          "total": 191
+        },
+        "zoombench/full": {
+          "accuracy": 0.5136094674556213,
+          "correct": 434,
+          "incorrect": 411,
+          "pending_judge": 0,
+          "total": 845
+        }
+      },
+      "smoke_status": "pass",
+      "formal_status": "pass"
+    }
+  },
+  "service_stages": {
+    "formal_both_judge_session.json": {
+      "status": "PASS",
+      "sha256": "2d12e4cf0ff4ecf9c930fc8d1e935f396b9445e0f7ca1758636676c42a7a675a",
+      "service_exit_code": 0
+    },
+    "formal_cached_prefix_inference_session.json": {
+      "status": "PASS",
+      "sha256": "b8fc9438876b2ea991d8647e72c61081381366ceb7230354730125c7d67e84dd",
+      "service_exit_code": 0
+    },
+    "formal_vision_opd_inference_session.json": {
+      "status": "PASS",
+      "sha256": "adb0ea1493527f77e38c5901891c77f3a3a3d2a1f7f8995a63ec46086a196e58",
+      "service_exit_code": 0
+    },
+    "smoke_both_judge_session.json": {
+      "status": "PASS",
+      "sha256": "cdcc8ff5e3e241f680f205a35d9768d75d535a4c646c7ff15e7b8a7d60cbe9d6",
+      "service_exit_code": 0
+    },
+    "smoke_cached_prefix_inference_session.json": {
+      "status": "PASS",
+      "sha256": "86c8316d067b8c301bd956f8f74ec6ab47b5da953956a375f0caf9a59c6f0500",
+      "service_exit_code": 0
+    },
+    "smoke_vision_opd_inference_session.json": {
+      "status": "PASS",
+      "sha256": "817e3726b655e88eb4949105f087306077b3ba769e36669049b6fef6967d374e",
+      "service_exit_code": 0
+    }
+  },
+  "comparison": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json",
+    "sha256": "ce7c82ac3406601aa2f795581194ca113c5592e10cd187cf81418eccbcac4684",
+    "rows": [
+      {
+        "benchmark": "zoombench",
+        "total": 845,
+        "base_correct": 428,
+        "base_accuracy": 0.506508875739645,
+        "vision_opd_correct": 444,
+        "vision_opd_accuracy": 0.5254437869822485,
+        "vision_opd_delta_vs_base": 0.01893491124260349,
+        "cached_prefix_correct": 434,
+        "cached_prefix_accuracy": 0.5136094674556213,
+        "cached_prefix_delta_vs_base": 0.007100591715976323,
+        "cached_prefix_delta_vs_vision_opd": -0.011834319526627168
+      },
+      {
+        "benchmark": "mmstar",
+        "total": 1500,
+        "base_correct": 1126,
+        "base_accuracy": 0.7506666666666667,
+        "vision_opd_correct": 1020,
+        "vision_opd_accuracy": 0.68,
+        "vision_opd_delta_vs_base": -0.07066666666666666,
+        "cached_prefix_correct": 937,
+        "cached_prefix_accuracy": 0.6246666666666667,
+        "cached_prefix_delta_vs_base": -0.126,
+        "cached_prefix_delta_vs_vision_opd": -0.055333333333333345
+      },
+      {
+        "benchmark": "vstar",
+        "total": 191,
+        "base_correct": 160,
+        "base_accuracy": 0.837696335078534,
+        "vision_opd_correct": 145,
+        "vision_opd_accuracy": 0.7591623036649214,
+        "vision_opd_delta_vs_base": -0.07853403141361259,
+        "cached_prefix_correct": 148,
+        "cached_prefix_accuracy": 0.774869109947644,
+        "cached_prefix_delta_vs_base": -0.06282722513089001,
+        "cached_prefix_delta_vs_vision_opd": 0.015706806282722585
+      },
+      {
+        "benchmark": "overall_micro",
+        "total": 2536,
+        "base_correct": 1714,
+        "base_accuracy": 0.6758675078864353,
+        "vision_opd_correct": 1609,
+        "vision_opd_accuracy": 0.6344637223974764,
+        "vision_opd_delta_vs_base": -0.041403785488958955,
+        "cached_prefix_correct": 1519,
+        "cached_prefix_accuracy": 0.5989747634069401,
+        "cached_prefix_delta_vs_base": -0.07689274447949523,
+        "cached_prefix_delta_vs_vision_opd": -0.03548895899053628
+      }
+    ]
+  },
+  "badcases": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/badcases.jsonl",
+    "sha256": "5f418f5a4bf6f7082eaf92f590dd992b0dc598ca1d2148a8f54a8822e6d8afef",
+    "summary_sha256": "b8def7843582d0f076cc32708b25d9065fce33dc4b76d15e9135845941095666",
+    "selected_total": 18,
+    "manual_review_status": "pending"
+  },
+  "brief": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/docs/day15_cached_final_and_r3_eval_brief.md",
+    "sha256": "bffaa03b74520513f580b7619b848e72118f965c21e3ce8d0a634da4b7382c9e"
+  },
+  "boundary": "No checkpoint reselection, score mutation, retraining, or protocol change. Manual bad-case analysis is Day16."
+}

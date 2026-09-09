@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D15-6K-FINAL-EVAL-001",
+  "phase": "cached_final_student_cold_reload",
+  "scope": "final_student_training_samples_functional_inference_only",
+  "training_resume_validated": false,
+  "model_quality_evaluated": false,
+  "source_checkpoint": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780",
+  "merged_model": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/merged_hf",
+  "started_at_utc": "2026-09-08T14:23:15.461212+00:00",
+  "config_sha256": "cf4a20521f01eb12b51b1c6130d6f9cb49888267147adef7d305e8362fa161d7",
+  "script_sha256": "c703be9c779d1c33c16ba805175f89ff3253623cfee585b63d441bca17d35563",
+  "input_parquet_sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+  "checkpoint_manifest_sha256": "5bbe16155d54e00bf251f8bcf19ccf229b05a747309c9c4d30443c4ed2490eb2",
+  "merged_manifest_sha256": "1f6e67b7ac0bf333163c867152875e350d828045fdb87c3f46476ce9a50e7cc0",
+  "merge_receipt_sha256": "368396f32cba07fc81ecc749331406be6c4e97d2c02a462f0d00fbde5b74a2e1",
+  "sample_ids": [
+    "vopd_638745362e8ff75fd4cd3e22",
+    "vopd_31010954d48fdc8236f7856b",
+    "vopd_78f2828c265d5e52341c4ec5",
+    "vopd_05dede4c01d81044a432fb8a",
+    "vopd_48cb45c3d96d3996c294ee4b"
+  ],
+  "status": "PASS",
+  "verification": {
+    "status": "PASS",
+    "prediction_count": 5,
+    "sample_ids": [
+      "vopd_638745362e8ff75fd4cd3e22",
+      "vopd_31010954d48fdc8236f7856b",
+      "vopd_78f2828c265d5e52341c4ec5",
+      "vopd_05dede4c01d81044a432fb8a",
+      "vopd_48cb45c3d96d3996c294ee4b"
+    ],
+    "nonempty_response_count": 5,
+    "inference_error_count": 0,
+    "errors": []
+  },
+  "server_exit_code_after_controlled_shutdown": 0,
+  "source_checkpoint_unchanged": true,
+  "merged_model_unchanged": true,
+  "completed_at_utc": "2026-09-08T14:24:35.354578+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D14-6K-CACHED-001",
+  "guard_exit_code": 0,
+  "training_summary": {
+    "schema_version": 1,
+    "finished_at_utc": "2026-09-08T10:08:04.803923+00:00",
+    "status": "PASS",
+    "return_code": 0,
+    "latest_step": 779,
+    "trigger": null,
+    "termination": null,
+    "checkpoint": {
+      "status": "PASS",
+      "expected_step": 780,
+      "marker_value": "780",
+      "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780",
+      "checks": {
+        "marker_exists": true,
+        "marker_matches_expected_step": true,
+        "step_directory_exists": true,
+        "required_files_present": true,
+        "required_files_nonempty": true
+      },
+      "missing_files": [],
+      "empty_files": []
+    }
+  },
+  "accounting": {
+    "started_at_utc": "2026-09-08T05:21:07.786574+00:00",
+    "finished_at_utc": "2026-09-08T10:08:04.804649+00:00",
+    "elapsed_seconds": 17217.01801769249,
+    "hourly_dual_gpu_rate_cny": 14.0,
+    "estimated_incremental_cost_cny": 66.95507006880413,
+    "is_provider_bill": false
+  },
+  "operational_sources": {
+    "config": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241.yaml",
+      "sha256": "247dedba3eca82ff11df516dd27fdff45c7d1cb5a4666ac89af3c2d9b54fe1bb"
+    },
+    "policy": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/configs/cached_prefix_6241_abort_policy.yaml",
+      "sha256": "df7cd7a6613919abaadc2d0feb87849cf92f4c38144bd4d6871c483294c94ad9"
+    },
+    "promotion": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-CACHED-PILOT-001/formal_promotion_v1/promotion_receipt.json",
+      "sha256": "98a4978b2f67df5b5f555f9362ced28a53403ddcc510183d33a7b1d3f425b4b7"
+    },
+    "launcher": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/run_day14_cached.py",
+      "sha256": "b073d5cac411aad45c3973ab8ca2b839f195f4118436f0304c700be58e3b04dd"
+    }
+  }
+}

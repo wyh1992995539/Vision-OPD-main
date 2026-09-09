@@ -1,0 +1,52 @@
+{
+  "amendment_sha256_raw_bytes": "6f85950a0f566cd61d9cb957842da8dbc92478acf68c66059a9ed6454db92b60",
+  "config_contract": "pass",
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+  "config_sha256_raw_bytes": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "generated_at_utc": "2026-09-08T15:09:25.480263+00:00",
+  "run": {
+    "compaction_stats": {
+      "judges": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      },
+      "predictions": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      },
+      "scores": {
+        "duplicate_keys": 0,
+        "malformed_lines": 0
+      }
+    },
+    "comparability_gate": {
+      "base_identity": "pass",
+      "checked_fields": [
+        "experiment_id",
+        "run_mode",
+        "config_sha256_raw_bytes",
+        "amendment_sha256_raw_bytes",
+        "dataset_files",
+        "request_contract",
+        "expected_requests",
+        "expected_request_count",
+        "limit_per_benchmark",
+        "resume_key"
+      ],
+      "reference_manifest": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base/run_manifest.json",
+      "reference_role": "base",
+      "status": "pass"
+    },
+    "completed_judge_count": 1936,
+    "expected_request_count": 2536,
+    "model_role": "cached_prefix",
+    "prediction_count": 2536,
+    "required_judge_count": 1936,
+    "run_dir": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix",
+    "run_mode": "formal",
+    "score_count": 2536,
+    "status": "pass"
+  },
+  "schema_version": 1,
+  "status": "pass"
+}

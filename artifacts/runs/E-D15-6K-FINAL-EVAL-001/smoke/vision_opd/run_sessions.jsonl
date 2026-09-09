@@ -1,0 +1,2 @@
+{"finished_at_utc": "2026-09-08T14:37:46.305944+00:00", "model_id": "vision-opd-day15-r3", "schema_version": 1, "stage": "inference", "started_at_utc": "2026-09-08T14:37:30.366948+00:00", "submitted_request_count": 12, "wall_seconds": 15.938953, "workers": 16}
+{"finished_at_utc": "2026-09-08T14:41:31.258692+00:00", "model_id": "vision-opd-base-judge", "schema_version": 1, "stage": "judge", "started_at_utc": "2026-09-08T14:41:21.756794+00:00", "submitted_request_count": 10, "wall_seconds": 9.501898, "workers": 16}

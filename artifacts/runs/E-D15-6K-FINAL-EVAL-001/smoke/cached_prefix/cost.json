@@ -1,0 +1,14 @@
+{
+  "estimated_cost_cny": 0.023570297905555558,
+  "excluded_time": "model_server_startup_shutdown and idle time",
+  "gpu_count": 1,
+  "instance_cost_per_wall_hour_cny": 5.98,
+  "measurement_scope": "client_observed_inference_and_judge_sessions_only",
+  "schema_version": 1,
+  "total_wall_hours": 0.003941521388888889,
+  "updated_at_utc": "2026-09-08T14:41:39.760586+00:00",
+  "wall_seconds_by_stage": {
+    "inference": 13.808237,
+    "judge": 0.38124
+  }
+}

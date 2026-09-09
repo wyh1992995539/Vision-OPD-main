@@ -1,0 +1,576 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-08T17:06:17Z",
+  "status": "share_with_caveats",
+  "question": "为什么当前 Vision-OPD 与 Cached Prefix 的效果明显低于论文？",
+  "frozen_r3": {
+    "schema_version": 1,
+    "generated_at_utc": "2026-09-08T15:10:02.384481+00:00",
+    "status": "PASS",
+    "experiment_id": "E-D15-6K-FINAL-EVAL-001",
+    "freeze_config": "/root/autodl-tmp/Vision-OPD-main/configs/day15_final_eval_freeze.yaml",
+    "freeze_config_sha256": "0fd5fbb51827f0704aaca2bddf7e905ea7aac8c32881110652954c70af7d4615",
+    "freeze_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/preflight/eval_design_freeze.json",
+    "freeze_receipt_sha256": "f97b9554036b16506431ad8de6ddd06f82da519d499ba7e7b001dcca5f32eabb",
+    "runs": {
+      "base": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base",
+        "run_manifest_sha256": "d58bccb48939a8667496c2a5256c41e9a34aaef3c2ffb8b073b0ae1ca2f494cf",
+        "scores_sha256": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71",
+        "summary_sha256": "a03aedda76094da9f47205d9fe929fe4714c78efde76c40d013545f1dcad0f98",
+        "validation_sha256": "e63f5632d76c0d72f18e5973b3e9dea9c7cca8bd46bd84820e23cd4175ba23cb"
+      },
+      "vision_opd": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd",
+        "run_manifest_sha256": "184749a097f65ef11b91d955864bc91cc8561f753b6e1aadaef2716624d77166",
+        "scores_sha256": "2e7c64ee0296f72e7f2edceff00fe5f8f82392d6cae64df851b264fe19a3b960",
+        "summary_sha256": "b0ad391d195d112ce0203a1fe70a2bc05046407bfb30c65d89f844dda788fa4c",
+        "validation_sha256": "0382b7fa799c43d4ff43778e9ac0c60e9747db4be9f9188ef834ba7ee28af68b"
+      },
+      "cached_prefix": {
+        "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix",
+        "run_manifest_sha256": "61f07927755a98cd2b6bf293808384e4da0a90ce2664ba2d7b5a231245242eb8",
+        "scores_sha256": "7bbb748331a9a77ba7c41a72400e1ac6050875aff37e20b0735add27bb77e0ab",
+        "summary_sha256": "ac92d5400a3984db834c0b9ee612ec36ccd9472f4bf744141ad58f60b4fa9605",
+        "validation_sha256": "63ae8e19b3d1c3734eb0f3cbdee44876a7d8cecf5f06adb5d5a39989e0ab2c2e"
+      }
+    },
+    "rows": [
+      {
+        "benchmark": "zoombench",
+        "total": 845,
+        "base_correct": 428,
+        "base_accuracy": 0.506508875739645,
+        "vision_opd_correct": 444,
+        "vision_opd_accuracy": 0.5254437869822485,
+        "vision_opd_delta_vs_base": 0.01893491124260349,
+        "cached_prefix_correct": 434,
+        "cached_prefix_accuracy": 0.5136094674556213,
+        "cached_prefix_delta_vs_base": 0.007100591715976323,
+        "cached_prefix_delta_vs_vision_opd": -0.011834319526627168
+      },
+      {
+        "benchmark": "mmstar",
+        "total": 1500,
+        "base_correct": 1126,
+        "base_accuracy": 0.7506666666666667,
+        "vision_opd_correct": 1020,
+        "vision_opd_accuracy": 0.68,
+        "vision_opd_delta_vs_base": -0.07066666666666666,
+        "cached_prefix_correct": 937,
+        "cached_prefix_accuracy": 0.6246666666666667,
+        "cached_prefix_delta_vs_base": -0.126,
+        "cached_prefix_delta_vs_vision_opd": -0.055333333333333345
+      },
+      {
+        "benchmark": "vstar",
+        "total": 191,
+        "base_correct": 160,
+        "base_accuracy": 0.837696335078534,
+        "vision_opd_correct": 145,
+        "vision_opd_accuracy": 0.7591623036649214,
+        "vision_opd_delta_vs_base": -0.07853403141361259,
+        "cached_prefix_correct": 148,
+        "cached_prefix_accuracy": 0.774869109947644,
+        "cached_prefix_delta_vs_base": -0.06282722513089001,
+        "cached_prefix_delta_vs_vision_opd": 0.015706806282722585
+      },
+      {
+        "benchmark": "overall_micro",
+        "total": 2536,
+        "base_correct": 1714,
+        "base_accuracy": 0.6758675078864353,
+        "vision_opd_correct": 1609,
+        "vision_opd_accuracy": 0.6344637223974764,
+        "vision_opd_delta_vs_base": -0.041403785488958955,
+        "cached_prefix_correct": 1519,
+        "cached_prefix_accuracy": 0.5989747634069401,
+        "cached_prefix_delta_vs_base": -0.07689274447949523,
+        "cached_prefix_delta_vs_vision_opd": -0.03548895899053628
+      }
+    ],
+    "paired_transitions": {
+      "base_to_vision_opd": {
+        "incorrect_to_correct": 306,
+        "correct_to_incorrect": 411
+      },
+      "base_to_cached_prefix": {
+        "incorrect_to_correct": 287,
+        "correct_to_incorrect": 482
+      },
+      "vision_opd_to_cached_prefix": {
+        "incorrect_to_correct": 255,
+        "correct_to_incorrect": 345
+      }
+    },
+    "notes": [
+      "All failures and invalid outputs remain in the frozen denominator.",
+      "V* primary denominator is 191.",
+      "Comparison does not mutate scores or select checkpoints."
+    ]
+  },
+  "paper_table_2": {
+    "V* Bench": {
+      "Base": 0.8429,
+      "Vision-OPD": 0.9215
+    },
+    "ZoomBench": {
+      "Base": 0.4769,
+      "Vision-OPD": 0.5976
+    },
+    "MMStar": {
+      "Base": 0.7853,
+      "Vision-OPD": 0.796
+    }
+  },
+  "gain_comparison": [
+    {
+      "benchmark": "V* Bench",
+      "setup": "论文 Table 2",
+      "delta_vs_base": 0.0786,
+      "base_accuracy": 0.8429,
+      "vision_accuracy": 0.9215,
+      "protocol": "paper_reported"
+    },
+    {
+      "benchmark": "V* Bench",
+      "setup": "本项目冻结 R3",
+      "delta_vs_base": -0.07853403141361259,
+      "base_accuracy": 0.837696335078534,
+      "vision_accuracy": 0.7591623036649214,
+      "protocol": "local_r3_frozen"
+    },
+    {
+      "benchmark": "ZoomBench",
+      "setup": "论文 Table 2",
+      "delta_vs_base": 0.12070000000000003,
+      "base_accuracy": 0.4769,
+      "vision_accuracy": 0.5976,
+      "protocol": "paper_reported"
+    },
+    {
+      "benchmark": "ZoomBench",
+      "setup": "本项目冻结 R3",
+      "delta_vs_base": 0.01893491124260349,
+      "base_accuracy": 0.506508875739645,
+      "vision_accuracy": 0.5254437869822485,
+      "protocol": "local_r3_frozen"
+    },
+    {
+      "benchmark": "MMStar",
+      "setup": "论文 Table 2",
+      "delta_vs_base": 0.010700000000000043,
+      "base_accuracy": 0.7853,
+      "vision_accuracy": 0.796,
+      "protocol": "paper_reported"
+    },
+    {
+      "benchmark": "MMStar",
+      "setup": "本项目冻结 R3",
+      "delta_vs_base": -0.07066666666666666,
+      "base_accuracy": 0.7506666666666667,
+      "vision_accuracy": 0.68,
+      "protocol": "local_r3_frozen"
+    }
+  ],
+  "parser_sensitivity": [
+    {
+      "model": "Base",
+      "benchmark": "ZoomBench",
+      "total": 845,
+      "frozen_r3_correct": 428,
+      "frozen_r3_accuracy": 0.506508875739645,
+      "explicit_false_positives": 0,
+      "explicit_mismatch_adjusted_correct": 428,
+      "explicit_mismatch_adjusted_accuracy": 0.506508875739645
+    },
+    {
+      "model": "Base",
+      "benchmark": "MMStar",
+      "total": 1500,
+      "frozen_r3_correct": 1126,
+      "frozen_r3_accuracy": 0.7506666666666667,
+      "explicit_false_positives": 86,
+      "explicit_mismatch_adjusted_correct": 1040,
+      "explicit_mismatch_adjusted_accuracy": 0.6933333333333334
+    },
+    {
+      "model": "Base",
+      "benchmark": "V* Bench",
+      "total": 191,
+      "frozen_r3_correct": 160,
+      "frozen_r3_accuracy": 0.837696335078534,
+      "explicit_false_positives": 0,
+      "explicit_mismatch_adjusted_correct": 160,
+      "explicit_mismatch_adjusted_accuracy": 0.837696335078534
+    },
+    {
+      "model": "Base",
+      "benchmark": "Micro 汇总",
+      "total": 2536,
+      "frozen_r3_correct": 1714,
+      "frozen_r3_accuracy": 0.6758675078864353,
+      "explicit_false_positives": 86,
+      "explicit_mismatch_adjusted_correct": 1628,
+      "explicit_mismatch_adjusted_accuracy": 0.6419558359621451
+    },
+    {
+      "model": "Vision-OPD",
+      "benchmark": "ZoomBench",
+      "total": 845,
+      "frozen_r3_correct": 444,
+      "frozen_r3_accuracy": 0.5254437869822485,
+      "explicit_false_positives": 0,
+      "explicit_mismatch_adjusted_correct": 444,
+      "explicit_mismatch_adjusted_accuracy": 0.5254437869822485
+    },
+    {
+      "model": "Vision-OPD",
+      "benchmark": "MMStar",
+      "total": 1500,
+      "frozen_r3_correct": 1020,
+      "frozen_r3_accuracy": 0.68,
+      "explicit_false_positives": 85,
+      "explicit_mismatch_adjusted_correct": 935,
+      "explicit_mismatch_adjusted_accuracy": 0.6233333333333333
+    },
+    {
+      "model": "Vision-OPD",
+      "benchmark": "V* Bench",
+      "total": 191,
+      "frozen_r3_correct": 145,
+      "frozen_r3_accuracy": 0.7591623036649214,
+      "explicit_false_positives": 2,
+      "explicit_mismatch_adjusted_correct": 143,
+      "explicit_mismatch_adjusted_accuracy": 0.7486910994764397
+    },
+    {
+      "model": "Vision-OPD",
+      "benchmark": "Micro 汇总",
+      "total": 2536,
+      "frozen_r3_correct": 1609,
+      "frozen_r3_accuracy": 0.6344637223974764,
+      "explicit_false_positives": 87,
+      "explicit_mismatch_adjusted_correct": 1522,
+      "explicit_mismatch_adjusted_accuracy": 0.6001577287066246
+    },
+    {
+      "model": "Cached Prefix",
+      "benchmark": "ZoomBench",
+      "total": 845,
+      "frozen_r3_correct": 434,
+      "frozen_r3_accuracy": 0.5136094674556213,
+      "explicit_false_positives": 0,
+      "explicit_mismatch_adjusted_correct": 434,
+      "explicit_mismatch_adjusted_accuracy": 0.5136094674556213
+    },
+    {
+      "model": "Cached Prefix",
+      "benchmark": "MMStar",
+      "total": 1500,
+      "frozen_r3_correct": 937,
+      "frozen_r3_accuracy": 0.6246666666666667,
+      "explicit_false_positives": 48,
+      "explicit_mismatch_adjusted_correct": 889,
+      "explicit_mismatch_adjusted_accuracy": 0.5926666666666667
+    },
+    {
+      "model": "Cached Prefix",
+      "benchmark": "V* Bench",
+      "total": 191,
+      "frozen_r3_correct": 148,
+      "frozen_r3_accuracy": 0.774869109947644,
+      "explicit_false_positives": 0,
+      "explicit_mismatch_adjusted_correct": 148,
+      "explicit_mismatch_adjusted_accuracy": 0.774869109947644
+    },
+    {
+      "model": "Cached Prefix",
+      "benchmark": "Micro 汇总",
+      "total": 2536,
+      "frozen_r3_correct": 1519,
+      "frozen_r3_accuracy": 0.5989747634069401,
+      "explicit_false_positives": 48,
+      "explicit_mismatch_adjusted_correct": 1471,
+      "explicit_mismatch_adjusted_accuracy": 0.5800473186119873
+    }
+  ],
+  "parser_summary": [
+    {
+      "model": "Base",
+      "first_letter_accepted": 665,
+      "explicit_mismatch_false_positives": 86,
+      "affected_share": 0.1293233082706767
+    },
+    {
+      "model": "Vision-OPD",
+      "first_letter_accepted": 490,
+      "explicit_mismatch_false_positives": 87,
+      "affected_share": 0.17755102040816326
+    },
+    {
+      "model": "Cached Prefix",
+      "first_letter_accepted": 455,
+      "explicit_mismatch_false_positives": 48,
+      "affected_share": 0.1054945054945055
+    }
+  ],
+  "category_sensitivity": [
+    {
+      "benchmark": "V* Bench",
+      "category": "relative_position",
+      "total": 76,
+      "base_accuracy": 0.8289473684210527,
+      "vision_accuracy": 0.631578947368421,
+      "vision_delta_vs_base": -0.19736842105263164,
+      "cached_accuracy": 0.75,
+      "cached_delta_vs_base": -0.07894736842105265
+    },
+    {
+      "benchmark": "MMStar",
+      "category": "logical reasoning",
+      "total": 250,
+      "base_accuracy": 0.768,
+      "vision_accuracy": 0.64,
+      "vision_delta_vs_base": -0.128,
+      "cached_accuracy": 0.564,
+      "cached_delta_vs_base": -0.20400000000000007
+    },
+    {
+      "benchmark": "MMStar",
+      "category": "fine-grained perception",
+      "total": 250,
+      "base_accuracy": 0.652,
+      "vision_accuracy": 0.556,
+      "vision_delta_vs_base": -0.09599999999999997,
+      "cached_accuracy": 0.508,
+      "cached_delta_vs_base": -0.14400000000000002
+    },
+    {
+      "benchmark": "MMStar",
+      "category": "math",
+      "total": 250,
+      "base_accuracy": 0.808,
+      "vision_accuracy": 0.72,
+      "vision_delta_vs_base": -0.08800000000000008,
+      "cached_accuracy": 0.724,
+      "cached_delta_vs_base": -0.08400000000000007
+    },
+    {
+      "benchmark": "MMStar",
+      "category": "instance reasoning",
+      "total": 250,
+      "base_accuracy": 0.724,
+      "vision_accuracy": 0.648,
+      "vision_delta_vs_base": -0.07599999999999996,
+      "cached_accuracy": 0.632,
+      "cached_delta_vs_base": -0.09199999999999997
+    },
+    {
+      "benchmark": "V* Bench",
+      "category": "direct_attributes",
+      "total": 115,
+      "base_accuracy": 0.8434782608695652,
+      "vision_accuracy": 0.8260869565217391,
+      "vision_delta_vs_base": -0.017391304347826098,
+      "cached_accuracy": 0.7913043478260869,
+      "cached_delta_vs_base": -0.05217391304347829
+    },
+    {
+      "benchmark": "MMStar",
+      "category": "coarse perception",
+      "total": 250,
+      "base_accuracy": 0.708,
+      "vision_accuracy": 0.692,
+      "vision_delta_vs_base": -0.016000000000000014,
+      "cached_accuracy": 0.664,
+      "cached_delta_vs_base": -0.04399999999999993
+    },
+    {
+      "benchmark": "MMStar",
+      "category": "science & technology",
+      "total": 250,
+      "base_accuracy": 0.5,
+      "vision_accuracy": 0.484,
+      "vision_delta_vs_base": -0.016000000000000014,
+      "cached_accuracy": 0.464,
+      "cached_delta_vs_base": -0.035999999999999976
+    },
+    {
+      "benchmark": "ZoomBench",
+      "category": "multiple_choice",
+      "total": 621,
+      "base_accuracy": 0.5587761674718197,
+      "vision_accuracy": 0.573268921095008,
+      "vision_delta_vs_base": 0.01449275362318836,
+      "cached_accuracy": 0.5571658615136876,
+      "cached_delta_vs_base": -0.0016103059581320522
+    },
+    {
+      "benchmark": "ZoomBench",
+      "category": "open_question",
+      "total": 224,
+      "base_accuracy": 0.36160714285714285,
+      "vision_accuracy": 0.39285714285714285,
+      "vision_delta_vs_base": 0.03125,
+      "cached_accuracy": 0.39285714285714285,
+      "cached_delta_vs_base": 0.03125
+    }
+  ],
+  "vstar_overlap_sensitivity": [
+    {
+      "model": "Base",
+      "split": "21 张训练重合图像",
+      "total": 21,
+      "correct": 19,
+      "accuracy": 0.9047619047619048
+    },
+    {
+      "model": "Base",
+      "split": "其余 170 条",
+      "total": 170,
+      "correct": 141,
+      "accuracy": 0.8294117647058824
+    },
+    {
+      "model": "Vision-OPD",
+      "split": "21 张训练重合图像",
+      "total": 21,
+      "correct": 18,
+      "accuracy": 0.8571428571428571
+    },
+    {
+      "model": "Vision-OPD",
+      "split": "其余 170 条",
+      "total": 170,
+      "correct": 125,
+      "accuracy": 0.7352941176470589
+    },
+    {
+      "model": "Cached Prefix",
+      "split": "21 张训练重合图像",
+      "total": 21,
+      "correct": 17,
+      "accuracy": 0.8095238095238095
+    },
+    {
+      "model": "Cached Prefix",
+      "split": "其余 170 条",
+      "total": 170,
+      "correct": 131,
+      "accuracy": 0.7705882352941177
+    }
+  ],
+  "configuration_comparison": [
+    {
+      "parameter": "GPU",
+      "author_entry": "8",
+      "current_run": "2",
+      "ratio_or_effect": "资源缩放"
+    },
+    {
+      "parameter": "global / PPO batch",
+      "author_entry": "96 / 96",
+      "current_run": "8 / 8",
+      "ratio_or_effect": "当前为 1/12"
+    },
+    {
+      "parameter": "rollout n",
+      "author_entry": "8",
+      "current_run": "1",
+      "ratio_or_effect": "当前为 1/8"
+    },
+    {
+      "parameter": "每个 epoch 的 rollout 序列",
+      "author_entry": "49,920",
+      "current_run": "6,240",
+      "ratio_or_effect": "当前为 1/8"
+    },
+    {
+      "parameter": "trainer steps / EMA events",
+      "author_entry": "约 65",
+      "current_run": "780",
+      "ratio_or_effect": "当前为 12×"
+    },
+    {
+      "parameter": "Student Adam updates（估算）",
+      "author_entry": "约 520",
+      "current_run": "780",
+      "ratio_or_effect": "当前约为 1.5×；mini-batch 为 1/12"
+    },
+    {
+      "parameter": "EMA 初始教师权重系数",
+      "author_entry": "0.0356",
+      "current_run": "4.21e-18",
+      "ratio_or_effect": "同一 0.05 系数处于不同时间尺度"
+    },
+    {
+      "parameter": "learning rate",
+      "author_entry": "2e-6",
+      "current_run": "2e-6",
+      "ratio_or_effect": "未随 batch / step 缩放"
+    },
+    {
+      "parameter": "response / epoch / Top-K / JSD / EMA",
+      "author_entry": "1024 / 1 / 100 / 0.5 / 0.05",
+      "current_run": "相同",
+      "ratio_or_effect": "核心参数对齐"
+    }
+  ],
+  "paired_transitions": [
+    {
+      "comparison": "Base → Vision-OPD",
+      "transition": "错→对",
+      "count": 306,
+      "net_change": -105
+    },
+    {
+      "comparison": "Base → Vision-OPD",
+      "transition": "对→错",
+      "count": 411,
+      "net_change": -105
+    },
+    {
+      "comparison": "Base → Cached",
+      "transition": "错→对",
+      "count": 287,
+      "net_change": -195
+    },
+    {
+      "comparison": "Base → Cached",
+      "transition": "对→错",
+      "count": 482,
+      "net_change": -195
+    },
+    {
+      "comparison": "Vision-OPD → Cached",
+      "transition": "错→对",
+      "count": 255,
+      "net_change": -90
+    },
+    {
+      "comparison": "Vision-OPD → Cached",
+      "transition": "对→错",
+      "count": 345,
+      "net_change": -90
+    }
+  ],
+  "assessment": {
+    "verified": [
+      "Day 12 and Day 14 training completed without NaN, OOM, abort, or checkpoint failure.",
+      "The selected run changed batch 96 to 8, rollout n 8 to 1, and trainer-step/EMA events from about 65 to 780 while retaining LR 2e-6 and EMA rate 0.05; estimated Student Adam updates changed from about 520 to 780.",
+      "The frozen first-letter matcher can accept explicit wrong options after an Answer: prefix; at least 86 Base, 87 Vision-OPD, and 48 Cached records are explicit mismatches.",
+      "Removing only those explicit false positives leaves Base-to-Vision micro delta at about -4.18 percentage points.",
+      "Vision-OPD improves ZoomBench in frozen R3 but loses on MMStar and V*; losses exceed gains in paired transitions."
+    ],
+    "likely": [
+      "The batch, rollout, optimizer-step, and EMA-time-scale changes materially altered the optimization regime and are the leading explanation for the paper gap.",
+      "Cached Prefix removes the paper method's on-policy prefix refresh and therefore should be treated as an ablation rather than the paper's primary method."
+    ],
+    "unresolved": [
+      "The causal share of each training change cannot be separated without controlled reruns.",
+      "The effect of replacing the paper's GPT-OSS-120B judge with the frozen local Qwen3.5-4B Base Judge is not quantified.",
+      "A full corrected R4 needs a repaired parser and fresh judging for newly routed records; this report does not mutate frozen R3 scores."
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+schema_version: 1
+experiment_id: E-D15-6K-FINAL-EVAL-001
+status: pre_score_freeze
+frozen_r3_config: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+expected_r3_config_sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+base_run: artifacts/runs/E-PAPER-BASEJUDGE-001/base
+models:
+  vision_opd:
+    model_id: vision-opd-day15-r3
+    merged_model: artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf
+    merged_manifest: artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merged_manifest.json
+    cold_reload_receipt: artifacts/runs/E-D13-6K-VOPD-FINAL-001/cold_reload/reload_validation_summary.json
+    formal_output: artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd
+    smoke_output: artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/vision_opd
+  cached_prefix:
+    model_id: cached-prefix-day15-r3
+    merged_model: artifacts/runs/E-D14-6K-CACHED-001/merged_hf
+    merged_manifest: artifacts/runs/E-D14-6K-CACHED-001/evidence/merged_manifest.json
+    cold_reload_receipt: artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix/cold_reload/reload_validation_summary.json
+    formal_output: artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix
+    smoke_output: artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/cached_prefix
+output_schema:
+  required_run_files:
+    - run_manifest.json
+    - predictions.jsonl
+    - judge_results.jsonl
+    - scores.jsonl
+    - summary.json
+    - validation.json
+    - metrics.json
+    - cost.json
+    - artifact_sha256.txt
+  expected_request_counts:
+    zoombench/full: 845
+    mmstar/full: 1500
+    vstar/full: 191
+  expected_total: 2536
+  primary_key:
+    - benchmark
+    - view
+    - sample_uid
+  comparison_columns:
+    - benchmark
+    - total
+    - base_correct
+    - base_accuracy
+    - vision_opd_correct
+    - vision_opd_accuracy
+    - vision_opd_delta_vs_base
+    - cached_prefix_correct
+    - cached_prefix_accuracy
+    - cached_prefix_delta_vs_base
+    - cached_prefix_delta_vs_vision_opd
+badcase_sampling:
+  frozen_before_new_scores: true
+  seed: vision-opd-day15-badcase-v1
+  maximum_total: 18
+  maximum_per_stratum: 3
+  deterministic_rank: sha256(seed + NUL + stratum + NUL + request_key)
+  strata_priority:
+    - both_trained_fix
+    - vision_only_fix_cached_regression
+    - cached_only_fix
+    - both_trained_regression
+    - vision_regression_cached_recovers
+    - cached_regression
+  definitions:
+    both_trained_fix: base_wrong_and_vision_correct_and_cached_correct
+    vision_only_fix_cached_regression: base_wrong_and_vision_correct_and_cached_wrong
+    cached_only_fix: base_wrong_and_vision_wrong_and_cached_correct
+    both_trained_regression: base_correct_and_vision_wrong_and_cached_wrong
+    vision_regression_cached_recovers: base_correct_and_vision_wrong_and_cached_correct
+    cached_regression: base_correct_and_vision_correct_and_cached_wrong
+  review_fields:
+    - request_key
+    - stratum
+    - benchmark
+    - sample_uid
+    - prompt
+    - reference_answer
+    - base_answer
+    - vision_opd_answer
+    - cached_prefix_answer
+    - base_correct
+    - vision_opd_correct
+    - cached_prefix_correct
+    - rule_and_judge_sources
+  score_mutation_forbidden: true
+  checkpoint_reselection_forbidden: true
+outputs:
+  freeze_receipt: artifacts/runs/E-D15-6K-FINAL-EVAL-001/preflight/eval_design_freeze.json
+  comparison_json: artifacts/runs/E-D15-6K-FINAL-EVAL-001/comparison.json
+  comparison_markdown: artifacts/reports/prefix_ablation_6241.md
+  badcases_jsonl: artifacts/runs/E-D15-6K-FINAL-EVAL-001/badcases.jsonl
+  badcases_summary: artifacts/runs/E-D15-6K-FINAL-EVAL-001/badcases_summary.json

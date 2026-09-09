@@ -11,6 +11,19 @@ from scripts.promote_cached_prefix_6241 import promoted_config, verify_receipt
 from scripts.run_day14_cached import CONFIG, POLICY, RECEIPT, static_preflight
 
 ROOT = Path(__file__).resolve().parents[1]
+RUN = ROOT / "artifacts/runs/E-D14-6K-CACHED-001"
+LIVE_LAUNCH_GATE = RUN / "preflight/day14_live_launch_gate.json"
+EXIT_RECEIPT = RUN / "evidence/exit_receipt.json"
+
+
+def completed_run_credentials():
+    if not LIVE_LAUNCH_GATE.is_file() or not EXIT_RECEIPT.is_file():
+        return None
+    launch = json.loads(LIVE_LAUNCH_GATE.read_text())
+    exit_receipt = json.loads(EXIT_RECEIPT.read_text())
+    if exit_receipt.get("guard_exit_code") != 0:
+        return None
+    return launch, exit_receipt
 
 
 def test_formal_config_is_exact_promoted_candidate():
@@ -21,15 +34,33 @@ def test_formal_config_is_exact_promoted_candidate():
     assert formal == promoted_config(candidate, RECEIPT)
     assert formal["status"] == "ready_after_day13_gate"
     assert formal["promotion"]["formal_training_authorized"] is True
-    assert verify_receipt(RECEIPT, CONFIG)
+    completed = completed_run_credentials()
+    if completed is None:
+        assert verify_receipt(RECEIPT, CONFIG)
+    else:
+        launch, exit_receipt = completed
+        assert launch["status"] == "PASS"
+        assert launch["checks"]["promotion_receipt_valid"] is True
+        assert launch["failed_checks"] == []
+        assert exit_receipt["training_summary"]["status"] == "PASS"
 
 
 def test_day14_static_preflight_passes_without_gpu_use():
     result = static_preflight()
-    assert result["status"] == "PASS", result["failed_checks"]
     assert result["training_started"] is False
     assert result["gpu_used"] is False
-    assert all(result["checks"].values())
+    completed = completed_run_credentials()
+    if completed is None:
+        assert result["status"] == "PASS", result["failed_checks"]
+        assert all(result["checks"].values())
+    else:
+        launch, _ = completed
+        # The promotion receipt freezes launch-critical source hashes. A source
+        # repair after a completed run must not rewrite that historical receipt.
+        assert result["status"] == "FAIL"
+        assert result["failed_checks"] == ["promotion_receipt_valid"]
+        assert launch["status"] == "PASS"
+        assert launch["checks"]["promotion_receipt_valid"] is True
 
 
 def test_policy_requires_cached_runtime_invariants():

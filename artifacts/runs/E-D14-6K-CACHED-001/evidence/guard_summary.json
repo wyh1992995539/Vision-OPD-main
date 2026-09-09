@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "finished_at_utc": "2026-09-08T10:08:04.803923+00:00",
+  "status": "PASS",
+  "return_code": 0,
+  "latest_step": 780,
+  "trigger": null,
+  "termination": null,
+  "checkpoint": {
+    "status": "PASS",
+    "expected_step": 780,
+    "marker_value": "780",
+    "step_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780",
+    "checks": {
+      "marker_exists": true,
+      "marker_matches_expected_step": true,
+      "step_directory_exists": true,
+      "required_files_present": true,
+      "required_files_nonempty": true
+    },
+    "missing_files": [],
+    "empty_files": []
+  },
+  "latest_step_source": "post_exit_full_log_replay",
+  "credential_correction": {
+    "applied_at_utc": "2026-09-08T10:31:43.596895+00:00",
+    "reason": "guard exited before draining the final training log line",
+    "method": "full_log_replay_and_post_exit_final_log_drain",
+    "original_latest_step": 779,
+    "corrected_latest_step": 780,
+    "original_guard": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/guard_summary.pre_final_drain.json",
+      "sha256": "2ee25cc547699b418b7445b67c8f1e1c852762c721d64b5f7f42caf70588758a"
+    },
+    "original_exit_receipt": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/exit_receipt.pre_final_drain.json",
+      "sha256": "503bfd0d30e5477e36dc379b37de9f9fcbe205e880f4aee8dde7d10cbc9af39c"
+    },
+    "correction_script": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/finalize_day14_cached.py",
+      "sha256": "2a5d2bab3db4dba07c2f7490580312196cba5761eefb4e906e4824db6841350e"
+    },
+    "runtime_monitor_after_fix": {
+      "path": "/root/autodl-tmp/Vision-OPD-main/scripts/monitor_vopd_training.py",
+      "sha256": "d4185d3f68cb83381c145090634ee0f65a1edc7abb383bf39bce50ae51d79482"
+    },
+    "runtime_metric_steps_before": 779,
+    "runtime_metric_steps_after": 780,
+    "full_log_replay": {
+      "status": "PASS",
+      "checks": {
+        "steps_1_through_780_complete": true,
+        "fatal_log_matches_zero": true,
+        "all_runtime_gates_match": true,
+        "key_metrics_finite": true
+      },
+      "unique_steps": 780,
+      "first_step": 1,
+      "latest_step": 780,
+      "missing_steps": [],
+      "fatal_log_matches": [],
+      "runtime_gates": {
+        "cached_prefix/resolved_records": {
+          "observed_steps": 780,
+          "expected_value": 8.0,
+          "all_match": true,
+          "min": 8.0,
+          "max": 8.0
+        },
+        "cached_prefix/online_generation_calls": {
+          "observed_steps": 780,
+          "expected_value": 0.0,
+          "all_match": true,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "actor/policy_fallback_fraction": {
+          "observed_steps": 780,
+          "expected_value": 0.0,
+          "all_match": true,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "self_distillation/empty_target_batch": {
+          "observed_steps": 780,
+          "expected_value": 0.0,
+          "all_match": true,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "evidence/ema_update_applied": {
+          "observed_steps": 780,
+          "expected_value": 1.0,
+          "all_match": true,
+          "min": 1.0,
+          "max": 1.0
+        }
+      },
+      "finite_metrics": {
+        "actor/vopd_loss": true,
+        "self_distillation/raw_jsd_token_mean": true,
+        "actor/grad_norm": true
+      }
+    }
+  }
+}

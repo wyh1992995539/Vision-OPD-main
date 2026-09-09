@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-08T14:32:40.354878+00:00",
+  "status": "PASS",
+  "experiment_id": "E-D15-6K-FINAL-EVAL-001",
+  "statement": "Frozen before any Vision-OPD or Cached R3 smoke/formal predictions or scores.",
+  "config": "/root/autodl-tmp/Vision-OPD-main/configs/day15_final_eval_freeze.yaml",
+  "config_sha256": "0fd5fbb51827f0704aaca2bddf7e905ea7aac8c32881110652954c70af7d4615",
+  "r3_config": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+  "r3_config_sha256": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "base_run": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base",
+  "base_run_manifest_sha256": "d58bccb48939a8667496c2a5256c41e9a34aaef3c2ffb8b073b0ae1ca2f494cf",
+  "base_validation_sha256": "e63f5632d76c0d72f18e5973b3e9dea9c7cca8bd46bd84820e23cd4175ba23cb",
+  "models": {
+    "vision_opd": {
+      "status": "PASS",
+      "model_id": "vision-opd-day15-r3",
+      "model_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf",
+      "manifest_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merged_manifest.json",
+      "manifest_sha256": "edff6523b78e2ff5166ec95e47496dbf7a70afa83c9afa11bbc9a572cee7c566",
+      "model_weight_sha256": {
+        "model.safetensors": "265a3c49fbee7a44d65cf8af732c4a9b71de5ad9ef799c935c4e38d07094862f"
+      },
+      "cold_reload_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D13-6K-VOPD-FINAL-001/cold_reload/reload_validation_summary.json",
+      "cold_reload_receipt_sha256": "394b22f1baae123879ae25c27d9f2991bcb115c94a436a4b7ba4e6d2759d4420",
+      "errors": []
+    },
+    "cached_prefix": {
+      "status": "PASS",
+      "model_id": "cached-prefix-day15-r3",
+      "model_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/merged_hf",
+      "manifest_path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/merged_manifest.json",
+      "manifest_sha256": "1f6e67b7ac0bf333163c867152875e350d828045fdb87c3f46476ce9a50e7cc0",
+      "model_weight_sha256": {
+        "model.safetensors": "4120ba83e138444461a078b701d605ba72a07be6c61acd1dea440b86ab3d4aaf"
+      },
+      "cold_reload_receipt": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix/cold_reload/reload_validation_summary.json",
+      "cold_reload_receipt_sha256": "c68659e125bf3a1788ad3e9d20bf328f2cfa2bf063b525aaf68aca8e3d097396",
+      "errors": []
+    }
+  },
+  "output_schema": {
+    "required_run_files": [
+      "run_manifest.json",
+      "predictions.jsonl",
+      "judge_results.jsonl",
+      "scores.jsonl",
+      "summary.json",
+      "validation.json",
+      "metrics.json",
+      "cost.json",
+      "artifact_sha256.txt"
+    ],
+    "expected_request_counts": {
+      "zoombench/full": 845,
+      "mmstar/full": 1500,
+      "vstar/full": 191
+    },
+    "expected_total": 2536,
+    "primary_key": [
+      "benchmark",
+      "view",
+      "sample_uid"
+    ],
+    "comparison_columns": [
+      "benchmark",
+      "total",
+      "base_correct",
+      "base_accuracy",
+      "vision_opd_correct",
+      "vision_opd_accuracy",
+      "vision_opd_delta_vs_base",
+      "cached_prefix_correct",
+      "cached_prefix_accuracy",
+      "cached_prefix_delta_vs_base",
+      "cached_prefix_delta_vs_vision_opd"
+    ]
+  },
+  "badcase_sampling": {
+    "frozen_before_new_scores": true,
+    "seed": "vision-opd-day15-badcase-v1",
+    "maximum_total": 18,
+    "maximum_per_stratum": 3,
+    "deterministic_rank": "sha256(seed + NUL + stratum + NUL + request_key)",
+    "strata_priority": [
+      "both_trained_fix",
+      "vision_only_fix_cached_regression",
+      "cached_only_fix",
+      "both_trained_regression",
+      "vision_regression_cached_recovers",
+      "cached_regression"
+    ],
+    "definitions": {
+      "both_trained_fix": "base_wrong_and_vision_correct_and_cached_correct",
+      "vision_only_fix_cached_regression": "base_wrong_and_vision_correct_and_cached_wrong",
+      "cached_only_fix": "base_wrong_and_vision_wrong_and_cached_correct",
+      "both_trained_regression": "base_correct_and_vision_wrong_and_cached_wrong",
+      "vision_regression_cached_recovers": "base_correct_and_vision_wrong_and_cached_correct",
+      "cached_regression": "base_correct_and_vision_correct_and_cached_wrong"
+    },
+    "review_fields": [
+      "request_key",
+      "stratum",
+      "benchmark",
+      "sample_uid",
+      "prompt",
+      "reference_answer",
+      "base_answer",
+      "vision_opd_answer",
+      "cached_prefix_answer",
+      "base_correct",
+      "vision_opd_correct",
+      "cached_prefix_correct",
+      "rule_and_judge_sources"
+    ],
+    "score_mutation_forbidden": true,
+    "checkpoint_reselection_forbidden": true
+  },
+  "implementation": {
+    "eval/compare_experiments.py": "87dbb13724b4a4f4816c5736d6786fa7c274e0648b2077759f405d8089f66afd",
+    "eval/build_badcases.py": "531be6f140351a1119d1e74804f20a6ab0cfd557a306a28d41331f3cf9ddacc9"
+  },
+  "inspected_outputs": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd",
+      "score_bearing_files": []
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/vision_opd",
+      "score_bearing_files": []
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix",
+      "score_bearing_files": []
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/smoke/cached_prefix",
+      "score_bearing_files": []
+    }
+  ],
+  "new_score_files_found": [],
+  "checks": {
+    "freeze_status": true,
+    "r3_hash": true,
+    "base_r3_pass": true,
+    "base_complete": true,
+    "comparison_script_exists": true,
+    "badcase_script_exists": true,
+    "all_model_identities_pass": true,
+    "no_new_scores_before_freeze": true
+  }
+}

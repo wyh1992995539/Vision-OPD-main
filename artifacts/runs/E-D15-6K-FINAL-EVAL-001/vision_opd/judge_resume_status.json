@@ -1,0 +1,11 @@
+{
+  "completed_judge_count": 1989,
+  "duplicate_judge_keys_compacted": 0,
+  "finalized_failure_count": 0,
+  "malformed_judge_lines_compacted": 0,
+  "remaining_judge_count": 0,
+  "required_judge_count": 1989,
+  "resume_complete": true,
+  "schema_version": 1,
+  "updated_at_utc": "2026-09-08T15:08:08.404648+00:00"
+}

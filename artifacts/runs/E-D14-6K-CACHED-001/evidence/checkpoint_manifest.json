@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D14-6K-CACHED-001",
+  "generated_at_utc": "2026-09-08T10:34:44.521741+00:00",
+  "status": "PASS",
+  "checkpoint_directory": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780",
+  "global_step": 780,
+  "world_size": 2,
+  "file_count": 13,
+  "total_size_bytes": 57034962958,
+  "source_guard_summary": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/evidence/guard_summary.json",
+    "sha256": "61eba9b7b484902d336a5f250c02f667fae903df7ae6985fb4260db6551d037f",
+    "status": "PASS",
+    "return_code": 0,
+    "latest_step": 780,
+    "checkpoint_status": "PASS"
+  },
+  "files": [
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/extra_state_world_size_2_rank_0.pt",
+      "relative_path": "actor/extra_state_world_size_2_rank_0.pt",
+      "size_bytes": 15141,
+      "mtime_ns": 1788862076054863277,
+      "sha256": "516a61175ee45747e37c49a74af538ec295a38235fdb82eaef95a85dab4286e3"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/extra_state_world_size_2_rank_1.pt",
+      "relative_path": "actor/extra_state_world_size_2_rank_1.pt",
+      "size_bytes": 15141,
+      "mtime_ns": 1788862074190836390,
+      "sha256": "611cfcfe51f1c284faed34f9947dcd9f5c31e5bfb52ea7da24e47fb5ac32840a"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/fsdp_config.json",
+      "relative_path": "actor/fsdp_config.json",
+      "size_bytes": 46,
+      "mtime_ns": 1788862077174879408,
+      "sha256": "1df34c1f433cd641f48d99b3981b311f0362bfcfd4c4e1f727301e3b50cf03bf"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/huggingface/chat_template.jinja",
+      "relative_path": "actor/huggingface/chat_template.jinja",
+      "size_bytes": 5415,
+      "mtime_ns": 1788862076322867138,
+      "sha256": "d9604b52b4e1f4b9ec68e065238c757a3d7efdebe1c3692d13a97df6f84c54db"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/huggingface/config.json",
+      "relative_path": "actor/huggingface/config.json",
+      "size_bytes": 2894,
+      "mtime_ns": 1788862076070863508,
+      "sha256": "7a26efb532c1b812083bdc29dce75d2bba0ed2da1e32612c83f8cd850661c349"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/huggingface/processor_config.json",
+      "relative_path": "actor/huggingface/processor_config.json",
+      "size_bytes": 1191,
+      "mtime_ns": 1788862077174879408,
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/huggingface/tokenizer.json",
+      "relative_path": "actor/huggingface/tokenizer.json",
+      "size_bytes": 19989343,
+      "mtime_ns": 1788862076278866504,
+      "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/huggingface/tokenizer_config.json",
+      "relative_path": "actor/huggingface/tokenizer_config.json",
+      "size_bytes": 1139,
+      "mtime_ns": 1788862076070863508,
+      "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/model_world_size_2_rank_0.pt",
+      "relative_path": "actor/model_world_size_2_rank_0.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788862016185974417,
+      "sha256": "9b3b8cc920a9448401ef61ed93a71c91e97b0689ad13ec10c9d64d55a2d71f97"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/model_world_size_2_rank_1.pt",
+      "relative_path": "actor/model_world_size_2_rank_1.pt",
+      "size_bytes": 10350349843,
+      "mtime_ns": 1788862014941955372,
+      "sha256": "2c05ae9e3537fff20e0add47ad2e6b9bf9c1c2c5b7fa58f93fa115ed6ae5de9b"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/optim_world_size_2_rank_0.pt",
+      "relative_path": "actor/optim_world_size_2_rank_0.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788862066714728064,
+      "sha256": "e32fed0f8cbf14b5a4df0aba1b14907a619f6f28ceb9210547d8bd62ee518f12"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/actor/optim_world_size_2_rank_1.pt",
+      "relative_path": "actor/optim_world_size_2_rank_1.pt",
+      "size_bytes": 18157113047,
+      "mtime_ns": 1788862063958687931,
+      "sha256": "ae63a16108df3b763f94324f68c79305fe95af0b8f2538a50bded27df60fc3e3"
+    },
+    {
+      "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D14-6K-CACHED-001/checkpoints/global_step_780/data.pt",
+      "relative_path": "data.pt",
+      "size_bytes": 6868,
+      "mtime_ns": 1788862077390882517,
+      "sha256": "8175a440b03054a34c3f5c193fea3691a34e2740ca04d5d73d351c78037551df"
+    }
+  ]
+}
