@@ -1,0 +1,61 @@
+schema_version: 1
+experiment:
+  id: E-MMSTAR-BASE-MAXTOK-EXT-001
+  status: frozen
+  frozen_at_utc: "2026-09-10"
+  objective: eliminate finish_reason=length from the original 163 truncated Base MMStar samples by adaptive selective regeneration
+source:
+  r3_config: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+  r3_config_sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+  r4_base_run: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base
+  r4_predictions_sha256: 74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684
+  r4_scores_sha256: ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174
+  diagnostic_run: artifacts/runs/E-MMSTAR-BASE-MAXTOK-DIAG-001
+  selected_2048_predictions_sha256: 78becde38112ee7a97eb8796d63e8b794d7fbcf7cc5f6cee809ba8e1a6ddf65f
+  selected_2048_scores_sha256: 8543804573941ce66dbc2515a8c5b4d966397cd33d9f50645f6862dc7a1073bb
+  residual_4096_predictions_sha256: ce0307aed79e87badec1bc28bea83d2e8edaa84fb8c715022e0bb6b29f09e1c5
+  residual_4096_scores_sha256: 346c54f85eb130e8a16cf3511c6ce836764c56f2a087e5907c6ce038713bdf29
+  expected_original_length_samples: 163
+  expected_residual_4096_samples: 46
+model:
+  path: /root/autodl-tmp/models/Qwen3.5-4B
+  role: frozen_local_base
+  served_model_name: vision-opd-base-adaptive-maxtok
+  max_position_embeddings: 262144
+serving:
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.75
+  gdn_prefill_backend: triton
+  host: 127.0.0.1
+  port: 8000
+inference:
+  benchmark: mmstar
+  enable_thinking: false
+  temperature: 0
+  request_timeout_seconds: 14400
+  stages:
+    - max_tokens: 8192
+      workers: 8
+    - max_tokens: 16384
+      workers: 4
+    - max_tokens: 32768
+      workers: 2
+    - max_tokens: 65536
+      workers: 1
+    - max_tokens: 131072
+      workers: 1
+  preserve_prompt_image_and_all_other_r3_settings: true
+  only_regenerate_previous_stage_finish_reason_length: true
+scoring:
+  parser_revision: 4
+  judge: frozen_qwen3_5_4b_base
+  replace_each_selected_sample_with_highest_completed_stage: true
+completion:
+  success_condition: remaining_finish_reason_length_equals_zero
+  exhausted_stage_policy: fail_and_preserve_all_outputs
+  require_all_judges_finalized: true
+paths:
+  output_root: artifacts/runs/E-MMSTAR-BASE-MAXTOK-EXT-001
+  final_hybrid_directory: final_hybrid
+limitations:
+  statement: Adaptive selective regeneration removes output-cap truncation under the local R4 parser and frozen Base Judge; it is not a uniform full-1500 run and not an exact reproduction of the paper GPT-OSS-120B Judge.

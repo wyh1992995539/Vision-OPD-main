@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "scope": "local Base MMStar paper-gap diagnosis; source artifacts are read-only",
+  "paper_reference": {
+    "reported_accuracy_percent": 78.53,
+    "correct_equivalent_rounded": 1178,
+    "note": "The paper reports a percentage, not a released per-sample score file."
+  },
+  "local_results": {
+    "r3_upstream_like_parser_local_judge": {
+      "correct": 1126,
+      "total": 1500,
+      "accuracy_percent": 75.066667,
+      "delta_from_paper_pp": -3.463333
+    },
+    "r4_corrected_parser_local_judge": {
+      "correct": 1020,
+      "total": 1500,
+      "accuracy_percent": 68.0,
+      "delta_from_paper_pp": -10.53
+    }
+  },
+  "r3_to_r4": {
+    "transitions": {
+      "r3_correct__r4_correct": 1010,
+      "r3_correct__r4_wrong": 116,
+      "r3_wrong__r4_correct": 10,
+      "r3_wrong__r4_wrong": 364
+    },
+    "route_cross": {
+      "ambiguous|r3=first_letter|r3_correct=True|r4_correct=False": 19,
+      "ambiguous|r3=first_letter|r3_correct=True|r4_correct=True": 7,
+      "ambiguous|r3=llm_judge_required|r3_correct=False|r4_correct=False": 122,
+      "ambiguous|r3=llm_judge_required|r3_correct=True|r4_correct=True": 19,
+      "match|r3=first_letter|r3_correct=True|r4_correct=True": 393,
+      "match|r3=llm_judge_required|r3_correct=False|r4_correct=True": 10,
+      "match|r3=llm_judge_required|r3_correct=True|r4_correct=True": 591,
+      "mismatch|r3=first_letter|r3_correct=True|r4_correct=False": 93,
+      "mismatch|r3=llm_judge_required|r3_correct=False|r4_correct=False": 242,
+      "mismatch|r3=llm_judge_required|r3_correct=True|r4_correct=False": 4
+    },
+    "explicit_mismatch_r3_sources": {
+      "first_letter": 93,
+      "first_letter|correct=True": 93,
+      "llm_judge_required": 246,
+      "llm_judge_required|correct=False": 242,
+      "llm_judge_required|correct=True": 4
+    },
+    "explicit_mismatch_r3_judge_decisions": {
+      "None|correct=True": 93,
+      "No|correct=False": 242,
+      "Yes|correct=True": 4
+    },
+    "representative_r3_false_positive_examples": [
+      {
+        "sample_uid": "mmstar:source_id:0",
+        "reference": "A",
+        "r4_predicted_option": "D",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "covered by” or “underneath in the scene layout”.\n\nGiven that, and since the book is physically overlapping the lower portion of the suitcase, **D** is the most plausible choice.\n\n---\n\n✅ Final Answer: **D: The suitcase is beneath the book.**"
+      },
+      {
+        "sample_uid": "mmstar:source_id:1",
+        "reference": "B",
+        "r4_predicted_option": "C",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "e distance, behind the couple and the water, you can clearly see the iconic Golden Gate Bridge spanning across the bay, with hills or mountains further back.\n\nSo, the correct answer is:  \n**C: A body of water and the Golden Gate Bridge.** ✅"
+      },
+      {
+        "sample_uid": "mmstar:source_id:103",
+        "reference": "A",
+        "r4_predicted_option": "D",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "planted in rows, many protected by green tree guards. These trees form the central subject of the image, suggesting a reforestation or afforestation project. The fog adds atmosphere but is not the main focus.\n\n✅ Correct Answer: **D: Trees**"
+      },
+      {
+        "sample_uid": "mmstar:source_id:1046",
+        "reference": "A",
+        "r4_predicted_option": "B",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "biguous, but in context, it likely means “below the median” or “in the lower half”. Since Web Maroon *is* the median, it is **not** in the lower half.\n\nThus, the answer is: **no**\n\n---\n\n✅ Correct Option: **(B) no**\n\n---\n\n**Final Answer: B**"
+      },
+      {
+        "sample_uid": "mmstar:source_id:1050",
+        "reference": "B",
+        "r4_predicted_option": "D",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "以 △EOF 是等腰三角形！\n\n因此，∠OEF = ∠OFE —— 这就是我们要求的 ∠F（即 ∠OFE）。\n\n现在，我们需要知道顶角 ∠EOF 的度数。\n\n∠EOF 是圆心角，对应弧 EF。\n\n弧 EF = 70° → 所以 ∠EOF = 70°\n\n在等腰三角形 EOF 中，底角 = (180° - 70°) / 2 = **55°**\n\n所以 ∠OFE = 55° → 即 ∠F = 55°\n\n---\n\n**答案：D. 55°**\n\n---\n\n✅ 正确答案：**D**\n\nD"
+      },
+      {
+        "sample_uid": "mmstar:source_id:109",
+        "reference": "A",
+        "r4_predicted_option": "C",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "e, “Pointed Tail” and “Pointed Caudal” are drawn identically — same shape, same shading. So they represent the **same kind**.\n\nTherefore, only **one** pointed kind exists in the diagram.\n\n✅ Correct answer: **C: 1**\n\n---\n\n**Final Answer: C**"
+      },
+      {
+        "sample_uid": "mmstar:source_id:1136",
+        "reference": "A",
+        "r4_predicted_option": "B",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": "the given options:\n\n- (A) 50 → too high\n- (B) 25 → plausible\n- (C) 60 → too high\n- (D) 75 → way too high\n\nThe most accurate choice is **(B) 25**, as it reflects that only a small portion of the stripes are horizontal.\n\n✅ Final Answer: **B**"
+      },
+      {
+        "sample_uid": "mmstar:source_id:121",
+        "reference": "A",
+        "r4_predicted_option": "C",
+        "r3_rule_source": "first_letter",
+        "r3_judge_decision": null,
+        "answer_excerpt": " setting looks like a practice session or warm-up.\n\nSo, despite the soccer ball being present (possibly for another activity or misplacement), the main activity shown is **cricket**.\n\n### Correct Answer: **C: Two men are playing cricket** ✅"
+      }
+    ]
+  },
+  "finish_reason_cross": {
+    "length|r4_correct=False|route=ambiguous": 133,
+    "length|r4_correct=False|route=mismatch": 10,
+    "length|r4_correct=True|route=ambiguous": 14,
+    "length|r4_correct=True|route=match": 6,
+    "stop|r4_correct=False|route=ambiguous": 8,
+    "stop|r4_correct=False|route=mismatch": 329,
+    "stop|r4_correct=True|route=ambiguous": 12,
+    "stop|r4_correct=True|route=match": 988
+  },
+  "category_diagnostics_r4": {
+    "coarse perception": {
+      "total": 250,
+      "correct": 174,
+      "accuracy_percent": 69.6,
+      "finish_length": 3,
+      "finish_length_percent": 1.2,
+      "stop_only_accuracy_percent": 69.635628,
+      "judge_required": 4
+    },
+    "fine-grained perception": {
+      "total": 250,
+      "correct": 162,
+      "accuracy_percent": 64.8,
+      "finish_length": 10,
+      "finish_length_percent": 4.0,
+      "stop_only_accuracy_percent": 66.25,
+      "judge_required": 8
+    },
+    "instance reasoning": {
+      "total": 250,
+      "correct": 178,
+      "accuracy_percent": 71.2,
+      "finish_length": 16,
+      "finish_length_percent": 6.4,
+      "stop_only_accuracy_percent": 75.213675,
+      "judge_required": 16
+    },
+    "logical reasoning": {
+      "total": 250,
+      "correct": 191,
+      "accuracy_percent": 76.4,
+      "finish_length": 25,
+      "finish_length_percent": 10.0,
+      "stop_only_accuracy_percent": 84.0,
+      "judge_required": 29
+    },
+    "math": {
+      "total": 250,
+      "correct": 196,
+      "accuracy_percent": 78.4,
+      "finish_length": 48,
+      "finish_length_percent": 19.2,
+      "stop_only_accuracy_percent": 95.049505,
+      "judge_required": 49
+    },
+    "science & technology": {
+      "total": 250,
+      "correct": 119,
+      "accuracy_percent": 47.6,
+      "finish_length": 61,
+      "finish_length_percent": 24.4,
+      "stop_only_accuracy_percent": 59.259259,
+      "judge_required": 61
+    }
+  },
+  "max_token_diagnostic": {
+    "baseline_correct": 1020,
+    "hybrid_2048_4096_correct": 1072,
+    "hybrid_2048_4096_accuracy_percent": 71.466667,
+    "remaining_length_at_4096": 46,
+    "diagnostic_gate_pass": false,
+    "decision": "STOP_AFTER_DIAGNOSTIC_GATE_NOT_MET"
+  },
+  "protocol_differences": {
+    "local_r3_eval_max_tokens": 1024,
+    "official_repository": {
+      "commit": "c8a8fdd1f88eef1b5ef4fe6a8d64eb0272917471",
+      "files": {
+        "eval/run_eval.sh": "46275049ec31d794c591238d49cd7683351f5af65c975a05d960cef1eb5554ea",
+        "eval/infer.py": "bb379999932658907196cdc98d22c60d63e3308cb5a867317481c4a85af70374",
+        "eval/judge_qwenlm.py": "abbe11dacf7fae19728ca16407a02c91d04a9bc8ea72edd3b4a91b6224f4b670",
+        "eval/cal_acc.py": "695dbddc3e63a1b9f8971c0d414d963a5da94776863d58589feaa4a1c6b0f025"
+      },
+      "run_eval_default_max_tokens": 32768,
+      "infer_cli_default_max_tokens": 4096,
+      "first_letter_fallback_present": true,
+      "strict_yes_scoring_present": true
+    },
+    "paper_eval_max_tokens_disclosed": false,
+    "paper_judge": "GPT-OSS-120B",
+    "local_judge": "Qwen/Qwen3.5-4B",
+    "local_runtime_checkpoint_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "paper_runtime_checkpoint_revision_disclosed": false
+  },
+  "findings": [
+    {
+      "rank": 1,
+      "cause": "The corrected R4 parser is not the released upstream parser used by the public evaluation code.",
+      "confidence": "confirmed",
+      "effect": "R4 removes false positives caused by the upstream first-uppercase fallback; its 68.00% is an internal corrected score, not a like-for-like Table 2 reproduction."
+    },
+    {
+      "rank": 2,
+      "cause": "The local frozen Qwen3.5-4B Judge substitutes for the paper GPT-OSS-120B Judge.",
+      "confidence": "confirmed protocol mismatch; exact score effect unmeasured",
+      "effect": "Judge decisions are not directly comparable, especially under the released parser where many samples reach the Judge."
+    },
+    {
+      "rank": 3,
+      "cause": "The local evaluation cap is 1024 while the released run_eval.sh default is 32768.",
+      "confidence": "confirmed public-command mismatch; actual paper-run override unknown",
+      "effect": "Long math/science answers truncate more often. The controlled 2048/4096 R4 diagnostic improves 68.00% to 71.47%, so truncation is material but insufficient by itself."
+    },
+    {
+      "rank": 4,
+      "cause": "Exact Base checkpoint and serving runtime identity cannot be established from the paper.",
+      "confidence": "unresolved",
+      "effect": "The local revision and hashes are frozen, but the paper does not publish an exact revision, weight hash, serving backend, or all decoding/runtime details."
+    },
+    {
+      "rank": 5,
+      "cause": "Dataset conversion or prompt construction error.",
+      "confidence": "low likelihood based on current evidence",
+      "effect": "Pinned 1500-sample data, raw question text, answer labels, and one-image user prompts match the released preparation/inference structure; paper hashes are unavailable for byte-level proof."
+    }
+  ],
+  "recommended_interpretation": {
+    "correct_internal_metric": "Keep R4 as the corrected local benchmark.",
+    "paper_reproduction_metric": "Run and label a separate upstream-faithful track; do not overwrite R4.",
+    "next_high_value_test": "Use the released parser/default generation contract and the paper GPT-OSS-120B Judge (or explicitly label any substitute), then report upstream-like and R4 scores side by side.",
+    "gpu_needed_now": false
+  },
+  "source_sha256_before": {
+    "r3_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r3_scores": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71",
+    "r3_judges": "b4e3632cf2ad647d8154ca0a9dbdffe73535d85eb002c2e5728b1d386de00afd",
+    "r4_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r4_scores": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "token_gate": "daa8ffb3c23ff6aed3bb8b527c99f69e7713640ba48e73880f4dfee33f0b0a11",
+    "r3_config": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903"
+  },
+  "source_unchanged_during_analysis": true,
+  "source_sha256_after": {
+    "r3_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r3_scores": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71",
+    "r3_judges": "b4e3632cf2ad647d8154ca0a9dbdffe73535d85eb002c2e5728b1d386de00afd",
+    "r4_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r4_scores": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "token_gate": "daa8ffb3c23ff6aed3bb8b527c99f69e7713640ba48e73880f4dfee33f0b0a11",
+    "r3_config": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903"
+  }
+}

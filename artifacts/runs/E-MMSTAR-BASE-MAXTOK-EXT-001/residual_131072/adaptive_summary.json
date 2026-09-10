@@ -1,0 +1,22 @@
+{
+  "correct": 0,
+  "counterfactual_full_accuracy": 0.7273333333333334,
+  "counterfactual_full_correct": 1091,
+  "hybrid_selected_correct": 91,
+  "incorrect": 1,
+  "judge_failures": 0,
+  "judge_required": 1,
+  "max_tokens": 131072,
+  "pending_judge": 0,
+  "remaining_length_count": 1,
+  "request_count": 1,
+  "resolved_this_stage": 0,
+  "route_counts": {
+    "llm_judge_required": 1
+  },
+  "schema_version": 1,
+  "stage": "residual_131072",
+  "starting_length_count": 1,
+  "updated_at_utc": "2026-09-09T21:56:38.720825+00:00",
+  "workers": 1
+}

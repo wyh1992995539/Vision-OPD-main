@@ -1,0 +1,61 @@
+{
+  "completion_tokens": 131072,
+  "disposition": "terminal_generation_degeneracy",
+  "duplicate_paragraph_instances": 7909,
+  "duplicate_paragraph_ratio": 0.9857908513025053,
+  "final_is_correct": false,
+  "judge_normalized_decision": "No",
+  "maximum_exact_paragraph_frequency": 365,
+  "most_common_paragraphs": [
+    {
+      "count": 365,
+      "text": "wait — **pothewsi**? no."
+    },
+    {
+      "count": 362,
+      "text": "perhaps the word is **pothewsi**? no."
+    },
+    {
+      "count": 245,
+      "text": "wait — **streipen**? no."
+    },
+    {
+      "count": 244,
+      "text": "what about **interpse**? no."
+    },
+    {
+      "count": 242,
+      "text": "**predicted** has c."
+    },
+    {
+      "count": 123,
+      "text": "letters: p, e, t, s, e, i, r, d, n"
+    },
+    {
+      "count": 123,
+      "text": "perhaps the word is **interpse**? no."
+    },
+    {
+      "count": 123,
+      "text": "what about **pothewsi**? no."
+    },
+    {
+      "count": 123,
+      "text": "perhaps **pothewsi**? no."
+    },
+    {
+      "count": 122,
+      "text": "letters: p, e, t, s, e, i, h, o, w"
+    }
+  ],
+  "paragraph_count": 8023,
+  "r4_parse_status": "ambiguous",
+  "r4_predicted_option": null,
+  "raw_answer_characters": 353172,
+  "raw_finish_reason": "length",
+  "reason": "The response exhausted 131072 tokens and 98%+ of normalized paragraphs were repeated; no R4 option was produced and the frozen Judge returned No.",
+  "sample_uid": "mmstar:source_id:998",
+  "schema_version": 1,
+  "source_id": "998",
+  "unique_paragraph_count": 114
+}

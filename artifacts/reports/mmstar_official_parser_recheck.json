@@ -1,0 +1,185 @@
+{
+  "official_ref": "c8a8fdd1f88eef1b5ef4fe6a8d64eb0272917471",
+  "official_function_names_loaded_via_ast": [
+    "extract_answer",
+    "extract_first_option",
+    "extract_mcq_option",
+    "first_letter_match"
+  ],
+  "crafted_cases": [
+    {
+      "raw": "Answer: D",
+      "extracted": "Answer: D",
+      "official_option": "A",
+      "matches_reference_A": true,
+      "matches_reference_D": false
+    },
+    {
+      "raw": "Final Answer: **D**",
+      "extracted": "Answer: **D**",
+      "official_option": "A",
+      "matches_reference_A": true,
+      "matches_reference_D": false
+    },
+    {
+      "raw": "Answer: D.",
+      "extracted": "Answer: D.",
+      "official_option": "D",
+      "matches_reference_A": false,
+      "matches_reference_D": true
+    },
+    {
+      "raw": "<answer>D</answer>",
+      "extracted": "D",
+      "official_option": "D",
+      "matches_reference_A": false,
+      "matches_reference_D": true
+    },
+    {
+      "raw": "D",
+      "extracted": "D",
+      "official_option": "D",
+      "matches_reference_A": false,
+      "matches_reference_D": true
+    }
+  ],
+  "counts": {
+    "confirmed_explicit_wrong_but_official_direct_correct": 93,
+    "official_direct__r4_ambiguous": 26,
+    "official_direct__r4_match": 393,
+    "official_direct__r4_mismatch": 93,
+    "official_direct_match": 512,
+    "r3_first_letter": 512
+  },
+  "official_direct_keys_equal_r3_first_letter_keys": true,
+  "explicit_wrong_tuple_counts_reference_official_r4": [
+    {
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "B",
+      "count": 35
+    },
+    {
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "C",
+      "count": 27
+    },
+    {
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "D",
+      "count": 27
+    },
+    {
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "E",
+      "count": 1
+    },
+    {
+      "reference": "B",
+      "official_option": "B",
+      "r4_explicit_option": "C",
+      "count": 1
+    },
+    {
+      "reference": "B",
+      "official_option": "B",
+      "r4_explicit_option": "D",
+      "count": 1
+    },
+    {
+      "reference": "D",
+      "official_option": "D",
+      "r4_explicit_option": "C",
+      "count": 1
+    }
+  ],
+  "examples": [
+    {
+      "sample_uid": "mmstar:source_id:0",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "D",
+      "official_extracted_answer_tail": "Answer: **D: The suitcase is beneath the book.**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1",
+      "reference": "B",
+      "official_option": "B",
+      "r4_explicit_option": "C",
+      "official_extracted_answer_tail": "he couple and the water, you can clearly see the iconic Golden Gate Bridge spanning across the bay, with hills or mountains further back.\n\nSo, the correct answer is:  \n**C: A body of water and the Golden Gate Bridge.** ✅"
+    },
+    {
+      "sample_uid": "mmstar:source_id:103",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "D",
+      "official_extracted_answer_tail": "Answer: **D: Trees**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1046",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "B",
+      "official_extracted_answer_tail": "Answer: B**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1050",
+      "reference": "B",
+      "official_option": "B",
+      "r4_explicit_option": "D",
+      "official_extracted_answer_tail": "OEF = ∠OFE —— 这就是我们要求的 ∠F（即 ∠OFE）。\n\n现在，我们需要知道顶角 ∠EOF 的度数。\n\n∠EOF 是圆心角，对应弧 EF。\n\n弧 EF = 70° → 所以 ∠EOF = 70°\n\n在等腰三角形 EOF 中，底角 = (180° - 70°) / 2 = **55°**\n\n所以 ∠OFE = 55° → 即 ∠F = 55°\n\n---\n\n**答案：D. 55°**\n\n---\n\n✅ 正确答案：**D**\n\nD"
+    },
+    {
+      "sample_uid": "mmstar:source_id:109",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "C",
+      "official_extracted_answer_tail": "Answer: C**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1136",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "B",
+      "official_extracted_answer_tail": "Answer: **B**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:121",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "C",
+      "official_extracted_answer_tail": "Answer: **C: Two men are playing cricket** ✅"
+    },
+    {
+      "sample_uid": "mmstar:source_id:127",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "B",
+      "official_extracted_answer_tail": "Answer: **B: People**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1275",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "B",
+      "official_extracted_answer_tail": "Answer: **B: Cytoplasm**"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1276",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "B",
+      "official_extracted_answer_tail": "Answer: B: B** ✅"
+    },
+    {
+      "sample_uid": "mmstar:source_id:1281",
+      "reference": "A",
+      "official_option": "A",
+      "r4_explicit_option": "D",
+      "official_extracted_answer_tail": "Answer: **D**"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "completed_request_count": 190,
+  "error": null,
+  "finalized_failure_count": 0,
+  "finished_at_utc": "2026-09-09T19:02:52.924952+00:00",
+  "judge_checkpoint_identity": {
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    }
+  },
+  "judge_model_id": "vision-opd-base-judge",
+  "schema_version": 1,
+  "service_command": [
+    "/root/miniconda3/envs/vision-opd/bin/vllm",
+    "serve",
+    "/root/autodl-tmp/models/Qwen3.5-4B",
+    "--served-model-name",
+    "vision-opd-base-judge",
+    "--tensor-parallel-size",
+    "1",
+    "--gpu-memory-utilization",
+    "0.75",
+    "--trust-remote-code",
+    "--additional-config",
+    "{\"gdn_prefill_backend\": \"triton\"}",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8000"
+  ],
+  "service_exit_code_after_controlled_shutdown": 0,
+  "service_log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-R4-001/judge_server.log",
+  "started_at_utc": "2026-09-09T19:01:30.592151+00:00",
+  "status": "PASS",
+  "submitted_request_count": 190
+}

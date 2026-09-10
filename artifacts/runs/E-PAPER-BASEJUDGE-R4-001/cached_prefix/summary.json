@@ -1,0 +1,57 @@
+{
+  "decision_status": "complete",
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "frozen_r4_config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "generated_at_utc": "2026-09-09T19:02:53.923520+00:00",
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.5633333333333334,
+      "accuracy_lower_bound": 0.5633333333333334,
+      "accuracy_upper_bound": 0.5633333333333334,
+      "correct": 845,
+      "incorrect": 655,
+      "pending_judge": 0,
+      "total": 1500
+    },
+    "vstar/full": {
+      "accuracy": 0.7329842931937173,
+      "accuracy_lower_bound": 0.7329842931937173,
+      "accuracy_upper_bound": 0.7329842931937173,
+      "correct": 140,
+      "incorrect": 51,
+      "pending_judge": 0,
+      "total": 191
+    },
+    "zoombench/full": {
+      "accuracy": 0.5136094674556213,
+      "accuracy_lower_bound": 0.5136094674556213,
+      "accuracy_upper_bound": 0.5136094674556213,
+      "correct": 434,
+      "incorrect": 411,
+      "pending_judge": 0,
+      "total": 845
+    }
+  },
+  "limitation_statement": "R4 repairs deterministic MCQ parsing and Judge routing while retaining the frozen local Base Judge substitution; it is not an exact reproduction of the paper Judge.",
+  "model_id": "cached-prefix-day15-r3",
+  "model_role": "cached_prefix",
+  "pending_judge_count": 0,
+  "protocol_revision": 4,
+  "request_count": 2536,
+  "schema_version": 2,
+  "scoring_pipeline": {
+    "llm_judge_required": 161,
+    "mcq_option_match_r4": 923,
+    "mcq_option_mismatch_r4": 586,
+    "new_r4": 29,
+    "preserved_r3_score": 866,
+    "reused_r3_exact_prompt": 853
+  },
+  "source_r3_hashes": {
+    "judge_results.jsonl": "cba32a0b5a7357bf31dff9a54f694235d36bfd5c9fd05c9c7e0a7e18a95b03c1",
+    "predictions.jsonl": "82473121a69781de8f6f7c6c33d1e5cb495bf2241beb904728885347d1ec991f",
+    "run_manifest.json": "61f07927755a98cd2b6bf293808384e4da0a90ce2664ba2d7b5a231245242eb8",
+    "scores.jsonl": "7bbb748331a9a77ba7c41a72400e1ac6050875aff37e20b0735add27bb77e0ab"
+  },
+  "source_r3_run": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix"
+}

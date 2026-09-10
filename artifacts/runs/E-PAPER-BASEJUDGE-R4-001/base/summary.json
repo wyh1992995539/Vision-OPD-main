@@ -1,0 +1,57 @@
+{
+  "decision_status": "complete",
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "frozen_r4_config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "generated_at_utc": "2026-09-09T19:02:53.355261+00:00",
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.68,
+      "accuracy_lower_bound": 0.68,
+      "accuracy_upper_bound": 0.68,
+      "correct": 1020,
+      "incorrect": 480,
+      "pending_judge": 0,
+      "total": 1500
+    },
+    "vstar/full": {
+      "accuracy": 0.8272251308900523,
+      "accuracy_lower_bound": 0.8272251308900523,
+      "accuracy_upper_bound": 0.8272251308900523,
+      "correct": 158,
+      "incorrect": 33,
+      "pending_judge": 0,
+      "total": 191
+    },
+    "zoombench/full": {
+      "accuracy": 0.506508875739645,
+      "accuracy_lower_bound": 0.506508875739645,
+      "accuracy_upper_bound": 0.506508875739645,
+      "correct": 428,
+      "incorrect": 417,
+      "pending_judge": 0,
+      "total": 845
+    }
+  },
+  "limitation_statement": "R4 repairs deterministic MCQ parsing and Judge routing while retaining the frozen local Base Judge substitution; it is not an exact reproduction of the paper Judge.",
+  "model_id": "Vision-OPD-4B",
+  "model_role": "base",
+  "pending_judge_count": 0,
+  "protocol_revision": 4,
+  "request_count": 2536,
+  "schema_version": 2,
+  "scoring_pipeline": {
+    "llm_judge_required": 288,
+    "mcq_option_match_r4": 1042,
+    "mcq_option_mismatch_r4": 361,
+    "new_r4": 134,
+    "preserved_r3_score": 845,
+    "reused_r3_exact_prompt": 914
+  },
+  "source_r3_hashes": {
+    "judge_results.jsonl": "b4e3632cf2ad647d8154ca0a9dbdffe73535d85eb002c2e5728b1d386de00afd",
+    "predictions.jsonl": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "run_manifest.json": "d58bccb48939a8667496c2a5256c41e9a34aaef3c2ffb8b073b0ae1ca2f494cf",
+    "scores.jsonl": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71"
+  },
+  "source_r3_run": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base"
+}

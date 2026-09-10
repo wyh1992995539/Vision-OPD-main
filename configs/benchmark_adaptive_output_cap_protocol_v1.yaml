@@ -1,0 +1,179 @@
+schema_version: 1
+protocol:
+  id: BENCHMARK-ADAPTIVE-OUTPUT-CAP-V1
+  freeze_experiment_id: E-BENCH-ADAPTIVE-CAP-V1-FREEZE-001
+  status: frozen_not_started_for_pending_models
+  frozen_at_utc: "2026-09-10"
+  purpose: apply one correctness-independent output-cap policy to Base, Vision-OPD, and Cached benchmark evaluation
+  execution_authorized_now: false
+  gpu_required_for_freeze: false
+  gpu_inference_started_by_freeze: false
+
+frozen_parent_protocols:
+  generation_and_judge:
+    path: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+    sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+  r4_scoring:
+    path: configs/benchmark_eval_paper_basejudge_r4_rescore.yaml
+    sha256: 7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca
+
+scope:
+  roles:
+    - base
+    - vision_opd
+    - cached_prefix
+  benchmark_views:
+    - zoombench/full
+    - mmstar/full
+    - vstar/full
+  initial_output_cap_tokens: 1024
+  selection_predicate: finish_reason_equals_length
+  selection_is_role_and_benchmark_specific: true
+  samples_with_non_length_finish_reason_are_never_regenerated: true
+
+adaptive_schedule:
+  stages:
+    - max_tokens: 2048
+      workers: 16
+    - max_tokens: 4096
+      workers: 16
+    - max_tokens: 8192
+      workers: 8
+    - max_tokens: 16384
+      workers: 4
+    - max_tokens: 32768
+      workers: 2
+    - max_tokens: 65536
+      workers: 1
+    - max_tokens: 131072
+      workers: 1
+  request_timeout_seconds: 14400
+  next_stage_predicate: previous_stage_finish_reason_equals_length
+  stop_for_sample: first_non_length_finish_reason
+  correctness_must_not_control_retry_or_stage_selection: true
+  best_of_or_oracle_selection_forbidden: true
+
+invariants:
+  preserve_for_each_role:
+    - exact_checkpoint_and_manifest
+    - dataset_revision_and_sample_uid
+    - prompt_and_image_payload
+    - chat_template
+    - enable_thinking_false
+    - temperature_zero
+    - tensor_parallel_size_one
+    - gpu_memory_utilization_0_75
+    - gdn_prefill_backend_triton
+    - parser_revision_4
+    - frozen_qwen3_5_4b_base_judge
+  replace_only_selected_length_samples: true
+  select_highest_completed_stage_without_using_correctness: true
+  preserve_every_attempt_and_sha256: true
+  source_predictions_and_scores_are_immutable: true
+
+scoring:
+  mmstar_and_vstar: r4_deterministic_mcq_parser_then_frozen_base_judge_for_ambiguous_only
+  zoombench: preserve_frozen_r3_mathruler_and_judge_contract
+  judge_checkpoint: /root/autodl-tmp/models/Qwen3.5-4B
+  judge_output_contract: exactly_yes_or_no
+  judge_or_inference_error_policy: unresolved_and_block_completion
+  no_manual_score_edits: true
+
+terminal_degeneracy:
+  safety_cap_tokens: 131072
+  minimum_duplicate_normalized_paragraph_ratio: 0.95
+  required_evidence:
+    - finish_reason_length_at_safety_cap
+    - complete_attempt_trace
+    - benchmark_scorer_or_judge_has_finalized_without_error
+    - repeated_generation_evidence_meets_frozen_threshold
+  disposition: terminal_generation_degeneracy
+  score_policy: retain_benchmark_score_without_oracle_correction
+  preserve_raw_finish_reason_length: true
+  unresolved_output_cap: false
+  if_required_evidence_fails: keep_protocol_incomplete_and_freeze_an_amendment_before_any_new_action
+
+reporting:
+  keep_historical_r3_and_r4_results: true
+  report_columns:
+    - raw_r4_correct
+    - raw_r4_accuracy
+    - raw_finish_reason_length_count
+    - adaptive_final_correct
+    - adaptive_final_accuracy
+    - natural_stop_after_regeneration_count
+    - terminal_generation_degeneracy_count
+    - unresolved_output_cap_count
+    - judge_error_count
+    - inference_error_count
+  primary_internal_result_requires_unresolved_output_cap_count_zero: true
+  paper_comparability_label: not_exact_paper_reproduction_due_to_local_base_judge
+
+frozen_sources:
+  base:
+    checkpoint: /root/autodl-tmp/models/Qwen3.5-4B
+    r4_predictions:
+      path: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base/predictions.jsonl
+      sha256: 74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684
+    r4_scores:
+      path: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base/scores.jsonl
+      sha256: ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174
+    mmstar_terminal_closure:
+      path: artifacts/runs/E-MMSTAR-BASE-MAXTOK-EXT-001/terminal_closure/completion_receipt.json
+      sha256: b130e5dc60a6fe15afc2c21ad3f774c47433157db7787ee880364910b413f6d8
+  vision_opd:
+    checkpoint: artifacts/runs/E-D13-6K-VOPD-FINAL-001/merged_hf
+    merged_manifest:
+      path: artifacts/runs/E-D13-6K-VOPD-FINAL-001/evidence/merged_manifest.json
+      sha256: edff6523b78e2ff5166ec95e47496dbf7a70afa83c9afa11bbc9a572cee7c566
+    cold_reload_receipt:
+      path: artifacts/runs/E-D13-6K-VOPD-FINAL-001/cold_reload/reload_validation_summary.json
+      sha256: 394b22f1baae123879ae25c27d9f2991bcb115c94a436a4b7ba4e6d2759d4420
+    r4_predictions:
+      path: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/vision_opd/predictions.jsonl
+      sha256: fff2c1d67fb5a5b6f6f998c162d68c2c60353f042721a4c1ca76ddc9b7c741e7
+    r4_scores:
+      path: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/vision_opd/scores.jsonl
+      sha256: 06110a0a6faae702d57ff699c199cf485e55966c90581adc4290690129b91fe4
+  cached_prefix:
+    checkpoint: artifacts/runs/E-D14-6K-CACHED-001/merged_hf
+    merged_manifest:
+      path: artifacts/runs/E-D14-6K-CACHED-001/evidence/merged_manifest.json
+      sha256: 1f6e67b7ac0bf333163c867152875e350d828045fdb87c3f46476ce9a50e7cc0
+    cold_reload_receipt:
+      path: artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix/cold_reload/reload_validation_summary.json
+      sha256: c68659e125bf3a1788ad3e9d20bf328f2cfa2bf063b525aaf68aca8e3d097396
+    r4_predictions:
+      path: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/cached_prefix/predictions.jsonl
+      sha256: 82473121a69781de8f6f7c6c33d1e5cb495bf2241beb904728885347d1ec991f
+    r4_scores:
+      path: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/cached_prefix/scores.jsonl
+      sha256: bd3f31d8c0f4bc23387778a2c08c18e5b4ade84e9c5e7e810f3b884ab9e57a4c
+
+observed_r4_length_counts:
+  base:
+    zoombench/full: 7
+    mmstar/full: 163
+    vstar/full: 2
+  vision_opd:
+    zoombench/full: 10
+    mmstar/full: 153
+    vstar/full: 0
+  cached_prefix:
+    zoombench/full: 9
+    mmstar/full: 128
+    vstar/full: 1
+
+execution_state:
+  base:
+    mmstar/full: complete_terminal_closure_1091_of_1500
+    zoombench/full: frozen_pending_not_started
+    vstar/full: frozen_pending_not_started
+  vision_opd:
+    all_scoped_views: deferred_by_user_not_started
+  cached_prefix:
+    all_scoped_views: deferred_by_user_not_started
+
+paths:
+  freeze_root: artifacts/runs/E-BENCH-ADAPTIVE-CAP-V1-FREEZE-001
+  future_run_root: artifacts/runs/E-BENCH-ADAPTIVE-CAP-V1-001

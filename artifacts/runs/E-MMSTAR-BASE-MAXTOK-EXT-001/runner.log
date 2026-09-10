@@ -1,0 +1,202 @@
+SERVICE_START experiment=E-MMSTAR-BASE-MAXTOK-EXT-001
+SERVICE_READY model=vision-opd-base-adaptive-maxtok
+INFERENCE_STAGE name=residual_8192 max_tokens=8192 total=46 complete=0 pending=46
+INFERENCE_PROGRESS name=residual_8192 10/46 failures=0
+INFERENCE_PROGRESS name=residual_8192 20/46 failures=0
+INFERENCE_PROGRESS name=residual_8192 30/46 failures=0
+INFERENCE_PROGRESS name=residual_8192 40/46 failures=0
+INFERENCE_PROGRESS name=residual_8192 46/46 failures=0
+WARNING: Error in configuration: macro '\frac' failed its substitution!
+JUDGE_STAGE name=residual_8192 required=21 complete=0 pending=21
+JUDGE_PROGRESS name=residual_8192 10/21 failures=0
+JUDGE_PROGRESS name=residual_8192 20/21 failures=0
+JUDGE_PROGRESS name=residual_8192 21/21 failures=1
+ADAPTIVE_STAGE_DONE max_tokens=8192 start=46 remaining_length=21 full_correct=1086
+INFERENCE_STAGE name=residual_16384 max_tokens=16384 total=21 complete=0 pending=21
+INFERENCE_PROGRESS name=residual_16384 10/21 failures=0
+INFERENCE_PROGRESS name=residual_16384 20/21 failures=0
+INFERENCE_PROGRESS name=residual_16384 21/21 failures=0
+JUDGE_STAGE name=residual_16384 required=9 complete=0 pending=9
+JUDGE_PROGRESS name=residual_16384 9/9 failures=0
+ADAPTIVE_STAGE_DONE max_tokens=16384 start=21 remaining_length=7 full_correct=1089
+INFERENCE_STAGE name=residual_32768 max_tokens=32768 total=7 complete=0 pending=7
+INFERENCE_PROGRESS name=residual_32768 7/7 failures=0
+JUDGE_STAGE name=residual_32768 required=3 complete=0 pending=3
+JUDGE_PROGRESS name=residual_32768 3/3 failures=0
+ADAPTIVE_STAGE_DONE max_tokens=32768 start=7 remaining_length=3 full_correct=1091
+INFERENCE_STAGE name=residual_65536 max_tokens=65536 total=3 complete=0 pending=3
+INFERENCE_PROGRESS name=residual_65536 3/3 failures=0
+JUDGE_STAGE name=residual_65536 required=1 complete=0 pending=1
+JUDGE_PROGRESS name=residual_65536 1/1 failures=0
+ADAPTIVE_STAGE_DONE max_tokens=65536 start=3 remaining_length=1 full_correct=1091
+INFERENCE_STAGE name=residual_131072 max_tokens=131072 total=1 complete=0 pending=1
+INFERENCE_PROGRESS name=residual_131072 1/1 failures=0
+JUDGE_STAGE name=residual_131072 required=1 complete=0 pending=1
+JUDGE_PROGRESS name=residual_131072 1/1 failures=0
+ADAPTIVE_STAGE_DONE max_tokens=131072 start=1 remaining_length=1 full_correct=1091
+{
+  "schema_version": 1,
+  "experiment_id": "E-MMSTAR-BASE-MAXTOK-EXT-001",
+  "status": "INCOMPLETE",
+  "decision": "MAX_STAGES_EXHAUSTED_WITH_LENGTH_REMAINING",
+  "total": 1500,
+  "correct": 1091,
+  "incorrect": 409,
+  "accuracy": 0.7273333333333334,
+  "original_length_count": 163,
+  "final_length_count": 1,
+  "source_stage_distribution": {
+    "baseline_1024": 1337,
+    "residual_131072": 1,
+    "residual_16384": 14,
+    "residual_32768": 4,
+    "residual_4096": 37,
+    "residual_65536": 2,
+    "residual_8192": 25,
+    "selected_2048": 80
+  },
+  "adaptive_stage_summaries": [
+    {
+      "schema_version": 1,
+      "stage": "residual_8192",
+      "request_count": 46,
+      "correct": 18,
+      "incorrect": 28,
+      "pending_judge": 0,
+      "judge_required": 21,
+      "judge_failures": 1,
+      "route_counts": {
+        "llm_judge_required": 21,
+        "mcq_option_match_r4": 16,
+        "mcq_option_mismatch_r4": 9
+      },
+      "updated_at_utc": "2026-09-09T21:03:37.485050+00:00",
+      "max_tokens": 8192,
+      "workers": 8,
+      "starting_length_count": 46,
+      "remaining_length_count": 21,
+      "resolved_this_stage": 25,
+      "hybrid_selected_correct": 86,
+      "counterfactual_full_correct": 1086,
+      "counterfactual_full_accuracy": 0.724
+    },
+    {
+      "schema_version": 1,
+      "stage": "residual_16384",
+      "request_count": 21,
+      "correct": 6,
+      "incorrect": 15,
+      "pending_judge": 0,
+      "judge_required": 9,
+      "judge_failures": 0,
+      "route_counts": {
+        "llm_judge_required": 9,
+        "mcq_option_match_r4": 5,
+        "mcq_option_mismatch_r4": 7
+      },
+      "updated_at_utc": "2026-09-09T21:12:37.826487+00:00",
+      "max_tokens": 16384,
+      "workers": 4,
+      "starting_length_count": 21,
+      "remaining_length_count": 7,
+      "resolved_this_stage": 14,
+      "hybrid_selected_correct": 89,
+      "counterfactual_full_correct": 1089,
+      "counterfactual_full_accuracy": 0.726
+    },
+    {
+      "schema_version": 1,
+      "stage": "residual_32768",
+      "request_count": 7,
+      "correct": 3,
+      "incorrect": 4,
+      "pending_judge": 0,
+      "judge_required": 3,
+      "judge_failures": 0,
+      "route_counts": {
+        "llm_judge_required": 3,
+        "mcq_option_match_r4": 3,
+        "mcq_option_mismatch_r4": 1
+      },
+      "updated_at_utc": "2026-09-09T21:24:20.532659+00:00",
+      "max_tokens": 32768,
+      "workers": 2,
+      "starting_length_count": 7,
+      "remaining_length_count": 3,
+      "resolved_this_stage": 4,
+      "hybrid_selected_correct": 91,
+      "counterfactual_full_correct": 1091,
+      "counterfactual_full_accuracy": 0.7273333333333334
+    },
+    {
+      "schema_version": 1,
+      "stage": "residual_65536",
+      "request_count": 3,
+      "correct": 0,
+      "incorrect": 3,
+      "pending_judge": 0,
+      "judge_required": 1,
+      "judge_failures": 0,
+      "route_counts": {
+        "llm_judge_required": 1,
+        "mcq_option_mismatch_r4": 2
+      },
+      "updated_at_utc": "2026-09-09T21:38:03.286328+00:00",
+      "max_tokens": 65536,
+      "workers": 1,
+      "starting_length_count": 3,
+      "remaining_length_count": 1,
+      "resolved_this_stage": 2,
+      "hybrid_selected_correct": 91,
+      "counterfactual_full_correct": 1091,
+      "counterfactual_full_accuracy": 0.7273333333333334
+    },
+    {
+      "schema_version": 1,
+      "stage": "residual_131072",
+      "request_count": 1,
+      "correct": 0,
+      "incorrect": 1,
+      "pending_judge": 0,
+      "judge_required": 1,
+      "judge_failures": 0,
+      "route_counts": {
+        "llm_judge_required": 1
+      },
+      "updated_at_utc": "2026-09-09T21:56:38.720825+00:00",
+      "max_tokens": 131072,
+      "workers": 1,
+      "starting_length_count": 1,
+      "remaining_length_count": 1,
+      "resolved_this_stage": 0,
+      "hybrid_selected_correct": 91,
+      "counterfactual_full_correct": 1091,
+      "counterfactual_full_accuracy": 0.7273333333333334
+    }
+  ],
+  "updated_at_utc": "2026-09-09T21:56:38.836028+00:00",
+  "limitation_statement": "Adaptive selective regeneration removes output-cap truncation under the local R4 parser and frozen Base Judge; it is not a uniform full-1500 run and not an exact reproduction of the paper GPT-OSS-120B Judge.",
+  "config_sha256": "a48e54bca7c03d995f39d44faa7b87b8c5fc536af03eeff6e63d7bc51330079c",
+  "source_files_unchanged": true,
+  "source_sha256": {
+    "r4_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r4_scores": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "selected_2048_predictions": "78becde38112ee7a97eb8796d63e8b794d7fbcf7cc5f6cee809ba8e1a6ddf65f",
+    "selected_2048_scores": "8543804573941ce66dbc2515a8c5b4d966397cd33d9f50645f6862dc7a1073bb",
+    "residual_4096_predictions": "ce0307aed79e87badec1bc28bea83d2e8edaa84fb8c715022e0bb6b29f09e1c5",
+    "residual_4096_scores": "346c54f85eb130e8a16cf3511c6ce836764c56f2a087e5907c6ce038713bdf29",
+    "r3_config": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903"
+  },
+  "checkpoint_identity": {
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    },
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    }
+  },
+  "runner_sha256": "298a2c3458bf0b388461eb74f2cf6dd147b4b2fbe76f7a350c82112575bd16a0"
+}

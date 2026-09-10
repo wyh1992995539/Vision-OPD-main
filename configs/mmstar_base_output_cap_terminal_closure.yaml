@@ -1,0 +1,33 @@
+schema_version: 1
+experiment:
+  id: E-MMSTAR-BASE-MAXTOK-CLOSURE-001
+  parent_experiment_id: E-MMSTAR-BASE-MAXTOK-EXT-001
+  objective: close the output-cap ambiguity without altering any raw prediction or score
+source:
+  root: artifacts/runs/E-MMSTAR-BASE-MAXTOK-EXT-001
+  files:
+    completion_receipt.json: 0abe7a25e51fd0f0ab2855495e5643a9e0b1c29982219b536a6532ad8bce4354
+    final_hybrid/predictions.jsonl: 92b77c715ec5ea9df7d9b1621e0322f0bc1d6fcf79ff72ea7af26a7b243d993b
+    final_hybrid/scores.jsonl: 1a5dc19b433f02c107fc6a492aa9b455ec9992359a533041f24a686c73df4b21
+    final_hybrid/selection_trace.jsonl: 6b71bde61b35a7d15c323ce1a2ec96b684c253b57ab648e7e5a2c7aa8c9fd27c
+    final_hybrid/summary.json: dbff9c37758889a1e0321bd5eca0597bf8b98b0136c4fe3e1dbb3a05dad589ff
+    residual_131072/predictions.jsonl: 543866f83700bf5248a03c3d7f1aa8199386123482d3cd20d6cad513d0997fa9
+    residual_131072/scores.jsonl: 1893fb73e70831fadac63e15fa1fbdd8c9b69b145710a6cabb19434967509559
+terminal_policy:
+  expected_sample_uid: mmstar:source_id:998
+  safety_cap_tokens: 131072
+  minimum_duplicate_paragraph_ratio: 0.95
+  require_no_r4_option: true
+  require_exact_judge_no: true
+  disposition: terminal_generation_degeneracy
+  scoring: retain_incorrect
+completion:
+  expected_total: 1500
+  expected_correct: 1091
+  expected_natural_stop_after_adaptive_regeneration: 162
+  expected_terminal_generation_degeneracy: 1
+  expected_unresolved_output_cap: 0
+paths:
+  output: artifacts/runs/E-MMSTAR-BASE-MAXTOK-EXT-001/terminal_closure
+limitations:
+  statement: The resolved view preserves one raw finish_reason=length record as evidence and classifies it as a scored model-generation degeneration after 131072 tokens; it does not claim that every model response emitted a natural stop token.

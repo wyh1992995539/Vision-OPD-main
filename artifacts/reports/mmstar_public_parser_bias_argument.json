@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "argument_id": "EVAL-MMSTAR-PARSER-RISK-001",
+  "recorded_at_utc": "2026-09-10",
+  "status": "strong_working_hypothesis",
+  "claim": "The authors' released MCQ parser has a confirmed answer-format-dependent bias, and the measured local parser plus generation-length effects are large enough to explain the scale of the paper-to-local MMStar Base gap; use of the same or a closely related parser in the paper run is likely but not verified.",
+  "confirmed": {
+    "released_parser_has_first_uppercase_fallback": true,
+    "fallback_present_from_first_public_file_commit": true,
+    "first_public_commit": "e4ba5ef432c88927791b984cfa616bd56caaf914",
+    "local_r3_and_r4_predictions_byte_identical": true,
+    "predictions_sha256": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r3_correct": 1126,
+    "r3_accuracy_percent": 75.066667,
+    "r4_correct": 1020,
+    "r4_accuracy_percent": 68.0,
+    "parser_net_effect_pp": 7.066667,
+    "explicit_wrong_option_r3_first_letter_false_positives": 93,
+    "ambiguous_r3_first_letter_to_r4_judge_wrong": 19,
+    "max_token_hybrid_accuracy_percent": 71.466667,
+    "max_token_observed_effect_pp": 3.466667,
+    "paper_reported_accuracy_percent": 78.53
+  },
+  "inference": {
+    "paper_likely_used_same_or_similar_parser": "strong_working_hypothesis",
+    "protocol_effects_sufficient_to_explain_gap_scale": "strongly_supported_non_additive_magnitude_check"
+  },
+  "not_claimed": [
+    "The paper definitely used the released parser.",
+    "The corrected paper Base score is 68.00%.",
+    "The paper's reported Vision-OPD improvement is definitely invalid.",
+    "The parser and max-token effects are strictly additive.",
+    "The MMStar dataset itself is defective."
+  ],
+  "source_artifacts": {
+    "root_cause_report": "artifacts/reports/mmstar_base_gap_root_cause.json",
+    "r3_scores_sha256": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71",
+    "r4_scores_sha256": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "max_token_gate_sha256": "daa8ffb3c23ff6aed3bb8b527c99f69e7713640ba48e73880f4dfee33f0b0a11",
+    "official_ref_commit": "c8a8fdd1f88eef1b5ef4fe6a8d64eb0272917471",
+    "official_judge_qwenlm_sha256": "abbe11dacf7fae19728ca16407a02c91d04a9bc8ea72edd3b4a91b6224f4b670"
+  },
+  "prediction_origin": {
+    "owner": "local_project_run",
+    "model": "Qwen3.5-4B Base",
+    "paper_author_outputs": false,
+    "official_repository_contains_table2_per_sample_outputs": false,
+    "scope": "Measures the released parser effect on local frozen outputs; does not measure the exact inflation of the paper-reported score."
+  }
+}

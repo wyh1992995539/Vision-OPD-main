@@ -1,0 +1,21 @@
+{
+  "accuracy": 0.7273333333333334,
+  "correct": 1091,
+  "decision": "OUTPUT_CAP_REPAIR_COMPLETE_WITH_ONE_SCORED_GENERATION_DEGENERACY",
+  "experiment_id": "E-MMSTAR-BASE-MAXTOK-CLOSURE-001",
+  "incorrect": 409,
+  "inference_error_count": 0,
+  "judge_error_count": 0,
+  "limitation_statement": "The resolved view preserves one raw finish_reason=length record as evidence and classifies it as a scored model-generation degeneration after 131072 tokens; it does not claim that every model response emitted a natural stop token.",
+  "natural_stop_after_adaptive_regeneration_count": 162,
+  "original_finish_reason_length_count": 163,
+  "parent_experiment_id": "E-MMSTAR-BASE-MAXTOK-EXT-001",
+  "raw_finish_reason_length_preserved_count": 1,
+  "schema_version": 1,
+  "score_changed_by_closure": false,
+  "status": "COMPLETE",
+  "terminal_generation_degeneracy_count": 1,
+  "total": 1500,
+  "unresolved_output_cap_count": 0,
+  "updated_at_utc": "2026-09-09T22:03:39.679184+00:00"
+}

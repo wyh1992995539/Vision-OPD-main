@@ -26,6 +26,7 @@ from eval.paper_aligned_common import (
     write_json,
     write_jsonl_map,
 )
+from eval.mcq_parser_r4 import classify_mcq_answer
 
 
 def load_mathruler() -> Callable[[Any, Any], bool]:
@@ -84,6 +85,32 @@ def rule_score(
         return result
 
     if prediction["benchmark"] in set(config["judge"]["first_letter_benchmarks"]):
+        parser_revision = int(config["judge"].get("mcq_parser_revision", 3))
+        if parser_revision >= 4:
+            decision = classify_mcq_answer(
+                prediction["reference_answer"], prediction.get("raw_model_answer")
+            )
+            result["schema_version"] = 2
+            result["mcq_parser_revision"] = parser_revision
+            result["mcq_parse_status"] = decision["status"]
+            result["mcq_expected_option"] = decision["expected_option"]
+            result["mcq_predicted_option"] = decision["predicted_option"]
+            result["mcq_candidate_options"] = decision["candidate_options"]
+            result["mcq_parse_evidence"] = decision["evidence"]
+            if decision["status"] == "match":
+                result["rule_score"] = True
+                result["rule_source"] = "mcq_option_match_r4"
+                result["final_is_correct"] = True
+                return result
+            if decision["status"] == "mismatch":
+                result["rule_score"] = False
+                result["rule_source"] = "mcq_option_mismatch_r4"
+                return result
+            result["rule_score"] = False
+            result["rule_source"] = "llm_judge_required"
+            result["judge_required"] = True
+            result["score_status"] = "pending_judge"
+            return result
         try:
             if first_letter_match(prediction["reference_answer"], extracted):
                 result["rule_score"] = True
@@ -161,7 +188,7 @@ def summarize(
 
     latencies = [float(item.get("latency_seconds") or 0) for item in predictions]
     pending = sum(item["score_status"] != "scored" for item in scores)
-    return {
+    summary = {
         "schema_version": 1,
         "experiment_id": "E-PAPER-BASEJUDGE-001",
         "generated_at_utc": now_utc(),
@@ -209,6 +236,22 @@ def summarize(
         "amendment_sha256_raw_bytes": manifest["amendment_sha256_raw_bytes"],
         "limitation_statement": config["reporting"]["required_limitation_statement"],
     }
+    if int(config["judge"].get("mcq_parser_revision", 3)) >= 4:
+        summary["schema_version"] = 2
+        summary["scoring_pipeline"].update(
+            {
+                "mcq_option_match_count": sum(
+                    item["rule_source"] == "mcq_option_match_r4" for item in scores
+                ),
+                "mcq_option_mismatch_count": sum(
+                    item["rule_source"] == "mcq_option_mismatch_r4" for item in scores
+                ),
+                "mcq_ambiguous_judge_count": sum(
+                    item.get("mcq_parse_status") == "ambiguous" for item in scores
+                ),
+            }
+        )
+    return summary
 
 
 def write_artifact_hashes(out: Path, config: dict[str, Any]) -> None:

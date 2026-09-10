@@ -1,0 +1,26 @@
+{
+  "finished_at_utc": "2026-09-09T19:44:52.804972+00:00",
+  "schema_version": 1,
+  "service_command": [
+    "/root/miniconda3/envs/vision-opd/bin/vllm",
+    "serve",
+    "/root/autodl-tmp/models/Qwen3.5-4B",
+    "--served-model-name",
+    "vision-opd-base-judge",
+    "--tensor-parallel-size",
+    "1",
+    "--gpu-memory-utilization",
+    "0.75",
+    "--trust-remote-code",
+    "--additional-config",
+    "{\"gdn_prefill_backend\": \"triton\"}",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8000"
+  ],
+  "service_exit_code_after_controlled_shutdown": 0,
+  "service_log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-MMSTAR-BASE-MAXTOK-DIAG-001/vllm_server.log",
+  "started_at_utc": "2026-09-09T19:35:41.330424+00:00",
+  "status": "PASS"
+}

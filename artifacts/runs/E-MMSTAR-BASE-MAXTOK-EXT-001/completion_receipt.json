@@ -1,0 +1,166 @@
+{
+  "accuracy": 0.7273333333333334,
+  "adaptive_stage_summaries": [
+    {
+      "correct": 18,
+      "counterfactual_full_accuracy": 0.724,
+      "counterfactual_full_correct": 1086,
+      "hybrid_selected_correct": 86,
+      "incorrect": 28,
+      "judge_failures": 1,
+      "judge_required": 21,
+      "max_tokens": 8192,
+      "pending_judge": 0,
+      "remaining_length_count": 21,
+      "request_count": 46,
+      "resolved_this_stage": 25,
+      "route_counts": {
+        "llm_judge_required": 21,
+        "mcq_option_match_r4": 16,
+        "mcq_option_mismatch_r4": 9
+      },
+      "schema_version": 1,
+      "stage": "residual_8192",
+      "starting_length_count": 46,
+      "updated_at_utc": "2026-09-09T21:03:37.485050+00:00",
+      "workers": 8
+    },
+    {
+      "correct": 6,
+      "counterfactual_full_accuracy": 0.726,
+      "counterfactual_full_correct": 1089,
+      "hybrid_selected_correct": 89,
+      "incorrect": 15,
+      "judge_failures": 0,
+      "judge_required": 9,
+      "max_tokens": 16384,
+      "pending_judge": 0,
+      "remaining_length_count": 7,
+      "request_count": 21,
+      "resolved_this_stage": 14,
+      "route_counts": {
+        "llm_judge_required": 9,
+        "mcq_option_match_r4": 5,
+        "mcq_option_mismatch_r4": 7
+      },
+      "schema_version": 1,
+      "stage": "residual_16384",
+      "starting_length_count": 21,
+      "updated_at_utc": "2026-09-09T21:12:37.826487+00:00",
+      "workers": 4
+    },
+    {
+      "correct": 3,
+      "counterfactual_full_accuracy": 0.7273333333333334,
+      "counterfactual_full_correct": 1091,
+      "hybrid_selected_correct": 91,
+      "incorrect": 4,
+      "judge_failures": 0,
+      "judge_required": 3,
+      "max_tokens": 32768,
+      "pending_judge": 0,
+      "remaining_length_count": 3,
+      "request_count": 7,
+      "resolved_this_stage": 4,
+      "route_counts": {
+        "llm_judge_required": 3,
+        "mcq_option_match_r4": 3,
+        "mcq_option_mismatch_r4": 1
+      },
+      "schema_version": 1,
+      "stage": "residual_32768",
+      "starting_length_count": 7,
+      "updated_at_utc": "2026-09-09T21:24:20.532659+00:00",
+      "workers": 2
+    },
+    {
+      "correct": 0,
+      "counterfactual_full_accuracy": 0.7273333333333334,
+      "counterfactual_full_correct": 1091,
+      "hybrid_selected_correct": 91,
+      "incorrect": 3,
+      "judge_failures": 0,
+      "judge_required": 1,
+      "max_tokens": 65536,
+      "pending_judge": 0,
+      "remaining_length_count": 1,
+      "request_count": 3,
+      "resolved_this_stage": 2,
+      "route_counts": {
+        "llm_judge_required": 1,
+        "mcq_option_mismatch_r4": 2
+      },
+      "schema_version": 1,
+      "stage": "residual_65536",
+      "starting_length_count": 3,
+      "updated_at_utc": "2026-09-09T21:38:03.286328+00:00",
+      "workers": 1
+    },
+    {
+      "correct": 0,
+      "counterfactual_full_accuracy": 0.7273333333333334,
+      "counterfactual_full_correct": 1091,
+      "hybrid_selected_correct": 91,
+      "incorrect": 1,
+      "judge_failures": 0,
+      "judge_required": 1,
+      "max_tokens": 131072,
+      "pending_judge": 0,
+      "remaining_length_count": 1,
+      "request_count": 1,
+      "resolved_this_stage": 0,
+      "route_counts": {
+        "llm_judge_required": 1
+      },
+      "schema_version": 1,
+      "stage": "residual_131072",
+      "starting_length_count": 1,
+      "updated_at_utc": "2026-09-09T21:56:38.720825+00:00",
+      "workers": 1
+    }
+  ],
+  "checkpoint_identity": {
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    }
+  },
+  "config_sha256": "a48e54bca7c03d995f39d44faa7b87b8c5fc536af03eeff6e63d7bc51330079c",
+  "correct": 1091,
+  "decision": "MAX_STAGES_EXHAUSTED_WITH_LENGTH_REMAINING",
+  "experiment_id": "E-MMSTAR-BASE-MAXTOK-EXT-001",
+  "final_length_count": 1,
+  "incorrect": 409,
+  "limitation_statement": "Adaptive selective regeneration removes output-cap truncation under the local R4 parser and frozen Base Judge; it is not a uniform full-1500 run and not an exact reproduction of the paper GPT-OSS-120B Judge.",
+  "original_length_count": 163,
+  "runner_sha256": "298a2c3458bf0b388461eb74f2cf6dd147b4b2fbe76f7a350c82112575bd16a0",
+  "schema_version": 1,
+  "source_files_unchanged": true,
+  "source_sha256": {
+    "r3_config": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+    "r4_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r4_scores": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "residual_4096_predictions": "ce0307aed79e87badec1bc28bea83d2e8edaa84fb8c715022e0bb6b29f09e1c5",
+    "residual_4096_scores": "346c54f85eb130e8a16cf3511c6ce836764c56f2a087e5907c6ce038713bdf29",
+    "selected_2048_predictions": "78becde38112ee7a97eb8796d63e8b794d7fbcf7cc5f6cee809ba8e1a6ddf65f",
+    "selected_2048_scores": "8543804573941ce66dbc2515a8c5b4d966397cd33d9f50645f6862dc7a1073bb"
+  },
+  "source_stage_distribution": {
+    "baseline_1024": 1337,
+    "residual_131072": 1,
+    "residual_16384": 14,
+    "residual_32768": 4,
+    "residual_4096": 37,
+    "residual_65536": 2,
+    "residual_8192": 25,
+    "selected_2048": 80
+  },
+  "status": "INCOMPLETE",
+  "total": 1500,
+  "updated_at_utc": "2026-09-09T21:56:38.836028+00:00"
+}

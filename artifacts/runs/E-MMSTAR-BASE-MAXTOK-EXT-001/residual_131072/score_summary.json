@@ -1,0 +1,14 @@
+{
+  "correct": 0,
+  "incorrect": 1,
+  "judge_failures": 0,
+  "judge_required": 1,
+  "pending_judge": 0,
+  "request_count": 1,
+  "route_counts": {
+    "llm_judge_required": 1
+  },
+  "schema_version": 1,
+  "stage": "residual_131072",
+  "updated_at_utc": "2026-09-09T21:56:38.720825+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "config_path": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r4_rescore.yaml",
+  "config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "created_at_utc": "2026-09-09T19:02:54.060896+00:00",
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "parser_sha256": "f47c31cd18a76ff97b7443143dc2bf801392120c7ea22abfd3af0d68dce888e0",
+  "runner_sha256": "4702e8678582f043653c47b056a3b6faac1ee1e0a4ef523c03fa078d5fb78e2d",
+  "schema_version": 1,
+  "scorer_sha256": "4bac1be2bb23c20d08a46144e3fe8b892e17faa47705d57213336f56ab61cba9",
+  "session_status": "PASS",
+  "source_r3_config_sha256": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "status": "PASS",
+  "validation_status": "PASS"
+}

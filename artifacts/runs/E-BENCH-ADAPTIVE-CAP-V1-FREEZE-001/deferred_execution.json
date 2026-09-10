@@ -1,0 +1,36 @@
+{
+  "base": {
+    "mmstar/full": "complete_terminal_closure_1091_of_1500",
+    "vstar/full": "frozen_pending_not_started",
+    "zoombench/full": "frozen_pending_not_started"
+  },
+  "cached_prefix": {
+    "all_scoped_views": "deferred_by_user_not_started"
+  },
+  "execution_authorized_now": false,
+  "future_run_root": "artifacts/runs/E-BENCH-ADAPTIVE-CAP-V1-001",
+  "gpu_used": false,
+  "inference_started": false,
+  "observed_r4_length_counts": {
+    "base": {
+      "mmstar/full": 163,
+      "vstar/full": 2,
+      "zoombench/full": 7
+    },
+    "cached_prefix": {
+      "mmstar/full": 128,
+      "vstar/full": 1,
+      "zoombench/full": 9
+    },
+    "vision_opd": {
+      "mmstar/full": 153,
+      "vstar/full": 0,
+      "zoombench/full": 10
+    }
+  },
+  "protocol_id": "BENCHMARK-ADAPTIVE-OUTPUT-CAP-V1",
+  "schema_version": 1,
+  "vision_opd": {
+    "all_scoped_views": "deferred_by_user_not_started"
+  }
+}

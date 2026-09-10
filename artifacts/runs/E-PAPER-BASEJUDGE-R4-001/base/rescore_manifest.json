@@ -1,0 +1,44 @@
+{
+  "created_at_utc": "2026-09-09T19:02:53.355891+00:00",
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "model_id": "Vision-OPD-4B",
+  "model_role": "base",
+  "parser_path": "/root/autodl-tmp/Vision-OPD-main/eval/mcq_parser_r4.py",
+  "parser_sha256": "f47c31cd18a76ff97b7443143dc2bf801392120c7ea22abfd3af0d68dce888e0",
+  "pending_judge_count": 0,
+  "prediction_count": 2536,
+  "protocol_revision": 4,
+  "r4_config": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r4_rescore.yaml",
+  "r4_config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "schema_version": 1,
+  "scorer_path": "/root/autodl-tmp/Vision-OPD-main/eval/score_paper_aligned.py",
+  "scorer_sha256": "4bac1be2bb23c20d08a46144e3fe8b892e17faa47705d57213336f56ab61cba9",
+  "source_compaction": {
+    "judges": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    },
+    "predictions": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    },
+    "r4_judges": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    },
+    "scores": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    }
+  },
+  "source_r3_config": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+  "source_r3_config_sha256": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "source_r3_hashes": {
+    "judge_results.jsonl": "b4e3632cf2ad647d8154ca0a9dbdffe73535d85eb002c2e5728b1d386de00afd",
+    "predictions.jsonl": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "run_manifest.json": "d58bccb48939a8667496c2a5256c41e9a34aaef3c2ffb8b073b0ae1ca2f494cf",
+    "scores.jsonl": "65576e892bcecdb4d40c5a2cc42787a09c547cf683e54e8644cce39a0e3aea71"
+  },
+  "source_r3_run": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-001/base",
+  "status": "complete"
+}

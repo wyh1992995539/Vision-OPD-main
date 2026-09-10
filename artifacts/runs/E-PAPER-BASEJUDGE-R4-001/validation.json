@@ -1,0 +1,36 @@
+{
+  "checks": {
+    "base": {
+      "explicit_mismatch_all_incorrect_without_judge": true,
+      "explicit_mismatch_count": 361,
+      "pending_judge_count": 0,
+      "request_count": 2536,
+      "score_duplicates": 0,
+      "source_r3_unchanged": true,
+      "summary_complete": true
+    },
+    "cached_prefix": {
+      "explicit_mismatch_all_incorrect_without_judge": true,
+      "explicit_mismatch_count": 586,
+      "pending_judge_count": 0,
+      "request_count": 2536,
+      "score_duplicates": 0,
+      "source_r3_unchanged": true,
+      "summary_complete": true
+    },
+    "vision_opd": {
+      "explicit_mismatch_all_incorrect_without_judge": true,
+      "explicit_mismatch_count": 553,
+      "pending_judge_count": 0,
+      "request_count": 2536,
+      "score_duplicates": 0,
+      "source_r3_unchanged": true,
+      "summary_complete": true
+    }
+  },
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "frozen_r4_config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "schema_version": 1,
+  "status": "PASS",
+  "validated_at_utc": "2026-09-09T19:02:54.059463+00:00"
+}

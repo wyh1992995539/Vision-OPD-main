@@ -1,0 +1,70 @@
+schema_version: 1
+
+protocol:
+  name: vision-opd-paper-aligned-base-judge-r4-rescore
+  experiment_id: E-PAPER-BASEJUDGE-R4-001
+  status: frozen
+  protocol_revision: 4
+  frozen_at_utc: "2026-09-10"
+  scope: scoring_and_judge_routing_only
+  preserve_source_predictions: true
+  source_r3_config: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+  source_r3_config_sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+
+scoring:
+  mcq_parser_revision: 4
+  mcq_benchmarks:
+    - mmstar
+    - vstar
+  explicit_match_policy: count_correct_without_judge
+  explicit_mismatch_policy: count_incorrect_without_judge
+  ambiguous_policy: frozen_base_judge
+  preserve_mathruler_correct: true
+  preserve_unaffected_zoombench_r3_score: true
+  conflicting_explicit_options_are_ambiguous: true
+
+judge:
+  inherit_contract_from_source_r3: true
+  served_model_name: vision-opd-base-judge
+  checkpoint_path: /root/autodl-tmp/models/Qwen3.5-4B
+  reuse_existing_only_when:
+    - request_key_matches
+    - judge_prompt_matches_exactly
+    - judge_model_id_matches
+    - result_is_complete
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.75
+  gdn_prefill_backend: triton
+  workers: 16
+
+source_runs:
+  base:
+    path: artifacts/runs/E-PAPER-BASEJUDGE-001/base
+  vision_opd:
+    path: artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd
+  cached_prefix:
+    path: artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix
+
+paths:
+  run_root: artifacts/runs/E-PAPER-BASEJUDGE-R4-001
+  predictions_name: predictions.jsonl
+  judge_results_name: judge_results.jsonl
+  scores_name: scores.jsonl
+  summary_name: summary.json
+  pending_name: pending_judge.jsonl
+  manifest_name: rescore_manifest.json
+  validation_name: validation.json
+  artifact_sha256_name: artifact_sha256.txt
+  session_name: judge_session.json
+
+expected:
+  requests_per_role: 2536
+  groups:
+    zoombench/full: 845
+    mmstar/full: 1500
+    vstar/full: 191
+
+limitations:
+  paper_judge: GPT-OSS-120B
+  local_substitute: frozen Qwen3.5-4B Base
+  statement: R4 repairs deterministic MCQ parsing and Judge routing while retaining the frozen local Base Judge substitution; it is not an exact reproduction of the paper Judge.

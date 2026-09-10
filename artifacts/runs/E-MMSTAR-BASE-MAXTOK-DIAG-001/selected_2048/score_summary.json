@@ -1,0 +1,16 @@
+{
+  "correct": 65,
+  "incorrect": 98,
+  "judge_failures": 1,
+  "judge_required": 79,
+  "pending_judge": 0,
+  "request_count": 163,
+  "route_counts": {
+    "llm_judge_required": 79,
+    "mcq_option_match_r4": 57,
+    "mcq_option_mismatch_r4": 27
+  },
+  "schema_version": 1,
+  "stage": "selected_2048",
+  "updated_at_utc": "2026-09-09T19:40:45.160743+00:00"
+}

@@ -1,0 +1,91 @@
+{
+  "baseline": {
+    "nonselected_correct": 1000,
+    "r4_accuracy": 0.68,
+    "r4_correct": 1020,
+    "selected_length_correct": 20,
+    "selected_length_count": 163
+  },
+  "checkpoint_identity": {
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    }
+  },
+  "chosen_full_max_tokens": null,
+  "config_sha256": "166c02f1f1dbc8e537024703058c64993ae1f4d6a7f35907a3a958bfd811bc1d",
+  "created_at_utc": "2026-09-09T19:44:51.638933+00:00",
+  "decision": "STOP_AFTER_DIAGNOSTIC_GATE_NOT_MET",
+  "experiment_id": "E-MMSTAR-BASE-MAXTOK-DIAG-001",
+  "full_run": null,
+  "gate": {
+    "allowed_absolute_error_pp": 2.0,
+    "full_run_max_tokens": "use_first_stage_that_passes",
+    "full_run_only_if_gate_passes": true,
+    "minimum_counterfactual_accuracy_percent": 76.53,
+    "minimum_counterfactual_correct": 1148,
+    "paper_base_accuracy_percent": 78.53
+  },
+  "limitation_statement": "This is a max-token causal diagnostic under the local frozen R4 parser and Base Judge, not an exact reproduction of the paper GPT-OSS-120B Judge.",
+  "parser_sha256": "f47c31cd18a76ff97b7443143dc2bf801392120c7ea22abfd3af0d68dce888e0",
+  "r3_config_sha256": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "runner_sha256": "bdcd5d5cbb0979cbf96b57d781cb81b3ec6c94e4b84abb2c29ce407364fb04da",
+  "schema_version": 1,
+  "scorer_sha256": "4bac1be2bb23c20d08a46144e3fe8b892e17faa47705d57213336f56ab61cba9",
+  "source_files_unchanged": true,
+  "source_sha256": {
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base/predictions.jsonl": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base/scores.jsonl": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base/summary.json": "38aebadccb2b235ffc370ab866279528e48d409f9d87c3a819df200e53445f3d",
+    "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903"
+  },
+  "stages": {
+    "residual_4096": {
+      "correct": 19,
+      "counterfactual_full_accuracy": 0.7146666666666667,
+      "counterfactual_full_correct": 1072,
+      "gate_pass": false,
+      "hybrid_selected_correct": 72,
+      "incorrect": 64,
+      "judge_failures": 2,
+      "judge_required": 52,
+      "pending_judge": 0,
+      "request_count": 83,
+      "residual_length_count": 46,
+      "route_counts": {
+        "llm_judge_required": 52,
+        "mcq_option_match_r4": 15,
+        "mcq_option_mismatch_r4": 16
+      },
+      "schema_version": 1,
+      "stage": "residual_4096",
+      "updated_at_utc": "2026-09-09T19:44:51.619267+00:00"
+    },
+    "selected_2048": {
+      "correct": 65,
+      "counterfactual_full_accuracy": 0.71,
+      "counterfactual_full_correct": 1065,
+      "gate_pass": false,
+      "incorrect": 98,
+      "judge_failures": 1,
+      "judge_required": 79,
+      "pending_judge": 0,
+      "request_count": 163,
+      "residual_length_count": 83,
+      "route_counts": {
+        "llm_judge_required": 79,
+        "mcq_option_match_r4": 57,
+        "mcq_option_mismatch_r4": 27
+      },
+      "schema_version": 1,
+      "stage": "selected_2048",
+      "updated_at_utc": "2026-09-09T19:40:45.160743+00:00"
+    }
+  },
+  "status": "PASS"
+}

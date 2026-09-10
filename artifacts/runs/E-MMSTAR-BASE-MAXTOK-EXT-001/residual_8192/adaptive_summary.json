@@ -1,0 +1,24 @@
+{
+  "correct": 18,
+  "counterfactual_full_accuracy": 0.724,
+  "counterfactual_full_correct": 1086,
+  "hybrid_selected_correct": 86,
+  "incorrect": 28,
+  "judge_failures": 1,
+  "judge_required": 21,
+  "max_tokens": 8192,
+  "pending_judge": 0,
+  "remaining_length_count": 21,
+  "request_count": 46,
+  "resolved_this_stage": 25,
+  "route_counts": {
+    "llm_judge_required": 21,
+    "mcq_option_match_r4": 16,
+    "mcq_option_mismatch_r4": 9
+  },
+  "schema_version": 1,
+  "stage": "residual_8192",
+  "starting_length_count": 46,
+  "updated_at_utc": "2026-09-09T21:03:37.485050+00:00",
+  "workers": 8
+}

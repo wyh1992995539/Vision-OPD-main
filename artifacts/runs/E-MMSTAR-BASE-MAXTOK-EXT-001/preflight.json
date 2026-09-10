@@ -1,0 +1,55 @@
+{
+  "adaptive_stages": [
+    {
+      "max_tokens": 8192,
+      "workers": 8
+    },
+    {
+      "max_tokens": 16384,
+      "workers": 4
+    },
+    {
+      "max_tokens": 32768,
+      "workers": 2
+    },
+    {
+      "max_tokens": 65536,
+      "workers": 1
+    },
+    {
+      "max_tokens": 131072,
+      "workers": 1
+    }
+  ],
+  "checked_at_utc": "2026-09-09T20:55:23.288084+00:00",
+  "checkpoint_identity": {
+    "metadata_sha256": {
+      "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "path": "/root/autodl-tmp/models/Qwen3.5-4B",
+    "weight_sha256": {
+      "model.safetensors-00001-of-00002.safetensors": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+      "model.safetensors-00002-of-00002.safetensors": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188"
+    }
+  },
+  "config_sha256": "a48e54bca7c03d995f39d44faa7b87b8c5fc536af03eeff6e63d7bc51330079c",
+  "cuda_available": true,
+  "cuda_device_count": 1,
+  "experiment_id": "E-MMSTAR-BASE-MAXTOK-EXT-001",
+  "original_length_count": 163,
+  "residual_4096_count": 46,
+  "resolved_at_2048_count": 80,
+  "schema_version": 1,
+  "source_sha256": {
+    "r3_config": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+    "r4_predictions": "74c0f4ebc869576fe7397ddccc37dee2027f2b678478e1cf10c9a964f34b7684",
+    "r4_scores": "ef345eda81eff51089973134a4f431244659de39a61261be2a410aaea5e2f174",
+    "residual_4096_predictions": "ce0307aed79e87badec1bc28bea83d2e8edaa84fb8c715022e0bb6b29f09e1c5",
+    "residual_4096_scores": "346c54f85eb130e8a16cf3511c6ce836764c56f2a087e5907c6ce038713bdf29",
+    "selected_2048_predictions": "78becde38112ee7a97eb8796d63e8b794d7fbcf7cc5f6cee809ba8e1a6ddf65f",
+    "selected_2048_scores": "8543804573941ce66dbc2515a8c5b4d966397cd33d9f50645f6862dc7a1073bb"
+  },
+  "status": "PASS",
+  "success_condition": "remaining_finish_reason_length_equals_zero"
+}

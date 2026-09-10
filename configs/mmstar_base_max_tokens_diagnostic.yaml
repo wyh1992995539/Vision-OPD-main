@@ -1,0 +1,39 @@
+schema_version: 1
+experiment:
+  id: E-MMSTAR-BASE-MAXTOK-DIAG-001
+  status: frozen
+  frozen_at_utc: "2026-09-10"
+  objective: diagnose whether evaluation output truncation explains the local Base MMStar gap
+source:
+  r3_config: configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml
+  r3_config_sha256: e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903
+  r4_base_run: artifacts/runs/E-PAPER-BASEJUDGE-R4-001/base
+  selection: finish_reason_equals_length
+  expected_selected_samples: 163
+model:
+  path: /root/autodl-tmp/models/Qwen3.5-4B
+  role: frozen_local_base
+  served_model_name: vision-opd-base-judge
+inference:
+  benchmark: mmstar
+  enable_thinking: false
+  temperature: 0
+  initial_max_tokens: 2048
+  residual_max_tokens: 4096
+  workers: 16
+  preserve_prompt_image_and_all_other_r3_settings: true
+scoring:
+  parser_revision: 4
+  judge: frozen_qwen3_5_4b_base
+  reuse_old_prediction_or_score: false
+gate:
+  paper_base_accuracy_percent: 78.53
+  allowed_absolute_error_pp: 2.0
+  minimum_counterfactual_accuracy_percent: 76.53
+  minimum_counterfactual_correct: 1148
+  full_run_only_if_gate_passes: true
+  full_run_max_tokens: use_first_stage_that_passes
+paths:
+  output_root: artifacts/runs/E-MMSTAR-BASE-MAXTOK-DIAG-001
+limitations:
+  statement: This is a max-token causal diagnostic under the local frozen R4 parser and Base Judge, not an exact reproduction of the paper GPT-OSS-120B Judge.

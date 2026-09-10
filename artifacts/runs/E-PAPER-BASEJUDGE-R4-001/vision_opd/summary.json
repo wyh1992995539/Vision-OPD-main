@@ -1,0 +1,57 @@
+{
+  "decision_status": "complete",
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "frozen_r4_config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "generated_at_utc": "2026-09-09T19:02:53.656877+00:00",
+  "groups": {
+    "mmstar/full": {
+      "accuracy": 0.592,
+      "accuracy_lower_bound": 0.592,
+      "accuracy_upper_bound": 0.592,
+      "correct": 888,
+      "incorrect": 612,
+      "pending_judge": 0,
+      "total": 1500
+    },
+    "vstar/full": {
+      "accuracy": 0.7172774869109948,
+      "accuracy_lower_bound": 0.7172774869109948,
+      "accuracy_upper_bound": 0.7172774869109948,
+      "correct": 137,
+      "incorrect": 54,
+      "pending_judge": 0,
+      "total": 191
+    },
+    "zoombench/full": {
+      "accuracy": 0.5254437869822485,
+      "accuracy_lower_bound": 0.5254437869822485,
+      "accuracy_upper_bound": 0.5254437869822485,
+      "correct": 444,
+      "incorrect": 401,
+      "pending_judge": 0,
+      "total": 845
+    }
+  },
+  "limitation_statement": "R4 repairs deterministic MCQ parsing and Judge routing while retaining the frozen local Base Judge substitution; it is not an exact reproduction of the paper Judge.",
+  "model_id": "vision-opd-day15-r3",
+  "model_role": "vision_opd",
+  "pending_judge_count": 0,
+  "protocol_revision": 4,
+  "request_count": 2536,
+  "schema_version": 2,
+  "scoring_pipeline": {
+    "llm_judge_required": 140,
+    "mcq_option_match_r4": 998,
+    "mcq_option_mismatch_r4": 553,
+    "new_r4": 27,
+    "preserved_r3_score": 845,
+    "reused_r3_exact_prompt": 901
+  },
+  "source_r3_hashes": {
+    "judge_results.jsonl": "8386597ee22b16220c4422aa8e19495630db552bc4b6298411e911fff7ff747a",
+    "predictions.jsonl": "fff2c1d67fb5a5b6f6f998c162d68c2c60353f042721a4c1ca76ddc9b7c741e7",
+    "run_manifest.json": "184749a097f65ef11b91d955864bc91cc8561f753b6e1aadaef2716624d77166",
+    "scores.jsonl": "2e7c64ee0296f72e7f2edceff00fe5f8f82392d6cae64df851b264fe19a3b960"
+  },
+  "source_r3_run": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/vision_opd"
+}

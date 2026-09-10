@@ -1,0 +1,27 @@
+{
+  "experiment_id": "E-MMSTAR-BASE-MAXTOK-EXT-001",
+  "finished_at_utc": "2026-09-09T21:56:39.960698+00:00",
+  "schema_version": 1,
+  "service_command": [
+    "/root/miniconda3/envs/vision-opd/bin/vllm",
+    "serve",
+    "/root/autodl-tmp/models/Qwen3.5-4B",
+    "--served-model-name",
+    "vision-opd-base-adaptive-maxtok",
+    "--tensor-parallel-size",
+    "1",
+    "--gpu-memory-utilization",
+    "0.75",
+    "--trust-remote-code",
+    "--additional-config",
+    "{\"gdn_prefill_backend\": \"triton\"}",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8000"
+  ],
+  "service_exit_code_after_controlled_shutdown": 0,
+  "service_log": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-MMSTAR-BASE-MAXTOK-EXT-001/vllm_server.log",
+  "started_at_utc": "2026-09-09T20:55:23.471859+00:00",
+  "status": "INCOMPLETE"
+}

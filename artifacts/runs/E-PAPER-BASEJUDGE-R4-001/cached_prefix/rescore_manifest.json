@@ -1,0 +1,44 @@
+{
+  "created_at_utc": "2026-09-09T19:02:53.924039+00:00",
+  "experiment_id": "E-PAPER-BASEJUDGE-R4-001",
+  "model_id": "cached-prefix-day15-r3",
+  "model_role": "cached_prefix",
+  "parser_path": "/root/autodl-tmp/Vision-OPD-main/eval/mcq_parser_r4.py",
+  "parser_sha256": "f47c31cd18a76ff97b7443143dc2bf801392120c7ea22abfd3af0d68dce888e0",
+  "pending_judge_count": 0,
+  "prediction_count": 2536,
+  "protocol_revision": 4,
+  "r4_config": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r4_rescore.yaml",
+  "r4_config_sha256": "7578a6561f3e20a50c9c386e6aa395b3f66a09d5abbfff399481f1053faf35ca",
+  "schema_version": 1,
+  "scorer_path": "/root/autodl-tmp/Vision-OPD-main/eval/score_paper_aligned.py",
+  "scorer_sha256": "4bac1be2bb23c20d08a46144e3fe8b892e17faa47705d57213336f56ab61cba9",
+  "source_compaction": {
+    "judges": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    },
+    "predictions": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    },
+    "r4_judges": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    },
+    "scores": {
+      "duplicate_keys": 0,
+      "malformed_lines": 0
+    }
+  },
+  "source_r3_config": "/root/autodl-tmp/Vision-OPD-main/configs/benchmark_eval_paper_basejudge_r3_single_gpu.yaml",
+  "source_r3_config_sha256": "e71255e817b11c120b4ac22d7ace81d12ffe01e25f7ea94de2e2ffb62e592903",
+  "source_r3_hashes": {
+    "judge_results.jsonl": "cba32a0b5a7357bf31dff9a54f694235d36bfd5c9fd05c9c7e0a7e18a95b03c1",
+    "predictions.jsonl": "82473121a69781de8f6f7c6c33d1e5cb495bf2241beb904728885347d1ec991f",
+    "run_manifest.json": "61f07927755a98cd2b6bf293808384e4da0a90ce2664ba2d7b5a231245242eb8",
+    "scores.jsonl": "7bbb748331a9a77ba7c41a72400e1ac6050875aff37e20b0735add27bb77e0ab"
+  },
+  "source_r3_run": "/root/autodl-tmp/Vision-OPD-main/artifacts/runs/E-D15-6K-FINAL-EVAL-001/cached_prefix",
+  "status": "complete"
+}

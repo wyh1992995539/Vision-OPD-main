@@ -1,0 +1,11 @@
+{
+  "completion_tokens": 227963,
+  "error_count": 0,
+  "finish_reason_length_count": 7,
+  "max_tokens": 16384,
+  "request_count": 21,
+  "schema_version": 1,
+  "stage": "residual_16384",
+  "successful_count": 21,
+  "updated_at_utc": "2026-09-09T21:12:32.736298+00:00"
+}
