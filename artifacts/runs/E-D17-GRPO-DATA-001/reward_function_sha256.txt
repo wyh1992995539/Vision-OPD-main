@@ -1,0 +1,1 @@
+27508c95922f7717c3b5ecad6d71a8c6d7c38a616518accb033d52d633676c20  /root/autodl-tmp/Vision-OPD-main/verl/utils/reward_score/vision_opd_mcq_grpo.py

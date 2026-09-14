@@ -2,6 +2,10 @@
 
 编制日期：2026-09-10。起点：按负责人最新说明，Day16 已完成，进入 GRPO 扩展阶段。本文件是后续任务规划，未启动训练，未将候选参数标记为冻结或通过验收。
 
+> 执行更新（2026-09-10 UTC）：Day17 数据转换、选择题 Reward、候选配置与静态预检已 PASS；GPU runtime Gate、32/64 prompt Pilot 和正式训练仍未执行。实际结果与哈希见 [Day 17 工作简报](day17_grpo_data_reward_config_work_brief.md)。下文候选参数中与该简报一致的部分已实现，但仍须经 Day18 Pilot 才能冻结为正式训练参数。
+
+Day18–21 已准备待定简报模板，均为未执行草案：[Day18 Pilot](day18_grpo_pilot_work_brief_draft.md)、[Day19 正式训练](day19_grpo_formal_training_work_brief_draft.md)、[Day20 定版与 R4](day20_grpo_model_finalization_and_r4_eval_work_brief_draft.md)、[Day21 四模型交付](day21_grpo_four_model_delivery_work_brief_draft.md)。真实运行后必须用机器证据替换 `[待填]` 并重新验收，不能直接把草案状态改成 PASS。
+
 ## 1. 本次核查结果与排期依据
 
 已只读检查现行 6K 排期、Day16 R4 与输出上限修订、本地 verl、训练配置和全量训练 JSONL。

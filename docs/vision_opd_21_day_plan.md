@@ -63,9 +63,10 @@
 | 6K full-train amendment | PASS（已执行） | train=source=6241、不划分训练/测试集；Vision-OPD/Cached 全量训练及 R3 已完成 |
 | Day 10～13 | PASS | 6K 数据 Gate、Vision-OPD 正式训练/定版、Cached 静态合同与双卡 Pilot 已完成 |
 | Day 14 | PASS | Cached 780/780 正式训练、凭据修正、checkpoint SHA256 与 HF 合并完成 |
-| Day 15 | PASS | Cached 5/5 冷加载；Vision-OPD/Cached R3 各 2536/2536；比较与 18 条 Bad Case 抽样完成 |
-| Day 16 | 未开始 | 下一步为 18 条 Bad Case 人工分析、overlap 诊断与报告投递验收 |
-| Day 17～21 | 未开始 | GRPO 数据/Reward、真实 Pilot、正式训练、R3 评测和四组收尾 |
+| Day 15 | PASS | Cached 5/5 冷加载；Vision-OPD/Cached R3 各 2536/2536；比较与 18 条 Bad Case 抽样完成；见 `docs/day15_cached_final_and_r3_eval_brief.md` |
+| Day 16 | PASS_WITH_BOUNDARY | 三模型固定 1024 R4、Base MMStar 自适应输出上限修复与根因分析完成；Vision-OPD/Cached 自适应重跑未启动；见 `docs/day16_6k_delivery_and_r4_work_brief.md` |
+| Day 17 | PASS_STATIC | 6241 条 GRPO 数据、规则 Reward、配置、launcher 与静态预检完成；GPU Pilot 未启动；见 `docs/day17_grpo_data_reward_config_work_brief.md` |
+| Day 18～21 | 未开始（简报草案已备） | 32/64 prompt 真实 Pilot、正式训练、R4 评测和四组收尾；待定模板见 `docs/day18_*_draft.md` 至 `docs/day21_*_draft.md` |
 
 ## 2. 已完成进度与正式起点
 
@@ -776,6 +777,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 
 ### Day 16：6K 主项目 Bad Case、报告与投递验收
 
+> 执行更新（2026-09-10 UTC）：实际完成三模型固定 1,024-token R4、Base MMStar 自适应输出上限修复和论文差距根因分析；原计划中的统一 `docs/final_report.md` 与 `docs/interview_qa.md` 当前未找到，边界详见 [Day 16 工作简报](day16_6k_delivery_and_r4_work_brief.md)。
+
 目标：完成不含 GRPO 的可投递主版本，并给 Day 17～21 留出独立扩展边界。
 
 任务：
@@ -797,6 +800,8 @@ python scripts/generate_cached_prefix.py --config configs/project_1024.yaml
 - 主项目即使 GRPO 后续失败也可独立交付。
 
 ### Day 17：GRPO 可验证数据、Reward 与配置冻结
+
+> 执行更新（2026-09-10 UTC）：数据转换、`vision_opd_mcq_grpo_v1` 规则 Reward、候选配置、双卡入口和静态预检已 PASS；当前受限进程不能完成 GPU/runtime Gate，真实 Pilot 和正式训练均未启动。详见 [Day 17 工作简报](day17_grpo_data_reward_config_work_brief.md)。
 
 目标：为 train-6241 全部记录冻结可审计 Reward；GRPO 不使用 Teacher crop，也不继承 Vision-OPD/Cached。任何记录不可可靠判分时，正式 GRPO 记为 BLOCKED，不静默缩小训练集。
 

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D17-GRPO-DATA-001",
+  "status": "PASS",
+  "scope": "grpo_data_conversion_only",
+  "source": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+  "source_sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+  "output": "/root/autodl-tmp/data/vision_opd_6241/grpo_train_6241.parquet",
+  "output_sha256": "9550fac714fe030e6604e38b2e78db9970268d22464808a36f2a885ff1229206",
+  "output_bytes": 610033,
+  "source_rows": 6241,
+  "output_rows": 6241,
+  "unique_sample_ids": 6241,
+  "gold_distribution": {
+    "A": 1740,
+    "B": 1540,
+    "C": 1461,
+    "D": 1500
+  },
+  "data_source": "vision_opd_mcq_grpo_v1",
+  "reward_route": "vision_opd_mcq_v1",
+  "checks": {
+    "source_hash_recorded": true,
+    "source_row_count_exact": true,
+    "output_row_count_exact": true,
+    "unique_sample_ids": true,
+    "prompt_preserved": true,
+    "student_image_preserved": true,
+    "all_student_image_paths_exist": true,
+    "ordered_a_to_d_options": true,
+    "ground_truth_in_valid_options": true,
+    "data_scorable_rows": true,
+    "bbox_images_excluded": true,
+    "duplicate_answer_field_excluded": true,
+    "runtime_rollout_fields_not_materialized": true,
+    "parquet_readback_schema_and_rows": true
+  },
+  "runtime_contract": {
+    "parquet_rows": 6241,
+    "rollout_n_is_not_materialized": true,
+    "trainer_must_generate_runtime_uid": true,
+    "trainer_must_apply_native_drop_last": true,
+    "expected_effective_prompts_at_batch_8": 6240,
+    "expected_dropped_prompts_at_batch_8": 1
+  },
+  "pilot_authorized": false,
+  "pending_gates": [
+    "implement_and_test_vision_opd_mcq_grpo_v1_reward",
+    "load_output_through_local_RLHFDataset",
+    "freeze_grpo_training_config_and_guarded_launcher"
+  ]
+}

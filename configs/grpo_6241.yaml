@@ -1,0 +1,116 @@
+schema_version: 1
+status: ready_for_static_preflight
+
+experiment:
+  id: E-D17-GRPO-CONFIG-001
+  name: vision-opd-mcq-grpo-6241-candidate
+  seed: 42
+
+paths:
+  model: /root/autodl-tmp/models/Qwen3.5-4B
+  train_file: /root/autodl-tmp/data/vision_opd_6241/grpo_train_6241.parquet
+  chat_template: chat_templates/perception_chat_template_qwen35.jinja
+  reward_function: verl/utils/reward_score/vision_opd_mcq_grpo.py
+  reward_validation: artifacts/runs/E-D17-GRPO-DATA-001/reward_validation.json
+  output_dir: artifacts/runs/E-D17-GRPO-CONFIG-001
+
+data:
+  data_source: vision_opd_mcq_grpo_v1
+  reward_route: vision_opd_mcq_v1
+  expected_train_rows: 6241
+  expected_unique_samples: 6241
+  train_batch_size: 8
+  image_key: images
+  reward_fn_key: data_source
+  max_prompt_length: 8192
+  max_response_length: 128
+  truncation: error
+  filter_overlong_prompts: false
+  shuffle: true
+  dataloader_num_workers: 0
+  tail_policy: native_drop_last
+
+actor:
+  learning_rate: 1.0e-6
+  lr_warmup_steps: 10
+  ppo_mini_batch_size: 8
+  ppo_epochs: 1
+  policy_loss_mode: vanilla
+  loss_agg_mode: token-mean
+  clip_ratio_low: 0.2
+  clip_ratio_high: 0.2
+  entropy_coeff: 0.0
+  use_kl_loss: true
+  kl_loss_coef: 0.001
+  kl_loss_type: low_var_kl
+  use_dynamic_batch_size: true
+  gradient_checkpointing: true
+  parameter_offload: true
+  optimizer_offload: true
+  reference_parameter_offload: true
+  max_token_length_per_gpu: 8320
+
+rollout:
+  n: 4
+  temperature: 1.0
+  top_p: 1.0
+  top_k: -1
+  ignore_eos: false
+  tensor_model_parallel_size: 1
+  gpu_memory_utilization: 0.4
+  log_prob_micro_batch_size_per_gpu: 1
+  agent_num_workers: 2
+  calculate_log_probs: true
+  engine_kwargs:
+    vllm:
+      compilation_config:
+        cudagraph_capture_sizes: [1, 2, 4, 8]
+        pass_config:
+          fuse_allreduce_rms: false
+      kernel_config:
+        enable_flashinfer_autotune: false
+
+algorithm:
+  adv_estimator: grpo
+  norm_adv_by_std_in_grpo: true
+  use_kl_in_reward: false
+  rollout_correction: null
+
+components:
+  critic_enabled: false
+  learned_reward_model_enabled: false
+  reward_loop_enabled: false
+  benchmark_base_judge_enabled: false
+  self_distillation_enabled: false
+  cached_prefix_enabled: false
+  teacher_image_enabled: false
+
+resources:
+  nodes: 1
+  gpus_per_node: 2
+  prelaunch_cgroup_minimum_bytes: 257698037760
+  prelaunch_disk_free_minimum_bytes: 128849018880
+
+training:
+  source_prompts: 6241
+  effective_prompts: 6240
+  dropped_prompts: 1
+  padding_rows: 0
+  outer_iterations: 780
+  trajectories_per_prompt: 4
+  effective_trajectories: 24960
+  total_epochs: 1
+  save_frequency: 390
+  test_frequency: -1
+  max_actor_ckpt_to_keep: 1
+  resume_mode: disable
+
+validation:
+  formal_training_authorized: false
+  pilot_training_authorized: false
+  preflight_only: true
+  pending_gates:
+    - training_loader_with_sufficient_cgroup_memory
+    - 32_prompt_real_policy_gradient_pilot
+    - 64_prompt_stability_and_resume_pilot
+    - formal_config_freeze

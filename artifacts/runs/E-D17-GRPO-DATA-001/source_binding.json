@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "source_parquet": "/root/autodl-tmp/data/vision_opd_6241/train_6241.parquet",
+  "source_parquet_sha256": "142c972f182cc0bf90b2ab44a2255896643c5983e0eaf8c7c58f5a488a89031e",
+  "source_rows": 6241,
+  "source_columns": [
+    "data_source",
+    "prompt",
+    "images",
+    "bbox_images",
+    "ability",
+    "reward_model",
+    "extra_info"
+  ],
+  "source_image_qa": {
+    "path": "/root/autodl-tmp/Vision-OPD-main/artifacts/data/vision_opd_6241/vision_opd_6241_data_qa.json",
+    "sha256": "19a9a55352a029a262bd71df119335f02a6613cb027aca94dbf9bbc8e4cf4b48",
+    "status": "PASS",
+    "record_count": 6241,
+    "images_checked": 12482,
+    "issue_count": 0
+  },
+  "prompt_and_student_image_policy": "copied_without_modification",
+  "teacher_crop_policy": "excluded_from_grpo_output"
+}

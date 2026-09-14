@@ -1,5 +1,7 @@
 # Day 15 Cached 定版与三组统一 R3 外部评测工作简报
 
+> 后续状态（2026-09-10 UTC）：Day16 的 R4 重评分、Base MMStar 输出上限诊断与根因分析已经完成，见 [Day 16 工作简报](day16_6k_delivery_and_r4_work_brief.md)。Day15 本简报继续保留冻结 R3 结果，不回写为 R4。
+
 > 执行日期：2026-09-08（UTC）  
 > 实验 ID：E-D15-6K-FINAL-EVAL-001  
 > Cached 新进程冷加载：**PASS，5/5**  
@@ -140,7 +142,7 @@ Day 15 计划中的 Cached 冷加载、评测设计冻结、两组 Smoke、两�
 
 当前最终结论基于唯一冻结 R3 协议。Base 使用既有冻结正式结果，没有重复运行；Vision-OPD 和 Cached 只更换被测 checkpoint 和独立输出目录。所有失败与无效结果均保留在固定分母内。
 
-Day 15 没有重选 checkpoint、重新训练或修改 R3。下一步进入 Day 16：人工分析已抽取的 18 条案例，加入 train-6241 overlap 诊断，并完成可交付报告。
+Day 15 没有重选 checkpoint、重新训练或修改 R3。Day 15 完成时将人工分析和协议复核列为下一步；后续实际执行的 R4、输出上限诊断及其边界登记在 [Day 16 工作简报](day16_6k_delivery_and_r4_work_brief.md)。
 
 ## 九、关键证据索引
 

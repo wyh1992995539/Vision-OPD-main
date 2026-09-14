@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-D17-GRPO-DATA-001",
+  "gate": "vision_opd_mcq_grpo_v1_reward",
+  "status": "PASS",
+  "data_path": "/root/autodl-tmp/data/vision_opd_6241/grpo_train_6241.parquet",
+  "data_sha256": "9550fac714fe030e6604e38b2e78db9970268d22464808a36f2a885ff1229206",
+  "reward_file": "/root/autodl-tmp/Vision-OPD-main/verl/utils/reward_score/vision_opd_mcq_grpo.py",
+  "reward_file_sha256": "27508c95922f7717c3b5ecad6d71a8c6d7c38a616518accb033d52d633676c20",
+  "data_source": "vision_opd_mcq_grpo_v1",
+  "reward_route": "vision_opd_mcq_v1",
+  "rows": 6241,
+  "unique_sample_ids": 6241,
+  "gold_distribution": {
+    "A": 1740,
+    "B": 1540,
+    "C": 1461,
+    "D": 1500
+  },
+  "trials": {
+    "synthetic_correct": 6241,
+    "synthetic_incorrect": 6241,
+    "total": 12482
+  },
+  "checks": {
+    "all_correct_templates_score_one": true,
+    "all_wrong_templates_score_zero": true,
+    "all_synthetic_answers_parse_valid": true,
+    "no_reward_exceptions": true,
+    "unique_sample_ids": true,
+    "binary_outcome_only": true,
+    "learned_reward_model_used": false,
+    "benchmark_base_judge_used": false
+  },
+  "failure_count": 0,
+  "failure_examples": [],
+  "reward_gate_passed": true,
+  "pilot_authorized": false,
+  "pending_gates": [
+    "load_grpo_parquet_through_training_process_with_sufficient_cgroup_memory",
+    "freeze_grpo_training_config_and_guarded_launcher",
+    "run_32_prompt_real_policy_gradient_pilot"
+  ]
+}
